@@ -60,16 +60,23 @@
         :slides-per-view="3"
         :space-between="50"
         :loop="true"
-        
+        parallax
         :autoplay="{
             delay: 2000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true
         }"
-        navigation
-        :pagination="{ clickable: true }"
+       :navigation="{
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+       }"
+       :pagination="{ 
+          clickable: true, 
+          hideOnClick: true
+        }"
         @swiper="onSwiper"
         @slideChange="onSlideChange"
+        init="false"
         >
       
           <!-- Slides -->
@@ -282,11 +289,11 @@
 </template>
 
 <script>
-import {Swiper, SwiperSlide, Navigation} from 'swiper/vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 
 import swiperConfig  from "../js/home.js"; 
 import 'swiper/css';
-import { Pagination, Scrollbar, A11y, Autoplay, Virtual } from 'swiper/modules';
+import { Pagination, Scrollbar, A11y, Autoplay, Virtual, Navigation } from 'swiper/modules';
 import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
@@ -309,7 +316,7 @@ export default {
       return {
         onSwiper,
         onSlideChange,
-        modules: [Autoplay, Pagination , A11y, Virtual],
+        modules: [Autoplay, Pagination, Navigation , A11y, Virtual],
       };
     },
   
