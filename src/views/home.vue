@@ -22,8 +22,18 @@
                     <li><a href="#">CONTACTANOS</a></li>
                   </div>
                   <div class="botones_2">
-                    <li><a href="#" class="btn btn-1">INICIAR SESIÓN</a></li>
-                    <li><a href="#" class="btn btn-1">REGISTRARSE</a></li>
+                    
+                    <li>
+                      <RouterLink to="/login">
+                      <a href="#" class="boton boton-1">INICIAR SESIÓN</a>
+                      </RouterLink>
+                    </li>
+                    
+                    <li>
+                      <RouterLink to="/register">
+                      <a href="#" class="boton boton-1">REGISTRARSE</a>
+                      </RouterLink>
+                    </li>
                   </div>
                   
                 </ul>
@@ -659,7 +669,7 @@ nav ul li ul li a:hover{
       visibility: visible;
       opacity: 1;
   }
-  .btn.btn-1{
+  .boton-1{
       margin-top: 0px;
       padding: 15px;
   }
@@ -667,12 +677,12 @@ nav ul li ul li a:hover{
 
 
 /*  BOTON */
-.btn{
+.boton{
   margin-right: 10px;
   color: rgb(33, 117, 155);
   justify-items: end;
 }
-.btn-1{
+.boton-1{
  
   background: linear-gradient(90deg, #ffffff 50%, #ff1900 50%);
   color: #000000; 
@@ -687,7 +697,7 @@ nav ul li ul li a:hover{
   background-size: 200% 100%;
 }
 
-.btn-1:hover{
+.boton-1:hover{
   background-position: -100% 0;
   color: white;
   
@@ -788,7 +798,7 @@ nav ul li ul li a:hover{
   
   height: 80px;
   width: 40px;
-  margin-top: -50px;
+  margin-top: -40px;
   opacity: 0.6;
   border-radius: 8px;
   transition: opacity 0.3s;
@@ -805,7 +815,7 @@ nav ul li ul li a:hover{
   
   height: 50px;
   width: 40px;
-  margin-top: -50px;
+  margin-top: -30px;
   opacity: 0.6;
   border-radius: 8px;
   transition: opacity 0.3s;

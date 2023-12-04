@@ -1,16 +1,16 @@
 <template>
-  
-  <Home/>
+  <div class="app">
+    <router-view></router-view>
+  </div>
+
 </template>
 
 <script>
-import Home from './views/home.vue'
+
 
 export default {
   name: 'App',
-  components: {
-    Home
-  }
+ 
 }
 </script>
 
@@ -21,6 +21,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+ 
 }
 </style>
