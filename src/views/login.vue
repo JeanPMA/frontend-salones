@@ -20,9 +20,11 @@
                     <label> <input type="checkbox">Recuerdame</label>
                     <a href="#">Olvidaste tu contraseña?</a>
                 </div>
-                <button type="submit" class="btn">
-                    Login
-                </button>
+                <RouterLink to="/salones">
+                    <button type="submit" class="btn">
+                        Login
+                    </button>
+                </RouterLink>
                 <div class="login-register">
                     <p>No tienes una cuenta?
                     <RouterLink to="/register">
@@ -46,6 +48,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'LoginComponent',
 }
@@ -107,6 +110,7 @@ body{
 .wrapper .form-box{
     width: 100%;
     padding: 40px;
+    
 }
 
 

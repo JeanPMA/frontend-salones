@@ -8,6 +8,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from "@/views/home.vue";
 import LoginComponent from "@/views/login.vue";
 import RegisterClientComponent from "@/views/registerClient.vue";
+import SalonesClientComponent from "@/views/salonesCliente.vue";
 
 //iconos
 import { faUser, faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons'
@@ -25,7 +26,9 @@ const routes = [
     {
         path:'/register', component: RegisterClientComponent,
     },
-   
+    {
+        path:'/salones', component: SalonesClientComponent,
+    },
 ]
 
 const router = createRouter({

@@ -316,6 +316,13 @@ export default {
     Swiper,
     SwiperSlide,
   },
+  methods: {
+    ejecutar() {
+      // Llamar a la función de animación uno
+      swiperConfig();
+    },
+
+  },
   setup() {
       const onSwiper = (swiper) => {
         console.log(swiper);
@@ -514,67 +521,6 @@ nav > ul > li:first-child:hover > a{
 #selected{
   background-color: white;
  height: 0px;
-}
-/*  SUBMENU */
-
-nav ul li ul{
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  background: rgb(255, 255, 255);
-  position: absolute;
-  top: 90px;
-  left: -10px;
- 
-  visibility: hidden;
-  z-index: 2;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
- 
-  transition: all 300ms ease;
-  opacity: 1;
-}
-
-nav ul li:hover ul{
-  display: block;
-  visibility: visible;
-  opacity: 1;
-  z-index: 2;
- 
-  top: 70px;
-}
-
-nav ul li ul::before{
-  content: '';
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 12px solid rgb(221, 225, 234);
-  
-  position: absolute;
-  top: -12px;
-  left: 20px;
-}
-
-nav ul li ul li a{
-  display: block;
-  color: rgb(0, 0, 0);
-  background-color: rgb(221, 225, 234);
- 
-  padding-left: 14px;
-  margin-top: 10px;
-  font-size: 14px;
-  opacity: 1;
- 
-}
-
-nav ul li ul li a:hover{
-  background: rgb(221, 225, 234);
-  color: #000000;
-  transform: scale(1.1);
-  padding-left: 30px;
-  font-size: 14px;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
 }
 
 /*  ELEMENTOS RESPONSIVOS */

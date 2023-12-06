@@ -1,49 +1,10 @@
-import Swiper from 'swiper';
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const texto = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book";
-    const textoElement = document.getElementById("texto-tipeado");
-    let index = 0;
-    let isDeleting = false;
-    const typingSpeed = 50; // Velocidad de escritura (ajusta según tus preferencias)
-    const eraseSpeed = 25; // Velocidad de borrado (ajusta según tus preferencias)
-    const delayBeforeStart = 1000; // Retraso antes de comenzar (en milisegundos)
-    const delayBeforeErase = 1000; // Retraso antes de borrar (en milisegundos)
-
-    function type() {
-        textoElement.innerHTML = texto.substring(0, index);
-        index++;
-
-        if (index <= texto.length) {
-            setTimeout(type, typingSpeed);
-        } else {
-            setTimeout(erase, delayBeforeErase);
-        }
-    }
-
-    function erase() {
-        textoElement.innerHTML = texto.substring(0, index);
-        index--;
-
-        if (index >= 0) {
-            setTimeout(erase, eraseSpeed);
-        } else {
-            setTimeout(type, delayBeforeStart);
-        }
-    }
-
-    setTimeout(type, delayBeforeStart);
-});
-
 document.addEventListener('DOMContentLoaded', function() {
 const imagenes = document.querySelectorAll('.grid__item');
 const botonSiguiente = document.getElementById('siguiente');
 const botonAnterior = document.getElementById('anterior');
 const numerosPagina = document.getElementById('numeros-pagina');
 let startIndex = 0;
-const imagesPerPage = 6;
+const imagesPerPage = 9;
 
 function mostrarImagenes() {
   for (let i = 0; i < imagenes.length; i++) {
@@ -87,6 +48,4 @@ botonAnterior.addEventListener('click', () => {
 });
 
 mostrarImagenes();
-
 });
-
