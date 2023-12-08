@@ -198,13 +198,13 @@
 </template>
 
 <script>
-    import salonesConfig  from "../js/salonesCliente.js"; 
+
     export default {
     name: 'salonesClienteComponent',
     methods: {
     ejecutar() {
       // Llamar a la función de animación uno
-      salonesConfig();
+      
     },
     }
     }

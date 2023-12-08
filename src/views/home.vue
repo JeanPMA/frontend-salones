@@ -52,7 +52,11 @@
           BIENVENIDO
         </h2>
         <p id="texto-tipeado">
-          
+          Lorem Ipsum is simply dummy text of the printing and 
+          typesetting industry. Lorem Ipsum has been the industrys
+           standard dummy text ever since the 1500s, when an unknown 
+           printer took a galley of type and scrambled it to make a type 
+           specimen book
         </p>
     </div>
   </div>
@@ -118,112 +122,21 @@
     </div>
     <div class="motivation_grid">
       <div class="grid-container">
-          <div class="grid__item">
-              
-              <img src="../img/1.png" alt="">
-              <div class="text-overlay">
-                <h2>SALON DE EVENTOS</h2>
-                <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                  when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
-              </div>
-          </div>  
-          
-          <div class="grid__item">
-              
-              <img src="../img/2.png" alt="">
-              <div class="text-overlay">
-                <h2>SALON DE EVENTOS</h2>
-                <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                   when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
-              </div>
-              
-          </div>  
-          
-          <div class="grid__item">
-              
-              <img src="../img/3.png" alt="">
-              <div class="text-overlay">
-                <h2>SALON DE EVENTOS</h2>
-                <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                  when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
-              </div>
-              
-          </div>  
-          
-          <div class="grid__item">
-              
-            <img src="../img/3.png" alt="">
-            <div class="text-overlay">
-              <h2>SALON DE EVENTOS</h2>
-              <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
-            </div>
-            
-        </div> 
-
-        <div class="grid__item">
-              
-          <img src="../img/3.png" alt="">
+        <div class="grid__item" v-for="(item, index) in items" :key="index" v-show="mostrarImagen(index)">
+          <img :src="require('@/img/' + item.imgSrc)" alt="">
           <div class="text-overlay">
-            <h2>SALON DE EVENTOS</h2>
-            <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-              when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.description }}</p>
           </div>
-          
-      </div> 
-
-      <div class="grid__item">
-              
-        <img src="../img/3.png" alt="">
-        <div class="text-overlay">
-          <h2>SALON DE EVENTOS</h2>
-          <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
         </div>
-        
-    </div> 
-
-    <div class="grid__item">
-              
-      <img src="../img/3.png" alt="">
-      <div class="text-overlay">
-        <h2>SALON DE EVENTOS</h2>
-        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-          when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
       </div>
-      
-    </div> 
-          
-    <div class="grid__item">
-              
-              <img src="../img/3.png" alt="">
-              <div class="text-overlay">
-                <h2>SALON DE EVENTOS</h2>
-                <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                  when an unknown printer took a galley of type and scrambled it to make a type specimen book.  </p>
-              </div>
-              
-    </div> 
-
-            
-          
-          
-          
+      <div class="salones_botones">
+        <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
+        <div id="numeros-pagina">
+          <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
         </div>
-        <div class="salones_botones">
-          <button id="anterior">Anterior</button>
-          <div id="numeros-pagina"></div>
-          <button id="siguiente">Siguiente</button>
-        </div>
-        
+        <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= items.length - imagesPerPage">Siguiente</button>
+      </div>
     </div>
   </div>
 
@@ -301,7 +214,7 @@
 <script>
 import {Swiper, SwiperSlide} from 'swiper/vue';
 
-import swiperConfig  from "../js/home.js"; 
+
 import 'swiper/css';
 import { Pagination, Scrollbar, A11y, Autoplay, Virtual, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -316,13 +229,7 @@ export default {
     Swiper,
     SwiperSlide,
   },
-  methods: {
-    ejecutar() {
-      // Llamar a la función de animación uno
-      swiperConfig();
-    },
-
-  },
+ 
   setup() {
       const onSwiper = (swiper) => {
         console.log(swiper);
@@ -334,8 +241,93 @@ export default {
         onSwiper,
         onSlideChange,
         modules: [Autoplay, Pagination, Navigation , A11y, Virtual],
+        
       };
     },
+  data() {
+    return {
+      items: [
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          imgSrc: "1.png",
+          title: "SALON DE EVENTOS",
+          description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+      ],
+      startIndex: 0,
+      imagesPerPage: 9,
+    };
+  },
+  computed: {
+    paginas() {
+      return Array.from({ length: Math.ceil(this.items.length / this.imagesPerPage) }, (_, i) => i + 1);
+    
+    },
+  },
+  methods: {
+    mostrarImagen(index) {
+      return index >= this.startIndex && index < this.startIndex + this.imagesPerPage;
+    },
+    actualizarNumerosPagina(pagina) {
+      this.startIndex = (pagina - 1) * this.imagesPerPage;
+    },
+    paginaAnterior() {
+      this.startIndex -= this.imagesPerPage;
+      
+    },
+    paginaSiguiente() {
+      this.startIndex += this.imagesPerPage;
+     
+    },
+    irAPagina(pagina) {
+      this.actualizarNumerosPagina(pagina);
+      
+    },
+  },
   
 };
 </script>
@@ -407,7 +399,7 @@ nav{
  
 }
 
-nav > ul{
+.container__menu nav > ul{
   list-style: none;
 
   display: flex;
@@ -675,7 +667,7 @@ nav > ul > li:first-child:hover > a{
   overflow: hidden;
   width: 100%;
   height: 500px;
-  border-radius: 30px;
+  border-radius: 53px;
 }
 
 .logo_home img{

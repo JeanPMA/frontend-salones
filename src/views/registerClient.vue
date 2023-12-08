@@ -212,7 +212,7 @@ body{
     text-decoration: underline;
 }
 
-.btn{
+.content_register .btn{
     width: 100%;
     height: 45px;
     background: #162938;
