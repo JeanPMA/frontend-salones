@@ -17,9 +17,9 @@
                   </div>
                 
                   <div class="botones"> 
-                    <li><a href="#">SALONES</a> </li>                 
-                    <li><a href="#">RECOMENDADOS</a></li>
-                    <li><a href="#">CONTACTANOS</a></li>
+                    <li><a href="#" v-scroll-to="'#section1'" :class="{ 'active': activeButton === 'button1' }" @click="setActiveButton('button1')">SALONES</a> </li>                 
+                    <li><a href="#" v-scroll-to="'#section2'" :class="{ 'active': activeButton === 'button2' }" @click="setActiveButton('button2')">RECOMENDADOS</a></li>
+                    <li><a href="#" v-scroll-to="'#section3'" :class="{ 'active': activeButton === 'button3' }" @click="setActiveButton('button3')">CONTACTANOS</a></li>
                   </div>
                   <div class="botones_2">
                     
@@ -60,9 +60,9 @@
         </p>
     </div>
   </div>
-  <div class="content_recomend">
+  <div class="content_recomend" id="section2">
     
-    <div class="content">
+    <div class="content " >
       <div class="content_title">
           <h2 >
             MAS RECOMENDADOS
@@ -116,7 +116,7 @@
 
   </div>
 
-  <div class="content_salones">
+  <div class="content_salones" id="section1">
     <div class="salones_title">
       SALONES
     </div>
@@ -140,7 +140,7 @@
     </div>
   </div>
 
-  <div class="form_contact">
+  <div class="form_contact" id="section3">
       <div class="text_logo">
         <div class="text_items">
           <h3>
@@ -244,7 +244,7 @@ export default {
         
       };
     },
-  data() {
+  data() { 
     return {
       items: [
         {
@@ -300,6 +300,8 @@ export default {
       ],
       startIndex: 0,
       imagesPerPage: 9,
+      isActive: false,
+      currentSection: null,
     };
   },
   computed: {
@@ -327,6 +329,10 @@ export default {
       this.actualizarNumerosPagina(pagina);
       
     },
+    setActiveButton(button) {
+      this.activeButton = this.activeButton === button ? null : button;
+    },
+    
   },
   
 };
@@ -513,6 +519,13 @@ nav > ul > li:first-child:hover > a{
 #selected{
   background-color: white;
  height: 0px;
+}
+
+.botones a.active::after {
+  width: 100%; 
+}
+.botones a.active {
+  color: #ff1100;
 }
 
 /*  ELEMENTOS RESPONSIVOS */
@@ -703,11 +716,12 @@ nav > ul > li:first-child:hover > a{
 
 /* SECCION RECOMENDADOS*/
 .content_recomend{
+  
   background-color: rgb(136, 115, 115);
 }
 .content{
   background-color: rgb(0, 0, 0);
-  
+
   z-index: 1;
   padding: 0px 100px 0px 100px;
   

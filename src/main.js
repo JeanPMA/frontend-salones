@@ -4,6 +4,7 @@ import 'swiper/swiper-bundle.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { createRouter, createWebHistory } from 'vue-router'
+import VueScrollTo from 'vue-scrollto';
 
 import Home from "@/views/home.vue";
 import LoginComponent from "@/views/login.vue";
@@ -39,7 +40,9 @@ const router = createRouter({
 const app = createApp(App)
 
 app.component('font-awesome-icon', FontAwesomeIcon);
-
+app.use(VueScrollTo, {
+    duration: 0,
+});
 app.use(router)
 
 app.mount('#app')
