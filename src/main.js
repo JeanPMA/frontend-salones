@@ -10,10 +10,12 @@ import Home from "@/views/home.vue";
 import LoginComponent from "@/views/login.vue";
 import RegisterClientComponent from "@/views/registerClient.vue";
 import SalonesClientComponent from "@/views/salonesCliente.vue";
+import RecomendadosClientComponent from "@/views/recomendadosCliente.vue";
+import BuzonComponent from "@/views/buzon.vue";
 
 //iconos
-import { faUser, faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faLock, faEnvelope)
+import { faUser, faLock, faEnvelope, faFilter } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faLock, faEnvelope, faFilter)
 
 
 
@@ -29,6 +31,12 @@ const routes = [
     },
     {
         path:'/salones', component: SalonesClientComponent,
+    },
+    {
+        path:'/recomendados', component: RecomendadosClientComponent,
+    },
+    {
+        path:'/buzon', component: BuzonComponent,
     },
 ]
 

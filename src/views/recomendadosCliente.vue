@@ -1,54 +1,46 @@
 <template>
-   <header>
+    <header>
       <NavbarCliente/>
     </header>
-    <div class="buzon_list">
-      <div class="header_buzon">
-          <div class="buzon_title">
-            BUZON DE RESPUESTAS
-          </div>
-
-          <div class="search_buzon">
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar...">
-                <button id="search-button">Buscar</button>
-             </div>
-            <div class="buzon_filter">
-              <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                  <a href="#" id="clickeable-label">FILTRO</a>
-            </div>
-          </div>
+    <div class="salonesRecomendados_list">
+        <div class="salonesRecomendados_title">
+            SALONES MAS RECOMENDADOS
+        </div>
+        <div class="salonesRecomendados_filter">
+            <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                   
+             <a href="#" id="clickeable-label">FILTRO</a>
+        </div>
           
-    </div>
-    <div class="buzon_grid">
+        
+    
+        <div class="salonesRecomendados_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)">
+            <div class="grid__item" v-for="(item, index) in salonesRecomendados" :key="index" v-show="mostrarImagen(index)">
               <img :src="require('@/img/' + item.imgSrc)" alt="">
               <div class="text-overlay">
                 <h2>{{ item.title }}</h2>
                 <p>{{ item.description }}</p>
-                <a href="#">Detalles <i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
           </div>
-          <div class="buzon_botones">
+          <div class="salones_botones">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
             </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= buzon.length - imagesPerPage">Siguiente</button>
+            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salonesRecomendados.length - imagesPerPage">Siguiente</button>
           </div>
-    </div>
-    </div>
-    
+        </div>
+      
+        
+      </div>
 </template>
-  
-<script>
 
-import NavbarCliente from '@/views/navbarCliente.vue'
+<script>
+ import NavbarCliente from '@/views/navbarCliente.vue'
 
     export default {
-    name: 'buzonComponent',
+    name: 'recomendadosClienteComponent',
     components: {
     NavbarCliente,
     },
@@ -60,75 +52,65 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     },
     data() { 
     return {
-        buzon: [
+        salonesRecomendados: [
         {
         imgSrc: "3.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "NOTIFICACION",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
         imgSrc: "3.png",
-        title: "NOTIFICACION",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
         {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
+        imgSrc: "3.png",
+        title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
         },
     ],
     startIndex: 0,
-    imagesPerPage: 10,
+    imagesPerPage: 9,
     };
     },
     computed: {
     paginas() {
-    return Array.from({ length: Math.ceil(this.buzon.length / this.imagesPerPage) }, (_, i) => i + 1);
+    return Array.from({ length: Math.ceil(this.salonesRecomendados.length / this.imagesPerPage) }, (_, i) => i + 1);
 
     },
     },
@@ -154,74 +136,53 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     },
     }
 
+
+
 </script>
-  
+
 <style>
- 
-
-.header_buzon{
-    display: flex;
-    flex-direction: column;
+/*  BOTON */
+.btn{
+    margin-right: 10px;
+    color: rgb(33, 117, 155);
+    justify-items: end;
+  }
+  .btn-1{
    
-    
-}
-
-.search_buzon{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0px 100px 0px 100px;
-    margin-top: 20px;
-}
-
-.search-container {
-    display: flex;
-    
-}
-
-#search-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-    width: 60vw;
-}
-
-#search-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 0 4px 4px 0;
+    background: linear-gradient(90deg, #ffffff 50%, #ff1900 50%);
+    color: #000000; 
+    border: 4px solid rgb(45, 45, 45);
+    padding: 10px 20px 10px 20px;
+    overflow: hidden;
     cursor: pointer;
-    background-color: #5e5e5e;
-    color: #fff;
-    outline: none;
-}
-
-#search-button:hover {
-    background-color: #000000;
-}
-
-
-/*GRID DE BUZON*/
-
-  .buzon_list{
-    background-color: white;
+    transition: background-position 0.3s ease;
+    align-items: center;
+    width: 100%;
+    height: 100%;  
+    background-size: 200% 100%;
+  }
+  
+  .btn-1:hover{
+    background-position: -100% 0;
+    color: white;
+    
+  }
+  
+  /*GRID DE SALONES*/
+.salonesRecomendados_list{
+    background-color: #646464;
     width: 100%;
     margin-top: 80px;
-    padding-top: 20px;
-  }
-
-  .buzon_grid{
-    padding: 20px 50px 50px 50px;
-    margin: 0px 20px 0px 20px;
-    
   }
   
-  .buzon_grid .grid-container {
+  .salonesRecomendados_grid{
+    padding: 20px 50px 50px 50px;
+    margin: 0px 20px 0px 20px;
+  }
+  
+  .grid-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
+    grid-template-columns: repeat(3, 1fr); 
     gap: 10px;
     background-color: transparent;
     place-items: center;
@@ -229,7 +190,7 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     align-items: center;
   }
   
-  .buzon_grid .grid__item{
+  .grid__item{
     
     position: relative;
   
@@ -238,48 +199,32 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     height: auto;
     cursor: pointer;
     border-radius: 10px;
-    height: 260px;
   
   }
   
-  .buzon_grid .grid__item h2{
+  .grid__item h2{
     color: rgb(255, 255, 255); 
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
-    font-size: 1vw;
+    font-size: 2vw;
   }
   
   
-  .buzon_grid .grid__item p{
+  .grid__item p{
    
     padding:  0px;
     margin-top: 10px;
     font-size: 1vw;
     text-align: justify;
-    margin-bottom: 10px;
   }
-  .buzon_grid .grid-container img{
+  .salonesRecomendados_grid .grid-container img{
     width: 100%;
     height: 100%;
   }
   
-  .buzon_grid .grid__item a{
-    text-decoration: none;
-    color: #ffffff;
-    font-style: italic;
-    font-size: 1vw;
-    transition: 0.3s ease;
- }
-
- .buzon_grid .grid__item a:hover{
-    
-    color: #686868;
-   
- }
-
   
- .buzon_grid .text-overlay {
+  .text-overlay {
    
     position: absolute;
     top: 0;
@@ -289,26 +234,28 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     
     background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mayor legibilidad */
     color: #fff;
-    text-align: end;
+    text-align: center;
     padding: 20px;
   
-    opacity: 1;
+    opacity: 0;
     transition: opacity 0.3s ease-in-out;
     max-width: 100%;
   }
   
   
+  .grid__item:hover .text-overlay {
+    opacity: 1;
+  }
   
-  
-  .buzon_grid .buzon_title{
-    color: rgb(0, 0, 0);
+  .salonesRecomendados_title{
+    color: white;
     display: flex;
     padding-top: 50px;
     justify-content: center;
    font-size: 2vw;
   }
   
-  .buzon_botones{
+  .salones_botones{
     display: flex;
     flex-direction: row;
     margin-top: 20px;
@@ -317,7 +264,7 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     
   }
   
-  .buzon_botones #numeros-pagina{
+  .salones_botones #numeros-pagina{
    
     
     padding-left: 5px;
@@ -327,56 +274,56 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     margin-top: 6px;
   }
   
-  .buzon_botones #anterior {
+  #anterior {
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
   }
   
-  .buzon_botones #siguiente {
+  #siguiente {
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
   }
   
-  .buzon_botones .numero-pagina {
+  .numero-pagina {
     margin-right: 5px; 
     
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
   }
   
   
-  .buzon_botones #anterior:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+  #anterior:hover {
+    background-color: white;
+    color: rgb(0, 0, 0);
     
   }
   
- .buzon_botones #siguiente:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+  #siguiente:hover {
+    background-color: white;
+    color: rgb(0, 0, 0);
   }
   
-  .buzon_botones .numero-pagina:hover {
+  .numero-pagina:hover {
   
     
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    background-color: white;
+    color: rgb(0, 0, 0);
   
   }
   
-.buzon_filter{
+.salonesRecomendados_filter{
+    text-align: start;
     cursor: pointer;
-    margin-left: 10px;
-    padding-top: 10px;
+    margin-left: 100px;
 }
 
 #clickeable-label{
@@ -384,7 +331,4 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     color: #000000;
     padding-left: 5px;
 }
-
-
 </style>
-  

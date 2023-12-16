@@ -8,7 +8,7 @@
           SALONES
         </div>
         <div class="salones_filter">
-            <span class="icon"><i class="fa-solid fa-filter"></i></span>                     
+          <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                   
             <a href="#" id="clickeable-label">FILTRO</a>
         </div>
           
@@ -365,5 +365,6 @@
 #clickeable-label{
     text-decoration: none;
     color: #000000;
+    padding-left: 5px;
 }
 </style>
