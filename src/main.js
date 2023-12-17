@@ -12,6 +12,7 @@ import RegisterClientComponent from "@/views/registerClient.vue";
 import SalonesClientComponent from "@/views/salonesCliente.vue";
 import RecomendadosClientComponent from "@/views/recomendadosCliente.vue";
 import BuzonComponent from "@/views/buzon.vue";
+import CalendarComponent from "@/views/calendar.vue";
 
 //iconos
 import { faUser, faLock, faEnvelope, faFilter } from '@fortawesome/free-solid-svg-icons'
@@ -37,6 +38,9 @@ const routes = [
     },
     {
         path:'/buzon', component: BuzonComponent,
+    },
+    {
+        path:'/calendar', component: CalendarComponent,
     },
 ]
 
