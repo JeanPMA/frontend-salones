@@ -16,7 +16,7 @@
     
         <div class="salones_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in salones" :key="index" v-show="mostrarImagen(index)">
+            <div class="grid__item" v-for="(item, index) in salones" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
               <img :src="require('@/img/' + item.imgSrc)" alt="">
               <div class="text-overlay">
                 <h2>{{ item.title }}</h2>
@@ -40,8 +40,9 @@
 
 <script>
   import NavbarCliente from '@/views/navbarCliente.vue'
-
-    export default {
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
+  export default {
     name: 'salonesClienteComponent',
     components: {
       NavbarCliente,
@@ -134,6 +135,10 @@
     irAPagina(pagina) {
       this.actualizarNumerosPagina(pagina);
       
+    },
+    irADetalleSalon(id) {
+    // Redirige a la página de detalle del salón
+      this.$router.push({ name: 'detalle-salon', params: { id: id } });
     },
   },
     }
