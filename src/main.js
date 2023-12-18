@@ -14,6 +14,8 @@ import RecomendadosClientComponent from "@/views/recomendadosCliente.vue";
 import BuzonComponent from "@/views/buzon.vue";
 import CalendarComponent from "@/views/calendar.vue";
 import SalonComponent from "@/views/salonDetalle.vue";
+import SolicitudComponent from "@/views/solicitud.vue";
+
 
 
 //iconos
@@ -46,6 +48,9 @@ const routes = [
     },
     {
         path:'/detalle-salon/', component: SalonComponent, name: 'detalle-salon',//falta parametro id
+    },
+    {
+        path:'/solicitud', component: SolicitudComponent, name: 'solicitud',//falta
     },
 ]
 

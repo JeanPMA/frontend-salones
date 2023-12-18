@@ -16,7 +16,9 @@ import NavbarCliente from '@/views/navbarCliente.vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'
-
+import { useRouter } from 'vue-router';
+  const router = useRouter();
+  
 export default {
 name: 'calendarComponent',
 components: {
@@ -56,6 +58,8 @@ data() {
       if (arg.date >= this.fiveDaysLater) {
         console.log('Fecha clickeada:', arg.dateStr);
         // Realiza acciones personalizadas para fechas clickeables
+        this.$router.push({ name: 'solicitud'});
+
       }
     },
   },
