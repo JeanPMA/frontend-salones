@@ -243,7 +243,7 @@ body{
     text-decoration: underline;
 }
 
-input[type="date"] {
+.wrapper_register input[type="date"] {
     
     width: 97%;
 }

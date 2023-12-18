@@ -15,7 +15,13 @@ import BuzonComponent from "@/views/buzon.vue";
 import CalendarComponent from "@/views/calendar.vue";
 import SalonComponent from "@/views/salonDetalle.vue";
 import SolicitudComponent from "@/views/solicitud.vue";
-
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify/lib/framework.mjs';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import Vuetify from 'vuetify/lib/framework';
+import 'vuetify/dist/vuetify.min.css';
+import '@mdi/font/css/materialdesignicons.min.css';
 
 
 //iconos
@@ -23,6 +29,13 @@ import { faUser, faLock, faEnvelope, faFilter } from '@fortawesome/free-solid-sv
 library.add(faUser, faLock, faEnvelope, faFilter)
 
 
+const vuetify = createVuetify({
+    components,
+    directives,
+    icons: {
+        iconfont: 'mdi', // o 'fa' para Font Awesome
+      },
+})
 
 const routes = [
     {
@@ -66,5 +79,5 @@ app.use(VueScrollTo, {
     duration: 0,
 });
 app.use(router)
-
+app.use(vuetify)
 app.mount('#app')
