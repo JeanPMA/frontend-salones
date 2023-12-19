@@ -150,64 +150,6 @@
 <style>
 
 
-/************ Default Css ************/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 75px;
-  }
-  
-  body {
-    font-weight: 400;
-    overflow-x: hidden;
-    position: relative;
-    background-color: #121212 !important;
-    
-    font-family: 'Centra', sans-serif !important;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    
-    line-height: normal;
-  }
-  
-  
-  
-  
-  
-  
-  /*  BOTON */
-  .btn{
-    margin-right: 10px;
-    color: rgb(33, 117, 155);
-    justify-items: end;
-  }
-  .btn-1{
-   
-    background: linear-gradient(90deg, #ffffff 50%, #ff1900 50%);
-    color: #000000; 
-    border: 4px solid rgb(45, 45, 45);
-    padding: 10px 20px 10px 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background-position 0.3s ease;
-    align-items: center;
-    width: 100%;
-    height: 100%;  
-    background-size: 200% 100%;
-  }
-  
-  .btn-1:hover{
-    background-position: -100% 0;
-    color: white;
-    
-  }
   
   /*GRID DE SALONES*/
 .salones_list{

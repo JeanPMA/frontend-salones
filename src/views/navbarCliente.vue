@@ -66,18 +66,6 @@ header{
     position: fixed;
   }
   
-  .menu{
-    max-width: 100%;
-    margin: auto;
-    height: 100%;
-    
-  }
-  
-  nav{
-    height: 100%;
-    
-   
-  }
   
   nav > ul{
     list-style: none;
@@ -95,13 +83,6 @@ header{
     
   }
   
-  nav  ul  li{
-    display: inline;
-      margin: 0 10px; /* Espacio entre elementos de la lista */
-      position: relative;
-      cursor: pointer;
-    justify-content: center;
-  }
   
  .menu_salones .botones{
     display: flex;
@@ -132,23 +113,7 @@ header{
     width: 100%; /* Ancho completo al pasar el cursor sobre el elemento */
   }
   
-  nav a{
-    text-decoration: none;
-    color: #333; 
-    transition: color 0.3s; 
-    width: 100%;
-    height: 100%;
-    display: flex;
-    
-    text-decoration: none;
-    
-    text-align: center;
-    align-items: center;
-  }
   
-  #item{
-    text-align: center;
-  }
   
   
  .menu_salones .botones a:hover {
@@ -214,25 +179,8 @@ header{
   }
   
   
-  nav > ul > li:first-child > a{
-      /*background-image: url(../img/OSOS_LOGO_1.png);*/
-    background-size: 80px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    padding: 20px 40px;
-  }
   
-  nav > ul > li:first-child:hover > a{
-    /*background-image: url(../img/OSOS_LOGO_1.png);*/
-    background-size: 80px;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-  #selected{
-    background-color: white;
-   height: 0px;
-  }
-
+  
 
   
   /*  SUBMENU */
@@ -319,96 +267,13 @@ header{
   
   /*  ELEMENTOS RESPONSIVOS */
   
-  .icon__menu{
-    font-size: 26px;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    width:  26px;
-    height: 100%;
-    display: none;
-    align-items: center;
-    padding-left: 20px;
-    
-  }
   
-  #label__check{
-    width: 26px;
-    height: 100%;
-    display: none;
-  }
-  
-  #check__menu{
-    display: none;
-  }
   
   @media  screen and (max-width: 100px) {
     .menu_salones{
         position: fixed;
     }
-    header{
-        position: fixed;
-        padding-bottom: 10px;
-    }
-  
-    nav{
-        height: 0%;
-        margin-top: 100px;
-    }
-  
-    nav > ul{
-        flex-direction: column;
-        background-color: rgb(255, 255, 255);
-        position: fixed;
-        left: 0;
-        margin-top: 30px;
-        top: 70px;
-        width: 100%;
-        height: 0px;
-        transition: all 300ms ease;
-        z-index: 2;
-        opacity: 0;
-        visibility: hidden;
-    }
-  
-    nav > ul > li{
-        width: 100%;
-    }
-  
-    nav > ul > li > a:hover{
-        transform: scale(1);
-        
-    }
-    nav ul li ul{
-        left: 90px;
-    }
-    nav > ul > li:hover ul{
-        top: 50px;
-    }
-  
-    nav > ul > li:first-child a{
-        
-        background-position: 20px;
-        background-size: 30px;
-    }
-  
-    #selected{
-        transform: scale(1);
-        background-size: 40px;
-    }
-  
-    #label__check{
-        display: block;
-    }
-  
-    .icon__menu{
-        display: flex;
-    }
-  
-    #check__menu:checked ~ nav > ul{
-        height: 500px;
-        visibility: visible;
-        opacity: 1;
-    }
+    
     .btn.btn-1{
         margin-top: 0px;
         padding: 15px;

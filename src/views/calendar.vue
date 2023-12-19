@@ -27,10 +27,11 @@ components: {
 },
 data() {
     const today = new Date();
-    const fiveDaysLater = new Date();
+   
     const fiveDaysLaterFix = new Date();
-    fiveDaysLater.setDate(today.getDate() + 5);
-    fiveDaysLaterFix.setDate(today.getDate() + 6);
+    const daysLaterFix = new Date();
+    fiveDaysLaterFix.setDate(today.getDate() + 5);
+    daysLaterFix.setDate(today.getDate() + 6);
 
     return {
       calendarOptions: {
@@ -43,7 +44,7 @@ data() {
         dateClick: this.handleDateClick,
         events: [
           {
-            title: 'Fecha actual',
+            title: 'Hoy',
             start:  today,  
             allDay: true,
             backgroundColor: 'blue',
@@ -55,12 +56,11 @@ data() {
   },
   methods: {
     handleDateClick(arg) {
-      if (arg.date >= this.fiveDaysLater) {
+      
         console.log('Fecha clickeada:', arg.dateStr);
         // Realiza acciones personalizadas para fechas clickeables
         this.$router.push({ name: 'solicitud'});
-
-      }
+      
     },
   },
   computed: {

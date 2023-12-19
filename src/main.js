@@ -25,8 +25,8 @@ import '@mdi/font/css/materialdesignicons.min.css';
 
 
 //iconos
-import { faUser, faLock, faEnvelope, faFilter } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faLock, faEnvelope, faFilter)
+import { faUser, faLock, faEnvelope, faFilter, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight)
 
 
 const vuetify = createVuetify({

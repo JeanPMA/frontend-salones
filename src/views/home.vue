@@ -684,7 +684,7 @@ h1, h2, h3, h4, h5, h6 {
 /*FORMULARIO DE CONTACTO*/
 
 .form_contact{
-  background-color: #7d009c65;
+  background-color: #490859b2;
   width: 100%;
   font-family: Arial, sans-serif;
 }

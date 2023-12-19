@@ -74,16 +74,8 @@ export default {
 </script>
 
 <style>
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
 
-body{
-    margin: 0px;
-}
+
 .content_register{
     display: flex;
     justify-content: center;
@@ -136,81 +128,6 @@ body{
 }
 
 
-
-.form-box h2{
-    font-size: 2em;
-    color: #162938;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.input-box{
-    position: relative;
-    width: 100%;
-    height: 50px;
-    border-bottom: 2px solid #162938;
-    margin: 30px 0;
-}
-.input-box label{
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    font-size: 1em;
-    color: #162938;
-    font-weight: 500;
-    pointer-events: none;
-    transition: 0.5s ease;
-}
-
-.input-box input:focus~label,
-.input-box input:valid~label{
-    top: -5px;
-}
-
-.input-box input{
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 1em;
-    color: #162938;
-    font-weight: 600;
-    margin-right: 10px;
-    
-}
-
-.input-box .icon{
-    position: absolute;
-    right: 8px;
-    font-size: 1.2em;
-    color: #162938;
-    line-height: 57px;
-}
-
-.remember-forgot{
-    font-size: .9em;
-    color: #162938;
-    font-weight: 500;
-    margin: -15px 0 15px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.remember-forgot label input{
-    accent-color: #162938;
-    margin-right: 3px;
-}
-
-.remember-forgot a{
-    color: #162938;
-    text-decoration: none;
-}
-
-.remember-forgot a:hover{
-    text-decoration: underline;
-}
 
 .content_register .btn{
     width: 100%;

@@ -120,7 +120,7 @@ export default {
     margin-top: 7px;
   }
 
-  .solicitud_form #nombre, .solicitud_form #mensaje, .solicitud_form input[type="email"], textarea
+  .solicitud_form #nombre, .solicitud_form #mensaje, .solicitud_form input[type="email"], .solicitud_form textarea
   {
     width: 100%;
     padding: 10px 10px 10px 10px;

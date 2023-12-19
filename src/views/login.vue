@@ -55,12 +55,7 @@ export default {
 </script>
 
 <style>
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+
 
 body{
     margin: 0px;
@@ -119,7 +114,7 @@ body{
     font-size: 2em;
     color: #162938;
     text-align: center;
-
+    margin-top: 20px;
 }
 
 .input-box{

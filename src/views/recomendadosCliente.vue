@@ -141,32 +141,7 @@
 </script>
 
 <style>
-/*  BOTON */
-.btn{
-    margin-right: 10px;
-    color: rgb(33, 117, 155);
-    justify-items: end;
-  }
-  .btn-1{
-   
-    background: linear-gradient(90deg, #ffffff 50%, #ff1900 50%);
-    color: #000000; 
-    border: 4px solid rgb(45, 45, 45);
-    padding: 10px 20px 10px 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background-position 0.3s ease;
-    align-items: center;
-    width: 100%;
-    height: 100%;  
-    background-size: 200% 100%;
-  }
-  
-  .btn-1:hover{
-    background-position: -100% 0;
-    color: white;
-    
-  }
+
   
   /*GRID DE SALONES*/
 .salonesRecomendados_list{
@@ -180,72 +155,14 @@
     margin: 0px 20px 0px 20px;
   }
   
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 10px;
-    background-color: transparent;
-    place-items: center;
-    justify-content: center;
-    align-items: center;
-  }
   
-  .grid__item{
-    
-    position: relative;
-  
-    display: inline-block;
-    overflow: hidden;
-    height: auto;
-    cursor: pointer;
-    border-radius: 10px;
-  
-  }
-  
-  .grid__item h2{
-    color: rgb(255, 255, 255); 
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    font-size: 2vw;
-  }
-  
-  
-  .grid__item p{
-   
-    padding:  0px;
-    margin-top: 10px;
-    font-size: 1vw;
-    text-align: justify;
-  }
   .salonesRecomendados_grid .grid-container img{
     width: 100%;
     height: 100%;
   }
   
   
-  .text-overlay {
-   
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mayor legibilidad */
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-  
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    max-width: 100%;
-  }
-  
-  
-  .grid__item:hover .text-overlay {
-    opacity: 1;
-  }
+
   
   .salonesRecomendados_title{
     color: white;
@@ -255,70 +172,13 @@
    font-size: 2vw;
   }
   
-  .salones_botones{
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    justify-content: end; /* Distribuye los elementos al principio y al final del contenedor */
-   
-    
-  }
-  
-  .salones_botones #numeros-pagina{
-   
-    
-    padding-left: 5px;
-    padding-right: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 6px;
-  }
-  
-  #anterior {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  #siguiente {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .numero-pagina {
-    margin-right: 5px; 
-    
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
   
   
-  #anterior:hover {
-    background-color: white;
-    color: rgb(0, 0, 0);
-    
-  }
   
-  #siguiente:hover {
-    background-color: white;
-    color: rgb(0, 0, 0);
-  }
   
-  .numero-pagina:hover {
   
-    
-    background-color: white;
-    color: rgb(0, 0, 0);
   
-  }
+ 
   
 .salonesRecomendados_filter{
     text-align: start;
@@ -326,9 +186,5 @@
     margin-left: 100px;
 }
 
-#clickeable-label{
-    text-decoration: none;
-    color: #000000;
-    padding-left: 5px;
-}
+
 </style>
