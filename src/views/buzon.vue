@@ -22,7 +22,7 @@
     </div>
     <div class="buzon_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)">
+            <div class="grid__item" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
               <img :src="require('@/img/' + item.imgSrc)" alt="">
               <div class="text-overlay">
                 <h2>{{ item.title }}</h2>
@@ -54,7 +54,7 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     },
     methods: {
     ejecutar() {
-    
+     
     
     },
     },
@@ -150,6 +150,10 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     irAPagina(pagina) {
     this.actualizarNumerosPagina(pagina);
     
+    },
+    irACalificación(id) {
+    // Redirige a la página de calificacion
+      this.$router.push({ name: 'calificar', params: { id: id } });
     },
     },
     }

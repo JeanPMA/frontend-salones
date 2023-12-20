@@ -15,6 +15,9 @@ import BuzonComponent from "@/views/buzon.vue";
 import CalendarComponent from "@/views/calendar.vue";
 import SalonComponent from "@/views/salonDetalle.vue";
 import SolicitudComponent from "@/views/solicitud.vue";
+import CalificaciónComponent from "@/views/calificaciónReserva.vue";
+
+
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify/lib/framework.mjs';
 import * as components from 'vuetify/components';
@@ -25,8 +28,8 @@ import '@mdi/font/css/materialdesignicons.min.css';
 
 
 //iconos
-import { faUser, faLock, faEnvelope, faFilter, faArrowRight } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight)
+import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faLock, faEnvelope, faFilter, faRankingStar)
 
 
 const vuetify = createVuetify({
@@ -65,6 +68,10 @@ const routes = [
     {
         path:'/solicitud', component: SolicitudComponent, name: 'solicitud',//falta
     },
+    {
+        path:'/calificar', component: CalificaciónComponent, name: 'calificar',//falta
+    },
+    
 ]
 
 const router = createRouter({
