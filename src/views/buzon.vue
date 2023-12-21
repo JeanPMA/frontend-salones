@@ -153,7 +153,7 @@ import NavbarCliente from '@/views/navbarCliente.vue'
     },
     irACalificación(id) {
     // Redirige a la página de calificacion
-      this.$router.push({ name: 'calificar', params: { id: id } });
+      this.$router.push({ name: 'detalle-buzon', params: { id: id } });
     },
     },
     }

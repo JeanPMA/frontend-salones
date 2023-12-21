@@ -16,7 +16,7 @@ import CalendarComponent from "@/views/calendar.vue";
 import SalonComponent from "@/views/salonDetalle.vue";
 import SolicitudComponent from "@/views/solicitud.vue";
 import CalificaciónComponent from "@/views/calificaciónReserva.vue";
-
+import DetalleBuzonComponent from "@/views/detalleBuzon.vue";
 
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify/lib/framework.mjs';
@@ -28,8 +28,8 @@ import '@mdi/font/css/materialdesignicons.min.css';
 
 
 //iconos
-import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faLock, faEnvelope, faFilter, faRankingStar)
+import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage)
 
 
 const vuetify = createVuetify({
@@ -70,6 +70,9 @@ const routes = [
     },
     {
         path:'/calificar', component: CalificaciónComponent, name: 'calificar',//falta
+    },
+    {
+        path:'/detalle-buzon', component: DetalleBuzonComponent, name: 'detalle-buzon',//falta
     },
     
 ]
