@@ -17,6 +17,7 @@ import SalonComponent from "@/views/salonDetalle.vue";
 import SolicitudComponent from "@/views/solicitud.vue";
 import CalificaciónComponent from "@/views/calificaciónReserva.vue";
 import DetalleBuzonComponent from "@/views/detalleBuzon.vue";
+import SalonesListaDueñoComponent from "@/views/salonesListaDueño.vue";
 
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify/lib/framework.mjs';
@@ -73,6 +74,9 @@ const routes = [
     },
     {
         path:'/detalle-buzon', component: DetalleBuzonComponent, name: 'detalle-buzon',//falta
+    },
+    {
+        path:'/lista-salones', component: SalonesListaDueñoComponent,
     },
     
 ]

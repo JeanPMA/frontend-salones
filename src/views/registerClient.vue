@@ -39,10 +39,12 @@
                        
                     </div>
 
-                    
-                    <button type="submit" class="btn">
-                        Registrate
-                    </button>
+                 
+                    <RouterLink to="/lista-salones">
+                        <button type="submit" class="btn">
+                            Registrate
+                        </button>
+                    </RouterLink>
                     <div class="register-login">
                         <p>Ya tienes una cuenta?
                         <RouterLink to="/login">
