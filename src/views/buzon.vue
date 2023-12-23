@@ -186,7 +186,7 @@ import NavbarCliente from '@/views/navbarCliente.vue'
 #search-input {
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     border-radius: 4px 0 0 4px;
     outline: none;
     width: 60vw;
