@@ -40,7 +40,7 @@
                     </div>
 
                  
-                    <RouterLink to="/lista-salones">
+                    <RouterLink to="/lista-solicitudes">
                         <button type="submit" class="btn">
                             Registrate
                         </button>

@@ -1,10 +1,10 @@
 <template>
     <NavbarDueño style="z-index: 1000;"/>
-    <div class="content_salonesDueño">
+    <div class="content_solicitudesDueño">
         <h1>
-        LISTA DE SALONES
+        LISTA DE SOLICITUDES DE RESERVA
         </h1>
-        <div class="search_listaSolicitud">
+    <div class="search_listaSolicitud">
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Buscar...">
                 <button id="search-button">Buscar</button>
@@ -12,30 +12,25 @@
              <div class="solicitudesDueño_filter">
               <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
                   <a href="#" id="clickeable-label">FILTRO</a>
-        </div>
-        <div class="dueño_gridSalones">
-          <div class="grid-containerSalonesDueño">
-            <div class="grid__itemSalon" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
-                <div class="text-titleSalon" style="display: flex; align-items: center; justify-content: center;">
+            </div>
+    </div> 
+    <div class="dueño_gridSolicitudes">
+          <div class="grid-containerDueño">
+            <div class="grid__itemSolicitud" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
+                <div class="text-title" style="display: flex; align-items: center; justify-content: center;">
                     <h2>{{ item.title }}</h2>
                     <img :src="require('@/img/' + item.imgSrc)" alt="">
                    
                 </div>
               
-              <div class="text-detailSalones">
-                <h4>Descripcion:</h4>
+              <div class="text-detailSolicitudes">
+        
                 <p>{{ item.description }}</p>
-                <h4>Estado:</h4>
-                <p>{{ item.estado }}</p>
-                <h4>Fecha de creacion:</h4>
-                <p>{{ item.creacion }}</p>
-                <h4>Ubicacion:</h4>
-                <p>{{ item.ubicacion }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
           </div>
-          <div class="gridSalones_DueñoBtn">
+          <div class="gridSolicitudes_DueñoBtn">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
@@ -43,8 +38,9 @@
             <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= buzon.length - imagesPerPage">Siguiente</button>
           </div>
     </div>
-    </div> 
     </div>
+    
+       
 </template>
 
 <script>
@@ -52,7 +48,7 @@ import NavbarDueño from '@/views/navbarDueño.vue';
 
 
 export default {
-name: 'listaSalonesDueñoComponent',
+name: 'listaSolicitudesDueñoComponent',
 components: {
     NavbarDueño,
 },
@@ -63,69 +59,65 @@ data() {
         imgSrc: "3.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
         },
         {
         imgSrc: "3.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
         },
         {
         imgSrc: "3.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
         },
         {
         imgSrc: "4.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
         },
         {
         imgSrc: "4.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
         },
         {
-        imgSrc: "3.png",
+        imgSrc: "4.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
         },
         {
-        imgSrc: "3.png",
+        imgSrc: "4.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
         },
         {
-        imgSrc: "3.png",
+        imgSrc: "4.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
+        },
+        {
+        imgSrc: "4.png",
+        title: "SALON DE EVENTOS",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        },
+        {
+        imgSrc: "4.png",
+        title: "SALON DE EVENTOS",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        },
+        {
+        imgSrc: "4.png",
+        title: "SALON DE EVENTOS",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        },
+        {
+        imgSrc: "4.png",
+        title: "SALON DE EVENTOS",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
     ],
     startIndex: 0,
-    imagesPerPage: 3,
+    imagesPerPage: 10,
     };
     },
     computed: {
@@ -159,24 +151,31 @@ data() {
 </script>
 
 <style>
-.content_salonesDueño{
+.content_solicitudesDueño{
     background-color: #b4b2b2;
 }
-.content_salonesDueño h1{
+.content_solicitudesDueño h1{
     padding-top: 30px;
+}
+.search_listaSolicitud{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0px 100px 0px 100px;
+    margin-top: 20px;
 }
 
 /*ESTILOS GRID SALONES */
-.dueño_gridSalones{
-    padding: 20px 10px 40px 10px;
+.dueño_gridSolicitudes{
+    padding: 20px 50px 50px 50px;
     margin: 0px 20px 0px 20px;
   
   }
   
-  .dueño_gridSalones .grid-containerSalonesDueño {
+  .dueño_gridSolicitudes .grid-containerDueño {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 10px;
     background-color: transparent;
     place-items: center;
     justify-content: center;
@@ -184,8 +183,8 @@ data() {
  
   }
   
-  .dueño_gridSalones .grid__itemSalon{
-   
+  .dueño_gridSolicitudes .grid__itemSolicitud{
+    
     
     overflow: hidden;
     height: auto;
@@ -195,44 +194,37 @@ data() {
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
   }
   
-  .dueño_gridSalones .grid__itemSalon h2{
+  .dueño_gridSolicitudes .grid__itemSolicitud h2{
     color: rgb(255, 255, 255); 
     display: flex;
     position: absolute;
  
     font-size: 1.3vw;
   }
-
-  .dueño_gridSalones .grid__itemSalon h4{
-
-    
-    font-size: 1vw;
-    text-align: start;
-    
-  }
   
-  .dueño_gridSalones .grid__itemSalon p{
+  
+  .dueño_gridSolicitudes .grid__itemSolicitud p{
    
-  
-
+    padding:  0px;
+    margin-top: 10px;
     font-size: 1vw;
-    text-align: justify;
+    text-align: center;
     margin-bottom: 10px;
   }
 
-  .dueño_gridSalones .grid__itemSalon .text-titleSalon{
+  .dueño_gridSolicitudes .grid__itemSolicitud .text-title{
     width: 100%;
-    height: 150px;
+    height: 100px;
 
     
   }
-  .dueño_gridSalones .grid-containerSalonesDueño .text-titleSalon img{
+  .dueño_gridSolicitudes .grid-containerDueño .text-title img{
     width: 100%;
     height: 100%;
     
   }
   
-  .dueño_gridSalones .grid__itemSalon a{
+  .dueño_gridSolicitudes .grid__itemSolicitud a{
     text-decoration: none;
     color: #000000;
     font-style: italic;
@@ -240,25 +232,25 @@ data() {
     transition: 0.3s ease;
  }
 
- .dueño_gridSalones .grid__itemSalon a:hover{
+ .dueño_gridSolicitudes .grid__itemSolicitud a:hover{
     
     color: #686868;
    
  }
 
   
- .dueño_gridSalones .text-detailSalones {
+ .dueño_gridSolicitudes .text-detailSolicitudes {
    
     
     top: 0;
     left: 0;
     width: 100%;
-    height: 40vh;
+   
     
     background: rgb(222, 222, 222); /* Fondo semitransparente para mayor legibilidad */
     color: #000000;
     text-align: end;
-    padding: 20px;
+    padding: 10px;
   
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
@@ -269,7 +261,7 @@ data() {
   
   
  
-  .gridSalones_DueñoBtn{
+  .gridSolicitudes_DueñoBtn{
     display: flex;
     flex-direction: row;
     margin-top: 20px;
@@ -278,7 +270,7 @@ data() {
     
   }
   
-  .gridSalones_DueñoBtn #numeros-pagina{
+  .gridSolicitudes_DueñoBtn #numeros-pagina{
    
     
     padding-left: 5px;
@@ -288,7 +280,7 @@ data() {
     margin-top: 6px;
   }
   
-  .gridSalones_DueñoBtn #anterior {
+  .gridSolicitudes_DueñoBtn #anterior {
     background-color: transparent;
     color: rgb(0, 0, 0);
     padding: 5px;
@@ -296,7 +288,7 @@ data() {
     transition: 0.3s ease;
   }
   
-  .gridSalones_DueñoBtn #siguiente {
+  .gridSolicitudes_DueñoBtn #siguiente {
     background-color: transparent;
     color: rgb(0, 0, 0);
     padding: 5px;
@@ -304,7 +296,7 @@ data() {
     transition: 0.3s ease;
   }
   
-  .gridSalones_DueñoBtn .numero-pagina {
+  .gridSolicitudes_DueñoBtn .numero-pagina {
     margin-right: 5px; 
     
     background-color: transparent;
@@ -315,18 +307,18 @@ data() {
   }
   
   
-  .gridSalones_DueñoBtn #anterior:hover {
+  .gridSolicitudes_DueñoBtn #anterior:hover {
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
     
   }
   
- .gridSalones_DueñoBtn #siguiente:hover {
+ .gridSolicitudes_DueñoBtn #siguiente:hover {
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
   }
   
-  .gridSalones_DueñoBtn .numero-pagina:hover {
+  .gridSolicitudes_DueñoBtn .numero-pagina:hover {
   
     
     background-color: rgb(0, 0, 0);
@@ -339,4 +331,5 @@ data() {
     padding-top: 10px;
     text-align: start;
 }
+
 </style>

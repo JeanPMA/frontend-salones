@@ -16,9 +16,9 @@
           ></v-list-item>
         </v-list>
         <v-divider></v-divider>
-        <v-list color="transparent">
-          <v-list-item prepend-icon="mdi-home" title="Salones" value="myfiles"></v-list-item>
-            <v-list-item prepend-icon="mdi-folder" title="Solicitudes" value="shared"></v-list-item>
+        <v-list color="">
+          <v-list-item prepend-icon="mdi-home" title="Salones" value="myfiles" @click="irAListaSalon"></v-list-item>
+            <v-list-item prepend-icon="mdi-folder" title="Solicitudes" value="shared" @click="irAListaSolicitud"></v-list-item>
             <v-list-item prepend-icon="mdi-pencil" title="Rerservas" value="starred"></v-list-item>
             <v-list-item prepend-icon="mdi-account" title="Salir" value="starred"></v-list-item>
         </v-list>
@@ -38,11 +38,23 @@
 <script>
 export default {
     name: 'navbarDueñoComponent',
-   
+    methods: {
+    
+    irAListaSolicitud() {
+    // Redirige a la página de detalle del salón
+      this.$router.push({ name: 'lista-solicitudes'});
+    },
+    irAListaSalon() {
+    // Redirige a la página de detalle del salón
+      this.$router.push({ name: 'lista-salones'});
+    },
+  },
 }
 </script>
 
 <style>
 
-
+.text-transparent{
+    color: white;
+}
 </style>
