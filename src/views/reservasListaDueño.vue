@@ -1,10 +1,10 @@
 <template>
     <NavbarDueño style="z-index: 1000;"/>
-    <div class="content_solicitudesDueño">
+    <div class="content_reservasDueño">
         <h1>
-        LISTA DE SOLICITUDES DE RESERVA
+        LISTA DE RESERVAS
         </h1>
-    <div class="search_listaSolicitud">
+    <div class="search_listaReserva">
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Buscar...">
                 <button id="search-button">Buscar</button>
@@ -14,23 +14,23 @@
                   <a href="#" id="clickeable-label">FILTRO</a>
             </div>
     </div> 
-    <div class="dueño_gridSolicitudes">
-          <div class="grid-containerDueño">
+    <div class="dueño_gridSalones">
+          <div class="grid-containerReservas">
             <div class="grid__itemSolicitud" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
-                <div class="text-title" style="display: flex; align-items: center; justify-content: center;">
+                <div class="text-titleReserva" style="display: flex; align-items: center; justify-content: center;">
                     <h2>{{ item.title }}</h2>
                     <img :src="require('@/img/' + item.imgSrc)" alt="">
                    
                 </div>
               
-              <div class="text-detailSolicitudes">
+              <div class="text-detailReservas">
         
                 <p>{{ item.description }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
           </div>
-          <div class="gridSolicitudes_DueñoBtn">
+          <div class="gridReserva_DueñoBtn">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
@@ -48,7 +48,7 @@ import NavbarDueño from '@/views/navbarDueño.vue';
 
 
 export default {
-name: 'listaSolicitudesDueñoComponent',
+name: 'listaReservasDueñoComponent',
 components: {
     NavbarDueño,
 },
@@ -56,21 +56,6 @@ data() {
     return {
         buzon: [
         {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
         imgSrc: "4.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
@@ -86,38 +71,53 @@ data() {
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
         {
-        imgSrc: "4.png",
+        imgSrc: "5.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
         {
-        imgSrc: "4.png",
+        imgSrc: "5.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
         {
-        imgSrc: "4.png",
+        imgSrc: "5.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
         {
-        imgSrc: "4.png",
+        imgSrc: "5.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
         {
-        imgSrc: "4.png",
+        imgSrc: "5.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
         {
-        imgSrc: "4.png",
+        imgSrc: "5.png",
+        title: "SALON DE EVENTOS",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        },
+        {
+        imgSrc: "5.png",
+        title: "SALON DE EVENTOS",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        },
+        {
+        imgSrc: "5.png",
+        title: "SALON DE EVENTOS",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        },
+        {
+        imgSrc: "5.png",
         title: "SALON DE EVENTOS",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
         },
     ],
     startIndex: 0,
-    imagesPerPage: 10,
+    imagesPerPage: 8,
     };
     },
     computed: {
@@ -149,32 +149,31 @@ data() {
     },
 }
 </script>
-
 <style>
-.content_solicitudesDueño{
+
+.content_reservasDueño{
     background-color: #b4b2b2;
 }
-.content_solicitudesDueño h1{
+.content_reservasDueño h1{
     padding-top: 30px;
 }
-.search_listaSolicitud{
+.search_listaReserva{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin: 0px 100px 0px 100px;
     margin-top: 20px;
 }
-
 /*ESTILOS GRID SOLICITUDES */
-.dueño_gridSolicitudes{
+.dueño_gridSalones{
     padding: 20px 50px 50px 50px;
     margin: 0px 20px 0px 20px;
   
   }
   
-  .dueño_gridSolicitudes .grid-containerDueño {
+  .dueño_gridSalones .grid-containerReservas {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
+    grid-template-columns: repeat(4, 1fr); 
     gap: 10px;
     background-color: transparent;
     place-items: center;
@@ -183,7 +182,7 @@ data() {
  
   }
   
-  .dueño_gridSolicitudes .grid__itemSolicitud{
+  .dueño_gridSalones .grid__itemSolicitud{
     
     
     overflow: hidden;
@@ -194,7 +193,7 @@ data() {
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
   }
   
-  .dueño_gridSolicitudes .grid__itemSolicitud h2{
+  .dueño_gridSalones .grid__itemSolicitud h2{
     color: rgb(255, 255, 255); 
     display: flex;
     position: absolute;
@@ -203,7 +202,7 @@ data() {
   }
   
   
-  .dueño_gridSolicitudes .grid__itemSolicitud p{
+  .dueño_gridSalones .grid__itemSolicitud p{
    
     padding:  0px;
     margin-top: 10px;
@@ -212,19 +211,19 @@ data() {
     margin-bottom: 10px;
   }
 
-  .dueño_gridSolicitudes .grid__itemSolicitud .text-title{
+  .dueño_gridSalones .grid__itemSolicitud .text-titleReserva{
     width: 100%;
     height: 100px;
 
     
   }
-  .dueño_gridSolicitudes .grid-containerDueño .text-title img{
+  .dueño_gridSalones .grid-containerReservas .text-titleReserva img{
     width: 100%;
     height: 100%;
     
   }
   
-  .dueño_gridSolicitudes .grid__itemSolicitud a{
+  .dueño_gridSalones .grid__itemSolicitud a{
     text-decoration: none;
     color: #000000;
     font-style: italic;
@@ -232,14 +231,14 @@ data() {
     transition: 0.3s ease;
  }
 
- .dueño_gridSolicitudes .grid__itemSolicitud a:hover{
+ .dueño_gridSalones .grid__itemSolicitud a:hover{
     
     color: #686868;
    
  }
 
   
- .dueño_gridSolicitudes .text-detailSolicitudes {
+ .dueño_gridSalones .text-detailReservas {
    
     
     top: 0;
@@ -261,7 +260,7 @@ data() {
   
   
  
-  .gridSolicitudes_DueñoBtn{
+  .gridReserva_DueñoBtn{
     display: flex;
     flex-direction: row;
     margin-top: 20px;
@@ -270,7 +269,7 @@ data() {
     
   }
   
-  .gridSolicitudes_DueñoBtn #numeros-pagina{
+  .gridReserva_DueñoBtn #numeros-pagina{
    
     
     padding-left: 5px;
@@ -280,7 +279,7 @@ data() {
     margin-top: 6px;
   }
   
-  .gridSolicitudes_DueñoBtn #anterior {
+  .gridReserva_DueñoBtn #anterior {
     background-color: transparent;
     color: rgb(0, 0, 0);
     padding: 5px;
@@ -288,7 +287,7 @@ data() {
     transition: 0.3s ease;
   }
   
-  .gridSolicitudes_DueñoBtn #siguiente {
+  .gridReserva_DueñoBtn #siguiente {
     background-color: transparent;
     color: rgb(0, 0, 0);
     padding: 5px;
@@ -296,7 +295,7 @@ data() {
     transition: 0.3s ease;
   }
   
-  .gridSolicitudes_DueñoBtn .numero-pagina {
+  .gridReserva_DueñoBtn .numero-pagina {
     margin-right: 5px; 
     
     background-color: transparent;
@@ -307,18 +306,18 @@ data() {
   }
   
   
-  .gridSolicitudes_DueñoBtn #anterior:hover {
+  .gridReserva_DueñoBtn #anterior:hover {
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
     
   }
   
- .gridSolicitudes_DueñoBtn #siguiente:hover {
+ .gridReserva_DueñoBtn #siguiente:hover {
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
   }
   
-  .gridSolicitudes_DueñoBtn .numero-pagina:hover {
+  .gridReserva_DueñoBtn .numero-pagina:hover {
   
     
     background-color: rgb(0, 0, 0);
@@ -331,5 +330,4 @@ data() {
     padding-top: 10px;
     text-align: start;
 }
-
 </style>

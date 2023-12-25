@@ -19,6 +19,8 @@ import CalificaciónComponent from "@/views/calificaciónReserva.vue";
 import DetalleBuzonComponent from "@/views/detalleBuzon.vue";
 import SolicitudesListaDueñoComponent from "@/views/solicitudesListaDueño.vue";
 import SalonesListaDueñoComponent from "@/views/salonesListaDueño.vue";
+import ReservasListaDueñoComponent from "@/views/reservasListaDueño.vue";
+
 
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify/lib/framework.mjs';
@@ -44,7 +46,7 @@ const vuetify = createVuetify({
 
 const routes = [
     {
-        path:'/', component: Home,
+        path:'/', component: Home, name: 'home',
     },
     {
         path:'/login', component: LoginComponent,
@@ -81,6 +83,9 @@ const routes = [
     },
     {
         path:'/lista-salones', component: SalonesListaDueñoComponent, name: 'lista-salones',
+    },
+    {
+        path:'/lista-reservas', component: ReservasListaDueñoComponent, name: 'lista-reservas',
     },
     
 ]
