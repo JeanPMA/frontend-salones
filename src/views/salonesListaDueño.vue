@@ -15,7 +15,7 @@
         </div>
         <div class="dueño_gridSalones">
           <div class="grid-containerSalonesDueño">
-            <div class="grid__itemSalon" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
+            <div class="grid__itemSalon" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irASalon(item.id)">
                 <div class="text-titleSalon" style="display: flex; align-items: center; justify-content: center;">
                     <h2>{{ item.title }}</h2>
                     <img :src="require('@/img/' + item.imgSrc)" alt="">
@@ -153,7 +153,10 @@ data() {
     this.actualizarNumerosPagina(pagina);
     
     },
-   
+    irASalon(id) {
+    // Redirige a la página de calificacion
+      this.$router.push({ name: 'salon', params: { id: id } });
+    },
     },
 }
 </script>

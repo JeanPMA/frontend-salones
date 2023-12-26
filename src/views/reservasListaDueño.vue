@@ -16,7 +16,7 @@
     </div> 
     <div class="dueño_gridSalones">
           <div class="grid-containerReservas">
-            <div class="grid__itemSolicitud" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
+            <div class="grid__itemSolicitud" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
                 <div class="text-titleReserva" style="display: flex; align-items: center; justify-content: center;">
                     <h2>{{ item.title }}</h2>
                     <img :src="require('@/img/' + item.imgSrc)" alt="">
@@ -145,7 +145,10 @@ data() {
     this.actualizarNumerosPagina(pagina);
     
     },
-   
+    irADetalleSR() {
+    // Redirige a la página de calificacion
+      this.$router.push({ name: 'solicitud-reserva'});
+    },
     },
 }
 </script>
