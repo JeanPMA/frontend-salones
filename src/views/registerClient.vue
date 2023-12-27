@@ -56,7 +56,9 @@
                     <div class="contact">
                                               
                         <p>¿Quieres formar parte de nuestro sistema?
+                            <RouterLink to="/lista-salones-admin">
                             <a href="#" class="register-link">Contactanos!!!</a>
+                            </RouterLink>
                     </p>
                     </div>
                 </form>

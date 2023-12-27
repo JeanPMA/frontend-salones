@@ -23,6 +23,7 @@ import ReservasListaDueñoComponent from "@/views/reservasListaDueño.vue";
 import DetalleSalonDueñoComponent from "@/views/detalleSalonDueño.vue";
 import DetalleSolicitudReservaDueñoComponent from "@/views/detalleSolicitudReservaDueño.vue";
 
+import SalonesListaAdminComponent from "@/views/salonesListaAdmin.vue";
 
 
 import 'vuetify/styles';
@@ -95,6 +96,10 @@ const routes = [
     },
     {
         path:'/solicitud-reserva', component: DetalleSolicitudReservaDueñoComponent, name: 'solicitud-reserva',//falta parametro id
+    },
+    //ADMIN
+    {
+        path:'/lista-salones-admin', component: SalonesListaAdminComponent, name: 'lista-salones-admin',
     },
 ]
 
