@@ -23,7 +23,10 @@ import ReservasListaDueñoComponent from "@/views/reservasListaDueño.vue";
 import DetalleSalonDueñoComponent from "@/views/detalleSalonDueño.vue";
 import DetalleSolicitudReservaDueñoComponent from "@/views/detalleSolicitudReservaDueño.vue";
 
-import SalonesListaAdminComponent from "@/views/salonesListaAdmin.vue";
+import SalonesListaAdminComponent from "@/views/admin/salonesListaAdmin.vue";
+import CrearSalonComponent from "@/views/admin/crearSalon.vue";
+import EditarSalonComponent from "@/views/admin/editarSalon.vue";
+
 
 
 import 'vuetify/styles';
@@ -100,6 +103,12 @@ const routes = [
     //ADMIN
     {
         path:'/lista-salones-admin', component: SalonesListaAdminComponent, name: 'lista-salones-admin',
+    },
+    {
+        path:'/crear-salon-admin', component: CrearSalonComponent, name: 'crear-salon-admin',
+    },
+    {
+        path:'/editar-salon-admin', component: EditarSalonComponent, name: 'editar-salon-admin',
     },
 ]
 

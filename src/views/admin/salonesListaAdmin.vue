@@ -1,71 +1,81 @@
 <template>
     <NavbarAdmin style="z-index: 1000;"/>
-    <div class="listaSalonesAdmin_title">
-        <h2>LISTADO DE SALONES</h2>
-        
-    </div>
-    <div class="search_listaAdmin">
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar...">
-                <button id="search-button">Buscar</button>
-             </div>
-             <div class="admin_filter">
-              <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                  <a href="#" id="clickeable-label">FILTRO</a>
-        </div>
-    </div>
-    <div style="margin-top: 20px;">
-    <v-table
-      fixed-header
-      height="65vh"
-    >
-      <thead>
-        <tr style="font-size: 1.2rem; font-weight: bold; color: blueviolet;">
-          <th class="text-center" >
-            Nombre Salon
-          </th>
-          <th class="text-center">
-            Propietario
-          </th>
-          <th class="text-center">
-            Direccion
-          </th>
-          <th class="text-center">
-            Estado
-          </th>
-          <th class="text-center">
-            Acciones
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(item, index) in displayedItems"
-          :key="index"
-        >
-          <td>{{ item.nombre }}</td>
-          <td>{{ item.propietario }}</td>
-          <td>{{ item.direccion }}</td>
-          <td>{{ item.estado }}</td>
-          <td>
-            <div class="botones_ListaSalonAdmin">
-                <a id="deshabilitar" >DESHABILITAR</a>               
-                <a id="editar" >EDITAR</a>
-            </div> 
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
+    <div class="content_salonesListaAdmin" style="margin-left: 50px;"> 
+      <div class="listaSalonesAdmin_title">
+          <h2>LISTADO DE SALONES</h2>
+          
+      </div>
+      <div class="search_listaAdmin">
+              <div class="search-container">
+                  <input type="text" id="search-input" placeholder="Buscar...">
+                  <button id="search-button">Buscar</button>
+              </div>
+              <div class="admin_filter">
+                <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
+                    <a href="#" id="clickeable-label">FILTRO</a>
+              </div>
+      </div>
+      <div class="boton_crearSalonAdmin">
+        <RouterLink to="/crear-salon-admin">
+            <a id="crear" >CREAR</a>
+        </RouterLink>
+      </div>
+      <div style="margin-top: 20px;">
+      <v-table
+        fixed-header
+        height="65vh"
+      >
+        <thead>
+          <tr style="font-size: 1.2rem; font-weight: bold; color: blueviolet;">
+            <th class="text-center" >
+              Nombre Salon
+            </th>
+            <th class="text-center">
+              Propietario
+            </th>
+            <th class="text-center">
+              Direccion
+            </th>
+            <th class="text-center">
+              Estado
+            </th>
+            <th class="text-center">
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(item, index) in displayedItems"
+            :key="index"
+          >
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.propietario }}</td>
+            <td>{{ item.direccion }}</td>
+            <td>{{ item.estado }}</td>
+            <td>
+              <div class="botones_ListaSalonAdmin">
+                  <a id="deshabilitar" >DESHABILITAR</a> 
+                  <RouterLink to="/editar-salon-admin">            
+                    <a id="editar" >EDITAR</a>
+                  </RouterLink>  
+              </div> 
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
 
-    <v-pagination
-      v-model="currentPage"
-      :length="totalPages"
-    ></v-pagination>
-  </div>
+      <v-pagination
+        v-model="currentPage"
+        :length="totalPages"
+      ></v-pagination>
+    </div>
+</div>
   </template>
   
   <script>
-  import NavbarAdmin from '@/views/navbarAdmin.vue';
+  import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
+
   export default {
     name: 'salonesListaAdminComponent',
     components: {
@@ -143,7 +153,7 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 12px;
-    
+    text-decoration: none;
 }
 
 .botones_ListaSalonAdmin #deshabilitar{
@@ -174,5 +184,38 @@
     color: #0040ff;
    
   }
+
+.boton_crearSalonAdmin{
+
+
+margin-top: 20px;
+display: flex;
+
+
+}
+
+.boton_crearSalonAdmin a{
+  margin-left: 80%;
+ padding: 6px;
+ width: 150px;
+ height: 35px;
+ border: none;
+ border-radius: 8px;
+ cursor: pointer;
+ font-size: 14px;
+ text-decoration: none;
+}
+.boton_crearSalonAdmin #crear{
+    background-color: #00aa39;
+    border: 2px solid #00aa39;
+    color: #ffffff;
+   transition: 0.3s ease;   
+   
+  }
+
+.boton_crearSalonAdmin #crear:hover {
+    background-color: transparent;
+    color: #00aa39;
+}
 </style>
   
