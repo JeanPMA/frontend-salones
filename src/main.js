@@ -26,6 +26,15 @@ import DetalleSolicitudReservaDueñoComponent from "@/views/detalleSolicitudRese
 import SalonesListaAdminComponent from "@/views/admin/salonesListaAdmin.vue";
 import CrearSalonComponent from "@/views/admin/crearSalon.vue";
 import EditarSalonComponent from "@/views/admin/editarSalon.vue";
+import UsuariosListaAdminComponent from "@/views/admin/usuariosListaAdmin.vue";
+import CrearUsuarioComponent from "@/views/admin/crearUsuario.vue";
+import EditarUsuarioComponent from "@/views/admin/editarUsuario.vue";
+import ServiciosListaAdminComponent from "@/views/admin/serviciosListaAdmin.vue";
+import CrearServicioComponent from "@/views/admin/crearServicio.vue";
+import EditarServicioComponent from "@/views/admin/editarServicio.vue";
+import TipoSRListaAdminComponent from "@/views/admin/tipoSRListaAdmin.vue";
+import CrearTipoSRComponent from "@/views/admin/crearTipoSR.vue";
+import EditarTipoSRComponent from "@/views/admin/editarTipoSR.vue";
 
 
 
@@ -109,6 +118,33 @@ const routes = [
     },
     {
         path:'/editar-salon-admin', component: EditarSalonComponent, name: 'editar-salon-admin',
+    },
+    {
+        path:'/lista-usuarios-admin', component: UsuariosListaAdminComponent, name: 'lista-usuarios-admin',
+    },
+    {
+        path:'/crear-usuario-admin', component: CrearUsuarioComponent, name: 'crear-usuario-admin',
+    },
+    {
+        path:'/editar-usuario-admin', component: EditarUsuarioComponent, name: 'editar-usuario-admin',
+    },
+    {
+        path:'/lista-servicios-admin', component: ServiciosListaAdminComponent, name: 'lista-servicios-admin',
+    },
+    {
+        path:'/crear-servicio-admin', component: CrearServicioComponent, name: 'crear-servicio-admin',
+    },
+    {
+        path:'/editar-servicio-admin', component: EditarServicioComponent, name: 'editar-servicio-admin',
+    },
+    {
+        path:'/lista-tipoSR-admin', component: TipoSRListaAdminComponent, name: 'lista-tipoSR-admin',
+    },
+    {
+        path:'/crear-tipoSR-admin', component: CrearTipoSRComponent, name: 'crear-tipoSR-admin',
+    },
+    {
+        path:'/editar-tipoSR-admin', component: EditarTipoSRComponent, name: 'editar-tipoSR-admin',
     },
 ]
 

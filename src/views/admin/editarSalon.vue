@@ -149,14 +149,5 @@
 </script>
 
 <style>
-.content_crearSalon{
-    padding: 40px 100px 40px 100px;
-}
-.v-messages__message {
-    text-align: start;
- 
-}
-.v-input--horizontal {
-    margin-top: 20px;
-}
+
 </style>

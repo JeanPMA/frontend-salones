@@ -18,9 +18,9 @@
         <v-divider></v-divider>
         <v-list color="">
           <v-list-item prepend-icon="mdi-home" title="Salones" value="myfiles" @click="irAListaSalon"></v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="Usuarios" value="starred" @click="irAListaReserva"></v-list-item>
-            <v-list-item prepend-icon="mdi-share-variant" title="Servicios" value="starred" @click="irAListaReserva"></v-list-item>
-            <v-list-item prepend-icon="mdi-pencil" title="Tipos Solicitud-Reserva" value="starred" @click="irAListaReserva"></v-list-item>
+          <v-list-item prepend-icon="mdi-account" title="Usuarios" value="starred" @click="irAListaUsuario"></v-list-item>
+            <v-list-item prepend-icon="mdi-share-variant" title="Servicios" value="starred" @click="irAListaServicio"></v-list-item>
+            <v-list-item prepend-icon="mdi-pencil" title="Tipos Solicitud-Reserva" value="starred" @click="irAListaTipoSR"></v-list-item>
             <v-list-item prepend-icon="mdi-account" title="Salir" value="starred" @click="irAHome"></v-list-item>
 
         </v-list>
@@ -42,22 +42,23 @@ export default {
     name: 'navbarAdminComponent',
     methods: {
     
-    irAListaSolicitud() {
-    // Redirige a la página de detalle del salón
-      this.$router.push({ name: 'lista-solicitudes'});
-    },
+    
     irAListaSalon() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones-admin'});
     },
-    irAListaReserva() {
-    // Redirige a la página de detalle del salón
-      this.$router.push({ name: 'lista-reservas'});
+    irAListaUsuario() {
+      this.$router.push({ name: 'lista-usuarios-admin'});
+    },
+    irAListaServicio() {
+      this.$router.push({ name: 'lista-servicios-admin'});
+    },
+    irAListaTipoSR() {
+      this.$router.push({ name: 'lista-tipoSR-admin'});
     },
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'home'});
     },
+   
   },
 }
 </script>
