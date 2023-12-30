@@ -22,6 +22,7 @@ import SalonesListaDueñoComponent from "@/views/salonesListaDueño.vue";
 import ReservasListaDueñoComponent from "@/views/reservasListaDueño.vue";
 import DetalleSalonDueñoComponent from "@/views/detalleSalonDueño.vue";
 import DetalleSolicitudReservaDueñoComponent from "@/views/detalleSolicitudReservaDueño.vue";
+import CrearSalonDueñoComponent from "@/views/crearSalonDueño.vue";
 
 import SalonesListaAdminComponent from "@/views/admin/salonesListaAdmin.vue";
 import CrearSalonComponent from "@/views/admin/crearSalon.vue";
@@ -48,8 +49,8 @@ import '@mdi/font/css/materialdesignicons.min.css';
 
 
 //iconos
-import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage)
+import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus)
 
 
 const vuetify = createVuetify({
@@ -99,6 +100,9 @@ const routes = [
     },
     {
         path:'/lista-salones', component: SalonesListaDueñoComponent, name: 'lista-salones',
+    },
+    {
+        path:'/crear-salon', component: CrearSalonDueñoComponent, name: 'crear-salon',
     },
     {
         path:'/lista-reservas', component: ReservasListaDueñoComponent, name: 'lista-reservas',

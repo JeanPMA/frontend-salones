@@ -13,6 +13,11 @@
               <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
                   <a href="#" id="clickeable-label">FILTRO</a>
         </div>
+        <div class="boton_crearSalonDueño">
+          <RouterLink to="/crear-salon">
+              <a id="crear" >CREAR SALON</a>
+          </RouterLink>
+        </div>
         <div class="dueño_gridSalones">
           <div class="grid-containerSalonesDueño">
             <div class="grid__itemSalon" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irASalon(item.id)">
@@ -341,5 +346,39 @@ data() {
     margin-left: 40px;
     padding-top: 10px;
     text-align: start;
+}
+.boton_crearSalonDueño{
+
+
+margin-top: 20px;
+display: flex;
+
+
+}
+
+.boton_crearSalonDueño a{
+
+ padding: 10px;
+ width: 200px;
+ height: 35px;
+ border: none;
+ border-radius: 8px;
+ cursor: pointer;
+ font-size: 14px;
+ text-decoration: none;
+}
+.boton_crearSalonDueño #crear{
+  background-color: transparent;
+    color: #000000;
+   
+    border: 2px solid #000000;
+    
+   transition: 0.3s ease;   
+   
+  }
+
+.boton_crearSalonDueño #crear:hover {
+  background-color: #000000;
+  color: #ffffff;
 }
 </style>
