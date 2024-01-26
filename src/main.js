@@ -47,12 +47,23 @@ import Vuetify from 'vuetify/lib/framework';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.min.css';
 
+import store from './store/store';
+import axios from 'axios';
 
 //iconos
 import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
 library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus)
 
+//config axios
+axios.defaults.withCredentials = true;
+const token = localStorage.getItem('jwtToken');
+    if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    
 
+
+//config vuetify
 const vuetify = createVuetify({
     components,
     directives,
@@ -61,6 +72,7 @@ const vuetify = createVuetify({
       },
 })
 
+//config rutas
 const routes = [
     {
         path:'/', component: Home, name: 'home',
@@ -163,6 +175,8 @@ app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(VueScrollTo, {
     duration: 0,
 });
+app.use(store)
+app.config.globalProperties.$axios = axios
 app.use(router)
 app.use(vuetify)
 app.mount('#app')

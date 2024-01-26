@@ -5,7 +5,7 @@
         
         <div class="form-box login">
             <h2>LOGIN</h2>
-            <form action="#">
+            <form action="#" @submit.prevent="login">
                 <div class="input-box">
                     <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
                     <input type="usuario" required>
@@ -20,11 +20,11 @@
                     <label> <input type="checkbox">Recuerdame</label>
                     <a href="#">Olvidaste tu contraseña?</a>
                 </div>
-                <RouterLink to="/salones">
+                
                     <button type="submit" class="btn">
                         Login
                     </button>
-                </RouterLink>
+                
                 <div class="login-register">
                     <p>No tienes una cuenta?
                     <RouterLink to="/register">
@@ -48,9 +48,36 @@
 </template>
 
 <script>
+import { reactive } from "vue";
+import axios from "axios";
+import { routerKey, useRouter } from "vue-router";
 
 export default {
   name: 'LoginComponent',
+  data() {
+    return {
+      usuario: "",
+      password: "",
+    };
+  },
+  methods: {
+    login() {
+      // Realiza la solicitud de login al backend
+      const credentials = { username: this.usuario, password: this.password };
+      this.$axios.post("http://localhost:8080/login", credentials)
+        .then(response => {
+          const token = response.data.token;
+          // Guarda el token en localStorage o en alguna otra forma segura
+          localStorage.setItem("jwtToken", token);
+          // Redirige al usuario a la página deseada después del login
+          this.$router.push("/salones");
+        })
+        .catch(error => {
+          console.error("Error during login:", error);
+          // Maneja errores de autenticación aquí
+        });
+    },
+  },
 }
 </script>
 
