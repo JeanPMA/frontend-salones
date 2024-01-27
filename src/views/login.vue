@@ -51,6 +51,7 @@
 import { reactive } from "vue";
 import axios from "axios";
 import { routerKey, useRouter } from "vue-router";
+import jwt_decode from 'jwt-decode';
 
 export default {
   name: 'LoginComponent',
@@ -69,16 +70,36 @@ export default {
       this.$axios.post("http://localhost:8080/login", credentials)
       
         .then(response => {
-            console.log('Datos de login:', { username: this.username, password: this.password });
-
+           
           const token = response.data.token;
-          // Guarda el token en localStorage o en alguna otra forma segura
+          const decodedToken = jwt_decode(token);
+         
+          console.log('Token decodificado:', decodedToken);
+
+          //const userRoles = decodedToken.roles;
+         // console.error("ROLES:", userRoles);
+
           localStorage.setItem("jwtToken", token);
-          // Redirige al usuario a la página deseada después del login
-          this.$router.push("/salones");
+          //localStorage.setItem("userRoles", JSON.stringify(userRoles));
+    
+          if (decodedToken && decodedToken.roles) {
+            if (decodedToken.roles.includes("ROLE_ADMIN")) {
+              this.$router.push("/lista-salones-admin");
+            } else if (decodedToken.roles.includes("ROLE_OWNER")) {
+              this.$router.push("/lista-salones");
+            } else if (decodedToken.roles.includes("ROLE_USER")) {
+              this.$router.push("/salones");
+            } else {
+              // Redirige a una ruta predeterminada si el rol no es reconocido
+              this.$router.push("/login");
+            }
+          } else {
+            // Redirige a una ruta predeterminada si no se pudo obtener información del rol
+            this.$router.push("/login");
+          }
+         
         })
         .catch(error => {
-            console.log('Datos de login:', { username: this.username, password: this.password });
 
           console.error("Error during login:", error);
           // Maneja errores de autenticación aquí
