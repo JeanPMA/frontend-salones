@@ -8,12 +8,12 @@
             <form action="#" @submit.prevent="login">
                 <div class="input-box">
                     <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
-                    <input type="usuario" required>
-                    <label for="usuario">Usuario</label>
+                    <input type="username" v-model="username" required>
+                    <label for="username">Usuario</label>
                 </div>
                 <div class="input-box">
                     <span class="icon"><font-awesome-icon :icon="['fas', 'lock']" /></span>
-                    <input type="password" required>
+                    <input type="password" v-model="password" required>
                     <label for="password">Contraseña</label>
                 </div>
                 <div class="remember-forgot">
@@ -56,16 +56,21 @@ export default {
   name: 'LoginComponent',
   data() {
     return {
-      usuario: "",
+      username: "",
       password: "",
     };
   },
   methods: {
     login() {
       // Realiza la solicitud de login al backend
-      const credentials = { username: this.usuario, password: this.password };
+      const credentials = { username: this.username, password: this.password };
+      
+
       this.$axios.post("http://localhost:8080/login", credentials)
+      
         .then(response => {
+            console.log('Datos de login:', { username: this.username, password: this.password });
+
           const token = response.data.token;
           // Guarda el token en localStorage o en alguna otra forma segura
           localStorage.setItem("jwtToken", token);
@@ -73,6 +78,8 @@ export default {
           this.$router.push("/salones");
         })
         .catch(error => {
+            console.log('Datos de login:', { username: this.username, password: this.password });
+
           console.error("Error during login:", error);
           // Maneja errores de autenticación aquí
         });
