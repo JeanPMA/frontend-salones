@@ -115,8 +115,11 @@
   </script>
   
 <style>
+.content_serviciosListaAdmin{
+  background-color: white;
+}
   .listaServiciosAdmin_title{
-    margin-top: 50px;
+    padding-top: 50px;
   }
  
 

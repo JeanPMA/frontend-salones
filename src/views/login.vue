@@ -74,19 +74,19 @@ export default {
           const token = response.data.token;
           const decodedToken = jwt_decode(token);
          
-          console.log('Token decodificado:', decodedToken);
 
-          //const userRoles = decodedToken.roles;
-         // console.error("ROLES:", userRoles);
-
-          localStorage.setItem("jwtToken", token);
-          //localStorage.setItem("userRoles", JSON.stringify(userRoles));
+          
     
           if (decodedToken && decodedToken.roles) {
+            this.$store.state.auth.username = decodedToken.sub;
+            this.$store.state.auth.roles = decodedToken.roles;
+            
             if (decodedToken.roles.includes("ROLE_ADMIN")) {
               this.$router.push("/lista-salones-admin");
+
             } else if (decodedToken.roles.includes("ROLE_OWNER")) {
               this.$router.push("/lista-salones");
+
             } else if (decodedToken.roles.includes("ROLE_USER")) {
               this.$router.push("/salones");
             } else {

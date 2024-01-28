@@ -47,8 +47,9 @@ import Vuetify from 'vuetify/lib/framework';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.min.css';
 
-import store from './store/store';
+import store from './store/store.js';
 import axios from 'axios';
+import Vuex from 'vuex';
 
 //iconos
 import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
@@ -170,12 +171,23 @@ const router = createRouter({
 })
 
 const app = createApp(App)
+//vueX
+app.use(Vuex);
+
+const auth = new Vuex.Store({
+  modules: {
+    auth: store,
+  },
+});
+
+
 
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(VueScrollTo, {
     duration: 0,
 });
-app.use(store)
+
+app.use(auth);
 app.config.globalProperties.$axios = axios
 app.use(router)
 app.use(vuetify)

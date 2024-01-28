@@ -88,6 +88,7 @@
   <script>
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
 
+
   export default {
     name: 'usuariosListaAdminComponent',
     components: {
@@ -115,20 +116,27 @@
       return this.desserts.length;
     },
     totalPages() {
+     
       return Math.ceil(this.totalItems / this.itemsPerPage);
     },
     displayedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
       return this.desserts.slice(startIndex, endIndex);
+      
     },
+    
+    
   },
   };
   </script>
   
 <style>
+.content_usuariosListaAdmin{
+  background-color: white;
+}
   .listaUsuariosAdmin_title{
-    margin-top: 50px;
+    padding-top: 50px;
   }
   .v-data-table__th{
   font-size: 1.2rem; 

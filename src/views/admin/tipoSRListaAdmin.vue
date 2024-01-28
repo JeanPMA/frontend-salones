@@ -109,7 +109,7 @@
   
 <style>
   .listaSRAdmin_title{
-    margin-top: 50px;
+    padding-top: 50px;
   }
  
 

@@ -115,8 +115,11 @@
   </script>
   
 <style>
+.content_salonesListaAdmin{
+  background-color: white;
+}
   .listaSalonesAdmin_title{
-    margin-top: 50px;
+    padding-top: 50px;
   }
   .v-data-table__th{
   font-size: 1.2rem; 
