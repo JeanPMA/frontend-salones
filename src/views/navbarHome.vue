@@ -20,14 +20,17 @@
                     <li><a href="#" v-scroll-to="'#section2'" :class="{ 'active': activeButton === 'button2' }" @click="setActiveButton('button2')">RECOMENDADOS</a></li>
                     <li><a href="#" v-scroll-to="'#section3'" :class="{ 'active': activeButton === 'button3' }" @click="setActiveButton('button3')">CONTACTANOS</a></li>
                   </div>
-                  <div class="botones_2">
-                    
+                  <div v-if="isLoggedIn">
+                    {{ username }}
+                    <button @click="logout">Cerrar Sesión</button>
+                  </div>
+
+                  <div class="botones_2" v-else>                    
                     <li>
                       <RouterLink to="/login">
                       <a href="#" class="boton boton-1">INICIAR SESIÓN</a>
                       </RouterLink>
-                    </li>
-                    
+                    </li>                    
                     <li>
                       <RouterLink to="/register">
                       <a href="#" class="boton boton-1">REGISTRARSE</a>
@@ -48,12 +51,33 @@ export default {
     return {
     isActive: false,
     currentSection: null,
+    isLoggedIn: false,
+    username: ""
     }
-},
+  },
+  mounted() {
+    // Comprobar si hay un token al cargar el componente
+    this.checkToken();
+  },
 methods: {
     setActiveButton(button) {
       this.activeButton = this.activeButton === button ? null : button;
     },
+    checkToken() {
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        this.isLoggedIn = true;
+        this.username = "sub"; 
+      } else {
+        
+      }
+    },
+    logout() {
+      this.$store.dispatch('logout', this.$router);
+      this.isLoggedIn = false;
+      this.username = "";
+    }
 }
 }
 </script>

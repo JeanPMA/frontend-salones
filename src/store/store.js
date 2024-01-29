@@ -1,25 +1,28 @@
-import { reactive } from 'vue';
+import { createStore } from 'vuex';
 
-const state = reactive({
-  username: '',
-  roles: [],
+const store = createStore({
+  state: {
+    token: null,
+    // Otros estados que puedas necesitar
+  },
+  mutations: {
+    setToken(state, token) {
+      state.token = token;
+    },
+    clearToken(state) {
+      state.token = null;
+    },
+    // Otras mutaciones que puedas necesitar
+  },
+  actions: {
+    logout({ commit }, router) {
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('userRoles');
+      commit('clearToken');
+      router.push('/');
+    },
+    // Otras acciones que puedas necesitar
+  },
 });
 
-const mutations = {
-    setAuthData(state, userData) {
-      state.username = userData.username;
-      state.roles = userData.roles;
-
-    },
-  };
-
-const actions = {
-  // Puedes agregar otras acciones relacionadas con la autenticación aquí si es necesario
-};
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions,
-};
+export default store;

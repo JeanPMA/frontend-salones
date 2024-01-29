@@ -20,7 +20,7 @@
           <v-list-item prepend-icon="mdi-home" title="Salones" value="myfiles" @click="irAListaSalon"></v-list-item>
             <v-list-item prepend-icon="mdi-folder" title="Solicitudes" value="shared" @click="irAListaSolicitud"></v-list-item>
             <v-list-item prepend-icon="mdi-pencil" title="Reservas" value="starred" @click="irAListaReserva"></v-list-item>
-            <v-list-item prepend-icon="mdi-account" title="Salir" value="starred" @click="irAHome"></v-list-item>
+            <v-list-item prepend-icon="mdi-account" title="Salir" value="starred" @click="logout"></v-list-item>
         </v-list>
 
         <template v-slot:append>
@@ -55,6 +55,10 @@ export default {
     irAHome() {
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'home'});
+    },
+    logout() {
+    // Llamar a la acción de logout del store
+      this.$store.dispatch('logout', this.$router);
     },
   },
 }

@@ -21,7 +21,7 @@
           <v-list-item prepend-icon="mdi-account" title="Usuarios" value="starred" @click="irAListaUsuario"></v-list-item>
             <v-list-item prepend-icon="mdi-share-variant" title="Servicios" value="starred" @click="irAListaServicio"></v-list-item>
             <v-list-item prepend-icon="mdi-pencil" title="Tipos Solicitud-Reserva" value="starred" @click="irAListaTipoSR"></v-list-item>
-            <v-list-item prepend-icon="mdi-account" title="Salir" value="starred" @click="irAHome"></v-list-item>
+            <v-list-item prepend-icon="mdi-account" title="Salir" value="starred" @click="logout"></v-list-item>
 
         </v-list>
 
@@ -58,7 +58,10 @@ export default {
     irAHome() {
       this.$router.push({ name: 'home'});
     },
-   
+    logout() {
+    // Llamar a la acción de logout del store
+      this.$store.dispatch('logout', this.$router);
+    },
   },
 }
 </script>

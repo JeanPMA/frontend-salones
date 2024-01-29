@@ -70,16 +70,14 @@ export default {
       this.$axios.post("http://localhost:8080/login", credentials)
       
         .then(response => {
-           
-          const token = response.data.token;
-          const decodedToken = jwt_decode(token);
-         
-
           
-    
+          const token = response.data.token;
+          localStorage.setItem('jwtToken', token);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          const decodedToken = jwt_decode(token);
+          
           if (decodedToken && decodedToken.roles) {
-            this.$store.state.auth.username = decodedToken.sub;
-            this.$store.state.auth.roles = decodedToken.roles;
+            
             
             if (decodedToken.roles.includes("ROLE_ADMIN")) {
               this.$router.push("/lista-salones-admin");
@@ -100,9 +98,13 @@ export default {
          
         })
         .catch(error => {
-
-          console.error("Error during login:", error);
-          // Maneja errores de autenticación aquí
+            if (error.response && error.response.status === 401) {
+                // Credenciales incorrectas
+                console.error("Credenciales incorrectas");
+            } else {
+                // Otro tipo de error
+                console.error("Error durante el inicio de sesión:", error);
+   }
         });
     },
   },

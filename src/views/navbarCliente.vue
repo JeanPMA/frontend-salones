@@ -26,7 +26,7 @@
                       <div class="userMenu">
                         <li><a href="#" >USUARIO</a> 
                           <ul>
-                            <li><a href="#">LOG OUT</a></li>
+                            <li><a href="#" @click="logout">LOG OUT</a></li>
                             <li><a href="#">CONFIGURACION</a></li>
                           </ul>
                         </li> 
@@ -41,6 +41,12 @@
 <script>
 export default {
     name: 'navbarCliente',
+    methods: {
+      logout() {
+      // Llamar a la acción de logout del store
+        this.$store.dispatch('logout', this.$router);
+      },
+    }
 }
 </script>
 

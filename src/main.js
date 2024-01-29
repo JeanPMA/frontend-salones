@@ -47,7 +47,7 @@ import Vuetify from 'vuetify/lib/framework';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.min.css';
 
-import store from './store/store.js';
+import store from './store/store';
 import axios from 'axios';
 import Vuex from 'vuex';
 
@@ -172,13 +172,7 @@ const router = createRouter({
 
 const app = createApp(App)
 //vueX
-app.use(Vuex);
-
-const auth = new Vuex.Store({
-  modules: {
-    auth: store,
-  },
-});
+app.use(store);
 
 
 
@@ -187,7 +181,7 @@ app.use(VueScrollTo, {
     duration: 0,
 });
 
-app.use(auth);
+
 app.config.globalProperties.$axios = axios
 app.use(router)
 app.use(vuetify)
