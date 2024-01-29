@@ -50,6 +50,7 @@ import '@mdi/font/css/materialdesignicons.min.css';
 import store from './store/store';
 import axios from 'axios';
 import Vuex from 'vuex';
+import jwt_decode from 'jwt-decode';
 
 //iconos
 import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
@@ -80,9 +81,29 @@ const routes = [
     },
     {
         path:'/login', component: LoginComponent,
+        beforeEnter: (to, from, next) => {
+            // Verificar si el usuario ya ha iniciado sesión
+            if (isLoggedIn()) {
+              // Redirigir al usuario a otra ruta, por ejemplo, '/'
+              next('/')
+            } else {
+              // Permitir el acceso a la ruta de login
+              next()
+            }
+          }
     },
     {
         path:'/register', component: RegisterClientComponent,
+        beforeEnter: (to, from, next) => {
+            // Verificar si el usuario ya ha iniciado sesión
+            if (isLoggedIn()) {
+              // Redirigir al usuario a otra ruta, por ejemplo, '/'
+              next('/')
+            } else {
+              // Permitir el acceso a la ruta de login
+              next()
+            }
+          }
     },
     {
         path:'/salones', component: SalonesClientComponent,
@@ -186,3 +207,18 @@ app.config.globalProperties.$axios = axios
 app.use(router)
 app.use(vuetify)
 app.mount('#app')
+
+
+function isLoggedIn() {
+    const token = localStorage.getItem('jwtToken');
+    return token && isValidToken(token);
+}
+function isValidToken(token) {
+    try {
+      const decodedToken = jwt_decode(token); 
+      return true; 
+    } catch (error) {
+      console.error('Error al validar el token:', error.message);
+      return false; 
+    }
+}

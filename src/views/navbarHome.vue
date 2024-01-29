@@ -20,8 +20,8 @@
                     <li><a href="#" v-scroll-to="'#section2'" :class="{ 'active': activeButton === 'button2' }" @click="setActiveButton('button2')">RECOMENDADOS</a></li>
                     <li><a href="#" v-scroll-to="'#section3'" :class="{ 'active': activeButton === 'button3' }" @click="setActiveButton('button3')">CONTACTANOS</a></li>
                   </div>
-                  <div v-if="isLoggedIn">
-                    {{ username }}
+                  <div class="botones_alter" v-if="isLoggedIn">
+                    <h3>{{ username }}</h3>
                     <button @click="logout">Cerrar Sesión</button>
                   </div>
 
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode';
+
 export default {
   name: 'navbarHome',
   data() { 
@@ -65,10 +67,11 @@ methods: {
     },
     checkToken() {
       const token = localStorage.getItem('jwtToken');
-
+     
       if (token) {
+        const decodedToken = jwt_decode(token);
         this.isLoggedIn = true;
-        this.username = "sub"; 
+        this.username = decodedToken.sub; 
       } else {
         
       }
@@ -197,6 +200,27 @@ nav a{
   flex-direction: row;
   justify-content: center;
   padding-left: 150px;
+}
+.botones_alter{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 100px;
+ align-items: center;
+}
+
+.botones_alter h3{
+  font-size: 15px;
+  text-align: center;
+}
+
+.botones_alter button{
+  padding-top: 5px;
+  transition: all 300ms ease;
+}
+
+.botones_alter button:hover{
+  color: #ff1100;
 }
 
 .logoBotones{
