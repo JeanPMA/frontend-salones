@@ -23,10 +23,10 @@
     <div class="buzon_grid">
           <div class="grid-container">
             <div class="grid__item" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
-              <img :src="require('@/img/' + item.imgSrc)" alt="">
+              <img :src="item.banner_url" alt="">
               <div class="text-overlay">
-                <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
+                <h2>{{ item.nombre }}</h2>
+                <p>{{ item.descripcion }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
@@ -46,86 +46,40 @@
 <script>
 
 import NavbarCliente from '@/views/navbarCliente.vue'
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
     export default {
     name: 'buzonComponent',
     components: {
     NavbarCliente,
     },
-    methods: {
-    ejecutar() {
-     
     
-    },
-    },
     data() { 
     return {
-        buzon: [
-        {
-        imgSrc: "3.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "3.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "3.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "NOTIFICACION",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        },
-    ],
-    startIndex: 0,
-    imagesPerPage: 10,
+        buzon: [],
+        startIndex: 0,
+        imagesPerPage: 10,
     };
     },
+    mounted() {
+    
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+
+    const userRole = decodedToken.roles[0]; 
+    const config = {
+    headers: {
+      Authorization:  `Bearer ${token}`,
+      'X-User-Role': userRole
+    }
+    };
+    axios.get('http://localhost:8080/v1/salon', config)
+      .then(response => {
+        this.buzon = response.data;
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
+  },
     computed: {
     paginas() {
     return Array.from({ length: Math.ceil(this.buzon.length / this.imagesPerPage) }, (_, i) => i + 1);

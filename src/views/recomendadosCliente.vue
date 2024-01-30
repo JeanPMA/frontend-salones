@@ -16,10 +16,10 @@
         <div class="salonesRecomendados_grid">
           <div class="grid-container">
             <div class="grid__item" v-for="(item, index) in salonesRecomendados" :key="index" v-show="mostrarImagen(index)">
-              <img :src="require('@/img/' + item.imgSrc)" alt="">
+              <img :src="item.banner_url" alt="">
               <div class="text-overlay">
-                <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
+                <h2>{{ item.nombre }}</h2>
+                <p>{{ item.descripcion }}</p>
               </div>
             </div>
           </div>
@@ -37,7 +37,9 @@
 </template>
 
 <script>
- import NavbarCliente from '@/views/navbarCliente.vue'
+ import NavbarCliente from '@/views/navbarCliente.vue';
+ import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
 
     export default {
     name: 'recomendadosClienteComponent',
@@ -51,63 +53,30 @@
     },
     },
     data() { 
-    return {
-        salonesRecomendados: [
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-        },
-    ],
-    startIndex: 0,
-    imagesPerPage: 9,
-    };
+      return {
+          salonesRecomendados: [],
+          startIndex: 0,
+          imagesPerPage: 9,
+      };
     },
+    mounted() {
+    
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+
+    const userRole = decodedToken.roles[0]; 
+    const config = {
+    headers: {
+      Authorization:  `Bearer ${token}`,
+      'X-User-Role': userRole
+    }
+    };
+    axios.get('http://localhost:8080/v1/salon', config)
+      .then(response => {
+        this.salonesRecomendados = response.data;
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
+  },
     computed: {
     paginas() {
     return Array.from({ length: Math.ceil(this.salonesRecomendados.length / this.imagesPerPage) }, (_, i) => i + 1);

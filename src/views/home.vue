@@ -216,7 +216,7 @@ export default {
   },
   mounted() {
     // Llamada a la API en localhost utilizando Axios
-    axios.get('http://localhost:8080/v1/salon')
+    axios.get('http://localhost:8080/v1/salon/recomendado')
       .then(response => {
         // Actualizamos la propiedad items con los datos de la API
         this.items = response.data;
