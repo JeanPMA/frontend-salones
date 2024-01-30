@@ -15,7 +15,7 @@
     
         <div class="salonesRecomendados_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in salonesRecomendados" :key="index" v-show="mostrarImagen(index)">
+            <div class="grid__item" v-for="(item, index) in salonesRecomendados" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
               <img :src="item.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.nombre }}</h2>
@@ -101,6 +101,10 @@
     irAPagina(pagina) {
     this.actualizarNumerosPagina(pagina);
     
+    },
+    irADetalleSalon(id) {
+    // Redirige a la página de detalle del salón
+      this.$router.push({ name: 'detalle-salon', params: { id: id } });
     },
     },
     }

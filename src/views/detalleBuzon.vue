@@ -1,19 +1,19 @@
 <template>
     <div class="body_detalle">
-        <div class="content_detalleBuzon">
+        <div class="content_detalleBuzon" v-if="detalleSolicitud">
             <font-awesome-icon :icon="['fas', 'circle-info']" />
             <h2>DETALLE</h2>
             <div class="info_detalle">
                 <div class="detalle_item">
                     
                     <h3><font-awesome-icon :icon="['fas', 'calendar-days']" />Fecha de Evento:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p>{{detalleSolicitud.created_at}}</p>
                 </div>
                 
 
                 <div class="detalle_item">
                     <h3><font-awesome-icon :icon="['fas', 'circle-question']" />Motivo:</h3>
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                  <p>{{detalleSolicitud.descripcion}}</p>
                 </div>
                
 
@@ -36,7 +36,7 @@
 
                 <div class="detalle_item">
                     <h3><font-awesome-icon :icon="['fas', 'calendar']" />Fecha de solicitud:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p>{{detalleSolicitud.created_at}}</p>
                 </div>
                 
 
@@ -57,8 +57,21 @@
 </template>
 
 <script>
+ import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
+
 export default {
   name: 'detalleBuzonComponent',
+  data() {
+    return {
+      detalleSolicitud: null, 
+    };
+  },
+  mounted() {
+      const salonId = this.$route.params.id;
+
+      this.obtenerDetallesSalon(salonId);
+  },
   methods: {
     
     irACalificación() {
@@ -69,6 +82,25 @@ export default {
 
     this.$router.go(-1);
     },
+    obtenerDetallesSalon(id) {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0];
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': userRole
+        }
+      };
+
+      axios.get(`http://localhost:8080/v1/salon/${id}`, config)
+        .then(response => {
+          this.detalleSolicitud = response.data;
+          //console.log('Detalles de la solicitud:', response.data);
+        })
+        .catch(error => console.error('Error al obtener detalles de la solicitud:', error));
+  },
 }
 
 }

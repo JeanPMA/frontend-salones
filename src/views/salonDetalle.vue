@@ -1,46 +1,37 @@
 <template>
 
-    <div class="content_detalleSalon">
+    <div class="content_detalleSalon" v-if="detalleSalon">
         <div class="detalleSalon_title">
-            <h2>SALON DE EVENTOS BLABLABLA</h2>
+            <h2>{{ detalleSalon.nombre }}</h2>
             <img src="../img/1.png" alt="">
         </div>
         
         <div class="detalleSalon_text">
             <div class="item">
                 <label>Descripcion:</label>
-                <p>It is a long established fact that a reader will 
-                be distracted by the readable content of a page 
-                when looking at its layout. The point of using Lorem 
-                Ipsum is that it has a more-or-less normal distribution 
-                of letters, as opposed to using 'Content 
-                here, content here'</p>
+                <p>{{detalleSalon.descripcion}}</p>
             </div>
             
 
-            <div class="item">
+            <div class="item" v-if="detalleSalon.servicios && detalleSalon.servicios.length > 0">
                 <label >Servicios:</label>
-                <p>It is a long established fact that a reader will 
-                be distracted by the readable content of a page 
-                when looking at its layout. The point of using Lorem 
-                Ipsum is that it has a more-or-less normal distribution 
-                of letters, as opposed to using 'Content 
-                here, content here'</p>
+                <p>
+                  {{ detalleSalon.servicios.map(servicio => servicio.nombre).join(', ') }}
+                </p>
             </div>
-            
+            <div v-else>
+              <p>No hay servicios disponibles.</p>
+            </div>
+
             <div class="item">
                 <label >Ubicacion:</label>
-                <p>It is a long established fact that a reader will 
-                    be distracted by the readable content of a page 
-                    when looking at its layout.</p>
+                <p>{{detalleSalon.direccion}}</p>
             </div>
             
             <div class="item">
                 <label >Precio Completo / <br> Precio anticipo:</label>
-                <p>It is a long established fact that a reader will 
-                be distracted </p>
-                <p> The point of using Lorem 
-                Ipsum is that </p>
+                <p>{{detalleSalon.tarifa}} </p>
+                <p> {{detalleSalon.tarifa}}</p>
             </div>
             
 
@@ -57,19 +48,48 @@
 </template>
 
 <script>
-
+ import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
 
 export default {
 name: 'salonDetalleComponent',
-components: {
-    
-},
-methods: {
-    volverAtras (){
-  // Utiliza el método go para volver atrás en la historia del navegador
-  this.$router.go(-1);
-},
-}
+  data() {
+    return {
+      detalleSalon: null, 
+    };
+  },
+  components: {
+      
+  },
+  mounted() {
+      const salonId = this.$route.params.id;
+
+      this.obtenerDetallesSalon(salonId);
+  },
+  methods: {
+      volverAtras (){
+      this.$router.go(-1);
+    },
+    obtenerDetallesSalon(id) {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0];
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': userRole
+        }
+      };
+
+      axios.get(`http://localhost:8080/v1/salon/${id}`, config)
+        .then(response => {
+          this.detalleSalon = response.data;
+          //console.log('Detalles del salón:', response.data);
+        })
+        .catch(error => console.error('Error al obtener detalles del salón:', error));
+  },
+  }
 }
 </script>
 
@@ -81,7 +101,6 @@ methods: {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 .detalleSalon_title{
     text-align: center;

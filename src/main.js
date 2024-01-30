@@ -118,7 +118,7 @@ const routes = [
         path:'/calendar', component: CalendarComponent,
     },
     {
-        path:'/detalle-salon/', component: SalonComponent, name: 'detalle-salon',//falta parametro id
+        path:'/detalle-salon/:id', component: SalonComponent, name: 'detalle-salon',//falta parametro id
     },
     {
         path:'/solicitud', component: SolicitudComponent, name: 'solicitud',//falta
@@ -127,7 +127,7 @@ const routes = [
         path:'/calificar', component: CalificaciónComponent, name: 'calificar',//falta
     },
     {
-        path:'/detalle-buzon', component: DetalleBuzonComponent, name: 'detalle-buzon',//falta
+        path:'/detalle-buzon/:id', component: DetalleBuzonComponent, name: 'detalle-buzon',//falta
     },
     {
         path:'/lista-solicitudes', component: SolicitudesListaDueñoComponent, name: 'lista-solicitudes',
