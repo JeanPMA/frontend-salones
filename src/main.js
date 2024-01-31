@@ -121,7 +121,8 @@ const routes = [
         path:'/detalle-salon/:id', component: SalonComponent, name: 'detalle-salon',//falta parametro id
     },
     {
-        path:'/solicitud', component: SolicitudComponent, name: 'solicitud',//falta
+        path:'/solicitud/:fechaPorDefecto?', component: SolicitudComponent, name: 'solicitud',
+        
     },
     {
         path:'/calificar', component: CalificaciónComponent, name: 'calificar',//falta

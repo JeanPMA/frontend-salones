@@ -1,23 +1,32 @@
 <template>
 <div class="solicitud_content">
         <div class="solicitud_form">
-            <form action="procesar_formulario.php" method="post">
+            <form action="procesar_formulario.php" >
                 <h2>RESERVAR</h2>
-                <label for="nombre" id="labelNombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
-                
-                <label for="motivo" id="labelMotivo">Motivo:</label>
+                <label for="salon" id="salon">Salón:</label>
                 <v-select
+                  v-model="solicitudReserva.salon"
+                  label="Selecciona salon de eventos"
+                  :items="listaSalones"
+                  variant="outlined"
+                  item-text="nombre"
+                  item-value="id"
+                  hide-details
+                ></v-select>
+                
+                <label for="motivo" id="motivo">Motivo:</label>
+                <v-select
+                  v-model="solicitudReserva.motivo"
                   label="Selecciona motivo"
                   :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
                   variant="outlined"
                   hide-details
                 ></v-select>
                 
-                <label for="servicios" id="labelServicios">Servicios: </label>
+                <label for="servicio" id="servicio">Servicios: </label>
 
                   <v-select
-                    v-model="favorites"
+                    v-model="seleccionados"
                     :items="states"
                     label="Selecciona servicios"
                     multiple
@@ -27,15 +36,15 @@
                   ></v-select>
 
                 
-                <label for="fechaEvento" id="labelFecha">Fecha de Evento:</label>
-                <input type="date" id="fechaEvento" name="fechaEvento">
+                <label for="fecha_reserva" id="labelFecha">Fecha de Evento:</label>
+                <input type="date" id="fecha_reserva" name="fecha_reserva" :min="minDate" v-model="solicitudReserva.fecha_reserva" @change="onDateChange">
 
-                <label for="email" id="labelDetalle">Detalle Extra:</label>
-                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Detalle:" style="font-family: Arial, sans-serif;" ></textarea>
+                <label for="detalle" id="labelDetalle">Detalle Extra:</label>
+                <textarea id="detalle" name="detalle" rows="4" placeholder="Detalle:" style="font-family: Arial, sans-serif;" v-model="solicitudReserva.detalle"></textarea>
               
 
                 <div class="form_btn">
-                    <a id="send" >ENVIAR</a>
+                    <a id="send" type="submit" @click="guardarSolicitudReserva">ENVIAR</a>
                     <a  id="cancel" @click="volverAtras">CANCELAR</a>
 
                 </div>
@@ -45,14 +54,27 @@
 </template>
 
 <script>
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
 export default {
     name: 'solicitudComponent',
     components: {
         
     },
+    
     data() { 
+      const today = new Date();
+      const minDate = new Date(today);
+      minDate.setDate(today.getDate() + 5);
+     
+      
     return {
-      favorites: [],
+      
+        
+        minDate: minDate.toISOString().split('T')[0],   
+        
+        seleccionados: [],
         states: [
           'Alabama', 'Alaska', 'American Samoa', 'Arizona',
           'Arkansas', 'California', 'Colorado', 'Connecticut',
@@ -69,12 +91,65 @@ export default {
           'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
           'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
         ],
-            }
+        listaSalones: [],
+        solicitudReserva: {
+          salon: '',
+          motivo: '',
+          fecha_reserva: this.$route.params.fechaPorDefecto || '',
+          detalle: '',
+          servicio: '',
         },
+        
+        username: 'nombreUsuario', 
+          }
+    },
+    mounted() {
+     this.obtenerSalones();
+
+    },
     methods: {
+     
         volverAtras (){
-      // Utiliza el método go para volver atrás en la historia del navegador
-      this.$router.go(-1);
+        this.$router.go(-1);
+        },
+        guardarSolicitudReserva() {
+            const serviciosSeleccionados = this.seleccionados.join(', ');
+            this.solicitudReserva.servicio = serviciosSeleccionados;
+
+            /*axios.post('http://localhost:8080/v1/solicitud-reserva', this.solicitudReserva, {
+              params: {
+                username: this.username,
+              },
+            })
+            .then(response => {
+              console.log('Solicitud de reserva guardada:', response.data);
+            })
+            .catch(error => {
+              console.error('Error al guardar la solicitud de reserva:', error);
+            });*/
+            console.log(this.solicitudReserva);
+
+      },
+      obtenerSalones() {
+        const token = localStorage.getItem('jwtToken');
+          const decodedToken = jwt_decode(token);
+
+          const userRole = decodedToken.roles[0];
+          const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-User-Role': userRole
+          },
+        };
+
+        axios.get('http://localhost:8080/v1/salon', config)
+          .then(response => {
+            this.listaSalones = response.data.map(item => item.nombre);
+            console.log(this.listaSalones);
+          })
+          .catch(error => {
+            console.error('Error al obtener salones:', error);
+          });
       },
     }
 }

@@ -17,6 +17,9 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'
 import { useRouter } from 'vue-router';
+import { format } from 'date-fns';
+import { parse } from 'date-fns';
+
   const router = useRouter();
   
 export default {
@@ -57,9 +60,8 @@ data() {
   methods: {
     handleDateClick(arg) {
       
-        console.log('Fecha clickeada:', arg.dateStr);
-        // Realiza acciones personalizadas para fechas clickeables
-        this.$router.push({ name: 'solicitud'});
+      const fechaSeleccionada = new Date(arg.dateStr);
+      this.$router.push({ name: 'solicitud', params: { fechaPorDefecto: fechaSeleccionada.toISOString().split('T')[0] } });
       
     },
   },
