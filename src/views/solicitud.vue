@@ -9,7 +9,7 @@
                   label="Selecciona salon de eventos"
                   :items="listaSalones"
                   variant="outlined"
-                  item-text="nombre"
+                  item-title="nombre"
                   item-value="id"
                   hide-details
                 ></v-select>
@@ -144,7 +144,7 @@ export default {
 
         axios.get('http://localhost:8080/v1/salon', config)
           .then(response => {
-            this.listaSalones = response.data.map(item => item.nombre);
+            this.listaSalones = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
             console.log(this.listaSalones);
           })
           .catch(error => {

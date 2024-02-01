@@ -19,7 +19,8 @@
                   {{ detalleSalon.servicios.map(servicio => servicio.nombre).join(', ') }}
                 </p>
             </div>
-            <div v-else>
+            <div class="item" v-else>
+              <label >Servicios:</label>
               <p>No hay servicios disponibles.</p>
             </div>
 
