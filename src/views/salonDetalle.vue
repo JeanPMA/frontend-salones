@@ -42,7 +42,7 @@
     
         <div class="button_reservar">
             <a href="#" class="button_reservar button-2" @click="volverAtras">CANCELAR</a>
-            <a href="#" class="button_reservar button-1">RESERVAR</a>
+            <a href="#" class="button_reservar button-1" @click="irASolicitud">RESERVAR</a>
         </div>
        
     </div>
@@ -70,18 +70,18 @@ name: 'salonDetalleComponent',
   methods: {
       volverAtras (){
       this.$router.go(-1);
-    },
-    obtenerDetallesSalon(id) {
-      const token = localStorage.getItem('jwtToken');
-      const decodedToken = jwt_decode(token);
+      },
+      obtenerDetallesSalon(id) {
+        const token = localStorage.getItem('jwtToken');
+        const decodedToken = jwt_decode(token);
 
-      const userRole = decodedToken.roles[0];
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-User-Role': userRole
-        }
-      };
+        const userRole = decodedToken.roles[0];
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-User-Role': userRole
+          }
+        };
 
       axios.get(`http://localhost:8080/v1/salon/${id}`, config)
         .then(response => {
@@ -89,7 +89,14 @@ name: 'salonDetalleComponent',
           //console.log('Detalles del salón:', response.data);
         })
         .catch(error => console.error('Error al obtener detalles del salón:', error));
-  },
+      },
+      irASolicitud(arg) {
+      
+        const nombreSalonSeleccionado = this.detalleSalon.nombre;
+        
+      this.$router.push({ name: 'solicitud', params: { nombreSalon: nombreSalonSeleccionado} });
+      
+    },
   }
 }
 </script>

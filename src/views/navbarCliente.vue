@@ -17,8 +17,7 @@
                     
                       <div class="botones"> 
                         <li><RouterLink to="/salones"><a href="#">SALONES</a></RouterLink> </li>                 
-                        <li><RouterLink to="/recomendados"><a href="#">RECOMENDADOS</a></RouterLink></li>
-                        <li><a href="#">CONTACTANOS</a></li>
+                        <li><RouterLink to="/recomendados"><a href="#">RECOMENDADOS</a></RouterLink></li>             
                         <li><RouterLink to="/buzon"><a href="#">BUZON</a></RouterLink></li>
                         <li><RouterLink to="/calendar"><a href="#">RESERVAR</a></RouterLink></li>
                       </div>

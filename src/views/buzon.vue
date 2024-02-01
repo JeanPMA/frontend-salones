@@ -23,10 +23,12 @@
     <div class="buzon_grid">
           <div class="grid-container">
             <div class="grid__item" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
-              <img :src="item.banner_url" alt="">
+              <img :src="item.salon.banner_url" alt="">
               <div class="text-overlay">
-                <h2>{{ item.nombre }}</h2>
-                <p>{{ item.descripcion }}</p>
+                <h2>{{ item.salon.nombre }}</h2>
+                <p>{{ item.detalle }}</p>
+                <p>{{ item.fecha_reserva }}</p>
+                <p>{{ item.tipoSR.nombre }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
@@ -74,7 +76,7 @@ import jwt_decode from 'jwt-decode';
       'X-User-Role': userRole
     }
     };
-    axios.get('http://localhost:8080/v1/salon', config)
+    axios.get('http://localhost:8080/v1/solicitud-reserva', config)
       .then(response => {
         this.buzon = response.data;
       })

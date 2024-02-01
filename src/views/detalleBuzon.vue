@@ -7,42 +7,37 @@
                 <div class="detalle_item">
                     
                     <h3><font-awesome-icon :icon="['fas', 'calendar-days']" />Fecha de Evento:</h3>
-                    <p>{{detalleSolicitud.created_at}}</p>
+                    <p>{{detalleSolicitud.fecha_reserva}}</p>
                 </div>
                 
 
                 <div class="detalle_item">
                     <h3><font-awesome-icon :icon="['fas', 'circle-question']" />Motivo:</h3>
-                  <p>{{detalleSolicitud.descripcion}}</p>
+                  <p>{{detalleSolicitud.motivo}}</p>
                 </div>
                
 
                 <div class="detalle_item">
                     <h3><font-awesome-icon :icon="['fas', 'bell-concierge']" />Servicios: </h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                    </p>
+                    <p>{{detalleSolicitud.servicio}}</p>
                 </div>
                 
                 
                 <div class="detalle_item">
                     <h3><font-awesome-icon :icon="['fas', 'message']" />Detalle Extra:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book
-                    </p>
+                    <p>{{detalleSolicitud.detalle}}</p>
                 </div>
                 
 
                 <div class="detalle_item">
                     <h3><font-awesome-icon :icon="['fas', 'calendar']" />Fecha de solicitud:</h3>
-                    <p>{{detalleSolicitud.created_at}}</p>
+                    <p>{{detalleSolicitud.fecha_emision}}</p>
                 </div>
                 
 
                 <div class="detalle_item">
                     <h3><font-awesome-icon :icon="['fas', 'diagram-project']" />Estado:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p>{{detalleSolicitud.tipoSR.nombre}}</p>
                 </div>
                
             </div>
@@ -94,7 +89,7 @@ export default {
         }
       };
 
-      axios.get(`http://localhost:8080/v1/salon/${id}`, config)
+      axios.get(`http://localhost:8080/v1/solicitud-reserva/${id}`, config)
         .then(response => {
           this.detalleSolicitud = response.data;
           //console.log('Detalles de la solicitud:', response.data);

@@ -106,7 +106,7 @@ const routes = [
           }
     },
     {
-        path:'/salones', component: SalonesClientComponent,
+        path:'/salones', component: SalonesClientComponent, name: 'salones',
     },
     {
         path:'/recomendados', component: RecomendadosClientComponent,
@@ -121,7 +121,7 @@ const routes = [
         path:'/detalle-salon/:id', component: SalonComponent, name: 'detalle-salon',//falta parametro id
     },
     {
-        path:'/solicitud/:fechaPorDefecto?', component: SolicitudComponent, name: 'solicitud',
+        path:'/solicitud/:nombreSalon?/:fechaPorDefecto?', component: SolicitudComponent, name: 'solicitud',
         
     },
     {

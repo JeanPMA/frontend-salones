@@ -5,13 +5,14 @@
                 <h2>RESERVAR</h2>
                 <label for="salon" id="salon">Salón:</label>
                 <v-select
-                  v-model="solicitudReserva.salon"
+                  v-model="solicitudReserva.salon.id"
                   label="Selecciona salon de eventos"
                   :items="listaSalones"
                   variant="outlined"
                   item-title="nombre"
                   item-value="id"
                   hide-details
+                  :disabled="selectorBloqueado"
                 ></v-select>
                 
                 <label for="motivo" id="motivo">Motivo:</label>
@@ -70,10 +71,7 @@ export default {
      
       
     return {
-      
-        
-        minDate: minDate.toISOString().split('T')[0],   
-        
+        minDate: minDate.toISOString().split('T')[0],      
         seleccionados: [],
         states: [
           'Alabama', 'Alaska', 'American Samoa', 'Arizona',
@@ -93,19 +91,33 @@ export default {
         ],
         listaSalones: [],
         solicitudReserva: {
-          salon: '',
+          salon: {
+            id: null,
+          },
           motivo: '',
           fecha_reserva: this.$route.params.fechaPorDefecto || '',
           detalle: '',
           servicio: '',
         },
-        
-        username: 'nombreUsuario', 
+        selectorBloqueado: false,
+       
           }
     },
-    mounted() {
-     this.obtenerSalones();
+    async  mounted() {
+      await this.obtenerSalones();
+      const nombreSalonSeleccionado = this.$route.params.nombreSalon;
 
+
+      if (nombreSalonSeleccionado) {
+        const salonSeleccionado = this.listaSalones.find(salon => salon.nombre === nombreSalonSeleccionado);
+
+        if (salonSeleccionado) {
+          this.solicitudReserva.salon = salonSeleccionado;
+          this.selectorBloqueado = true;
+        } else {
+          console.error('Salón no encontrado en la lista.');
+        }
+      }
     },
     methods: {
      
@@ -116,41 +128,50 @@ export default {
             const serviciosSeleccionados = this.seleccionados.join(', ');
             this.solicitudReserva.servicio = serviciosSeleccionados;
 
-            /*axios.post('http://localhost:8080/v1/solicitud-reserva', this.solicitudReserva, {
-              params: {
-                username: this.username,
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
               },
-            })
+              params: {
+                username: username,
+              },
+            };
+
+            axios.post('http://localhost:8080/v1/solicitud-reserva', this.solicitudReserva, config  )
             .then(response => {
               console.log('Solicitud de reserva guardada:', response.data);
             })
             .catch(error => {
               console.error('Error al guardar la solicitud de reserva:', error);
-            });*/
-            console.log(this.solicitudReserva);
+            });
+            this.$router.push({ name: 'salones'});
+            //console.log(this.solicitudReserva);
 
       },
-      obtenerSalones() {
+      async obtenerSalones() {
+      try {
         const token = localStorage.getItem('jwtToken');
-          const decodedToken = jwt_decode(token);
-
-          const userRole = decodedToken.roles[0];
-          const config = {
+        const decodedToken = jwt_decode(token);
+        const userRole = decodedToken.roles[0];
+        const config = {
           headers: {
             Authorization: `Bearer ${token}`,
-            'X-User-Role': userRole
+            'X-User-Role': userRole,
           },
         };
 
-        axios.get('http://localhost:8080/v1/salon', config)
-          .then(response => {
-            this.listaSalones = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
-            console.log(this.listaSalones);
-          })
-          .catch(error => {
-            console.error('Error al obtener salones:', error);
-          });
-      },
+        const response = await axios.get('http://localhost:8080/v1/salon', config);
+
+        this.listaSalones = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
+      } catch (error) {
+        console.error('Error al obtener salones:', error);
+      }
+    },
     }
 }
 </script>
