@@ -43,7 +43,7 @@
             </div>
             <div class="botones_detalle">
                 <a id="atras"  @click="volverAtras">ATRAS</a>
-                <a id="cancelar" >CANCELAR RESERVA</a>               
+                <a id="cancelar" @click="cancelarReserva">CANCELAR RESERVA</a>               
                 <a id="calificar" @click="irACalificación()">CALIFICAR</a>
             </div>  
         </div>
@@ -59,13 +59,17 @@ export default {
   name: 'detalleBuzonComponent',
   data() {
     return {
-      detalleSolicitud: null, 
+      detalleSolicitud: null,   
+      listaTipoSR: [], 
+      
+
     };
   },
   mounted() {
       const salonId = this.$route.params.id;
 
       this.obtenerDetallesSalon(salonId);
+      this.obtenerListaTipoSR();
   },
   methods: {
     
@@ -92,13 +96,65 @@ export default {
       axios.get(`http://localhost:8080/v1/solicitud-reserva/${id}`, config)
         .then(response => {
           this.detalleSolicitud = response.data;
-          //console.log('Detalles de la solicitud:', response.data);
+          
         })
         .catch(error => console.error('Error al obtener detalles de la solicitud:', error));
+    },
+    obtenerListaTipoSR() {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0]; 
+      const config = {
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'X-User-Role': userRole
+      }
+      };
+      axios.get('http://localhost:8080/v1/tipo-sr', config)
+        .then(response => {
+          this.listaTipoSR = response.data;
+          
+        })
+        .catch(error => console.error('Error al obtener datos de la API:', error));
+    },
+    cancelarReserva() {
+        const elementoCancelar = this.listaTipoSR.find(tipo => tipo.nombre === "CANCELADO");
+        
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+        if (elementoCancelar) {
+        const nuevoId = elementoCancelar.id; 
+        const nuevoNombre = elementoCancelar.nombre; 
+
+        this.detalleSolicitud.tipoSR.id= nuevoId; 
+        this.detalleSolicitud.tipoSR.nombre= nuevoNombre; 
+
+        
+        axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error en la petición PUT:', error);
+        });
+      }
+    }
   },
 }
 
-}
+
 </script>
 
 <style>
