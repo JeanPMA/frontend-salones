@@ -76,7 +76,7 @@ import jwt_decode from 'jwt-decode';
       'X-User-Role': userRole
     }
     };
-    axios.get('http://localhost:8080/v1/solicitud-reserva', config)
+    axios.get('http://localhost:8080/v1/solicitud-reserva/buzon', config)
       .then(response => {
         this.buzon = response.data;
       })

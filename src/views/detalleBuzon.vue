@@ -43,8 +43,10 @@
             </div>
             <div class="botones_detalle">
                 <a id="atras"  @click="volverAtras">ATRAS</a>
-                <a id="cancelar" @click="cancelarReserva">CANCELAR RESERVA</a>               
-                <a id="calificar" @click="irACalificación()">CALIFICAR</a>
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' || detalleSolicitud.tipoSR.nombre === 'PENDIENTE'" id="cancelar" @click="cancelarReserva">CANCELAR RESERVA</a>               
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO'" id="calificar" @click="irACalificación()">CALIFICAR</a>
+
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'INVISIBLE' || detalleSolicitud.tipoSR.nombre === 'RECHAZADO' ||  detalleSolicitud.tipoSR.nombre === 'CANCELADO'" id="eliminar" @click="accionParaEstadoInvisible">ELIMINAR</a>
             </div>  
         </div>
         
@@ -264,6 +266,19 @@ export default {
 
 .botones_detalle #calificar:hover {
     background-color: #5eff00a3;
+    color: #ffffff;
+   
+  }
+
+  .botones_detalle #eliminar{
+    background-color: #8400ff;
+    color: #ffffff;
+   transition: 0.3s ease;   
+   
+  }
+
+.botones_detalle #eliminar:hover {
+    background-color: #2a005ea3;
     color: #ffffff;
    
   }
