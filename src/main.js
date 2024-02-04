@@ -112,7 +112,7 @@ const routes = [
         path:'/recomendados', component: RecomendadosClientComponent,
     },
     {
-        path:'/buzon', component: BuzonComponent,
+        path:'/buzon', component: BuzonComponent, name: 'buzon',
     },
     {
         path:'/calendar', component: CalendarComponent,

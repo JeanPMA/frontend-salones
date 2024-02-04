@@ -46,7 +46,7 @@
                 <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' || detalleSolicitud.tipoSR.nombre === 'PENDIENTE'" id="cancelar" @click="cancelarReserva">CANCELAR RESERVA</a>               
                 <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO'" id="calificar" @click="irACalificación()">CALIFICAR</a>
 
-                <a v-if="detalleSolicitud.tipoSR.nombre === 'INVISIBLE' || detalleSolicitud.tipoSR.nombre === 'RECHAZADO' ||  detalleSolicitud.tipoSR.nombre === 'CANCELADO'" id="eliminar" @click="accionParaEstadoInvisible">ELIMINAR</a>
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'INVISIBLE' || detalleSolicitud.tipoSR.nombre === 'RECHAZADO' ||  detalleSolicitud.tipoSR.nombre === 'CANCELADO'" id="eliminar" @click="eliminarReserva">ELIMINAR</a>
             </div>  
         </div>
         
@@ -80,8 +80,7 @@ export default {
       this.$router.push({ name: 'calificar'});
     },
     volverAtras (){
-
-    this.$router.go(-1);
+      this.$router.push({ name: 'buzon'});
     },
     obtenerDetallesSalon(id) {
       const token = localStorage.getItem('jwtToken');
@@ -147,6 +146,41 @@ export default {
         axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
           console.log(response.data);
+          this.$router.push({ name: 'buzon'});
+        })
+        .catch(error => {
+          console.error('Error en la petición PUT:', error);
+        });
+      }
+    },
+    eliminarReserva() {
+        const elementoCancelar = this.listaTipoSR.find(tipo => tipo.nombre === "INVISIBLE");
+        
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+        if (elementoCancelar) {
+        const nuevoId = elementoCancelar.id; 
+        const nuevoNombre = elementoCancelar.nombre; 
+
+        this.detalleSolicitud.tipoSR.id= nuevoId; 
+        this.detalleSolicitud.tipoSR.nombre= nuevoNombre; 
+
+        
+        axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
+        .then(response => {
+          console.log(response.data);
+          this.$router.push({ name: 'buzon'});
         })
         .catch(error => {
           console.error('Error en la petición PUT:', error);

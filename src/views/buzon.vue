@@ -70,11 +70,15 @@ import jwt_decode from 'jwt-decode';
     const decodedToken = jwt_decode(token);
 
     const userRole = decodedToken.roles[0]; 
+    const username = decodedToken.sub;
     const config = {
-    headers: {
-      Authorization:  `Bearer ${token}`,
-      'X-User-Role': userRole
-    }
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'X-User-Role': userRole
+      } ,
+      params: {
+        username: username,
+      },
     };
     axios.get('http://localhost:8080/v1/solicitud-reserva/buzon', config)
       .then(response => {
