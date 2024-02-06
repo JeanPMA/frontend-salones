@@ -99,7 +99,7 @@ header{
 }
 .container__menu{
   width: 100%;
-  height: 85px;
+
   background: rgb(255, 255, 255);
   
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
@@ -125,6 +125,7 @@ nav{
 
   display: flex;
   margin-top: 5px;
+  margin-bottom: 5px;
   width: 100%;
   flex-direction: row;
   justify-content: center; /* Centra horizontalmente */

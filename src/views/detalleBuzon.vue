@@ -44,7 +44,7 @@
             <div class="botones_detalle">
                 <a id="atras"  @click="volverAtras">ATRAS</a>
                 <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' || detalleSolicitud.tipoSR.nombre === 'PENDIENTE'" id="cancelar" @click="cancelarReserva">CANCELAR RESERVA</a>               
-                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO'" id="calificar" @click="irACalificación()">CALIFICAR</a>
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' && detalleSolicitud.puntuacion === null" id="calificar" @click="irACalificación()">CALIFICAR</a>
 
                 <a v-if="detalleSolicitud.tipoSR.nombre === 'INVISIBLE' || detalleSolicitud.tipoSR.nombre === 'RECHAZADO' ||  detalleSolicitud.tipoSR.nombre === 'CANCELADO'" id="eliminar" @click="eliminarReserva">ELIMINAR</a>
             </div>  
@@ -180,7 +180,7 @@ export default {
         axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
           console.log(response.data);
-          this.$router.push({ name: 'buzon'});
+          this.$router.push({ name: 'buzon', params: { id: id } });
         })
         .catch(error => {
           console.error('Error en la petición PUT:', error);

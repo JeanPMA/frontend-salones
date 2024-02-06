@@ -1,7 +1,7 @@
 <template>
 <div class="solicitud_content">
         <div class="solicitud_form">
-            <form action="procesar_formulario.php" >
+            <form @submit.prevent="submit">
                 <h2>RESERVAR</h2>
                 <label for="salon" id="salon">Salón:</label>
                 <v-select
@@ -13,8 +13,10 @@
                   item-value="id"
                   hide-details
                   :disabled="selectorBloqueado"
+                  @update:modelValue="limpiarErrorSalon"
                 ></v-select>
-                
+                <span v-if="mostrarErrorSalon" class="error-message">Tienes que seleccionar una opción</span>
+
                 <label for="motivo" id="motivo">Motivo:</label>
                 <v-select
                   v-model="solicitudReserva.motivo"
@@ -22,8 +24,12 @@
                   :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
                   variant="outlined"
                   hide-details
+                 
+                  @update:modelValue="limpiarErrorMotivo"
+
                 ></v-select>
-                
+                <span v-if="mostrarErrorMotivo" class="error-message">Tienes que seleccionar una opción</span>
+
                 <label for="servicio" id="servicio">Servicios: </label>
 
                   <v-select
@@ -34,18 +40,21 @@
                     variant="outlined"
                     hide-details
                     persistent-hint
+                    @update:modelValue="limpiarErrorSeleccionados"
                   ></v-select>
+                <span v-if="mostrarErrorServicios" class="error-message">Debes seleccionar al menos una opción</span>
 
                 
                 <label for="fecha_reserva" id="labelFecha">Fecha de Evento:</label>
-                <input type="date" id="fecha_reserva" name="fecha_reserva" :min="minDate" v-model="solicitudReserva.fecha_reserva" @change="onDateChange">
+                <input type="date" id="fecha_reserva" name="fecha_reserva" :min="minDate" v-model="solicitudReserva.fecha_reserva" @change="limpiarErrorFecha">
+                <span v-if="mostrarErrorFecha" class="error-message">Debes seleccionar una fecha</span>
 
                 <label for="detalle" id="labelDetalle">Detalle Extra:</label>
-                <textarea id="detalle" name="detalle" rows="4" placeholder="Detalle:" style="font-family: Arial, sans-serif;" v-model="solicitudReserva.detalle"></textarea>
-              
+                <textarea id="detalle" name="detalle" rows="4" placeholder="Detalle:" style="font-family: Arial, sans-serif;" v-model="solicitudReserva.detalle" @input="limpiarErrorDetalle"></textarea>
+                <span v-if="mostrarErrorDetalle" class="error-message">El detalle no puede estar vacío</span>
 
                 <div class="form_btn">
-                    <a id="send" type="submit" @click="guardarSolicitudReserva">ENVIAR</a>
+                  <a id="send" @click="guardarSolicitudReserva">ENVIAR</a>
                     <a  id="cancel" @click="volverAtras">CANCELAR</a>
 
                 </div>
@@ -94,14 +103,18 @@ export default {
           salon: {
             id: null,
           },
-          motivo: '',
-          fecha_reserva: this.$route.params.fechaPorDefecto || '',
-          detalle: '',
-          servicio: '',
+          motivo: null,
+          fecha_reserva: this.$route.params.fechaPorDefecto || null,
+          detalle: null,
+          servicio: null,
         },
         selectorBloqueado: false,
-       
-          }
+        mostrarErrorSalon: false,
+        mostrarErrorMotivo: false,
+        mostrarErrorServicios: false,
+        mostrarErrorFecha: false,
+        mostrarErrorDetalle: false,
+      }
     },
     async  mounted() {
       await this.obtenerSalones();
@@ -125,6 +138,15 @@ export default {
         this.$router.go(-1);
         },
         guardarSolicitudReserva() {
+            this.mostrarErrorSalon = !this.solicitudReserva.salon.id;
+            this.mostrarErrorMotivo = !this.solicitudReserva.motivo;
+            this.mostrarErrorServicios = this.seleccionados.length === 0;
+            this.mostrarErrorFecha = !this.solicitudReserva.fecha_reserva;
+            this.mostrarErrorDetalle = !this.solicitudReserva.detalle;
+            if (this.mostrarErrorSalon || this.mostrarErrorMotivo || this.mostrarErrorServicios || this.mostrarErrorFecha || this.mostrarErrorDetalle) {
+              
+              return;
+            }
             const serviciosSeleccionados = this.seleccionados.join(', ');
             this.solicitudReserva.servicio = serviciosSeleccionados;
 
@@ -145,13 +167,14 @@ export default {
             axios.post('http://localhost:8080/v1/solicitud-reserva', this.solicitudReserva, config  )
             .then(response => {
               console.log('Solicitud de reserva guardada:', response.data);
+              this.$router.push({ name: 'salones'});
             })
             .catch(error => {
               console.error('Error al guardar la solicitud de reserva:', error);
             });
-            this.$router.push({ name: 'salones'});
+           
             //console.log(this.solicitudReserva);
-
+       
       },
       async obtenerSalones() {
       try {
@@ -171,6 +194,21 @@ export default {
       } catch (error) {
         console.error('Error al obtener salones:', error);
       }
+    },
+    limpiarErrorSalon() {
+      this.mostrarErrorSalon = false;
+    },
+    limpiarErrorMotivo() {
+      this.mostrarErrorMotivo = false;
+    },
+    limpiarErrorSeleccionados() {
+      this.mostrarErrorServicios = false;
+    },
+    limpiarErrorFecha() {
+      this.mostrarErrorFecha = false;
+    },
+    limpiarErrorDetalle() {
+      this.mostrarErrorDetalle = false;
     },
     }
 }
@@ -298,5 +336,10 @@ export default {
     background-color: #161616;
     color: #fff;
   }
-
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+  }
 </style>

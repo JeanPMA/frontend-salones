@@ -125,7 +125,7 @@ const routes = [
         
     },
     {
-        path:'/calificar', component: CalificaciónComponent, name: 'calificar',//falta
+        path:'/calificar/:id', component: CalificaciónComponent, name: 'calificar',//falta
     },
     {
         path:'/detalle-buzon/:id', component: DetalleBuzonComponent, name: 'detalle-buzon',//falta

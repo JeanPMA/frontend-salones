@@ -11,11 +11,12 @@
                 hover
                 :length="5"
                 :size="81"
-               
+                v-model="puntuacion" 
                 active-color="warning"
+                @input="actualizarPuntuacion"
             />
             <div class="button_califación">
-                    <a id="send" >ENVIAR</a>
+                    <a id="send" @click="enviarPuntuacion">ENVIAR</a>
             </div>  
         </div>
     </div>
@@ -23,8 +24,57 @@
 </template>
 
 <script>
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
 export default {
   name: 'calificaciónComponent',
+  data() {
+    return {
+      puntuacion: 0,
+      idReserva: null,
+    };
+  },
+  mounted() {
+    this.idReserva = this.$route.params.id;
+  },
+  methods: {
+    actualizarPuntuacion() {
+      
+    },
+    enviarPuntuacion() {
+         
+          
+
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            };
+          
+            const data = {
+                id : this.idReserva,
+                puntuacion: this.puntuacion,
+            };
+          
+            axios.patch(`http://localhost:8080/v1/solicitud-reserva/calificacion/${this.idReserva}`, data, config )
+                .then(response => {
+               
+                this.$router.push({ name: 'buzon'});
+                })
+                .catch(error => {
+                console.error('Error al enviar la puntuación:', error);
+                });
+    },
+  },
 }
 </script>
 
