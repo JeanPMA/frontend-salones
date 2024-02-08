@@ -54,8 +54,8 @@
 </template>
 
 <script>
- import axios from 'axios';
-  import jwt_decode from 'jwt-decode';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default {
   name: 'detalleBuzonComponent',
@@ -68,9 +68,9 @@ export default {
     };
   },
   mounted() {
-      const salonId = this.$route.params.id;
+      const solicitudId = this.$route.params.id;
 
-      this.obtenerDetallesSalon(salonId);
+      this.obtenerDetallesSolicitud(solicitudId);
       this.obtenerListaTipoSR();
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
     volverAtras (){
       this.$router.push({ name: 'buzon'});
     },
-    obtenerDetallesSalon(id) {
+    obtenerDetallesSolicitud(id) {
       const token = localStorage.getItem('jwtToken');
       const decodedToken = jwt_decode(token);
 

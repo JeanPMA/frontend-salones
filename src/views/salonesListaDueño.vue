@@ -20,22 +20,22 @@
         </div>
         <div class="dueño_gridSalones">
           <div class="grid-containerSalonesDueño">
-            <div class="grid__itemSalon" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irASalon(item.id)">
+            <div class="grid__itemSalon" v-for="(item, index) in salonesListaDueño" :key="index" v-show="mostrarImagen(index)" @click="irASalon(item.id)">
                 <div class="text-titleSalon" style="display: flex; align-items: center; justify-content: center;">
-                    <h2>{{ item.title }}</h2>
-                    <img :src="require('@/img/' + item.imgSrc)" alt="">
+                    <h2>{{ item.nombre }}</h2>
+                    <img :src="item.banner_url" alt="">
                    
                 </div>
               
               <div class="text-detailSalones">
                 <h4>Descripcion:</h4>
-                <p>{{ item.description }}</p>
+                <p>{{ item.descripcion }}</p>
                 <h4>Estado:</h4>
-                <p>{{ item.estado }}</p>
+                <p>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</p>
                 <h4>Fecha de creacion:</h4>
-                <p>{{ item.creacion }}</p>
+                <p>{{ item.created_at }}</p>
                 <h4>Ubicacion:</h4>
-                <p>{{ item.ubicacion }}</p>
+                <p>{{ item.direccion }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
@@ -45,7 +45,7 @@
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
             </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= buzon.length - imagesPerPage">Siguiente</button>
+            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salonesListaDueño.length - imagesPerPage">Siguiente</button>
           </div>
     </div>
     </div> 
@@ -54,7 +54,8 @@
 
 <script>
 import NavbarDueño from '@/views/navbarDueño.vue';
-
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default {
 name: 'listaSalonesDueñoComponent',
@@ -63,79 +64,36 @@ components: {
 },
 data() { 
     return {
-        buzon: [
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-        {
-        imgSrc: "4.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-        {
-        imgSrc: "4.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-        {
-        imgSrc: "3.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        estado: "ACTIVO",
-        creacion: "24 de diciembre de 2023",
-        ubicacion: "Av. petrolera km8 sobre la acera norte",
-        },
-    ],
-    startIndex: 0,
-    imagesPerPage: 3,
+        salonesListaDueño: [],
+        startIndex: 0,
+        imagesPerPage: 3,
     };
+    },
+    mounted() {
+    
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+
+    const userRole = decodedToken.roles[0]; 
+    const username = decodedToken.sub;
+    const config = {
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'X-User-Role': userRole
+      } ,
+      params: {
+        username: username,
+      },
+    };
+    axios.get('http://localhost:8080/v1/salon/listado', config)
+      .then(response => {
+        this.salonesListaDueño = response.data;
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
     },
     computed: {
     paginas() {
-    return Array.from({ length: Math.ceil(this.buzon.length / this.imagesPerPage) }, (_, i) => i + 1);
+    return Array.from({ length: Math.ceil(this.salonesListaDueño.length / this.imagesPerPage) }, (_, i) => i + 1);
 
     },
     },
@@ -159,7 +117,7 @@ data() {
     
     },
     irASalon(id) {
-    // Redirige a la página de calificacion
+   
       this.$router.push({ name: 'salon', params: { id: id } });
     },
     },

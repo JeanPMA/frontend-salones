@@ -16,16 +16,16 @@
     </div> 
     <div class="dueño_gridSalones">
           <div class="grid-containerReservas">
-            <div class="grid__itemSolicitud" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
+            <div class="grid__itemSolicitud" v-for="(item, index) in listaReservas" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
                 <div class="text-titleReserva" style="display: flex; align-items: center; justify-content: center;">
-                    <h2>{{ item.title }}</h2>
-                    <img :src="require('@/img/' + item.imgSrc)" alt="">
+                    <h2>{{ item.salon.nombre }}</h2>
+                    <img :src="item.salon.banner_url" alt="">
                    
                 </div>
               
               <div class="text-detailReservas">
         
-                <p>{{ item.description }}</p>
+                <p>{{ item.detalle }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
@@ -35,7 +35,7 @@
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
             </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= buzon.length - imagesPerPage">Siguiente</button>
+            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= listaReservas.length - imagesPerPage">Siguiente</button>
           </div>
     </div>
     </div>
@@ -45,84 +45,47 @@
 
 <script>
 import NavbarDueño from '@/views/navbarDueño.vue';
-
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default {
 name: 'listaReservasDueñoComponent',
+
 components: {
     NavbarDueño,
 },
 data() { 
     return {
-        buzon: [
-        {
-        imgSrc: "4.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "4.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-        {
-        imgSrc: "5.png",
-        title: "SALON DE EVENTOS",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-        },
-    ],
-    startIndex: 0,
-    imagesPerPage: 8,
+        listaReservas: [],
+        startIndex: 0,
+        imagesPerPage: 8,
     };
+    },
+    mounted() {
+    
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+
+    const userRole = decodedToken.roles[0]; 
+    const username = decodedToken.sub;
+    const config = {
+        headers: {
+          Authorization:  `Bearer ${token}`,
+          'X-User-Role': userRole
+        },
+        params: {
+          username: username,
+        },
+    };
+    axios.get('http://localhost:8080/v1/solicitud-reserva/salon/reservas', config)
+      .then(response => {
+        this.listaReservas = response.data;
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
     },
     computed: {
     paginas() {
-    return Array.from({ length: Math.ceil(this.buzon.length / this.imagesPerPage) }, (_, i) => i + 1);
+    return Array.from({ length: Math.ceil(this.listaReservas.length / this.imagesPerPage) }, (_, i) => i + 1);
 
     },
     },
@@ -145,9 +108,9 @@ data() {
     this.actualizarNumerosPagina(pagina);
     
     },
-    irADetalleSR() {
+    irADetalleSR(id) {
     // Redirige a la página de calificacion
-      this.$router.push({ name: 'solicitud-reserva'});
+      this.$router.push({ name: 'solicitud-reserva' ,params: { id: id }});
     },
     },
 }
@@ -177,9 +140,9 @@ data() {
   .dueño_gridSalones .grid-containerReservas {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
-    gap: 10px;
+    gap: 20px;
     background-color: transparent;
-    place-items: center;
+    
     justify-content: center;
     align-items: center;
  

@@ -1,44 +1,47 @@
 <template>
 
     <div class="content_salonDueño">
-        <div class="info_salon">
+        <div class="info_salon" v-if="detalleSalonDueño">
         <div class="salonDueño_title">
-            <h2>SALON DE EVENTOS BLABLABLA</h2>
+            <h2>{{detalleSalonDueño.nombre}}</h2>
             <img src="../img/1.png" alt="">
         </div>
-        
+         
         <div class="salonDueño_detalle">
             <div class="itemSalonDueño">
                 <label>Nombre:</label>
-                <input type="nombreSalon" value="SALON DE EVENTOS BLABLABLA" required>
+                <input type="nombreSalon" v-model="detalleSalonDueño.nombre" required>
             </div>
             <div class="itemSalonDueño">
                 <label>Descripcion:</label>
-                <textarea type="detalleSalon" required>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content  here, content here'</textarea>
+                <textarea type="detalleSalon" required>{{detalleSalonDueño.descripcion}}</textarea>
                
             </div>
             
 
             <div class="itemSalonDueño">
                 <label >Servicios:</label>
-                <input type="servicosSalon" value="It is a long established fact that a reader will be distracted by the readable content of a page " required>
+                <input type="servicosSalon" v-model="detalleSalonDueño.servicios.nombre" required>
                 
             </div>
             
             <div class="itemSalonDueño">
                 <label >Ubicacion:</label>
-                <input type="ubicacionSalon:" value="It is a long established fact that a reader will be distracte when looking at its layout." required>
+                <input type="ubicacionSalon:" v-model="detalleSalonDueño.direccion" required>
 
             </div>
             
             <div class="itemSalonDueño">
                 <label >Precios:</label>
-                <input type="precioAdelantoSalon" value="It is a long established fact that a reader will " required>
-                <input type="preciCompletoSalon" value="The point of using Lorem " required>
+                <input type="precioAdelantoSalon" v-model="detalleSalonDueño.tarifa" required>
+                <input type="preciCompletoSalon" v-model="detalleSalonDueño.tarifa" required>
 
             </div>
             
-
+            <div class="itemSalonDueño">
+                    <label >Estado:</label>
+                    <p>{{detalleSalonDueño.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</p>
+                </div>
           
            
         </div>
@@ -46,7 +49,8 @@
         <div class="buttons_salonDueño">
             <a href="#" class="buttons_salonDueño buttonDueño-2" @click="volverAtras">VOLVER</a>
             <a href="#" class="buttons_salonDueño buttonDueño-1">GUARDAR</a>
-            <a href="#" class="buttons_salonDueño buttonDueño-3">DESHABILITAR</a>
+            <a href="#" class="buttons_salonDueño buttonDueño-3" v-if="detalleSalonDueño.estado === 1" @click="deshabilitarHabilitarSalon">DESHABILITAR</a>
+            <a href="#" class="buttons_salonDueño buttonDueño-4" v-if="detalleSalonDueño.estado === 0" @click="deshabilitarHabilitarSalon">HABILITAR</a>
         </div>
        
     </div>
@@ -54,19 +58,80 @@
 </template>
 
 <script>
-
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default {
 name: 'DetalleSalonDueñoComponent',
-components: {
-    
-},
+data() {
+    return {
+      detalleSalonDueño: null,   
+
+      
+
+    };
+  },
+  mounted() {
+      const salonId = this.$route.params.id;
+
+      this.obtenerDetallesSalon(salonId);
+     // this.obtenerListaTipoSR();
+  },
 methods: {
     volverAtras (){
-  // Utiliza el método go para volver atrás en la historia del navegador
-  this.$router.go(-1);
+    // Utiliza el método go para volver atrás en la historia del navegador
+     this.$router.push({ name: 'lista-salones'});
     },
-   
+    obtenerDetallesSalon(id) {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0];
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': userRole
+        }
+      };
+
+      axios.get(`http://localhost:8080/v1/salon/${id}`, config)
+        .then(response => {
+          this.detalleSalonDueño = response.data;
+          console.log(this.detalleSalonDueño);
+        })
+        .catch(error => console.error('Error al obtener detalles de la solicitud:', error));
+    },
+    deshabilitarHabilitarSalon() {
+            this.detalleSalonDueño.estado = this.detalleSalonDueño.estado === 0 ? 1 : 0;
+
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            const data = { 
+              id: this.detalleSalonDueño.id, 
+              estado: this.detalleSalonDueño.estado 
+            }
+        
+            axios.patch(`http://localhost:8080/v1/salon/${this.detalleSalonDueño.id}`, data, config)
+            .then(response => {
+            
+              //this.$router.push({ name: 'lista-salones'});
+            })
+            .catch(error => {
+              console.error('Error en la petición PUT:', error);
+            });
+      
+    }
 }
 }
 </script>
@@ -124,6 +189,21 @@ methods: {
 }
 
 .content_salonDueño input{
+  
+  color: #0000006a;
+ 
+  text-align: justify;
+  background-color: transparent;
+  border: 2px solid rgb(0, 0, 0);
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  flex: 1; 
+  width: 100%;
+  margin-top: 10px;
+}
+
+.content_salonDueño p{
   
   color: #0000006a;
  
@@ -222,6 +302,27 @@ methods: {
 .content_salonDueño .buttonDueño-3:hover{
    
    color: rgb(255, 0, 0);
+   background-color: transparent;
+   text-decoration: none;
+ }
+ .content_salonDueño .buttonDueño-4{
+   
+   color: #ffffff; 
+   border: 2px solid rgb(0, 255, 42);
+   padding: 10px 20px 10px 20px;
+   overflow: hidden;
+   cursor: pointer;
+   transition:  0.3s ease;
+   align-items: center;
+   width: 100%;
+   height: 100%;  
+  background-color: rgb(0, 255, 42);
+  text-decoration: none;
+}
+ 
+.content_salonDueño .buttonDueño-4:hover{
+   
+   color: rgb(0, 255, 42);
    background-color: transparent;
    text-decoration: none;
  }

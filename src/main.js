@@ -143,10 +143,10 @@ const routes = [
         path:'/lista-reservas', component: ReservasListaDueñoComponent, name: 'lista-reservas',
     },
     {
-        path:'/salon', component: DetalleSalonDueñoComponent, name: 'salon',//falta parametro id
+        path:'/salon/:id', component: DetalleSalonDueñoComponent, name: 'salon',//falta parametro id
     },
     {
-        path:'/solicitud-reserva', component: DetalleSolicitudReservaDueñoComponent, name: 'solicitud-reserva',//falta parametro id
+        path:'/solicitud-reserva/:id', component: DetalleSolicitudReservaDueñoComponent, name: 'solicitud-reserva',//falta parametro id
     },
     //ADMIN
     {

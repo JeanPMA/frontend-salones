@@ -1,55 +1,55 @@
 <template>
-    <div class="body_detalleSR">
-        <div class="content_detalleSR">
+    <div class="body_detalleSR" >
+        <div class="content_detalleSR"  v-if="detalleSolicitudDueño">
             <font-awesome-icon :icon="['fas', 'circle-info']" />
             <h2>SOLICITUD-RESERVA</h2>
-            <div class="info_detalleSR">
+            <div class="info_detalleSR" >
                 <div class="detalle_itemSR">
                     
                     <h3><font-awesome-icon :icon="['fas', 'calendar-days']" />Fecha de Evento:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p>{{detalleSolicitudDueño.fecha_reserva}} </p>
                 </div>
                 
 
                 <div class="detalle_itemSR">
                     <h3><font-awesome-icon :icon="['fas', 'circle-question']" />Motivo:</h3>
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                  <p>{{detalleSolicitudDueño.motivo}}</p>
                 </div>
                
 
                 <div class="detalle_itemSR">
                     <h3><font-awesome-icon :icon="['fas', 'bell-concierge']" />Servicios: </h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                    <p>{{detalleSolicitudDueño.servicio}}
                     </p>
                 </div>
                 
                 
                 <div class="detalle_itemSR">
                     <h3><font-awesome-icon :icon="['fas', 'message']" />Detalle Extra:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book
+                    <p>{{detalleSolicitudDueño.detalle}} 
                     </p>
                 </div>
                 
 
                 <div class="detalle_itemSR">
                     <h3><font-awesome-icon :icon="['fas', 'calendar']" />Fecha de solicitud:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p>{{detalleSolicitudDueño.fecha_emision}}</p>
                 </div>
                 
 
                 <div class="detalle_itemSR">
                     <h3><font-awesome-icon :icon="['fas', 'diagram-project']" />Estado:</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p>{{detalleSolicitudDueño.tipoSR.nombre}}</p>
                 </div>
                
             </div>
             <div class="botones_SolicitudReserva">
                 <a id="atras"  @click="volverAtras">ATRAS</a>
-                <a id="cancelar" >RECHAZAR</a>               
-                <a id="calificar" >ACEPTAR</a>
+                <a id="rechazar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="rechazarReserva">RECHAZAR</a>   
+                <a id="cancelar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'ACEPTADO'" @click="cancelarReserva">CANCELAR</a>                
+                <a id="aceptar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="aceptarReserva">ACEPTAR</a>
+                <a id="eliminar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'RECHAZADO' || detalleSolicitudDueño.tipoSR.nombre === 'CANCELADO' || fechaReservaMenorActual"  @click="eliminarReserva">ELIMINAR</a>
+
             </div>  
         </div>
         
@@ -57,17 +57,209 @@
 </template>
 
 <script>
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
 export default {
   name: 'detalleSolicitudReservaComponent',
-  methods: {
-    
-    irACalificación() {
-    // Redirige a la página de calificacion
-      this.$router.push({ name: 'calificar'});
-    },
-    volverAtras (){
+  data() {
+    return {
+      detalleSolicitudDueño: null, 
+      listaTipoSR: [], 
 
-    this.$router.go(-1);
+    };
+  },
+  mounted() {
+      const solicitudReservaId = this.$route.params.id;
+
+      this.obtenerDetalleSolicitudDueño(solicitudReservaId);
+      this.obtenerListaTipoSR();
+  
+  },
+  computed: {
+  fechaReservaMenorActual() {
+    const fechaReserva = new Date(this.detalleSolicitudDueño.fecha_reserva);
+    const fechaActual = new Date();
+    return fechaReserva < fechaActual;
+ 
+  }
+  },
+  methods: {
+ 
+    volverAtras (){
+      if(this.detalleSolicitudDueño.tipoSR.nombre === "PENDIENTE" || this.detalleSolicitudDueño.tipoSR.nombre === "RECHAZADO"){        
+        this.$router.push({ name: 'lista-solicitudes'});
+      }else{
+        this.$router.push({ name: 'lista-reservas'});
+      }
+        
+    },
+
+    obtenerDetalleSolicitudDueño(id) {
+        const token = localStorage.getItem('jwtToken');
+        const decodedToken = jwt_decode(token);
+
+        const userRole = decodedToken.roles[0];
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-User-Role': userRole
+          }
+        };
+
+      axios.get(`http://localhost:8080/v1/solicitud-reserva/${id}`, config)
+        .then(response => {
+          this.detalleSolicitudDueño = response.data;
+            
+        })
+        .catch(error => console.error('Error al obtener detalles del salón:', error));
+    },
+    obtenerListaTipoSR() {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0]; 
+      const config = {
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'X-User-Role': userRole
+      }
+      };
+      axios.get('http://localhost:8080/v1/tipo-sr', config)
+        .then(response => {
+          this.listaTipoSR = response.data;
+          
+        })
+        .catch(error => console.error('Error al obtener datos de la API:', error));
+    },
+    rechazarReserva() {
+        const elementoRechazar = this.listaTipoSR.find(tipo => tipo.nombre === "RECHAZADO");      
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];     
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+            }
+        if (elementoRechazar) {
+        const nuevoId = elementoRechazar.id; 
+        const nuevoNombre = elementoRechazar.nombre; 
+        const data = {
+                id : this.$route.params.id,
+                tipoSR: {
+                    id: nuevoId,
+                    nombre: nuevoNombre
+                }
+        };       
+        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        .then(response => {
+          
+          this.$router.push({ name: 'lista-solicitudes'});
+        })
+        .catch(error => {
+          console.error('Error en la petición PUT:', error);
+        });
+      }
+    },
+    aceptarReserva() {
+        const elementoAceptar = this.listaTipoSR.find(tipo => tipo.nombre === "ACEPTADO");      
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];     
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+            }
+        if (elementoAceptar) {
+        const nuevoId = elementoAceptar.id; 
+        const nuevoNombre = elementoAceptar.nombre; 
+        const data = {
+                id : this.$route.params.id,
+                tipoSR: {
+                    id: nuevoId,
+                    nombre: nuevoNombre
+                }
+        };       
+        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        .then(response => {
+          
+          this.$router.push({ name: 'lista-solicitudes'});
+        })
+        .catch(error => {
+          console.error('Error en la petición PUT:', error);
+        });
+      }
+    },
+    eliminarReserva() {
+            const elementoEliminar = this.listaTipoSR.find(tipo => tipo.nombre === "INVISIBLE");    
+            const estadoAux = this.detalleSolicitudDueño.tipoSR.nombre;  
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];     
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+            }
+        if (elementoEliminar) {
+        const nuevoId = elementoEliminar.id; 
+        const nuevoNombre = elementoEliminar.nombre; 
+        const data = {
+                id : this.$route.params.id,
+                tipoSR: {
+                    id: nuevoId,
+                    nombre: nuevoNombre
+                }
+        };       
+        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        .then(response => {
+          if(estadoAux === "RECHAZADO"){
+            this.$router.push({ name: 'lista-solicitudes'});
+          }else{
+            this.$router.push({ name: 'lista-reservas'});
+          }
+         
+        })
+        .catch(error => {
+          console.error('Error en la petición PUT:', error);
+        });
+      }
+    },
+    cancelarReserva() {
+        const elementoCancelar = this.listaTipoSR.find(tipo => tipo.nombre === "CANCELADO");      
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];     
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+            }
+        if (elementoCancelar) {
+        const nuevoId = elementoCancelar.id; 
+        const nuevoNombre = elementoCancelar.nombre; 
+        const data = {
+                id : this.$route.params.id,
+                tipoSR: {
+                    id: nuevoId,
+                    nombre: nuevoNombre
+                }
+        };       
+        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        .then(response => {
+          
+          this.$router.push({ name: 'lista-reservas'});
+        })
+        .catch(error => {
+          console.error('Error en la petición PUT:', error);
+        });
+      }
     },
 }
 
@@ -154,7 +346,20 @@ export default {
     
 }
 
-.botones_SolicitudReserva #cancelar{
+.botones_SolicitudReserva #rechazar{
+    background-color: #ff0000;
+    color: #ffffff;
+    border: 2px solid #ff0000;
+   transition: 0.3s ease; 
+   
+  }
+
+.botones_SolicitudReserva #rechazar:hover {
+    background-color: transparent;
+    color: #ff0000;
+   
+  }
+  .botones_SolicitudReserva #cancelar{
     background-color: #ff0000;
     color: #ffffff;
     border: 2px solid #ff0000;
@@ -167,7 +372,6 @@ export default {
     color: #ff0000;
    
   }
-
   .botones_SolicitudReserva #atras{
     background-color: #ffffff;
     color: #000000;
@@ -182,7 +386,7 @@ export default {
    
   }
 
-  .botones_SolicitudReserva #calificar{
+  .botones_SolicitudReserva #aceptar{
     background-color: #0d7703;
     border: 2px solid #0d7703;
     color: #ffffff;
@@ -190,9 +394,20 @@ export default {
    
   }
 
-.botones_SolicitudReserva #calificar:hover {
+.botones_SolicitudReserva #aceptar:hover {
     background-color: transparent;
     color: #0d7703;
    
   }
+  .botones_SolicitudReserva #eliminar{
+    background-color: #8400ff;
+    color: #ffffff;
+   transition: 0.3s ease;   
+   
+  }
+
+.botones_SolicitudReserva #eliminar:hover {
+    background-color: #2a005ea3;
+    color: #ffffff;
+}
 </style>
