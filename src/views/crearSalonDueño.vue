@@ -5,7 +5,7 @@
         <h2 style="margin-top: 10px;">
             FORMULARIO PARA LA CREACION DE SALON
         </h2>
-        <form @submit.prevent="submit" >
+        <form @submit.prevent="submit" enctype="multipart/form-data">
         <v-text-field
             v-model="nombre.value.value"
             :counter="10"
@@ -13,11 +13,12 @@
             label="Nombre"
         ></v-text-field>
 
+
         <v-text-field
-            v-model="ubicacion.value.value"
+            v-model="direccion.value.value"
             :counter="10"
-            :error-messages="ubicacion.errorMessage.value"
-            label="Ubicacion"
+            :error-messages="direccion.errorMessage.value"
+            label="direccion"
         ></v-text-field>
 
         <v-text-field
@@ -40,25 +41,42 @@
             :error-messages="tarifa.errorMessage.value"
             label="Tarifa del salon"
         ></v-text-field>
-    
+
+        <v-select
+          v-model="serviciosSeleccionados"
+        
+          :items="servicios"
+          item-title="nombre"
+          item-value="id"
+          label="Selecciona los servicios"
+          multiple
+          @update:modelValue="handleServiciosChange"
+        ></v-select>
+        <p v-if="errorServicios">Por favor, selecciona al menos 1 opcion.</p>
+
         <v-checkbox
-            v-model="activo.value.value"
-            :error-messages="activo.errorMessage.value"
+            v-model="estado.value.value"
+            :error-messages="estado.errorMessage.value"
             value="1"
             label="Habilitado?"
             type="activo"
         ></v-checkbox>
-    
+
+        <h1>Subir Imagen</h1>
+        <input type="file" @change="handleFileChange" accept="image/*">
+        <p v-if="error">Por favor, selecciona una imagen.</p>
+
         <v-btn
             class="me-4"
             type="submit"
+            @click="crearSalon"
         >
             Crear
         </v-btn>
     
-        <v-btn @click="handleReset"  class="me-4">
+        <!-- <v-btn @click="handleReset"  class="me-4">
             Limpiar
-        </v-btn>
+        </v-btn> -->  
 
         <v-btn @click="irAHome" >
             Volver
@@ -70,30 +88,118 @@
 <script>
   import { ref } from 'vue';
   import { useField, useForm } from 'vee-validate';
-  
+  import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
+
   export default{
   name: 'crearSalonDueñoComponent',
+  data() {
+    return {
+      selectedFile: null,
+      serviciosSeleccionados: [],
+      error: false,
+      errorServicios: false,
+    };
+  },
   methods: {
     irAHome() {
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones'});
     },
+    handleFileChange(event) {
+      this.selectedFile = event.target.files[0];
+      this.error = false;
+    },
+    handleServiciosChange() {
+      this.errorServicios = false;
+    },
+
+    async crearSalon() {
+      this.error = !this.selectedFile;
+      this.errorServicios = this.serviciosSeleccionados.length === 0 ;
+      if (this.error || this.errorServicios) {
+
+        return;
+      }
+
+      
+            const formData = new FormData();
+          
+  
+            formData.append('nombre', this.nombre.value.value);
+            formData.append('direccion', this.direccion.value.value);
+            formData.append('capacidad', this.capacidad.value.value);
+            formData.append('descripcion', this.descripcion.value.value);
+            formData.append('tarifa', this.tarifa.value.value);
+            formData.append('estado', this.estado.value.value);
+
+            formData.append('multipartFile', this.selectedFile);
+            formData.append('servicios', this.serviciosSeleccionados.join(','));
+
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+                'Content-Type': 'multipart/form-data',
+              },
+              params: {
+                username: username,
+              },
+            };
+
+    
+          axios.post('http://localhost:8080/v1/salon', formData, config)
+          .then(response => {
+              console.log('Solicitud de reserva guardada:', response.data);
+              this.$router.push({ name: 'lista-salones'});
+            })
+            .catch(error => {
+              console.error('Error al guardar la solicitud de reserva:', error);
+            });
+   
+  },
   },
   setup() {
-    const { handleSubmit, handleReset } = useForm({
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+            };
+    const servicios = ref([]);
+    axios.get('http://localhost:8080/v1/servicio', config)
+      .then(response => {
+        servicios.value = response.data;
+        console.log(servicios.value);
+      })
+      .catch(error => {
+        console.error('Error al obtener servicios:', error);
+      });
+
+      
+      
+
+    const { handleSubmit } = useForm({
       validationSchema: {
         nombre(value) {
           if (value?.length >= 2) return true;
 
           return 'El nombre del salón necesita más de 2 caracteres';
         },
-        ubicacion(value) {
+        direccion(value) {
           if (value?.length >= 2) return true;
 
           return 'La ubicación del salón necesita más de 2 caracteres';
         },
         capacidad(value) {
-          if (value?.length > 6 && /[0-9-]+/.test(value)) return true;
+          if (value?.length < 6 && /[0-9-]+/.test(value)) return true;
 
           return 'La capacidad del salón debe ser menor a 6 dígitos.';
         },
@@ -103,36 +209,39 @@
           return true;
         },
         tarifa(value) {
-          if (value?.length >= 2) return true;
+          if (value?.length < 5 && /[0-9-]+/.test(value)) return true;
 
-          return 'La tarifa del salón necesita más de 2 caracteres';
+          return 'La tarifa del salón debe ser menor a 5 dígitos.';
         },
-        activo(value) {
+        estado(value) {
           if (value === '1') return true;
 
           return 'Debe ser marcado';
         },
+       
       },
     });
-
+    
     const nombre = useField('nombre');
-    const ubicacion = useField('ubicacion');
+    const direccion = useField('direccion');
     const capacidad = useField('capacidad');
     const descripcion = useField('descripcion');
     const tarifa = useField('tarifa');
-    const activo = useField('activo');
+    const estado = useField('estado');
 
     const submit = handleSubmit((values) => {
-      alert(JSON.stringify(values, null, 2));
+      
     });
-
     return {
       nombre,
-      ubicacion,
+      direccion,
       capacidad,
       descripcion,
       tarifa,
-      activo,
+      servicios,
+  
+      estado,
+
       submit,
     };
   },

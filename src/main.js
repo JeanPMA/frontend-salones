@@ -52,6 +52,7 @@ import axios from 'axios';
 import Vuex from 'vuex';
 import jwt_decode from 'jwt-decode';
 
+
 //iconos
 import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
 library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus)
@@ -192,7 +193,10 @@ const router = createRouter({
     routes
 })
 
-const app = createApp(App)
+const app = createApp(App);
+
+
+
 //vueX
 app.use(store);
 
