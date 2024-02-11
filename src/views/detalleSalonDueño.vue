@@ -2,75 +2,99 @@
 
     <div class="content_salonDueño">
         <div class="info_salon" v-if="detalleSalonDueño">
-        <div class="salonDueño_title">
-            <h2>{{detalleSalonDueño.nombre}}</h2>
-            <img src="../img/1.png" alt="">
-        </div>
-         
-        <div class="salonDueño_detalle">
-            <div class="itemSalonDueño">
-                <label>Nombre:</label>
-                <input type="nombreSalon" v-model="detalleSalonDueño.nombre" required>
-            </div>
+          <div class="salonDueño_container">
+            <!-- Columna Izquierda -->
+            <div class="salonDueño_column">
+              <div class="salonDueño_title">
+                  <h2>{{detalleSalonDueño.nombre}}</h2>
+                  <img src="../img/1.png" alt="">
+              </div>
+              
+              <div class="salonDueño_detalle">
+                  <div class="itemSalonDueño">
+                      <label>Nombre:</label>
+                      <input type="nombreSalon" v-model="detalleSalonDueño.nombre" required>
+                  </div>
 
-            <label>Nueva Imagen:</label>
-            <input type="file" @change="handleFileChange" />
+                  <label>Nueva Imagen:</label>
+                  <input type="file" @change="handleFileChange" />
 
-            <!-- Mostrar la imagen actual -->
-            <img :src="detalleSalonDueño.banner_url" alt="Imagen actual" v-if="detalleSalonDueño.banner_url" />
+                  <!-- Mostrar la imagen actual -->
+                  <img :src="detalleSalonDueño.banner_url" alt="Imagen actual" v-if="detalleSalonDueño.banner_url" />
 
-            <div class="itemSalonDueño">
-                <label>Descripcion:</label>
-                <textarea type="detalleSalon" v-model="detalleSalonDueño.descripcion" required>{{detalleSalonDueño.descripcion}}</textarea>
-               
-            </div>
-            
-            <v-select
-              v-model="serviciosSeleccionados"
-              ref="miVSelect"
-              :items="servicios"
-              item-title="nombre"
-              item-value="id"
-              label="Selecciona los servicios"
-              multiple
-        
-            ></v-select>
+                  <div class="itemSalonDueño">
+                      <label>Descripcion:</label>
+                      <textarea type="detalleSalon" v-model="detalleSalonDueño.descripcion" required>{{detalleSalonDueño.descripcion}}</textarea>
+                    
+                  </div>
+                  
+                  <v-select
+                    v-model="serviciosSeleccionados"
+                    ref="miVSelect"
+                    :items="servicios"
+                    item-title="nombre"
+                    item-value="id"
+                    label="Selecciona los servicios"
+                    multiple
+              
+                  ></v-select>
 
-           
-            <div class="itemSalonDueño">
-                <label >Capacidad:</label>
-                <input type="capacidadSalon:" v-model="detalleSalonDueño.capacidad" required>
+                
+                  <div class="itemSalonDueño">
+                      <label >Capacidad:</label>
+                      <input type="capacidadSalon:" v-model="detalleSalonDueño.capacidad" required>
 
-            </div>
+                  </div>
 
-            <div class="itemSalonDueño">
-                <label >Ubicacion:</label>
-                <input type="ubicacionSalon:" v-model="detalleSalonDueño.direccion" required>
+                  <div class="itemSalonDueño">
+                      <label >Ubicacion:</label>
+                      <input type="ubicacionSalon:" v-model="detalleSalonDueño.direccion" required>
 
-            </div>
-            
-            <div class="itemSalonDueño">
-                <label >Tarifa:</label>
-                <input type="precioAdelantoSalon" v-model="detalleSalonDueño.tarifa" required>
-                <!--<input type="preciCompletoSalon" v-model="detalleSalonDueño.tarifa" required>-->
+                  </div>
+                  
+                  <div class="itemSalonDueño">
+                      <label >Tarifa:</label>
+                      <input type="precioAdelantoSalon" v-model="detalleSalonDueño.tarifa" required>
+                      <!--<input type="preciCompletoSalon" v-model="detalleSalonDueño.tarifa" required>-->
 
-            </div>
-            
-            <div class="itemSalonDueño">
-                    <label >Estado:</label>
-                    <p>{{detalleSalonDueño.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</p>
-                </div>
+                  </div>
+                  
+                  <div class="itemSalonDueño">
+                          <label >Estado:</label>
+                          <p>{{detalleSalonDueño.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</p>
+                      </div>
+                
+                
+              </div>
           
-           
+              <div class="buttons_salonDueño">
+                  <a class="buttons_salonDueño buttonDueño-2" @click="volverAtras">VOLVER</a>
+                  <a href="#" class="buttons_salonDueño buttonDueño-1" @click="actualizarSalon">GUARDAR</a>
+                  <a href="#" class="buttons_salonDueño buttonDueño-3" v-if="detalleSalonDueño.estado === 1" @click="deshabilitarHabilitarSalon">DESHABILITAR</a>
+                  <a href="#" class="buttons_salonDueño buttonDueño-4" v-if="detalleSalonDueño.estado === 0" @click="deshabilitarHabilitarSalon">HABILITAR</a>
+              </div>
+            </div>
+          <div class="salonDueño_column">
+              <div class="buttons_salonDueño">
+                  <label>Nueva Imagen COLECCION:</label>
+                  <input type="file" @change="imagenFileChange" />
+                  <a href="#" class="buttons_salonDueño buttonDueño-1" @click="añadirImagen">AÑADIR IMAGEN</a>
+                
+              </div>
+            <v-carousel v-if="imagenesSalon.length > 0">
+              <v-carousel-item v-for="(imagen, index) in imagenesSalon" :key="index" :src="imagen.imagen_url" cover>
+                <span @click="eliminarImagen(index, imagen.id)" class="delete-button" >
+                <font-awesome-icon :icon="['fas', 'message']" />
+                </span>
+              </v-carousel-item>
+              
+            </v-carousel>
+            <div v-else>
+              <p>No hay imágenes disponibles.</p>
+s
+            </div>
+          </div>
         </div>
-    
-        <div class="buttons_salonDueño">
-            <a class="buttons_salonDueño buttonDueño-2" @click="volverAtras">VOLVER</a>
-            <a href="#" class="buttons_salonDueño buttonDueño-1" @click="actualizarSalon">GUARDAR</a>
-            <a href="#" class="buttons_salonDueño buttonDueño-3" v-if="detalleSalonDueño.estado === 1" @click="deshabilitarHabilitarSalon">DESHABILITAR</a>
-            <a href="#" class="buttons_salonDueño buttonDueño-4" v-if="detalleSalonDueño.estado === 0" @click="deshabilitarHabilitarSalon">HABILITAR</a>
-        </div>
-       
     </div>
 </div>
 </template>
@@ -95,8 +119,10 @@ data() {
       
       },
       nuevaImagen: null,
+      imagenSalonCollection: null,
       detalleSalonDueño: {},     
       serviciosSeleccionados: [],
+      imagenesSalon: [],
 
       servicios: [],
       errorServicios: false,
@@ -106,7 +132,9 @@ data() {
       const salonId = this.$route.params.id;
 
       this.obtenerDetallesSalon(salonId);
+     
       this.obtenerServicios();
+      this.obtenerImagenesSalon(salonId);
   },
 methods: {
     volverAtras (){
@@ -115,6 +143,10 @@ methods: {
     handleFileChange(event) {
     const file = event.target.files[0];
     this.nuevaImagen = file;
+    },
+    imagenFileChange(event) {
+    const file = event.target.files[0];
+    this.imagenSalonCollection = file;
     },
     async obtenerServicios() {
     try {
@@ -156,7 +188,7 @@ methods: {
       console.error('Error al obtener servicios:', error);
     }
   },
-  async obtenerDetallesSalon(id) {
+    async obtenerDetallesSalon(id) {
     try {
       const token = localStorage.getItem('jwtToken');
       const decodedToken = jwt_decode(token);
@@ -181,7 +213,7 @@ methods: {
     },
     actualizarSalon() {
       
-      const token = localStorage.getItem('jwtToken');
+          const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
             const username = decodedToken.sub;
@@ -218,10 +250,6 @@ methods: {
         formData.append('multipartFile', this.nuevaImagen);
       }
 
-      console.log('Contenido de FormData:');
-      for (const entry of formData.entries()) {
-        console.log(entry);
-      }
       this.$axios.put(`http://localhost:8080/v1/salon/${this.detalleSalonDueño.id}`, formData, config)
         .then(response => {
           console.log('Salón actualizado con éxito:', response.data);
@@ -229,6 +257,26 @@ methods: {
         .catch(error => {
           console.error('Error al actualizar el salón:', error);
         });
+    },
+    async obtenerImagenesSalon(id) {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0];
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': userRole
+        }
+      };
+
+      const response = await axios.get(`http://localhost:8080/v1/imagen-salon/${id}/imagenes`, config);  
+      this.imagenesSalon = response.data;
+      console.log(this.imagenesSalon);
+      } catch (error) {
+        console.error('Error al imagenes:', error);
+      }
     },
     deshabilitarHabilitarSalon() {
             this.detalleSalonDueño.estado = this.detalleSalonDueño.estado === 0 ? 1 : 0;
@@ -260,6 +308,59 @@ methods: {
               console.error('Error en la petición PUT:', error);
             });
       
+    },
+    añadirImagen(){
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            const formData = new FormData();
+            formData.append('multipartFile', this.imagenSalonCollection);
+            formData.append('idSalon', this.detalleSalonDueño.id);
+            this.$axios.post(`http://localhost:8080/v1/imagen-salon`, formData, config)
+              .then(response => {
+                console.log('Imagen agregada con éxito:', response.data);
+                window.location.reload();
+              })
+              .catch(error => {
+                console.error('Error al añadir imagen del salón:', error);
+              });
+           
+    },
+    eliminarImagen(index, imagenId) {
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            axios.delete(`http://localhost:8080/v1/imagen-salon/${imagenId}`, config)
+            .then(response => {
+              console.log('IMAGEN ELIMINADA:', imagenId);
+              this.imagenesSalon.splice(index, 1);
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error en la petición PUT:', error);
+            });
+
+      
     }
 }
 }
@@ -279,7 +380,7 @@ methods: {
 .info_salon{
     background-color: rgb(255, 255, 255);
     margin: 20px 20px 20px 20px;
-    padding: 30px;
+    padding: 30px 180px 30px 150px;
     border-radius: 20px;
 }
 .salonDueño_title{
@@ -298,8 +399,7 @@ methods: {
 .salonDueño_detalle {
   display: flex;
   flex-direction: column;
-  
- width: 70vw;
+
 }
 
 .content_salonDueño .itemSalonDueño {
@@ -455,4 +555,26 @@ methods: {
    background-color: transparent;
    text-decoration: none;
  }
+/* 2DA COLUMNA */
+ .salonDueño_container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 100px; 
+}
+
+.salonDueño_column {
+    width: 100%;
+}
+.salonDueño_container > .salonDueño_column:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+  background-color: red; /* Cambia el color de fondo para hacerlo más visible */
+}
 </style>
