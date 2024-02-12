@@ -68,7 +68,7 @@ data() {
         startIndex: 0,
         imagesPerPage: 3,
     };
-    },
+},
     mounted() {
     
     const token = localStorage.getItem('jwtToken');

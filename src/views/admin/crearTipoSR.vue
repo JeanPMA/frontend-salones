@@ -13,16 +13,10 @@
             label="Nombre"
         ></v-text-field>
     
-        <v-text-field
-            v-model="fecha.value.value"
-            :counter="10"
-            :error-messages="fecha.errorMessage.value"
-            label="Fecha agregado"
-        ></v-text-field>
 
         <v-checkbox
-            v-model="activo.value.value"
-            :error-messages="activo.errorMessage.value"
+            v-model="estado.value.value"
+            :error-messages="estado.errorMessage.value"
             value="1"
             label="Habilitado?"
             type="activo"
@@ -31,11 +25,13 @@
         <v-btn
             class="me-4"
             type="submit"
+            @click="crearTipoSR" 
+            
         >
             Crear
         </v-btn>
     
-        <v-btn @click="handleReset"  class="me-4">
+        <v-btn @click=""  class="me-4">
             Limpiar
         </v-btn>
 
@@ -49,14 +45,46 @@
 <script>
   import { ref } from 'vue';
   import { useField, useForm } from 'vee-validate';
+  import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
+
   
   export default{
   name: 'crearServicioComponent',
   methods: {
     irAHome() {
-    // Redirige a la página de detalle del salón
+
       this.$router.push({ name: 'lista-tipoSR-admin'});
     },
+    async crearTipoSR() {    
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            };
+            const data = {
+                nombre : this.nombre.value.value,
+                estado: this.estado.value.value,
+            };
+            console.log(data);
+          axios.post('http://localhost:8080/v1/tipo-sr', data, config)
+          .then(response => {
+              console.log('Tipo SR guardada:', response.data);
+              this.$router.push({ name: 'lista-tipoSR-admin'});
+            })
+            .catch(error => {
+              console.error('Error al guardar Tipo SR:', error);
+            });
+   
+  },
   },
   setup() {
     const { handleSubmit } = useForm({
@@ -68,12 +96,7 @@
             return 'El nombre necesita más de 2 caracteres';
         },
 
-        fecha(value) {
-          if (value?.length >= 2) return true;
-
-          return 'La fecha necesita más de 2 caracteres';
-        },
-        activo(value) {
+        estado(value) {
           if (value === '1') return true;
 
           return 'Debe ser marcado';
@@ -83,20 +106,20 @@
 
 
     const nombre = useField('nombre');
-    const fecha = useField('fecha');
-    const activo = useField('activo');
+
+    const estado = useField('estado');
 
     const submit = handleSubmit((values) => {
-      alert(JSON.stringify(values, null, 2));
+   
     });
 
     return {
       nombre,
-      fecha,
-      activo,
+      estado,
       submit,
     };
   },
+ 
 };
 
 </script>

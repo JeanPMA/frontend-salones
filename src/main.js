@@ -175,7 +175,7 @@ const routes = [
         path:'/crear-servicio-admin', component: CrearServicioComponent, name: 'crear-servicio-admin',
     },
     {
-        path:'/editar-servicio-admin', component: EditarServicioComponent, name: 'editar-servicio-admin',
+        path:'/editar-servicio-admin/:id', component: EditarServicioComponent, name: 'editar-servicio-admin',
     },
     {
         path:'/lista-tipoSR-admin', component: TipoSRListaAdminComponent, name: 'lista-tipoSR-admin',
@@ -184,7 +184,7 @@ const routes = [
         path:'/crear-tipoSR-admin', component: CrearTipoSRComponent, name: 'crear-tipoSR-admin',
     },
     {
-        path:'/editar-tipoSR-admin', component: EditarTipoSRComponent, name: 'editar-tipoSR-admin',
+        path:'/editar-tipoSR-admin/:id', component: EditarTipoSRComponent, name: 'editar-tipoSR-admin',
     },
 ]
 

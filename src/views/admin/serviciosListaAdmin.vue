@@ -51,14 +51,15 @@
           >
             <td>{{ item.nombre }}</td>
             <td>{{ item.detalle }}</td>
-            <td>{{ item.estado }}</td>
-            <td>{{ item.fecha }}</td>
+            <td>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+            <td>{{ item.created_at }}</td>
             <td>
               <div class="botones_Admin">
-                  <a id="deshabilitar" >DESHABILITAR</a> 
-                  <RouterLink to="/editar-servicio-admin">            
-                    <a id="editar" >EDITAR</a>
-                  </RouterLink>  
+                  <a id="eliminar" @click="eliminarServicio(item.id)">ELIMINAR</a>        
+                    <a id="editar" @click="irAServicio(item.id)">EDITAR</a> 
+                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarServicio(item.id, item.estado)">HABILITAR</a> 
+                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarServicio(item.id, item.estado)">DESHABILITAR</a>
+                 
               </div> 
             </td>
           </tr>
@@ -75,6 +76,8 @@
   
   <script>
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
+  import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
 
   export default {
     name: 'serviciosListaAdminComponent',
@@ -84,23 +87,96 @@
 
     data() {
     return {
-      desserts: [
-        { nombre: 'SERVICIO', detalle: 'DETALLE SERVICIO', estado: 'HABILITADO', fecha: '10-12-2023'},
-        { nombre: 'SERVICIO', detalle: 'DETALLE SERVICIO', estado: 'HABILITADO', fecha: '10-12-2023'},
-        { nombre: 'SERVICIO', detalle: 'DETALLE SERVICIO', estado: 'HABILITADO', fecha: '10-12-2023'},
-        { nombre: 'SERVICIO', detalle: 'DETALLE SERVICIO', estado: 'HABILITADO', fecha: '10-12-2023'},
-        { nombre: 'SERVICIO', detalle: 'DETALLE SERVICIO', estado: 'HABILITADO', fecha: '10-12-2023'},
-        { nombre: 'SERVICIO', detalle: 'DETALLE SERVICIO', estado: 'HABILITADO', fecha: '10-12-2023'},
-        { nombre: 'SERVICIO', detalle: 'DETALLE SERVICIO', estado: 'HABILITADO', fecha: '10-12-2023'},
-        // Agrega más elementos según tus necesidades
-      ],
+      listaServiciosAdmin: [],
       itemsPerPage: 5,
       currentPage: 1,
     };
+    },
+    mounted() {
+    
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+
+    const userRole = decodedToken.roles[0]; 
+    const username = decodedToken.sub;
+    const config = {
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'X-User-Role': userRole
+      } ,
+      params: {
+        username: username,
+      },
+    };
+    axios.get('http://localhost:8080/v1/servicio', config)
+      .then(response => {
+        this.listaServiciosAdmin = response.data;
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
+  },
+  methods:{
+    irAServicio(id) {   
+        this.$router.push({ name: 'editar-servicio-admin', params: { id: id } });
+    },
+    eliminarServicio(id) {
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            axios.delete(`http://localhost:8080/v1/servicio/${id}`, config)
+            .then(response => {
+              console.log('recurso eliminado:', id);  
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error en la petición:', error);
+            });
+
+      
+    },
+    deshabilitarHabilitarServicio(id, estado) {
+            const nuevoEstado = estado === 0 ? 1 : 0;
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            const data = {
+              id: id,
+              estado: nuevoEstado,
+            };
+            axios.patch(`http://localhost:8080/v1/servicio/${id}`, data, config)
+            .then(response => {
+              console.log('Servicio deshabilitado:', id);  
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error en la petición:', error);
+            });
+
+      
+    },
   },
   computed: {
     totalItems() {
-      return this.desserts.length;
+      return this.listaServiciosAdmin.length;
     },
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage);
@@ -108,7 +184,7 @@
     displayedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.desserts.slice(startIndex, endIndex);
+      return this.listaServiciosAdmin.slice(startIndex, endIndex);
     },
   },
   };

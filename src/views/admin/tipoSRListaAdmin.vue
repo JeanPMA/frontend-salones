@@ -31,6 +31,9 @@
               Nombre
             </th>
             <th class="text-center">
+              Estado
+            </th>
+            <th class="text-center">
               Fecha añadido
             </th>
             <th class="text-center">
@@ -44,14 +47,14 @@
             :key="index"
           >
             <td>{{ item.nombre }}</td>
-
-            <td>{{ item.fecha }}</td>
+            <td>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+            <td>{{ item.created_at }}</td>
             <td>
               <div class="botones_Admin">
-                  <a id="deshabilitar" >DESHABILITAR</a> 
-                  <RouterLink to="/editar-tipoSR-admin">            
-                    <a id="editar" >EDITAR</a>
-                  </RouterLink>  
+                  <a id="eliminar" @click="eliminarTipoSR(item.id)">ELIMINAR</a>           
+                  <a id="editar" @click="irATipoSR(item.id)">EDITAR</a>
+                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarTipoSR(item.id, item.estado)">HABILITAR</a> 
+                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarTipoSR(item.id, item.estado)">DESHABILITAR</a> 
               </div> 
             </td>
           </tr>
@@ -68,6 +71,8 @@
   
   <script>
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
+  import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
   export default {
     name: 'tipoSRListaAdminComponent',
@@ -77,23 +82,96 @@
 
     data() {
     return {
-      desserts: [
-        { nombre: 'TIPO SOLICITUD RESERVA', fecha: '10-12-2023'},
-        { nombre: 'TIPO SOLICITUD RESERVA', fecha: '10-12-2023'},
-        { nombre: 'TIPO SOLICITUD RESERVA', fecha: '10-12-2023'},
-        { nombre: 'TIPO SOLICITUD RESERVA', fecha: '10-12-2023'},
-        { nombre: 'TIPO SOLICITUD RESERVA', fecha: '10-12-2023'},
-        { nombre: 'TIPO SOLICITUD RESERVA', fecha: '10-12-2023'},
-        { nombre: 'TIPO SOLICITUD RESERVA', fecha: '10-12-2023'},
-        // Agrega más elementos según tus necesidades
-      ],
+      tipoSRListaAdmin: [],
       itemsPerPage: 5,
       currentPage: 1,
     };
   },
+  mounted() {
+    
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+
+    const userRole = decodedToken.roles[0]; 
+    const username = decodedToken.sub;
+    const config = {
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'X-User-Role': userRole
+      } ,
+      params: {
+        username: username,
+      },
+    };
+    axios.get('http://localhost:8080/v1/tipo-sr', config)
+      .then(response => {
+        this.tipoSRListaAdmin = response.data;
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
+  },
+  methods:{
+    eliminarTipoSR(id) {
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            axios.delete(`http://localhost:8080/v1/tipo-sr/${id}`, config)
+            .then(response => {
+              console.log('IMAGEN ELIMINADA:', id);  
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error en la petición:', error);
+            });
+
+      
+    },
+    irATipoSR(id) {   
+        this.$router.push({ name: 'editar-tipoSR-admin', params: { id: id } });
+    },
+    deshabilitarHabilitarTipoSR(id, estado) {
+            const nuevoEstado = estado === 0 ? 1 : 0;
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            const data = {
+              id: id,
+              estado: nuevoEstado,
+            };
+            axios.patch(`http://localhost:8080/v1/tipo-sr/${id}`, data, config)
+            .then(response => {
+              console.log('Tipo SR deshabilitada:', id);  
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error en la petición:', error);
+            });
+
+      
+    },
+  },
   computed: {
     totalItems() {
-      return this.desserts.length;
+      return this.tipoSRListaAdmin.length;
     },
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage);
@@ -101,7 +179,7 @@
     displayedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.desserts.slice(startIndex, endIndex);
+      return this.tipoSRListaAdmin.slice(startIndex, endIndex);
     },
   },
   };
@@ -112,7 +190,31 @@
     padding-top: 50px;
   }
  
+  .botones_Admin #eliminar{
+    background-color: #00aeff;
+    color: #ffffff;
+    border: 2px solid #00aeff;
+   transition: 0.3s ease; 
+   
+  }
 
+  .botones_Admin #eliminar:hover {
+    background-color: transparent;
+    color: #00aeff;
+   
+  }
+  .botones_Admin #habilitar{
+    background-color: #2cbd00;
+    color: #ffffff;
+    border: 2px solid #2cbd00;
+   transition: 0.3s ease; 
+   
+  }
 
+  .botones_Admin #habilitar:hover {
+    background-color: transparent;
+    color: #2cbd00;
+   
+  }
 </style>
   
