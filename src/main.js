@@ -157,7 +157,7 @@ const routes = [
         path:'/crear-salon-admin', component: CrearSalonComponent, name: 'crear-salon-admin',
     },
     {
-        path:'/editar-salon-admin', component: EditarSalonComponent, name: 'editar-salon-admin',
+        path:'/editar-salon-admin/:id', component: EditarSalonComponent, name: 'editar-salon-admin',
     },
     {
         path:'/lista-usuarios-admin', component: UsuariosListaAdminComponent, name: 'lista-usuarios-admin',
@@ -166,7 +166,7 @@ const routes = [
         path:'/crear-usuario-admin', component: CrearUsuarioComponent, name: 'crear-usuario-admin',
     },
     {
-        path:'/editar-usuario-admin', component: EditarUsuarioComponent, name: 'editar-usuario-admin',
+        path:'/editar-usuario-admin/:id', component: EditarUsuarioComponent, name: 'editar-usuario-admin',
     },
     {
         path:'/lista-servicios-admin', component: ServiciosListaAdminComponent, name: 'lista-servicios-admin',

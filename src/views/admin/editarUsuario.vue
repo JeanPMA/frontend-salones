@@ -7,64 +7,72 @@
             <v-text-field
            
             :counter="10"
-            :error-messages="usuario.errorMessage.value"
+            :error-messages="username.errorMessage.value"
             label="Usuario"
-            v-model="usuarioNick"
+            v-model="username.value.value"
         ></v-text-field>
 
         <v-text-field
             :counter="10"
-            :error-messages="contraseña.errorMessage.value"
-            label="Contraseña"
-            v-model="contraseñaUsuario"
+            :error-messages="password.errorMessage.value"
+            label="Solo ingresar contraseña en caso de cambio"
+            v-model="password.value.value"
         ></v-text-field>
+
+        <v-select
+                  v-model="usuario.rol.id"
+                  label="Selecciona un rol"
+                  :items="rolesLista"
+                  variant="outlined"
+                  item-title="nombre"
+                  item-value="id"
+                  hide-details
+                  @update:modelValue="limpiarErrorRol"
+          ></v-select>
+          <span v-if="mostrarErrorRol" class="error-message">Tienes que seleccionar una opción</span>
 
         <v-text-field
             :counter="8"
             :error-messages="telefono.errorMessage.value"
             label="Numero de telefono"
-            v-model="telefonoUsuario"
+            v-model="telefono.value.value"
         ></v-text-field>
     
         <v-text-field
             :error-messages="nombre.errorMessage.value"
             :counter="10"
             label="Nombre"
-            v-model="nombreUsuario"
+            v-model="nombre.value.value"
         ></v-text-field>
             
         <v-text-field
             :counter="10"
             :error-messages="apellido.errorMessage.value"
             label="Apellido"
-            v-model="apellidoUsuario"
+            v-model="apellido.value.value"
         ></v-text-field>
 
         <v-text-field
             :counter="10"
             :error-messages="correo.errorMessage.value"
             label="Correo electronico"
-            v-model="correoUsuario"
-        ></v-text-field>
-    
-        <v-text-field
-            :counter="10"
-            :error-messages="rol.errorMessage.value"
-            label="Rol"
-            v-model="rolUsuario"
+            v-model="correo.value.value"
         ></v-text-field>
 
-        <v-checkbox
-            v-model="activo.value.value"
-            :error-messages="activo.errorMessage.value"
-            value="1"
-            label="Habilitado?"
-            type="activo"
-        ></v-checkbox>
+     
+
+        <v-text-field
+            label="estado"
+            :value="usuario.estado === 1 ? 'HABILITADO' : 'DESHABILITADO'"
+            v-model="usuario.estado"
+            disabled 
+        ></v-text-field>
+
     
         <v-btn
             class="me-4"
             type="submit"
+            @click="editarUsuario"
         >
             Guardar
         </v-btn>
@@ -84,45 +92,206 @@
 <script>
 import { ref } from 'vue';
 import { useField, useForm } from 'vee-validate';
+import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
 
 export default{
 name: 'editarUsuarioComponent',
+data() {
+  return {
+    usuario: {
+          id: '',
+          username: '',
+          password: '',
+          telefono: '',
+          nombre: '',
+          apellido: '',
+          correo: '',
+          estado: '',
+          rol:{
+            id: '',
+            nombre:'',
+          }
+        },
+        mostrarErrorRol: false,
+        rolesLista: [],
+        username: {
+          value: {
+            value: ''
+          },
+          errorMessage: {
+            value: ''
+          }
+        },
+        password: {
+          value: {
+            value: ''
+          },
+          errorMessage: {
+            value: ''
+          }
+        },
+        telefono: {
+          value: {
+            value: ''
+          },
+          errorMessage: {
+            value: ''
+          }
+        },
+        nombre: {
+          value: {
+            value: ''
+          },
+          errorMessage: {
+            value: ''
+          }
+        },
+        apellido: {
+          value: {
+            value: ''
+          },
+          errorMessage: {
+            value: ''
+          }
+        },
+        correo: {
+          value: {
+            value: ''
+          },
+          errorMessage: {
+            value: ''
+          }
+        },
+
+  };
+},
 methods: {
   irAHome() {
   // Redirige a la página de detalle del salón
     this.$router.push({ name: 'lista-usuarios-admin'});
   },
+  limpiarErrorRol() {
+      this.mostrarErrorRol = false;
+    },
+  async obtenerYAsignar() {
+    try {
+      const usuarioId = this.$route.params.id;
+      await this.obtenerDetallesUsuario(usuarioId)
+
+      this.username.value.value = this.usuario.username;
+      this.password.value.value = this.usuario.password;
+      this.telefono.value.value = this.usuario.telefono;
+      this.nombre.value.value = this.usuario.nombre;
+      this.apellido.value.value = this.usuario.apellido;
+      this.correo.value.value = this.usuario.correo;
+  
+    }catch (error) {
+    console.error('Error al obtener y asignar:', error);
+    }
+    },
+    async obtenerRoles() {
+      try {
+        const token = localStorage.getItem('jwtToken');
+        const decodedToken = jwt_decode(token);
+        const userRole = decodedToken.roles[0];
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-User-Role': userRole,
+          },
+        };
+
+        const response = await axios.get('http://localhost:8080/v1/rol', config);
+
+        this.rolesLista = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
+      } catch (error) {
+        console.error('Error al obtener salones:', error);
+      }
+    },
+    async obtenerDetallesUsuario(id) {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0];
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': userRole
+        }
+      };
+
+      const response = await axios.get(`http://localhost:8080/v1/usuario/${id}`, config);
+
+  
+      this.usuario = response.data;
+      console.log(this.usuario);
+
+    } catch (error) {
+      console.error('Error al obtener detalles de la solicitud:', error);
+    }
+    },
+    editarUsuario() {
+      this.mostrarErrorRol = !this.usuario.rol.id;
+
+      if(this.mostrarErrorRol) {
+              
+          return;
+      }
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+      const userRole = decodedToken.roles[0];
+      const username = decodedToken.sub;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': userRole,
+        },
+        params: {
+          username: username,
+        },
+      }
+      const data = {
+              id : this.usuario.id,
+              username : this.username.value.value,
+              password : this.password.value.value,
+              telefono: this.telefono.value.value,
+              nombre: this.nombre.value.value,
+              apellido: this.apellido.value.value,
+              correo: this.correo.value.value,
+              rol: {
+                id: this.usuario.rol.id
+              },
+              estado: this.usuario.estado,
+        };
+     
+      this.$axios.put(`http://localhost:8080/v1/usuario/${this.usuario.id}`, data, config)
+      .then(response => {
+        console.log('Usuario actualizado con éxito:', response.data);
+        this.$router.push({ name: 'lista-usuarios-admin'});
+      })
+      .catch(error => {
+        console.error('Error al actualizar el usuario:', error);
+      });
+      },
 },
-data() {
-  return {
-      usuarioNick: 'USUARIO',
-      contraseñaUsuario: 'asdwe123',
-      telefonoUsuario: 60075666,
-      nombreUsuario: 'Juan',
-      apellidoUsuario: 'Perez',
-      correoUsuario: 'juan@gmail.com',
-      rolUsuario: 'Dueño',
-      habilitadoUsuario: true,
-  };
+
+async mounted(){
+  await this.obtenerYAsignar();
+  await this.obtenerRoles();
+  
 },
 setup() {
     const { handleSubmit } = useForm({
       validationSchema: {
-        usuario(value) {
+        username(value) {
           if (value?.length >= 2) return true;
 
-          return 'El usuario del salón necesita más de 2 caracteres';
+          return 'El username del salón necesita más de 2 caracteres';
         },
-        contraseña(value) {
-          if (value?.length >= 2) return true;
 
-          return 'La ubicación del salón necesita más de 2 caracteres';
-        },
-        telefono(value) {
-          if (value?.length > 9 && /[0-9-]+/.test(value)) return true;
-
-          return 'La telefono del salón debe ser menor a 6 dígitos.';
-        },
+       
         nombre(value) {
             if (value?.length >= 2) return true;
 
@@ -134,45 +303,35 @@ setup() {
           return 'El apellido necesita más de 2 caracteres';
         },
         correo(value) {
-        if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+        if (value?.length >= 2) return true
 
         return 'Tiene que ser valido el e-mail.'
         },
-        estado(value) {
-          if (value?.length >= 2) return true;
 
-          return 'El estado necesita más de 2 caracteres';
-        },
-        activo(value) {
-          if (value === '1') return true;
-
-          return 'Debe ser marcado';
-        },
       },
     });
 
-    const usuario = useField('usuario');
-    const contraseña = useField('contraseña');
+    const username = useField('username');
+    const password = useField('password');
     const telefono = useField('telefono');
     const nombre = useField('nombre');
     const apellido = useField('apellido');
     const correo = useField('correo');
     const rol = useField('rol');
-    const activo = useField('activo');
 
     const submit = handleSubmit((values) => {
-      alert(JSON.stringify(values, null, 2));
+
     });
 
     return {
-      usuario,
-      contraseña,
+      username,
+      password,
       telefono,
       nombre,
       apellido,
       correo,
       rol,
-      activo,
+
       submit,
     };
   },

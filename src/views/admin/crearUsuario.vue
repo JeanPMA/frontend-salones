@@ -1,20 +1,20 @@
 <template>
-    <div class="content_crearUsuario">    
+    <div class="content_crearusername">    
         <h2>
-            FORMULARIO PARA LA CREACION DE USUARIO
+            FORMULARIO PARA LA CREACION DE username
         </h2>
         <form @submit.prevent="submit">
         <v-text-field
-            v-model="usuario.value.value"
+            v-model="username.value.value"
             :counter="10"
-            :error-messages="usuario.errorMessage.value"
+            :error-messages="username.errorMessage.value"
             label="Usuario"
         ></v-text-field>
 
         <v-text-field
-            v-model="contraseña.value.value"
+            v-model="password.value.value"
             :counter="10"
-            :error-messages="contraseña.errorMessage.value"
+            :error-messages="password.errorMessage.value"
             label="Contraseña"
         ></v-text-field>
 
@@ -24,7 +24,7 @@
             :error-messages="telefono.errorMessage.value"
             label="Numero de telefono"
         ></v-text-field>
-    
+     
         <v-text-field
             v-model="nombre.value.value"
             :error-messages="nombre.errorMessage.value"
@@ -46,16 +46,21 @@
             label="Correo electronico"
         ></v-text-field>
     
-        <v-text-field
-            v-model="rol.value.value"
-            :counter="10"
-            :error-messages="rol.errorMessage.value"
-            label="Rol"
-        ></v-text-field>
+        <v-select
+                  v-model="rol.id"
+                  label="Selecciona un rol"
+                  :items="listaRoles"
+                  variant="outlined"
+                  item-title="nombre"
+                  item-value="id"
+                  hide-details
+                  @update:modelValue="limpiarErrorUsuario"
+          ></v-select>
+          <span v-if="mostrarErrorUsuario" class="error-message">Tienes que seleccionar una opción</span>
 
         <v-checkbox
-            v-model="activo.value.value"
-            :error-messages="activo.errorMessage.value"
+            v-model="estado.value.value"
+            :error-messages="estado.errorMessage.value"
             value="1"
             label="Habilitado?"
             type="activo"
@@ -64,6 +69,7 @@
         <v-btn
             class="me-4"
             type="submit"
+            @click="crearUsuario"
         >
             Crear
         </v-btn>
@@ -82,30 +88,109 @@
 <script>
   import { ref } from 'vue';
   import { useField, useForm } from 'vee-validate';
-  
+  import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
+
   export default{
-  name: 'crearUsuarioComponent',
+  name: 'crearusernameComponent',
+  data() { 
+    return {
+      listaRoles: [],
+      rol: {
+            id: null,
+      },
+      mostrarErrorUsuario: false,
+    }
+  },
+  async  mounted() {
+      await this.obtenerRoles();
+  },
   methods: {
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-usuarios-admin'});
     },
+    limpiarErrorUsuario() {
+      this.mostrarErrorUsuario = false;
+    },
+    async obtenerRoles() {
+
+      try {
+        const token = localStorage.getItem('jwtToken');
+        const decodedToken = jwt_decode(token);
+        const userRole = decodedToken.roles[0];
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-User-Role': userRole,
+          },
+        };
+
+        const response = await axios.get('http://localhost:8080/v1/rol', config);
+
+        this.listaRoles = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
+      } catch (error) {
+        console.error('Error al obtener roles:', error);
+      }
+    },
+    async crearUsuario() {    
+      this.mostrarErrorUsuario = !this.rol.id;
+
+      if(this.mostrarErrorUsuario) {
+              
+          return;
+      }
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            };
+            const data = {
+                username : this.username.value.value,
+                password : this.password.value.value,
+                telefono: this.telefono.value.value,
+                nombre: this.nombre.value.value,
+                apellido: this.apellido.value.value,
+                correo: this.correo.value.value,
+                rol: {
+                  id: this.rol.id
+                },
+                estado: this.estado.value.value,
+            };
+          console.log(data);
+          axios.post('http://localhost:8080/v1/usuario', data, config)
+          .then(response => {
+              console.log('Usuario guardado:', response.data);
+              this.$router.push({ name: 'lista-usuarios-admin'});
+            })
+            .catch(error => {
+              console.error('Error al guardar usuario:', error);
+            });
+   
+  },
   },
   setup() {
     const { handleSubmit } = useForm({
       validationSchema: {
-        usuario(value) {
+        username(value) {
           if (value?.length >= 2) return true;
 
-          return 'El usuario del salón necesita más de 2 caracteres';
+          return 'El username del salón necesita más de 2 caracteres';
         },
-        contraseña(value) {
+        password(value) {
           if (value?.length >= 2) return true;
 
           return 'La ubicación del salón necesita más de 2 caracteres';
         },
         telefono(value) {
-          if (value?.length > 9 && /[0-9-]+/.test(value)) return true;
+          if (value?.length <= 8 && /[0-9-]+/.test(value)) return true;
 
           return 'La telefono del salón debe ser menor a 6 dígitos.';
         },
@@ -120,7 +205,7 @@
           return 'El apellido necesita más de 2 caracteres';
         },
         correo(value) {
-        if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+          if (value?.length >= 2) return true;
 
         return 'Tiene que ser valido el e-mail.'
         },
@@ -129,7 +214,7 @@
 
           return 'El estado necesita más de 2 caracteres';
         },
-        activo(value) {
+        estado(value) {
           if (value === '1') return true;
 
           return 'Debe ser marcado';
@@ -137,28 +222,27 @@
       },
     });
 
-    const usuario = useField('usuario');
-    const contraseña = useField('contraseña');
+    const username = useField('username');
+    const password = useField('password');
     const telefono = useField('telefono');
     const nombre = useField('nombre');
     const apellido = useField('apellido');
     const correo = useField('correo');
-    const rol = useField('rol');
-    const activo = useField('activo');
+    
+    const estado = useField('estado');
 
     const submit = handleSubmit((values) => {
-      alert(JSON.stringify(values, null, 2));
+     
     });
 
     return {
-      usuario,
-      contraseña,
+      username,
+      password,
       telefono,
       nombre,
       apellido,
       correo,
-      rol,
-      activo,
+      estado,
       submit,
     };
   },
@@ -176,7 +260,7 @@
 </script>
 
 <style>
-.content_crearUsuario{
+.content_crearusername{
     padding: 40px 100px 40px 100px;
 }
 .v-messages__message {

@@ -3,7 +3,7 @@
     <div class="content_usuariosListaAdmin" style="margin-left: 50px;"> 
       <div class="listaUsuariosAdmin_title">
           <h2>LISTADO DE USUARIOS</h2>
-          
+           
       </div>
       <div class="search_listaAdmin">
               <div class="search-container">
@@ -58,19 +58,19 @@
             v-for="(item, index) in displayedItems"
             :key="index"
           >
-            <td>{{ item.usuario }}</td>
+            <td>{{ item.username }}</td>
             <td>{{ item.telefono }}</td>
             <td>{{ item.nombre }}</td>
             <td>{{ item.apellido }}</td>
             <td>{{ item.correo }}</td>
-            <td>{{ item.estado }}</td>
-            <td>{{ item.rol }}</td>
+            <td>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+            <td>{{ item.rol.nombre }}</td>
             <td>
-              <div class="botones_Admin">
-                  <a id="deshabilitar" >DESHABILITAR</a> 
-                  <RouterLink to="/editar-usuario-admin">            
-                    <a id="editar" >EDITAR</a>
-                  </RouterLink>  
+              <div class="botones_Admin">              
+                    <a id="eliminar" @click="eliminarUsuario(item.id)">ELIMINAR</a>  
+                    <a id="editar" @click="irAUsuario(item.id)">EDITAR</a>
+                    <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarUsuario(item.id, item.estado)">HABILITAR</a> 
+                    <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarUsuario(item.id, item.estado)">DESHABILITAR</a>
               </div> 
             </td>
           </tr>
@@ -87,33 +87,107 @@
   
   <script>
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
-
+  import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
 
   export default {
     name: 'usuariosListaAdminComponent',
     components: {
         NavbarAdmin,
     },
+    mounted() {
+    
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
 
-    data() {
+    const userRole = decodedToken.roles[0]; 
+    const username = decodedToken.sub;
+    const config = {
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'X-User-Role': userRole
+      } ,
+      params: {
+        username: username,
+      },
+    };
+    axios.get('http://localhost:8080/v1/usuario', config)
+      .then(response => {
+        this.listaUsuariosAdmin = response.data;
+        console.log(this.listaUsuariosAdmin);
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
+  },
+  data() {
     return {
-      desserts: [
-        { usuario: 'USUARIO', telefono: 65454332, nombre: 'Juan', apellido: 'Perez', correo: 'jaun@gmail.com', estado: 'Habilitado', rol: 'Dueño'},
-        { usuario: 'USUARIO', telefono: 65454332, nombre: 'Juan', apellido: 'Perez', correo: 'jaun@gmail.com', estado: 'Habilitado', rol: 'Dueño'},
-        { usuario: 'USUARIO', telefono: 65454332, nombre: 'Juan', apellido: 'Perez', correo: 'jaun@gmail.com', estado: 'Habilitado', rol: 'Dueño'},
-        { usuario: 'USUARIO', telefono: 65454332, nombre: 'Juan', apellido: 'Perez', correo: 'jaun@gmail.com', estado: 'Habilitado', rol: 'Dueño'},
-        { usuario: 'USUARIO', telefono: 65454332, nombre: 'Juan', apellido: 'Perez', correo: 'jaun@gmail.com', estado: 'Habilitado', rol: 'Dueño'},
-        { usuario: 'USUARIO', telefono: 65454332, nombre: 'Juan', apellido: 'Perez', correo: 'jaun@gmail.com', estado: 'Habilitado', rol: 'Dueño'},
-        { usuario: 'USUARIO', telefono: 65454332, nombre: 'Juan', apellido: 'Perez', correo: 'jaun@gmail.com', estado: 'Habilitado', rol: 'Dueño'},
-        // Agrega más elementos según tus necesidades
-      ],
+      listaUsuariosAdmin: [],
       itemsPerPage: 5,
       currentPage: 1,
     };
   },
+  methods: {
+    irAUsuario(id) {   
+        this.$router.push({ name: 'editar-usuario-admin', params: { id: id } });
+    },
+    eliminarUsuario(id) {
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            axios.delete(`http://localhost:8080/v1/usuario/${id}`, config)
+            .then(response => {
+              console.log('usuario eliminado:', id);  
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error en la petición:', error);
+            });
+
+      
+    },
+    deshabilitarHabilitarUsuario(id, estado) {
+            const nuevoEstado = estado === 0 ? 1 : 0;
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+              params: {
+                username: username,
+              },
+            }
+            const data = {
+              id: id,
+              estado: nuevoEstado,
+            };
+            axios.patch(`http://localhost:8080/v1/usuario/${id}`, data, config)
+            .then(response => {
+              console.log('Usuario deshabilitado:', id);  
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error en la petición:', error);
+            });
+
+      
+    },
+  },
   computed: {
     totalItems() {
-      return this.desserts.length;
+      return this.listaUsuariosAdmin.length;
     },
     totalPages() {
      
@@ -122,7 +196,7 @@
     displayedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.desserts.slice(startIndex, endIndex);
+      return this.listaUsuariosAdmin.slice(startIndex, endIndex);
       
     },
     

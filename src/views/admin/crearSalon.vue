@@ -12,12 +12,24 @@
         ></v-text-field>
 
         <v-text-field
-            v-model="ubicacion.value.value"
+            v-model="direccion.value.value"
             :counter="10"
-            :error-messages="ubicacion.errorMessage.value"
-            label="Ubicacion"
+            :error-messages="direccion.errorMessage.value"
+            label="Direccion"
         ></v-text-field>
 
+        <v-select
+          v-model="usuarioSeleccionado"
+        
+          :items="usuarios"
+          item-title="nombre"
+          item-value="id"
+          label="Selecciona el usuario"
+          multiple
+          @update:modelValue="handleUsuarioChange"
+        ></v-select>
+        <p v-if="errorUsuario">Por favor, selecciona 1 opcion.</p>
+        
         <v-text-field
             v-model="capacidad.value.value"
             :counter="5"
@@ -38,18 +50,35 @@
             :error-messages="tarifa.errorMessage.value"
             label="Tarifa del salon"
         ></v-text-field>
-    
+
+        <v-select
+          v-model="serviciosSeleccionados"
+        
+          :items="servicios"
+          item-title="nombre"
+          item-value="id"
+          label="Selecciona los servicios"
+          multiple
+          @update:modelValue="handleServiciosChange"
+        ></v-select>
+        <p v-if="errorServicios">Por favor, selecciona al menos 1 opcion.</p>
+
         <v-checkbox
-            v-model="activo.value.value"
-            :error-messages="activo.errorMessage.value"
+            v-model="estado.value.value"
+            :error-messages="estado.errorMessage.value"
             value="1"
             label="Habilitado?"
             type="activo"
         ></v-checkbox>
-    
+
+        <h1>Subir Imagen</h1>
+        <input type="file" @change="handleFileChange" accept="image/*">
+        <p v-if="error">Por favor, selecciona una imagen.</p>
+
         <v-btn
             class="me-4"
             type="submit"
+            @click="crearSalon"
         >
             Crear
         </v-btn>
@@ -68,16 +97,117 @@
 <script>
   import { ref } from 'vue';
   import { useField, useForm } from 'vee-validate';
+  import axios from 'axios';
+  import jwt_decode from 'jwt-decode';
   
   export default{
   name: 'crearSalonComponent',
+  data() {
+    return {
+      selectedFile: null,
+      serviciosSeleccionados: [],
+      usuarioSeleccionado: null,
+      error: false,
+      errorServicios: false,
+      errorUsuario: false,
+    };
+  },
   methods: {
     irAHome() {
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones-admin'});
     },
+    handleFileChange(event) {
+      this.selectedFile = event.target.files[0];
+      this.error = false;
+    },
+    handleServiciosChange() {
+      this.errorServicios = false;
+    },
+    handleUsuarioChange() {
+      this.errorUsuario = false;
+    },
+    async crearSalon() {
+      this.error = !this.selectedFile;
+      this.errorServicios = this.serviciosSeleccionados.length === 0 ;
+      this.errorUsuario= !this.usuarioSeleccionado ;
+
+      
+      if (this.error || this.errorServicios || this.errorUsuario) {
+
+        return;
+      }
+
+      
+            const formData = new FormData();
+          
+  
+            formData.append('nombre', this.nombre.value.value);
+            formData.append('direccion', this.direccion.value.value);
+            formData.append('capacidad', this.capacidad.value.value);
+            formData.append('descripcion', this.descripcion.value.value);
+            formData.append('tarifa', this.tarifa.value.value);
+            formData.append('estado', this.estado.value.value);
+            formData.append('usuario', this.usuarioSeleccionado);
+
+            formData.append('multipartFile', this.selectedFile);
+            formData.append('servicios', this.serviciosSeleccionados.join(','));
+            
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const username = decodedToken.sub;
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+                'Content-Type': 'multipart/form-data',
+              },
+            };
+
+    
+          axios.post('http://localhost:8080/v1/salon/admin', formData, config)
+          .then(response => {
+              console.log('Salon guardado:', response.data);
+              this.$router.push({ name: 'lista-salones-admin'});
+            })
+            .catch(error => {
+              console.error('Error al guardar el Salon:', error);
+            });
+   
+  },
   },
   setup() {
+    
+            const token = localStorage.getItem('jwtToken');
+            const decodedToken = jwt_decode(token);
+            const userRole = decodedToken.roles[0];
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'X-User-Role': userRole,
+              },
+            };
+            const servicios = ref([]);
+            axios.get('http://localhost:8080/v1/servicio', config)
+              .then(response => {
+                servicios.value = response.data;
+              })
+              .catch(error => {
+                console.error('Error al obtener servicios:', error);
+              });
+            const usuarios = ref([]);
+            axios.get('http://localhost:8080/v1/usuario', config)
+              .then(response => {
+                usuarios.value = response.data.filter(usuario => {
+                  return usuario.rol && usuario.rol.nombre === 'OWNER';
+                });
+                console.log(usuarios.value);
+              })
+              .catch(error => {
+                console.error('Error al obtener usuarios:', error);
+              });
+
     const { handleSubmit } = useForm({
       validationSchema: {
         nombre(value) {
@@ -85,7 +215,7 @@
 
           return 'El nombre del salón necesita más de 2 caracteres';
         },
-        ubicacion(value) {
+        direccion(value) {
           if (value?.length >= 2) return true;
 
           return 'La ubicación del salón necesita más de 2 caracteres';
@@ -105,7 +235,7 @@
 
           return 'La tarifa del salón necesita más de 2 caracteres';
         },
-        activo(value) {
+        estado(value) {
           if (value === '1') return true;
 
           return 'Debe ser marcado';
@@ -114,23 +244,24 @@
     });
 
     const nombre = useField('nombre');
-    const ubicacion = useField('ubicacion');
+    const direccion = useField('direccion');
     const capacidad = useField('capacidad');
     const descripcion = useField('descripcion');
     const tarifa = useField('tarifa');
-    const activo = useField('activo');
+    const estado = useField('estado');
 
     const submit = handleSubmit((values) => {
-      alert(JSON.stringify(values, null, 2));
     });
 
     return {
       nombre,
-      ubicacion,
+      direccion,
       capacidad,
       descripcion,
       tarifa,
-      activo,
+      servicios,
+      usuarios,
+      estado,
       submit,
     };
   },
@@ -143,7 +274,7 @@
       select (value) {
         if (value) return true
 
-        return 'Select an item.'
+        return 'Select an item.' 
       },*/
 </script>
 

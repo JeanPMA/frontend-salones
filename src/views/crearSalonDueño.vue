@@ -18,7 +18,7 @@
             v-model="direccion.value.value"
             :counter="10"
             :error-messages="direccion.errorMessage.value"
-            label="direccion"
+            label="Direccion"
         ></v-text-field>
 
         <v-text-field
@@ -154,11 +154,11 @@
     
           axios.post('http://localhost:8080/v1/salon', formData, config)
           .then(response => {
-              console.log('Solicitud de reserva guardada:', response.data);
+              console.log('Salon guardado:', response.data);
               this.$router.push({ name: 'lista-salones'});
             })
             .catch(error => {
-              console.error('Error al guardar la solicitud de reserva:', error);
+              console.error('Error al guardar el Salon:', error);
             });
    
   },
@@ -173,15 +173,15 @@
                 'X-User-Role': userRole,
               },
             };
-    const servicios = ref([]);
-    axios.get('http://localhost:8080/v1/servicio', config)
-      .then(response => {
-        servicios.value = response.data;
-        console.log(servicios.value);
-      })
-      .catch(error => {
-        console.error('Error al obtener servicios:', error);
-      });
+            const servicios = ref([]);
+            axios.get('http://localhost:8080/v1/servicio', config)
+              .then(response => {
+                servicios.value = response.data;
+                console.log(servicios.value);
+              })
+              .catch(error => {
+                console.error('Error al obtener servicios:', error);
+              });
 
       
       

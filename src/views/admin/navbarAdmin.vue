@@ -20,7 +20,7 @@
           <v-list-item prepend-icon="mdi-home" title="Salones" value="myfiles" @click="irAListaSalon"></v-list-item>
           <v-list-item prepend-icon="mdi-account" title="Usuarios" value="starred" @click="irAListaUsuario"></v-list-item>
             <v-list-item prepend-icon="mdi-share-variant" title="Servicios" value="starred" @click="irAListaServicio"></v-list-item>
-            <v-list-item prepend-icon="mdi-pencil" title="Tipos Solicitud-Reserva" value="starred" @click="irAListaTipoSR"></v-list-item>
+            <v-list-item prepend-icon="mdi-pencil" title="Tipos SR" value="starred" @click="irAListaTipoSR"></v-list-item>
             <v-list-item prepend-icon="mdi-account" title="Salir" value="starred" @click="logout"></v-list-item>
 
         </v-list>
