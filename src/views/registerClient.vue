@@ -10,41 +10,46 @@
             
             <div class="form-box register">
                 <h2>REGISTRARSE</h2>
-                <form action="#">
+                <form action="#" @submit.prevent="registerUser"> 
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
-                        <input type="usuario" required>
-                        <label for="usuario">Usuario</label>
+                        <input v-model="username" type="username" required>
+                        <label for="username">Usuario</label>
                     </div>
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'lock']" /></span>
-                        <input type="password" required>
+                        <input v-model="password" type="password" required>
                         <label for="password">Contraseña</label>
                     </div>
 
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'envelope']" /></span>
-                        <input type="email" required>
-                        <label for="email">Email</label>
+                        <input v-model="correo" type="correo" required>
+                        <label for="correo">correo</label>
                     </div>
 
-                    <div class="input-box calendarDate">
-                        
-                        <input type="date" id="fechaNacimiento" name="fechaNacimiento">
-                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                    </div>
-                    
-                    <div class="remember-forgot">
-                        <label> <input type="checkbox">Acepto los terminos y condiciones</label>
-                       
+                    <div class="input-box">
+                        <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
+                        <input v-model="telefono" type="telefono" required>
+                        <label for="telefono">Telefono</label>
                     </div>
 
-                 
-                    <RouterLink to="/lista-salones">
+                    <div class="input-box">
+                        <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
+                        <input v-model="nombre" type="nombre" required>
+                        <label for="nombre">Nombre</label>
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
+                        <input v-model="apellido" type="apellido" required>
+                        <label for="apellido">Apellido</label>
+                    </div>
+
                         <button type="submit" class="btn">
                             Registrate
                         </button>
-                    </RouterLink>
+
                     <div class="register-login">
                         <p>Ya tienes una cuenta?
                         <RouterLink to="/login">
@@ -72,8 +77,58 @@
 </template>
 
 <script>
+import axios from "axios";
+import jwt_decode from 'jwt-decode';
+
 export default {
   name: 'LoginComponent',
+  data() {
+    return {
+      username: "",
+      password: "",
+      correo: "",
+      telefono: "",
+      nombre: "",
+      apellido: "",
+    };
+  },
+  methods: {
+    async registerUser() {
+
+        const data = {
+            username: this.username,
+            password: this.password,
+            correo: this.correo,
+            telefono: this.telefono,
+            nombre: this.nombre,
+            apellido: this.apellido,
+        }
+        console.log(data);
+        this.$axios.post("http://localhost:8080/v1/register", data)
+        .then(response => {
+          
+          const token = response.data.token;
+          localStorage.setItem('jwtToken', token);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          const decodedToken = jwt_decode(token);
+
+            if (decodedToken.roles.includes("ROLE_USER")) {
+                this.$router.push("/salones");
+            } else {
+                console.log("error")
+                this.$router.push("/register");
+            }      
+        })
+        .catch(error => {
+            if (error.response && error.response.status === 401) {
+                console.error("Credenciales incorrectas");
+            } else {
+                console.error("Error durante el inicio de sesión:", error);
+            }
+        });
+
+    },
+  },
 }
 </script>
 
@@ -94,7 +149,7 @@ export default {
 .wrapper_register{
     position: relative;
     width: 400px;
-    height: 600px;
+    height: 700px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .5);
    
@@ -123,7 +178,7 @@ export default {
 }
 .register_icon img{
     width: 400px;
-    height: 600px;
+    height: 700px;
 }
 
 .wrapper_register .form-box{
@@ -151,7 +206,7 @@ export default {
     color: #162938;
     text-align: center;
     font-weight: 500;
-    margin: 25px 0 10px;
+     padding-top: 20px;
 }
 
 .register-login p a{
@@ -180,7 +235,7 @@ export default {
     color: #3c5364;
     text-align: center;
     font-weight: 500;
-    margin: 25px 0 10px;
+    padding-top: 20px;
 }
 
 .contact p a{
@@ -191,5 +246,12 @@ export default {
 
 .contact p a:hover{
     text-decoration: underline;
+}
+.wrapper_register .input-box{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid #162938;
+    margin: 20px 0;
 }
 </style>

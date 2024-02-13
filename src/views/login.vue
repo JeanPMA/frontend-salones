@@ -51,7 +51,7 @@
 import { reactive } from "vue";
 import axios from "axios";
 import { routerKey, useRouter } from "vue-router";
-import jwt_decode from 'jwt-decode';
+
 
 export default {
   name: 'LoginComponent',
@@ -168,7 +168,7 @@ body{
 
 
 .form-box h2{
-    font-size: 2em;
+   
     color: #162938;
     text-align: center;
     margin-top: 20px;
@@ -185,7 +185,7 @@ body{
     position: absolute;
     top: 50%;
     left: 5px;
-    transform: translateY(-50%);
+    transform: translateY(-25%);
     font-size: 1em;
     color: #162938;
     font-weight: 500;
