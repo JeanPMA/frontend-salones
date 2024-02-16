@@ -75,9 +75,10 @@
       'X-User-Role': userRole
     }
     };
-    axios.get('http://localhost:8080/v1/salon', config)
+    axios.get('http://localhost:8080/v1/salon/auth/all', config)
       .then(response => {
         this.salones = response.data;
+        
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
   },

@@ -13,7 +13,7 @@
                   item-value="id"
                   hide-details
                   :disabled="selectorBloqueado"
-                  @update:modelValue="limpiarErrorSalon"
+                  @update:modelValue="obtenerServicios(), limpiarErrorSalon"
                 ></v-select>
                 <span v-if="mostrarErrorSalon" class="error-message">Tienes que seleccionar una opción</span>
 
@@ -34,8 +34,10 @@
 
                   <v-select
                     v-model="seleccionados"
-                    :items="states"
+                    :items="listaServicios"
                     label="Selecciona servicios"
+                    item-title="nombre"
+                    item-value="id"
                     multiple
                     variant="outlined"
                     hide-details
@@ -82,23 +84,9 @@ export default {
     return {
         minDate: minDate.toISOString().split('T')[0],      
         seleccionados: [],
-        states: [
-          'Alabama', 'Alaska', 'American Samoa', 'Arizona',
-          'Arkansas', 'California', 'Colorado', 'Connecticut',
-          'Delaware', 'District of Columbia', 'Federated States of Micronesia',
-          'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho',
-          'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-          'Louisiana', 'Maine', 'Marshall Islands', 'Maryland',
-          'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-          'Missouri', 'Montana', 'Nebraska', 'Nevada',
-          'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
-          'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio',
-          'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico',
-          'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
-          'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
-          'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
-        ],
+
         listaSalones: [],
+        listaServicios: [],
         solicitudReserva: {
           salon: {
             id: null,
@@ -127,6 +115,7 @@ export default {
         if (salonSeleccionado) {
           this.solicitudReserva.salon = salonSeleccionado;
           this.selectorBloqueado = true;
+          this.obtenerServicios();
         } else {
           console.error('Salón no encontrado en la lista.');
         }
@@ -176,7 +165,7 @@ export default {
             //console.log(this.solicitudReserva);
        
       },
-      async obtenerSalones() {
+    async obtenerSalones() {
       try {
         const token = localStorage.getItem('jwtToken');
         const decodedToken = jwt_decode(token);
@@ -188,11 +177,19 @@ export default {
           },
         };
 
-        const response = await axios.get('http://localhost:8080/v1/salon', config);
+        const response = await axios.get('http://localhost:8080/v1/salon/auth/all', config);
 
-        this.listaSalones = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
+        this.listaSalones = response.data.map(item => ({ id: item.id, nombre: item.nombre, servicios: item.servicios }));
       } catch (error) {
         console.error('Error al obtener salones:', error);
+      }
+    },
+    obtenerServicios() {
+      const salonSeleccionado = this.listaSalones.find(salon => salon.id === this.solicitudReserva.salon.id);
+      if (salonSeleccionado && salonSeleccionado.servicios) {
+        this.listaServicios = salonSeleccionado.servicios.map(servicio => ({ id: servicio.id, nombre: servicio.nombre }));
+      } else {
+        this.listaServicios = [{ id: null, nombre: 'No existen servicios actualmente' }];
       }
     },
     limpiarErrorSalon() {

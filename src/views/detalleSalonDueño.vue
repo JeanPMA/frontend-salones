@@ -163,7 +163,7 @@ methods: {
         },
       };
 
-      const response = await axios.get('http://localhost:8080/v1/servicio', config);
+      const response = await axios.get('http://localhost:8080/v1/servicio/activo', config);
       const serviciosEnBaseDeDatos = response.data;
 
       if (this.detalleSalonDueño && this.detalleSalonDueño.servicios) {

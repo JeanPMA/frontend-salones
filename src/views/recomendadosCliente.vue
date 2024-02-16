@@ -71,7 +71,7 @@
       'X-User-Role': userRole
     }
     };
-    axios.get('http://localhost:8080/v1/salon', config)
+    axios.get('http://localhost:8080/v1/salon/auth/recomendado', config)
       .then(response => {
         this.salonesRecomendados = response.data;
       })

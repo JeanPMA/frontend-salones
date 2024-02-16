@@ -174,10 +174,10 @@
               },
             };
             const servicios = ref([]);
-            axios.get('http://localhost:8080/v1/servicio', config)
+            axios.get('http://localhost:8080/v1/servicio/activo', config)
               .then(response => {
                 servicios.value = response.data;
-                console.log(servicios.value);
+              
               })
               .catch(error => {
                 console.error('Error al obtener servicios:', error);

@@ -55,11 +55,9 @@
         >
       
           <!-- Slides -->
-          <swiper-slide class="swiper-slide"><img src="../img/1.png" alt=""></swiper-slide>
-          <swiper-slide class="swiper-slide"><img src="../img/2.png" alt=""></swiper-slide>
-          <swiper-slide class="swiper-slide"><img src="../img/3.png" alt=""></swiper-slide>
-          <swiper-slide class="swiper-slide"><img src="../img/4.png" alt=""></swiper-slide>
-          <swiper-slide class="swiper-slide"><img src="../img/5.png" alt=""> </swiper-slide>
+          <swiper-slide v-for="(item, index) in recomendados" :key="index" class="swiper-slide">
+            <img :src="item.banner_url" :alt="item.altText">
+          </swiper-slide>
        
         <!-- clase slide paginacion 
         <div class="swiper-pagination"></div>-->
@@ -212,17 +210,26 @@ export default {
       startIndex: 0,
       imagesPerPage: 9,
       
+      recomendados: [],
     };
   },
   mounted() {
     // Llamada a la API en localhost utilizando Axios
-    axios.get('http://localhost:8080/v1/salon/recomendado')
+    axios.get('http://localhost:8080/v1/salon/forUser')
       .then(response => {
         // Actualizamos la propiedad items con los datos de la API
         this.items = response.data;
+      
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
-  },
+
+      axios.get('http://localhost:8080/v1/salon/recomendado')
+      .then(response => {
+        // Actualizamos la propiedad items con los datos de la API
+        this.recomendados = response.data;
+      })
+      .catch(error => console.error('Error al obtener datos de la API:', error));
+   },
   computed: {
     paginas() {
       return Array.from({ length: Math.ceil(this.items.length / this.imagesPerPage) }, (_, i) => i + 1);
