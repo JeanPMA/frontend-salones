@@ -46,9 +46,13 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
-  
+  import VueNotification from '@kyvg/vue3-notification';
+
   export default{
   name: 'crearServicioComponent',
+  components: {
+      VueNotification,
+    },
   methods: {
     irAHome() {
     // Redirige a la página de detalle del salón
@@ -113,11 +117,19 @@
 
       this.$axios.put(`http://localhost:8080/v1/tipo-sr/${this.detalleTipoSR.id}`, data, config)
         .then(response => {
-          console.log('TipoSR actualizado con éxito:', response.data);
           this.$router.push({ name: 'lista-tipoSR-admin'});
+          this.$notify({
+                title: 'Éxito',
+                text: 'El tipo solicitud-reserva se actualizó correctamente.',
+                type: 'success',
+              });
         })
         .catch(error => {
-          console.error('Error al actualizar el TipoSR:', error);
+          this.$notify({
+                title: 'Error',
+                text: 'Error, nombre del tipo solicitud-reserva modificado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
         });
 },
   },

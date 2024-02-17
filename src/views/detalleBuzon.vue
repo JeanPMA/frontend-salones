@@ -56,6 +56,7 @@
 <script>
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
 
 export default {
   name: 'detalleBuzonComponent',
@@ -63,10 +64,11 @@ export default {
     return {
       detalleSolicitud: null,   
       listaTipoSR: [], 
-      
-
     };
   },
+  components: {
+      VueNotification,
+    },
   mounted() {
       const solicitudId = this.$route.params.id;
 
@@ -138,23 +140,33 @@ export default {
         if (elementoCancelar) {
         const nuevoId = elementoCancelar.id; 
         const nuevoNombre = elementoCancelar.nombre; 
+         
 
         this.detalleSolicitud.tipoSR.id= nuevoId; 
         this.detalleSolicitud.tipoSR.nombre= nuevoNombre; 
 
-        
         axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
           console.log(response.data);
           this.$router.push({ name: 'buzon'});
+          this.$notify({
+                title: 'Éxito',
+                text: 'La solicitud se canceló correctamente.',
+                type: 'success',
+          });
         })
         .catch(error => {
           console.error('Error en la petición PUT:', error);
+          this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al cancelar la solicitud. Intentelo de nuevo',
+                type: 'error',
+          });
         });
       }
     },
     eliminarReserva() {
-        const elementoCancelar = this.listaTipoSR.find(tipo => tipo.nombre === "INVISIBLE");
+        const elementoEliminar = this.listaTipoSR.find(tipo => tipo.nombre === "INVISIBLE");
         
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
@@ -169,9 +181,9 @@ export default {
                 username: username,
               },
             }
-        if (elementoCancelar) {
-        const nuevoId = elementoCancelar.id; 
-        const nuevoNombre = elementoCancelar.nombre; 
+        if (elementoEliminar) {
+        const nuevoId = elementoEliminar.id; 
+        const nuevoNombre = elementoEliminar.nombre; 
 
         this.detalleSolicitud.tipoSR.id= nuevoId; 
         this.detalleSolicitud.tipoSR.nombre= nuevoNombre; 
@@ -180,10 +192,20 @@ export default {
         axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
           console.log(response.data);
-          this.$router.push({ name: 'buzon', params: { id: id } });
+          this.$router.push({ name: 'buzon' });
+          this.$notify({
+                title: 'Éxito',
+                text: 'La solicitud se eliminó correctamente.',
+                type: 'success',
+          });
         })
         .catch(error => {
           console.error('Error en la petición PUT:', error);
+          this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al eliminar la solicitud. Intentelo de nuevo',
+                type: 'error',
+          });
         });
       }
     }

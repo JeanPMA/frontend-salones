@@ -89,11 +89,13 @@
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import VueNotification from '@kyvg/vue3-notification';
 
   export default {
     name: 'usuariosListaAdminComponent',
     components: {
         NavbarAdmin,
+        VueNotification,
     },
     mounted() {
     
@@ -145,11 +147,21 @@
             }
             axios.delete(`http://localhost:8080/v1/usuario/${id}`, config)
             .then(response => {
-              console.log('usuario eliminado:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El usuario se eliminó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, el usuario esta siendo utilizado en otras partes. Intentalo mas tarde',
+                type: 'error',
+              });
             });
 
       
@@ -175,11 +187,21 @@
             };
             axios.patch(`http://localhost:8080/v1/usuario/${id}`, data, config)
             .then(response => {
-              console.log('Usuario deshabilitado:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El estado del usuario se actualizó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al actualizar el estado del usuario. Intentalo de nuevo',
+                type: 'error',
+              });
             });
 
       

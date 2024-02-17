@@ -103,6 +103,7 @@ s
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { ref } from 'vue';
+import VueNotification from '@kyvg/vue3-notification';
 
 export default {
 name: 'DetalleSalonDueñoComponent',
@@ -127,6 +128,9 @@ data() {
       servicios: [],
       errorServicios: false,
     };
+  },
+  components: {
+      VueNotification,
   },
   mounted() {
       const salonId = this.$route.params.id;
@@ -252,10 +256,18 @@ methods: {
 
       this.$axios.put(`http://localhost:8080/v1/salon/${this.detalleSalonDueño.id}`, formData, config)
         .then(response => {
-          console.log('Salón actualizado con éxito:', response.data);
+                this.$notify({
+                  title: 'Éxito',
+                  text: 'La información del salón se actuliazó correctamente.',
+                  type: 'success',
+                });
         })
         .catch(error => {
-          console.error('Error al actualizar el salón:', error);
+          this.$notify({
+                title: 'Error',
+                text: 'Error, nombre de salón modificado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
         });
     },
     async obtenerImagenesSalon(id) {
@@ -301,11 +313,18 @@ methods: {
         
             axios.patch(`http://localhost:8080/v1/salon/${this.detalleSalonDueño.id}`, data, config)
             .then(response => {
-            
-              //this.$router.push({ name: 'lista-salones'});
+              this.$notify({
+                  title: 'Éxito',
+                  text: 'El estado del salón se actualizó correctamente.',
+                  type: 'success',
+                });
             })
             .catch(error => {
-              console.error('Error en la petición PUT:', error);
+              this.$notify({
+                  title: 'Error',
+                  text: 'Hubo un problema al actualizar el estado. Intentalo de nuevo',
+                  type: 'error',
+                });
             });
       
     },
@@ -328,11 +347,21 @@ methods: {
             formData.append('idSalon', this.detalleSalonDueño.id);
             this.$axios.post(`http://localhost:8080/v1/imagen-salon`, formData, config)
               .then(response => {
-                console.log('Imagen agregada con éxito:', response.data);
-                window.location.reload();
+                this.$notify({
+                  title: 'Éxito',
+                  text: 'La imagen se guardó correctamente.',
+                  type: 'success',
+                });
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
               })
               .catch(error => {
-                console.error('Error al añadir imagen del salón:', error);
+                this.$notify({
+                  title: 'Error',
+                  text: 'Hubo un problema al guardar la imagen. Intentalo de nuevo',
+                  type: 'error',
+                });
               });
            
     },
@@ -352,12 +381,22 @@ methods: {
             }
             axios.delete(`http://localhost:8080/v1/imagen-salon/${imagenId}`, config)
             .then(response => {
-              console.log('IMAGEN ELIMINADA:', imagenId);
               this.imagenesSalon.splice(index, 1);
-              window.location.reload();
+              this.$notify({
+                  title: 'Éxito',
+                  text: 'La imagen se eliminó correctamente.',
+                  type: 'success',
+                });
+              setTimeout(function() {
+                  window.location.reload();
+              }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición PUT:', error);
+              this.$notify({
+                  title: 'Error',
+                  text: 'Hubo un problema al eliminar la imagen. Intentalo de nuevo',
+                  type: 'error',
+                });
             });
 
       

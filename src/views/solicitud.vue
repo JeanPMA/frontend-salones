@@ -63,18 +63,21 @@
             </form>
         </div>
     </div>
+    <Toast ref="toast" @success="onSuccess" @error="onError" />
 </template>
 
 <script>
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
+
 
 export default {
     name: 'solicitudComponent',
     components: {
-        
+      VueNotification,
     },
-    
+
     data() { 
       const today = new Date();
       const minDate = new Date(today);
@@ -127,6 +130,8 @@ export default {
         this.$router.go(-1);
         },
         guardarSolicitudReserva() {
+            
+
             this.mostrarErrorSalon = !this.solicitudReserva.salon.id;
             this.mostrarErrorMotivo = !this.solicitudReserva.motivo;
             this.mostrarErrorServicios = this.seleccionados.length === 0;
@@ -152,18 +157,25 @@ export default {
                 username: username,
               },
             };
-
             axios.post('http://localhost:8080/v1/solicitud-reserva', this.solicitudReserva, config  )
             .then(response => {
               console.log('Solicitud de reserva guardada:', response.data);
               this.$router.push({ name: 'salones'});
+              this.$notify({
+                title: 'Éxito',
+                text: 'La solicitud se guardó correctamente.',
+                type: 'success',
+              });
             })
             .catch(error => {
               console.error('Error al guardar la solicitud de reserva:', error);
-            });
-           
-            //console.log(this.solicitudReserva);
-       
+              this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al guardar la solicitud.',
+                type: 'error',
+              });
+              });
+                  
       },
     async obtenerSalones() {
       try {
@@ -207,7 +219,16 @@ export default {
     limpiarErrorDetalle() {
       this.mostrarErrorDetalle = false;
     },
-    }
+    onSuccess(message) {
+    // Manejar evento de éxito
+    console.log('Éxito:', message);
+  },
+  onError(message) {
+    // Manejar evento de error
+    console.error('Error:', message);
+  },
+    },
+
 }
 </script>
 

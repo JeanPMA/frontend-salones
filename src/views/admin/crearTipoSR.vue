@@ -47,10 +47,14 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import VueNotification from '@kyvg/vue3-notification';
 
   
   export default{
   name: 'crearServicioComponent',
+  components: {
+      VueNotification,
+    },
   methods: {
     irAHome() {
 
@@ -77,11 +81,19 @@
             console.log(data);
           axios.post('http://localhost:8080/v1/tipo-sr', data, config)
           .then(response => {
-              console.log('Tipo SR guardada:', response.data);
               this.$router.push({ name: 'lista-tipoSR-admin'});
+              this.$notify({
+                title: 'Éxito',
+                text: 'El tipo solicitud-reserva se guardó correctamente.',
+                type: 'success',
+              });
             })
             .catch(error => {
-              console.error('Error al guardar Tipo SR:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, nombre de tipo solicitud-reserva ingresado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
             });
    
   },

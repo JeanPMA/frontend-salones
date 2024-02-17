@@ -77,11 +77,13 @@
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import VueNotification from '@kyvg/vue3-notification';
 
   export default {
     name: 'salonesListaAdminComponent',
     components: {
         NavbarAdmin,
+        VueNotification,
     },
     mounted() {
     
@@ -148,11 +150,21 @@
             };
             axios.patch(`http://localhost:8080/v1/salon/${id}`, data, config)
             .then(response => {
-              console.log('Salon deshabilitada:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El estado del salón se actualizó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al actualizar el estado del salón. Intentalo de nuevo',
+                type: 'error',
+              });
             });
 
     },
@@ -175,11 +187,21 @@
             }
             axios.delete(`http://localhost:8080/v1/salon/${id}`, config)
             .then(response => {
-              console.log('salon eliminado:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El salón se eliminó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, el salón esta siendo utilizado en otras partes. Intentalo mas tarde',
+                type: 'error',
+              });
             });
 
       

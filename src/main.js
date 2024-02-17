@@ -51,6 +51,7 @@ import store from './store/store';
 import axios from 'axios';
 import Vuex from 'vuex';
 import jwt_decode from 'jwt-decode';
+import Notifications from '@kyvg/vue3-notification'
 
 
 //iconos
@@ -211,6 +212,8 @@ app.use(VueScrollTo, {
 app.config.globalProperties.$axios = axios
 app.use(router)
 app.use(vuetify)
+app.use(Notifications)
+
 app.mount('#app')
 
 

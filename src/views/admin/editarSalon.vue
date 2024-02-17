@@ -97,7 +97,8 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
-  
+  import VueNotification from '@kyvg/vue3-notification';
+
   export default{
   name: 'editarSalonComponent',
   data() {
@@ -172,6 +173,9 @@
           }
         },
     };
+  },
+  components: {
+      VueNotification,
   },
   methods: {
     irAHome() {
@@ -336,11 +340,19 @@
     
           axios.put(`http://localhost:8080/v1/salon/admin/${this.salon.id}`, formData, config)
           .then(response => {
-              console.log('Salon actualizado:', response.data);
               this.$router.push({ name: 'lista-salones-admin'});
+              this.$notify({
+                title: 'Éxito',
+                text: 'El salón se actualizó correctamente.',
+                type: 'success',
+              });
             })
             .catch(error => {
-              console.error('Error al actualizar el Salon:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, nombre de salón modificado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
             });
    
   },

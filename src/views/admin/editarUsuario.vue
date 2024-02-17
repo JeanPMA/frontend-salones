@@ -93,7 +93,8 @@
 import { ref } from 'vue';
 import { useField, useForm } from 'vee-validate';
 import axios from 'axios';
-  import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
 
 export default{
 name: 'editarUsuarioComponent',
@@ -166,6 +167,9 @@ data() {
 
   };
 },
+components: {
+      VueNotification,
+    },
 methods: {
   irAHome() {
   // Redirige a la página de detalle del salón
@@ -268,11 +272,19 @@ methods: {
      
       this.$axios.put(`http://localhost:8080/v1/usuario/${this.usuario.id}`, data, config)
       .then(response => {
-        console.log('Usuario actualizado con éxito:', response.data);
         this.$router.push({ name: 'lista-usuarios-admin'});
+          this.$notify({
+                title: 'Éxito',
+                text: 'El usuario se actualizó correctamente.',
+                type: 'success',
+              });
       })
       .catch(error => {
-        console.error('Error al actualizar el usuario:', error);
+        this.$notify({
+                title: 'Error',
+                text: 'Error, nombre o correo de usuario modificado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
       });
       },
 },

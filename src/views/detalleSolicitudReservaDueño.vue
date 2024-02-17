@@ -59,6 +59,7 @@
 <script>
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
 
 export default {
   name: 'detalleSolicitudReservaComponent',
@@ -69,6 +70,9 @@ export default {
 
     };
   },
+  components: {
+      VueNotification,
+    },
   mounted() {
       const solicitudReservaId = this.$route.params.id;
 
@@ -157,9 +161,18 @@ export default {
         .then(response => {
           
           this.$router.push({ name: 'lista-solicitudes'});
+          this.$notify({
+                title: 'Éxito',
+                text: 'La solicitud se rechazó correctamente.',
+                type: 'success',
+              });
         })
         .catch(error => {
-          console.error('Error en la petición PUT:', error);
+          this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al rechazar la solicitud. Intentalo de nuevo',
+                type: 'error',
+              });
         });
       }
     },
@@ -188,9 +201,18 @@ export default {
         .then(response => {
           
           this.$router.push({ name: 'lista-solicitudes'});
+          this.$notify({
+                title: 'Éxito',
+                text: 'La solicitud se aceptó correctamente.',
+                type: 'success',
+              });
         })
         .catch(error => {
-          console.error('Error en la petición PUT:', error);
+          this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al aceptar la solicitud. Intentalo de nuevo',
+                type: 'error',
+              });
         });
       }
     },
@@ -220,6 +242,11 @@ export default {
         .then(response => {
           if(estadoAux === "RECHAZADO"){
             this.$router.push({ name: 'lista-solicitudes'});
+            this.$notify({
+                title: 'Éxito',
+                text: 'La solicitud/reserva se eliminó correctamente.',
+                type: 'success',
+              });
           }else{
             this.$router.push({ name: 'lista-reservas'});
           }
@@ -227,6 +254,11 @@ export default {
         })
         .catch(error => {
           console.error('Error en la petición PUT:', error);
+          this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al eliminar la solicitud. Intentalo de nuevo',
+                type: 'error',
+              });
         });
       }
     },
@@ -252,12 +284,20 @@ export default {
                 }
         };       
         axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
-        .then(response => {
-          
+        .then(response => {         
           this.$router.push({ name: 'lista-reservas'});
+          this.$notify({
+                title: 'Éxito',
+                text: 'La reserva se canceló correctamente.',
+                type: 'success',
+              });
         })
         .catch(error => {
-          console.error('Error en la petición PUT:', error);
+          cthis.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al cancelar la reserva. Intentalo de nuevo',
+                type: 'error',
+              });
         });
       }
     },

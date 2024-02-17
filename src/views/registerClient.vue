@@ -79,6 +79,7 @@
 <script>
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
 
 export default {
   name: 'LoginComponent',
@@ -92,6 +93,9 @@ export default {
       apellido: "",
     };
   },
+  components: {
+      VueNotification,
+    },
   methods: {
     async registerUser() {
 
@@ -114,16 +118,36 @@ export default {
 
             if (decodedToken.roles.includes("ROLE_USER")) {
                 this.$router.push("/salones");
+                this.$notify({
+                    title: 'Éxito',
+                    text: 'El registro se completo correctamente',
+                    type: 'success',
+                  });
             } else {
                 console.log("error")
-                this.$router.push("/register");
+                this.$router.push("/register");             
+                 this.$notify({
+                    title: 'Error',
+                    text: 'Oh no, hubo un problema en el registro. Intentalo de nuevo',
+                    type: 'error',
+                });
             }      
         })
         .catch(error => {
             if (error.response && error.response.status === 401) {
                 console.error("Credenciales incorrectas");
+                this.$notify({
+                    title: 'Error',
+                    text: 'Oh no, hubo un problema en el registro. Intentalo de nuevo',
+                    type: 'error',
+                });
             } else {
                 console.error("Error durante el inicio de sesión:", error);
+                this.$notify({
+                    title: 'Error',
+                    text: 'Error, el usuario o correo ingresados ya existen.',
+                    type: 'error',
+                });
             }
         });
 

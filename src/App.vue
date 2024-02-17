@@ -1,17 +1,20 @@
 <template>
 
   <div class="app">
+    <Notifications />
     <router-view></router-view>
   </div>
 
 </template>
 
 <script>
+import { Notifications } from '@kyvg/vue3-notification';
+
 
 
 export default {
-  name: 'App',
- 
+    name: 'App',
+    components: { Notifications }
 }
 </script>
 

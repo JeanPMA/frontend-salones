@@ -73,11 +73,13 @@
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
   import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
 
   export default {
     name: 'tipoSRListaAdminComponent',
     components: {
         NavbarAdmin,
+        VueNotification,
     },
 
     data() {
@@ -126,11 +128,21 @@ import jwt_decode from 'jwt-decode';
             }
             axios.delete(`http://localhost:8080/v1/tipo-sr/${id}`, config)
             .then(response => {
-              console.log('IMAGEN ELIMINADA:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El tipo solicitud-reserva se eliminó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, el tipo solicitud-reserva esta siendo utilizado en otras partes. Intentalo mas tarde',
+                type: 'error',
+              });
             });
 
       
@@ -159,11 +171,21 @@ import jwt_decode from 'jwt-decode';
             };
             axios.patch(`http://localhost:8080/v1/tipo-sr/${id}`, data, config)
             .then(response => {
-              console.log('Tipo SR deshabilitada:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El estado del tipo solicitud-reserva se actualizó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al actualizar el estado del tipo solicitud-reserva. Intentalo de nuevo',
+                type: 'error',
+              });
             });
 
       

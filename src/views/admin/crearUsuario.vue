@@ -90,6 +90,7 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import VueNotification from '@kyvg/vue3-notification';
 
   export default{
   name: 'crearusernameComponent',
@@ -102,6 +103,9 @@
       mostrarErrorUsuario: false,
     }
   },
+  components: {
+      VueNotification,
+    },
   async  mounted() {
       await this.obtenerRoles();
   },
@@ -167,11 +171,19 @@
           console.log(data);
           axios.post('http://localhost:8080/v1/usuario', data, config)
           .then(response => {
-              console.log('Usuario guardado:', response.data);
               this.$router.push({ name: 'lista-usuarios-admin'});
+              this.$notify({
+                title: 'Éxito',
+                text: 'El usuario se guardó correctamente.',
+                type: 'success',
+              });
             })
             .catch(error => {
-              console.error('Error al guardar usuario:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, nombre o correo de usuario ingresado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
             });
    
   },

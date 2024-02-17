@@ -54,9 +54,13 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
-  
+  import VueNotification from '@kyvg/vue3-notification';
+
   export default{
   name: 'crearServicioComponent',
+  components: {
+      VueNotification,
+    },
   methods: {
     irAHome() {
     // Redirige a la página de detalle del salón
@@ -87,7 +91,6 @@
 
   
       this.servicio = response.data;
-      console.log(this.servicio);
 
     } catch (error) {
       console.error('Error al obtener detalles de la solicitud:', error);
@@ -125,11 +128,19 @@
       
       this.$axios.put(`http://localhost:8080/v1/servicio/${this.servicio.id}`, data, config)
       .then(response => {
-        console.log('Servicio actualizado con éxito:', response.data);
         this.$router.push({ name: 'lista-servicios-admin'});
+        this.$notify({
+                title: 'Éxito',
+                text: 'el servicio se actualizó correctamente.',
+                type: 'success',
+        });
       })
       .catch(error => {
-        console.error('Error al actualizar el servicio:', error);
+        this.$notify({
+                title: 'Error',
+                text: 'Error, nombre de servicio modificado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
       });
 },
   },

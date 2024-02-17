@@ -90,9 +90,14 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import VueNotification from '@kyvg/vue3-notification';
 
   export default{
   name: 'crearSalonDueñoComponent',
+  components: {
+      VueNotification,
+    },
+
   data() {
     return {
       selectedFile: null,
@@ -156,9 +161,21 @@
           .then(response => {
               console.log('Salon guardado:', response.data);
               this.$router.push({ name: 'lista-salones'});
+              this.$notify({
+                title: 'Éxito',
+                text: 'El salón se registró correctamente.',
+                type: 'success',
+              });
+          console.log(this.$notify);
             })
             .catch(error => {
               console.error('Error al guardar el Salon:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, nombre de salón ingresado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
+          console.log(this.$notify);
             });
    
   },

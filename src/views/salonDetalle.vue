@@ -69,7 +69,7 @@ name: 'salonDetalleComponent',
   },
   methods: {
       volverAtras (){
-      this.$router.go(-1);
+        this.$router.push({ name: 'salones' });
       },
       obtenerDetallesSalon(id) {
         const token = localStorage.getItem('jwtToken');

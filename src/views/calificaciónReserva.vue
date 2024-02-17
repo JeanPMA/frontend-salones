@@ -26,6 +26,7 @@
 <script>
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
 
 export default {
   name: 'calificaciónComponent',
@@ -35,6 +36,9 @@ export default {
       idReserva: null,
     };
   },
+  components: {
+      VueNotification,
+  },
   mounted() {
     this.idReserva = this.$route.params.id;
   },
@@ -42,10 +46,7 @@ export default {
     actualizarPuntuacion() {
       
     },
-    enviarPuntuacion() {
-         
-          
-
+    enviarPuntuacion() { 
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -66,12 +67,21 @@ export default {
             };
           
             axios.patch(`http://localhost:8080/v1/solicitud-reserva/calificacion/${this.idReserva}`, data, config )
-                .then(response => {
-               
+                .then(response => {              
                 this.$router.push({ name: 'buzon'});
+                this.$notify({
+                    title: 'Éxito',
+                    text: 'Puntuación registrada correctamente.',
+                    type: 'success',
+                 });
                 })
                 .catch(error => {
                 console.error('Error al enviar la puntuación:', error);
+                  this.$notify({
+                      title: 'Error',
+                      text: 'Hubo un problema al registrar la calificación. Intentalo de nuevo',
+                      type: 'error',
+                  });
                 });
     },
   },

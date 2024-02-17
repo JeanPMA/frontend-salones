@@ -52,9 +52,13 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import VueNotification from '@kyvg/vue3-notification';
 
   export default{
   name: 'crearServicioComponent',
+  components: {
+      VueNotification,
+    },
   methods: {
     irAHome() {
 
@@ -82,11 +86,19 @@
             console.log(data);
           axios.post('http://localhost:8080/v1/servicio', data, config)
           .then(response => {
-              console.log('Servicio guardado:', response.data);
+              this.$notify({
+                title: 'Éxito',
+                text: 'El servicio se guardó correctamente.',
+                type: 'success',
+              });
               this.$router.push({ name: 'lista-servicios-admin'});
             })
             .catch(error => {
-              console.error('Error al guardar servicio:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, nombre de servicio ingresado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
             });
    
   },

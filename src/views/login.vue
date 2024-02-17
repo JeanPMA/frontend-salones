@@ -51,6 +51,7 @@
 import { reactive } from "vue";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
+import VueNotification from '@kyvg/vue3-notification';
 
 import { routerKey, useRouter } from "vue-router";
 
@@ -63,6 +64,9 @@ export default {
       password: "",
     };
   },
+  components: {
+      VueNotification,
+    },
   methods: {
     login() {
       // Realiza la solicitud de login al backend
@@ -83,19 +87,40 @@ export default {
             
             if (decodedToken.roles.includes("ROLE_ADMIN")) {
               this.$router.push("/lista-salones-admin");
-
+              this.$notify({
+                title: 'Éxito',
+                text: 'Bienvenido.',
+                type: 'success',
+              });
             } else if (decodedToken.roles.includes("ROLE_OWNER")) {
               this.$router.push("/lista-salones");
-
+              this.$notify({
+                title: 'Éxito',
+                text: 'Bienvenido.',
+                type: 'success',
+              });
             } else if (decodedToken.roles.includes("ROLE_USER")) {
               this.$router.push("/salones");
+              this.$notify({
+                title: 'Éxito',
+                text: 'Bienvenido.',
+                type: 'success',
+              });
             } else {
-              // Redirige a una ruta predeterminada si el rol no es reconocido
               this.$router.push("/login");
+              this.$notify({
+                title: 'Error',
+                text: 'Error de rol',
+                type: 'error',
+              });
             }
           } else {
-            // Redirige a una ruta predeterminada si no se pudo obtener información del rol
             this.$router.push("/login");
+            this.$notify({
+                title: 'Error',
+                text: 'Usuario o contraseña invalidas',
+                type: 'error',
+            });
           }
          
         })
@@ -103,10 +128,20 @@ export default {
             if (error.response && error.response.status === 401) {
                 // Credenciales incorrectas
                 console.error("Credenciales incorrectas");
+                this.$notify({
+                    title: 'Error',
+                    text: 'Credenciales incorrectas',
+                    type: 'error',
+                });
             } else {
                 // Otro tipo de error
                 console.error("Error durante el inicio de sesión:", error);
-   }
+                this.$notify({
+                    title: 'Error',
+                    text: 'Usuario o contraseña invalidas',
+                    type: 'error',
+                });
+            }
         });
     },
   },

@@ -78,11 +78,13 @@
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import VueNotification from '@kyvg/vue3-notification';
 
   export default {
     name: 'serviciosListaAdminComponent',
     components: {
         NavbarAdmin,
+        VueNotification,
     },
 
     data() {
@@ -92,6 +94,7 @@
       currentPage: 1,
     };
     },
+    
     mounted() {
     
     const token = localStorage.getItem('jwtToken');
@@ -134,11 +137,21 @@
             }
             axios.delete(`http://localhost:8080/v1/servicio/${id}`, config)
             .then(response => {
-              console.log('recurso eliminado:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El servicio se eliminó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, el servicio esta siendo utilizado en otras partes. Intentalo mas tarde',
+                type: 'error',
+              });
             });
 
       
@@ -164,11 +177,21 @@
             };
             axios.patch(`http://localhost:8080/v1/servicio/${id}`, data, config)
             .then(response => {
-              console.log('Servicio deshabilitado:', id);  
-              window.location.reload();
+              this.$notify({
+                title: 'Éxito',
+                text: 'El estado del servicio se actualizó correctamente.',
+                type: 'success',
+              });
+              setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
-              console.error('Error en la petición:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Hubo un problema al actualizar el estado del servicio. Intentalo de nuevo',
+                type: 'error',
+              });
             });
 
       

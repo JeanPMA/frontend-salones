@@ -99,7 +99,8 @@
   import { useField, useForm } from 'vee-validate';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
-  
+  import VueNotification from '@kyvg/vue3-notification';
+
   export default{
   name: 'crearSalonComponent',
   data() {
@@ -111,7 +112,10 @@
       errorServicios: false,
       errorUsuario: false,
     };
-  },
+  }, 
+  components: {
+      VueNotification,
+    },
   methods: {
     irAHome() {
     // Redirige a la página de detalle del salón
@@ -136,9 +140,7 @@
       if (this.error || this.errorServicios || this.errorUsuario) {
 
         return;
-      }
-
-      
+      }      
             const formData = new FormData();
           
   
@@ -168,11 +170,19 @@
     
           axios.post('http://localhost:8080/v1/salon/admin', formData, config)
           .then(response => {
-              console.log('Salon guardado:', response.data);
               this.$router.push({ name: 'lista-salones-admin'});
+              this.$notify({
+                title: 'Éxito',
+                text: 'El salón se guardó correctamente.',
+                type: 'success',
+              });
             })
             .catch(error => {
-              console.error('Error al guardar el Salon:', error);
+              this.$notify({
+                title: 'Error',
+                text: 'Error, nombre de salón ingresado ya existente. Intentalo de nuevo',
+                type: 'error',
+              });
             });
    
   },
@@ -202,7 +212,6 @@
                 usuarios.value = response.data.filter(usuario => {
                   return usuario.rol && usuario.rol.nombre === 'OWNER';
                 });
-                console.log(usuarios.value);
               })
               .catch(error => {
                 console.error('Error al obtener usuarios:', error);
