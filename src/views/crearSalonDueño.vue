@@ -8,43 +8,55 @@
         <form @submit.prevent="submit" enctype="multipart/form-data">
         <v-text-field
             v-model="nombre.value.value"
-            :counter="10"
+            :counter="50"
+            clearable
             :error-messages="nombre.errorMessage.value"
+            maxlength="50"
             label="Nombre"
+            @input="bloquearCaracteresEspeciales"
         ></v-text-field>
 
 
         <v-text-field
             v-model="direccion.value.value"
-            :counter="10"
+            clearable
+            :counter="100"
+            maxlength="100"
             :error-messages="direccion.errorMessage.value"
             label="Direccion"
         ></v-text-field>
 
         <v-text-field
             v-model="capacidad.value.value"
+            clearable
             :counter="5"
+            maxlength="5"
             :error-messages="capacidad.errorMessage.value"
             label="Capacidad del salon"
+            @input="limitesCapacidad"
         ></v-text-field>
     
         <v-textarea 
             v-model="descripcion.value.value"
+            clearable
             :error-messages="descripcion.errorMessage.value"
-            :counter="50"
+            :counter="200"
+            maxlength="200"
             label="Descripcion"
         ></v-textarea>
             
         <v-text-field
             v-model="tarifa.value.value"
-            :counter="8"
+            clearable
+            :counter="5"
+            maxlength="5"
             :error-messages="tarifa.errorMessage.value"
             label="Tarifa del salon"
+            @input="limitesTarifa"
         ></v-text-field>
 
         <v-select
-          v-model="serviciosSeleccionados"
-        
+          v-model="serviciosSeleccionados"       
           :items="servicios"
           item-title="nombre"
           item-value="id"
@@ -58,8 +70,10 @@
             v-model="estado.value.value"
             :error-messages="estado.errorMessage.value"
             value="1"
-            label="Habilitado?"
+            label="Marque esta casilla si desea habilitar el salón"
             type="activo"
+            @input="ajustarValorEstado"
+
         ></v-checkbox>
 
         <h1>Subir Imagen</h1>
@@ -104,12 +118,48 @@
       serviciosSeleccionados: [],
       error: false,
       errorServicios: false,
+      estado: {
+        value: { value: 0 },
+        errorMessage: { value: "" },
+      }
     };
   },
   methods: {
     irAHome() {
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones'});
+    },
+    ajustarValorEstado() {
+      if (!this.estado.value.value) {
+        this.estado.value.value = 0;
+      }
+    },
+    limitesCapacidad(){
+    this.limitarLongitudCapacidad();
+    this.bloquearECapacidad();
+    },
+    limitarLongitudCapacidad() {
+        if (this.capacidad.value.value.length > 8) {
+          this.capacidad.value.value = this.capacidad.value.value.slice(0, 8);
+        }
+    },
+    bloquearECapacidad() {
+      this.capacidad.value.value = this.capacidad.value.value.replace(/\D/g, '');
+    },
+    limitesTarifa(){
+    this.limitarLongitudTarifa();
+    this.bloquearETarifa();
+    },
+    limitarLongitudTarifa() {
+        if (this.tarifa.value.value.length > 8) {
+          this.tarifa.value.value = this.tarifa.value.value.slice(0, 8);
+        }
+    },
+    bloquearETarifa() {
+      this.tarifa.value.value = this.tarifa.value.value.replace(/\D/g, '');
+    },
+    bloquearCaracteresEspeciales() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z0-9\s]/g, '');
     },
     handleFileChange(event) {
       this.selectedFile = event.target.files[0];
@@ -122,11 +172,25 @@
     async crearSalon() {
       this.error = !this.selectedFile;
       this.errorServicios = this.serviciosSeleccionados.length === 0 ;
+      if (!this.estado.value.value) {
+        this.estado.value.value = 0;
+      }
       if (this.error || this.errorServicios) {
-
         return;
       }
+      const errores = [
+              this.nombre,
+              this.direccion,
+              this.capacidad,
+              this.descripcion,
+              this.tarifa,
+      ];
 
+      for (const error of errores) {
+          if (error?.errorMessage?.value || !error.value.value) {
+            return;
+          }
+      }
       
             const formData = new FormData();
           
@@ -159,23 +223,19 @@
     
           axios.post('http://localhost:8080/v1/salon', formData, config)
           .then(response => {
-              console.log('Salon guardado:', response.data);
               this.$router.push({ name: 'lista-salones'});
               this.$notify({
                 title: 'Éxito',
                 text: 'El salón se registró correctamente.',
                 type: 'success',
               });
-          console.log(this.$notify);
             })
             .catch(error => {
-              console.error('Error al guardar el Salon:', error);
               this.$notify({
                 title: 'Error',
                 text: 'Error, nombre de salón ingresado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
-          console.log(this.$notify);
             });
    
   },
@@ -216,25 +276,29 @@
           return 'La ubicación del salón necesita más de 2 caracteres';
         },
         capacidad(value) {
-          if (value?.length < 6 && /[0-9-]+/.test(value)) return true;
+          const digitsOnly = String(value).replace(/\D/g, '');
 
-          return 'La capacidad del salón debe ser menor a 6 dígitos.';
-        },
-        descripcion(value) {
-          // Agrega la regla de validación para la descripción según tus necesidades
-          // Por ejemplo, puedes verificar la longitud o el formato.
+          if (digitsOnly === '') {
+            return 'Ingrese la capacidad del salón.';
+          }
+
           return true;
         },
+        descripcion(value) {
+          if (value?.length >= 2) return true;
+
+            return 'La descripción del salón necesita más de 2 caracteres';
+        },
         tarifa(value) {
-          if (value?.length < 5 && /[0-9-]+/.test(value)) return true;
+          const digitsOnly = String(value).replace(/\D/g, '');
 
-          return 'La tarifa del salón debe ser menor a 5 dígitos.';
-        },
-        estado(value) {
-          if (value === '1') return true;
+          if (digitsOnly === '') {
+            return 'Ingrese la tarifa del salón.';
+          }
 
-          return 'Debe ser marcado';
+          return true;
         },
+ 
        
       },
     });
@@ -263,16 +327,7 @@
     };
   },
 };
-/*descripcion (value) {
-        if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
 
-        return 'Must be a valid e-mail.'
-      },
-      select (value) {
-        if (value) return true
-
-        return 'Select an item.'
-      },*/
 </script>
 
 <style>

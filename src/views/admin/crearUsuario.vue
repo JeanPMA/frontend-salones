@@ -1,49 +1,66 @@
 <template>
     <div class="content_crearusername">    
         <h2>
-            FORMULARIO PARA LA CREACION DE username
+            FORMULARIO PARA LA CREACION DE USUARIO
         </h2>
         <form @submit.prevent="submit">
         <v-text-field
             v-model="username.value.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             :error-messages="username.errorMessage.value"
             label="Usuario"
+            clearable
         ></v-text-field>
 
         <v-text-field
             v-model="password.value.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             :error-messages="password.errorMessage.value"
             label="Contraseña"
+            clearable
         ></v-text-field>
 
         <v-text-field
             v-model="telefono.value.value"
             :counter="8"
+            maxlength="8"
             :error-messages="telefono.errorMessage.value"
             label="Numero de telefono"
+            clearable
+            @input="limitesTelefono"
+
         ></v-text-field>
      
         <v-text-field
             v-model="nombre.value.value"
             :error-messages="nombre.errorMessage.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             label="Nombre"
+            @input="bloquearCaracteresEspecialesNombre"
+            clearable
         ></v-text-field>
             
         <v-text-field
             v-model="apellido.value.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             :error-messages="apellido.errorMessage.value"
             label="Apellido"
+            @input="bloquearCaracteresEspecialesApellido"
+            clearable
+
         ></v-text-field>
 
         <v-text-field
             v-model="correo.value.value"
-            :counter="10"
+            :counter="100"
+            maxlength="100"
             :error-messages="correo.errorMessage.value"
             label="Correo electronico"
+            clearable
         ></v-text-field>
     
         <v-select
@@ -54,16 +71,18 @@
                   item-title="nombre"
                   item-value="id"
                   hide-details
-                  @update:modelValue="limpiarErrorUsuario"
+                  @update:modelValue="limpiarErrorRol"
           ></v-select>
-          <span v-if="mostrarErrorUsuario" class="error-message">Tienes que seleccionar una opción</span>
+          <span v-if="mostrarErrorRol" class="error-message">Tienes que seleccionar una opción</span>
 
         <v-checkbox
             v-model="estado.value.value"
             :error-messages="estado.errorMessage.value"
             value="1"
-            label="Habilitado?"
+            label="Marque esta casilla si desea habilitar el usuario"
             type="activo"
+            @input="ajustarValorEstado"
+
         ></v-checkbox>
     
         <v-btn
@@ -100,7 +119,7 @@
       rol: {
             id: null,
       },
-      mostrarErrorUsuario: false,
+      mostrarErrorRol: false,
     }
   },
   components: {
@@ -113,8 +132,31 @@
     irAHome() {
       this.$router.push({ name: 'lista-usuarios-admin'});
     },
-    limpiarErrorUsuario() {
-      this.mostrarErrorUsuario = false;
+    ajustarValorEstado() {
+      if (!this.estado.value.value) {
+        this.estado.value.value = 0;
+      }
+    },
+    bloquearCaracteresEspecialesNombre() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z\s]/g, '');
+    },
+    bloquearCaracteresEspecialesApellido() {
+      this.apellido.value.value = this.apellido.value.value.replace(/[^a-zA-Z\s]/g, '');
+    },
+    limitesTelefono(){
+    this.limitarLongitudTelefono();
+    this.bloquearE();
+    },
+    limitarLongitudTelefono() {
+        if (this.telefono.value.value.length > 8) {
+          this.telefono.value.value = this.telefono.value.value.slice(0, 8);
+        }
+    },
+    bloquearE() {
+      this.telefono.value.value = this.telefono.value.value.replace(/\D/g, '');
+    },
+    limpiarErrorRol() {
+      this.mostrarErrorRol = false;
     },
     async obtenerRoles() {
 
@@ -137,12 +179,29 @@
       }
     },
     async crearUsuario() {    
-      this.mostrarErrorUsuario = !this.rol.id;
+            this.mostrarErrorRol = !this.rol.id;
 
-      if(this.mostrarErrorUsuario) {
-              
-          return;
-      }
+            if (!this.estado.value.value) {
+              this.estado.value.value = 0;
+            }
+            const errores = [
+              this.username,
+              this.password,
+              this.telefono,
+              this.nombre,
+              this.apellido,
+              this.correo,
+            ];
+
+            for (const error of errores) {
+              if (error?.errorMessage?.value || !error.value.value) {
+                return;
+              }
+            }
+
+            if (this.mostrarErrorRol) {
+              return;
+            }
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -168,7 +227,6 @@
                 },
                 estado: this.estado.value.value,
             };
-          console.log(data);
           axios.post('http://localhost:8080/v1/usuario', data, config)
           .then(response => {
               this.$router.push({ name: 'lista-usuarios-admin'});
@@ -194,43 +252,38 @@
         username(value) {
           if (value?.length >= 2) return true;
 
-          return 'El username del salón necesita más de 2 caracteres';
+          return 'El username del usuario necesita más de 2 caracteres';
         },
         password(value) {
           if (value?.length >= 2) return true;
 
-          return 'La ubicación del salón necesita más de 2 caracteres';
+          return 'La contraseña del usuario necesita más de 2 caracteres';
         },
         telefono(value) {
-          if (value?.length <= 8 && /[0-9-]+/.test(value)) return true;
+          const digitsOnly = String(value).replace(/\D/g, ''); 
+          if (/^\d{7,}$/.test(digitsOnly)) {
+            return true;
+          }
 
-          return 'La telefono del salón debe ser menor a 6 dígitos.';
+          return 'El telefono del usuario debe ser mayor o igual a 7 dígitos.';
         },
         nombre(value) {
             if (value?.length >= 2) return true;
 
-            return 'El nombre necesita más de 2 caracteres';
+            return 'El nombre del usuario necesita más de 2 caracteres';
         },
         apellido(value) {
           if (value?.length >= 2) return true;
 
-          return 'El apellido necesita más de 2 caracteres';
+          return 'El apellido del usuario necesita más de 2 caracteres';
         },
         correo(value) {
-          if (value?.length >= 2) return true;
+          if (/^[a-zA-Z0-9.-]+@[a-z.-]+\.com+$/i.test(value)) return true
 
-        return 'Tiene que ser valido el e-mail.'
+        return 'Ingresa un correo valido'
         },
-        estado(value) {
-          if (value?.length >= 2) return true;
 
-          return 'El estado necesita más de 2 caracteres';
-        },
-        estado(value) {
-          if (value === '1') return true;
 
-          return 'Debe ser marcado';
-        },
       },
     });
 

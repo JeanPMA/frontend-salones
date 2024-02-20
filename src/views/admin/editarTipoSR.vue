@@ -8,9 +8,12 @@
     
         <v-text-field
             :error-messages="nombre.errorMessage.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             label="Nombre"
             v-model="nombre.value.value"
+            clearable
+            @input="bloquearCaracteresEspeciales"
         ></v-text-field>
     
         <v-text-field
@@ -58,6 +61,9 @@
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-tipoSR-admin'});
     },
+    bloquearCaracteresEspeciales() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    },
     async obtenerYAsignar() {
       const tipoSRId = this.$route.params.id;
       await this.obtenerDetallesTipoSR(tipoSRId)
@@ -91,6 +97,7 @@
     }
     },
     editarTipoSR() {
+
       this.mostrarErrorNombre = this.nombre.errorMessage.value;
       if (this.mostrarErrorNombre != undefined) {            
           return;

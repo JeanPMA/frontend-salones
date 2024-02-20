@@ -5,18 +5,21 @@
         </h2>
         <form @submit.prevent="submit">
             <v-text-field
-           
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             :error-messages="username.errorMessage.value"
             label="Usuario"
             v-model="username.value.value"
+            clearable
         ></v-text-field>
 
         <v-text-field
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             :error-messages="password.errorMessage.value"
             label="Solo ingresar contraseña en caso de cambio"
             v-model="password.value.value"
+            clearable
         ></v-text-field>
 
         <v-select
@@ -33,30 +36,41 @@
 
         <v-text-field
             :counter="8"
+            maxlength="8"
             :error-messages="telefono.errorMessage.value"
             label="Numero de telefono"
             v-model="telefono.value.value"
+            clearable
+            @input="limitesTelefono"
         ></v-text-field>
     
         <v-text-field
             :error-messages="nombre.errorMessage.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             label="Nombre"
             v-model="nombre.value.value"
+            clearable
+            @input="bloquearCaracteresEspecialesNombre"
         ></v-text-field>
             
         <v-text-field
-            :counter="10"
+           :counter="50"
+            maxlength="50"
             :error-messages="apellido.errorMessage.value"
             label="Apellido"
             v-model="apellido.value.value"
+            clearable
+            @input="bloquearCaracteresEspecialesApellido"
         ></v-text-field>
 
         <v-text-field
-            :counter="10"
+            :counter="100"
+            maxlength="100"
             :error-messages="correo.errorMessage.value"
             label="Correo electronico"
             v-model="correo.value.value"
+            clearable
         ></v-text-field>
 
      
@@ -115,6 +129,11 @@ data() {
           }
         },
         mostrarErrorRol: false,
+        mostrarErrorUsername: false,
+        mostrarErrorTelefono: false,
+        mostrarErrorNombre: false,
+        mostrarErrorApellido: false,
+        mostrarErrorCorreo: false,
         rolesLista: [],
         username: {
           value: {
@@ -174,6 +193,24 @@ methods: {
   irAHome() {
   // Redirige a la página de detalle del salón
     this.$router.push({ name: 'lista-usuarios-admin'});
+  },
+  limitesTelefono(){
+    this.limitarLongitudTelefono();
+    this.bloquearE();
+  },
+  limitarLongitudTelefono() {
+      if (this.telefono.value.value.length > 8) {
+        this.telefono.value.value = this.telefono.value.value.slice(0, 8);
+      }
+  },
+  bloquearE() {
+    this.telefono.value.value = this.telefono.value.value.replace(/\D/g, '');
+  },
+  bloquearCaracteresEspecialesNombre() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z\s]/g, '');
+  },
+  bloquearCaracteresEspecialesApellido() {
+      this.apellido.value.value = this.apellido.value.value.replace(/[^a-zA-Z\s]/g, '');
   },
   limpiarErrorRol() {
       this.mostrarErrorRol = false;
@@ -239,8 +276,19 @@ methods: {
     editarUsuario() {
       this.mostrarErrorRol = !this.usuario.rol.id;
 
-      if(this.mostrarErrorRol) {
-              
+      this.mostrarErrorUsername = this.username.errorMessage.value;
+      this.mostrarErrorTelefono = this.telefono.errorMessage.value;
+      this.mostrarErrorNombre = this.nombre.errorMessage.value;
+      this.mostrarErrorApellido = this.apellido.errorMessage.value;
+      this.mostrarErrorCorreo = this.correo.errorMessage.value;
+      if (this.mostrarErrorUsername != undefined ||
+          this.mostrarErrorTelefono != undefined ||
+          this.mostrarErrorNombre != undefined ||
+          this.mostrarErrorApellido != undefined ||
+          this.mostrarErrorCorreo != undefined) {            
+          return;
+      }
+      if(this.mostrarErrorRol) {              
           return;
       }
       const token = localStorage.getItem('jwtToken');
@@ -300,25 +348,31 @@ setup() {
         username(value) {
           if (value?.length >= 2) return true;
 
-          return 'El username del salón necesita más de 2 caracteres';
+          return 'El username del usuario necesita más de 2 caracteres';
         },
-
-       
+        telefono(value) {
+          const digitsOnly = String(value).replace(/\D/g, ''); 
+          if (/^\d{7,}$/.test(digitsOnly)) {
+            return true;
+          }
+          return 'El telefono del usuario debe ser mayor o igual a 7 dígitos.';
+        },
         nombre(value) {
             if (value?.length >= 2) return true;
 
-            return 'El nombre necesita más de 2 caracteres';
+            return 'El nombre del usuario necesita más de 2 caracteres';
         },
         apellido(value) {
           if (value?.length >= 2) return true;
 
-          return 'El apellido necesita más de 2 caracteres';
+          return 'El apellido del usuario necesita más de 2 caracteres';
         },
         correo(value) {
-        if (value?.length >= 2) return true
+          if (/^[a-zA-Z0-9.-]+@[a-z.-]+\.com+$/i.test(value)) return true
 
-        return 'Tiene que ser valido el e-mail.'
+          return 'Ingresa un correo valido'
         },
+
 
       },
     });

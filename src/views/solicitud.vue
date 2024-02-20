@@ -52,7 +52,7 @@
                 <span v-if="mostrarErrorFecha" class="error-message">Debes seleccionar una fecha</span>
 
                 <label for="detalle" id="labelDetalle">Detalle Extra:</label>
-                <textarea id="detalle" name="detalle" rows="4" placeholder="Detalle:" style="font-family: Arial, sans-serif;" v-model="solicitudReserva.detalle" @input="limpiarErrorDetalle"></textarea>
+                <textarea id="detalle" name="detalle" rows="4" placeholder="Detalle:" style="font-family: Arial, sans-serif;" v-model="solicitudReserva.detalle" @input="limpiarErrorDetalle" maxlength="200"></textarea>
                 <span v-if="mostrarErrorDetalle" class="error-message">El detalle no puede estar vacío</span>
 
                 <div class="form_btn">

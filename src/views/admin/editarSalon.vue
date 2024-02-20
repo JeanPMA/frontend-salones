@@ -6,21 +6,25 @@
         <form @submit.prevent="submit">
         <v-text-field           
             :counter="50"
+            maxlength="50"
+            clearable
             :error-messages="nombre.errorMessage.value"
             label="Nombre"
             v-model="nombre.value.value"
+            @input="bloquearCaracteresEspeciales"
         ></v-text-field>
 
         <v-text-field
-            :counter="10"
+            :counter="100"
+            maxlength="100"
+            clearable
             :error-messages="direccion.errorMessage.value"
             label="Direccion"
             v-model="direccion.value.value"
         ></v-text-field>
 
         <v-select
-          v-model="salon.usuario.id"
-        
+          v-model="salon.usuario.id"        
           :items="usuariosLista"
           item-title="nombre"
           item-value="id"
@@ -31,28 +35,36 @@
 
         <v-text-field
             :counter="5"
+            maxlength="5"
+            clearable
             :error-messages="capacidad.errorMessage.value"
             label="Capacidad"
             v-model="capacidad.value.value"
+            @input="limitesCapacidad"
+
         ></v-text-field>
     
         <v-textarea 
             :error-messages="descripcion.errorMessage.value"
-            :counter="50"
+            :counter="200"
+            maxlength="200"
+            clearable
             label="Descripcion"
             v-model="descripcion.value.value"
         ></v-textarea>
             
         <v-text-field
-            :counter="8"
+            :counter="5"
+            maxlength="5"
+            clearable
             :error-messages="tarifa.errorMessage.value"
             label="Tarifa"
             v-model="tarifa.value.value"
+            @input="limitesTarifa"
         ></v-text-field>
 
         <v-select
-          v-model="serviciosSeleccionados"
-        
+          v-model="serviciosSeleccionados"        
           :items="servicios"
           item-title="nombre"
           item-value="id"
@@ -124,6 +136,11 @@
         servicios:[],
         usuariosLista:[],
         usuarioSeleccionado: null,
+        mostrarErrorNombre: false,
+        mostrarErrorDireccion: false,
+        mostrarErrorCapacidad: false,
+        mostrarErrorDescripcion: false,
+        mostrarErrorTarifa: false,
         nombre: {
           value: {
             value: ''
@@ -181,6 +198,33 @@
     irAHome() {
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones-admin'});
+    },
+    bloquearCaracteresEspeciales() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    },
+    limitesCapacidad(){
+    this.limitarLongitudCapacidad();
+    this.bloquearECapacidad();
+    },
+    limitarLongitudCapacidad() {
+        if (this.capacidad.value.value.length > 8) {
+          this.capacidad.value.value = this.capacidad.value.value.slice(0, 8);
+        }
+    },
+    bloquearECapacidad() {
+      this.capacidad.value.value = this.capacidad.value.value.replace(/\D/g, '');
+    },
+    limitesTarifa(){
+    this.limitarLongitudTarifa();
+    this.bloquearETarifa();
+    },
+    limitarLongitudTarifa() {
+        if (this.tarifa.value.value.length > 8) {
+          this.tarifa.value.value = this.tarifa.value.value.slice(0, 8);
+        }
+    },
+    bloquearETarifa() {
+      this.tarifa.value.value = this.tarifa.value.value.replace(/\D/g, '');
     },
     handleFileChange(event) {
       const file = event.target.files[0];
@@ -296,6 +340,18 @@
 
         return;
       }    
+      this.mostrarErrorNombre = this.nombre.errorMessage.value;
+      this.mostrarErrorDireccion = this.direccion.errorMessage.value;
+      this.mostrarErrorCapacidad = this.capacidad.errorMessage.value;
+      this.mostrarErrorDescripcion = this.descripcion.errorMessage.value;
+      this.mostrarErrorTarifa = this.tarifa.errorMessage.value;
+      if (this.mostrarErrorNombre != undefined ||
+          this.mostrarErrorDireccion != undefined ||
+          this.mostrarErrorCapacidad != undefined ||
+          this.mostrarErrorDescripcion != undefined ||
+          this.mostrarErrorTarifa != undefined) {            
+          return;
+      }
             const formData = new FormData();
             formData.append('nombre', this.nombre.value.value);
             formData.append('direccion', this.direccion.value.value);
@@ -376,25 +432,22 @@
           return 'La ubicación del salón necesita más de 2 caracteres';
         },
         capacidad(value) {
-        return true;
-
-          //return 'La capacidad del salón debe ser menor a 6 dígitos.';
+          const digitsOnly = String(value).replace(/\D/g, '');
+          if (digitsOnly === '') {
+            return 'Ingrese la capacidad del salón.';
+          }
+          return true;
         },
         descripcion(value) {
-          // Agrega la regla de validación para la descripción según tus necesidades
-          // Por ejemplo, puedes verificar la longitud o el formato.
-          return true;
+          if (value?.length >= 2) return true;
+          return 'La descripción del salón necesita más de 2 caracteres';
         },
         tarifa(value) {
-          //if (value?.length >= 2) 
+          const digitsOnly = String(value).replace(/\D/g, '');
+          if (digitsOnly === '') {
+            return 'Ingrese la tarifa del salón.';
+          }
           return true;
-
-         // return 'La tarifa del salón necesita más de 2 caracteres';
-        },
-        estado(value) {
-          if (value === '1') return true;
-
-          return 'Debe ser marcado';
         },
       },
     });

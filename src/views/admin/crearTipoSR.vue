@@ -9,8 +9,11 @@
         <v-text-field
             v-model="nombre.value.value"
             :error-messages="nombre.errorMessage.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             label="Nombre"
+            clearable
+            @input="bloquearCaracteresEspeciales"
         ></v-text-field>
     
 
@@ -18,8 +21,9 @@
             v-model="estado.value.value"
             :error-messages="estado.errorMessage.value"
             value="1"
-            label="Habilitado?"
+            label="Marque esta casilla si desea habilitar el tipo solicitud-reserva"
             type="activo"
+            @input="ajustarValorEstado"
         ></v-checkbox>
     
         <v-btn
@@ -52,15 +56,38 @@
   
   export default{
   name: 'crearServicioComponent',
+  data(){
+    return {
+    nombre: {
+        value: { value: "" },
+        errorMessage: { value: "" },
+      }
+
+    }
+  },
   components: {
       VueNotification,
     },
   methods: {
     irAHome() {
-
       this.$router.push({ name: 'lista-tipoSR-admin'});
     },
+    bloquearCaracteresEspeciales() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    },
+    ajustarValorEstado() {
+      if (!this.estado.value.value) {
+        this.estado.value.value = 0;
+      }
+    },
     async crearTipoSR() {    
+            if (!this.estado.value.value) {
+              this.estado.value.value = 0;
+            }
+          
+            if (this.nombre?.errorMessage?.value || !this.nombre.value.value) {
+              return;
+            }
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -78,7 +105,6 @@
                 nombre : this.nombre.value.value,
                 estado: this.estado.value.value,
             };
-            console.log(data);
           axios.post('http://localhost:8080/v1/tipo-sr', data, config)
           .then(response => {
               this.$router.push({ name: 'lista-tipoSR-admin'});
@@ -105,14 +131,9 @@
         nombre(value) {
             if (value?.length >= 2) return true;
 
-            return 'El nombre necesita más de 2 caracteres';
+            return 'El nombre del tipo solicitud-reserva necesita más de 2 caracteres';
         },
 
-        estado(value) {
-          if (value === '1') return true;
-
-          return 'Debe ser marcado';
-        },
       },
     });
 

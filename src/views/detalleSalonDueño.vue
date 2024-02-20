@@ -13,8 +13,9 @@
               <div class="salonDueño_detalle">
                   <div class="itemSalonDueño">
                       <label>Nombre:</label>
-                      <input type="nombreSalon" v-model="detalleSalonDueño.nombre" required>
+                      <input type="text" pattern="[a-zA-Z0-9\s]+" maxlength="50" :counter="50" v-model="detalleSalonDueño.nombre" @input="manejarInputNombre" required>
                   </div>
+                  <span v-if="mostrarErrorNombre" class="error-message">El nombre no puede estar vacío</span>
 
                   <label>Nueva Imagen:</label>
                   <input type="file" @change="handleFileChange" />
@@ -24,10 +25,10 @@
 
                   <div class="itemSalonDueño">
                       <label>Descripcion:</label>
-                      <textarea type="detalleSalon" v-model="detalleSalonDueño.descripcion" required>{{detalleSalonDueño.descripcion}}</textarea>
-                    
+                      <textarea type="detalleSalon"  v-model="detalleSalonDueño.descripcion" maxlength="200" :counter="200" @input="limpiarErrorDescripcion" required>{{detalleSalonDueño.descripcion}}</textarea>                   
                   </div>
-                  
+                  <span v-if="mostarErrorDescripcion" class="error-message">El detalle no puede estar vacío</span>
+
                   <v-select
                     v-model="serviciosSeleccionados"
                     ref="miVSelect"
@@ -36,29 +37,29 @@
                     item-value="id"
                     label="Selecciona los servicios"
                     multiple
-              
+                    @update:modelValue="handleServiciosChange"
                   ></v-select>
+                  <p v-if="errorServicios">Por favor, selecciona al menos 1 opcion.</p>
 
                 
                   <div class="itemSalonDueño">
                       <label >Capacidad:</label>
-                      <input type="capacidadSalon:" v-model="detalleSalonDueño.capacidad" required>
-
+                      <input v-model="detalleSalonDueño.capacidad"  maxlength="5" @input="manejarInputCapacidad" required>
                   </div>
+                  <span v-if="mostrarErrorCapacidad" class="error-message">La capacidad no puede estar vacía</span>
 
                   <div class="itemSalonDueño">
-                      <label >Ubicacion:</label>
-                      <input type="ubicacionSalon:" v-model="detalleSalonDueño.direccion" required>
-
+                      <label >Dirección:</label>
+                      <input type="text" v-model="detalleSalonDueño.direccion" maxlength="100" @input="limpiarErrorDireccion" required>
                   </div>
-                  
+                  <span v-if="mostrarErrorDireccion" class="error-message">La dirección no puede estar vacía</span>
+
                   <div class="itemSalonDueño">
                       <label >Tarifa:</label>
-                      <input type="precioAdelantoSalon" v-model="detalleSalonDueño.tarifa" required>
-                      <!--<input type="preciCompletoSalon" v-model="detalleSalonDueño.tarifa" required>-->
-
+                      <input v-model="detalleSalonDueño.tarifa" @input="manejarInputTarifa" required>
                   </div>
-                  
+                  <span v-if="mostrarErrorTarifa" class="error-message">La tarifa no puede estar vacía</span>
+
                   <div class="itemSalonDueño">
                           <label >Estado:</label>
                           <p>{{detalleSalonDueño.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</p>
@@ -91,7 +92,7 @@
             </v-carousel>
             <div v-else>
               <p>No hay imágenes disponibles.</p>
-s
+
             </div>
           </div>
         </div>
@@ -127,6 +128,13 @@ data() {
 
       servicios: [],
       errorServicios: false,
+
+      mostrarErrorNombre: false,
+      mostarErrorDescripcion: false,
+      errorServicios: false,
+      mostrarErrorCapacidad: false,
+      mostrarErrorTarifa: false,
+      mostrarErrorDireccion: false,
     };
   },
   components: {
@@ -143,6 +151,57 @@ data() {
 methods: {
     volverAtras (){
      this.$router.push({ name: 'lista-salones'});
+    },
+    manejarInputNombre() {
+    this.limpiarErrorNombre();
+    this.limitarCaracteresEspeciales();
+    },
+    limpiarErrorNombre() {
+      this.mostrarErrorNombre = false;
+    },
+    limpiarErrorDescripcion() {
+      this.mostarErrorDescripcion = false;
+    },
+    limitarCaracteresEspeciales() {
+      this.detalleSalonDueño.nombre = this.detalleSalonDueño.nombre.replace(/[^a-zA-Z0-9\s]/g, '');
+    },
+    handleServiciosChange() {
+      this.errorServicios = false;
+    },
+    manejarInputTarifa() {
+      this.limpiarErrorTarifa();
+      this.limitarLongitudTarifa();
+      this.bloquearETarifa();
+    },
+    limpiarErrorTarifa() {
+      this.mostrarErrorTarifa = false;
+    },
+    bloquearETarifa() {
+      this.detalleSalonDueño.tarifa= this.detalleSalonDueño.tarifa.replace(/\D/g, '');
+    },
+    limitarLongitudTarifa() {
+      if (this.detalleSalonDueño.tarifa.length > 5) {
+        this.detalleSalonDueño.tarifa= this.detalleSalonDueño.tarifa.slice(0, 5);
+      }
+    },
+    manejarInputCapacidad() {
+      this.limpiarErrorCapacidad();
+      this.limitarLongitudCapacidad();
+      this.bloquearECapacidad();
+    },
+    limpiarErrorCapacidad() {
+      this.mostrarErrorCapacidad = false;
+    },
+    bloquearECapacidad() {
+      this.detalleSalonDueño.capacidad= this.detalleSalonDueño.capacidad.replace(/\D/g, '');
+    },
+    limitarLongitudCapacidad() {
+      if (this.detalleSalonDueño.capacidad.length > 5) {
+        this.detalleSalonDueño.capacidad = this.detalleSalonDueño.capacidad.slice(0, 5);
+      }
+    },
+    limpiarErrorDireccion() {
+      this.mostrarErrorDireccion = false;
     },
     handleFileChange(event) {
     const file = event.target.files[0];
@@ -216,7 +275,15 @@ methods: {
     }
     },
     actualizarSalon() {
-      
+            this.mostrarErrorNombre = !this.detalleSalonDueño.nombre;
+            this.mostarErrorDescripcion = !this.detalleSalonDueño.descripcion;
+            this.errorServicios = this.serviciosSeleccionados.length === 0 ;
+            this.mostrarErrorCapacidad = !this.detalleSalonDueño.capacidad;
+            this.mostrarErrorTarifa = !this.detalleSalonDueño.tarifa;
+            this.mostrarErrorDireccion = !this.detalleSalonDueño.direccion;
+            if (this.mostrarErrorNombre || this.mostarErrorDescripcion || this.errorServicios || this.mostrarErrorCapacidad || this.mostrarErrorTarifa || this.mostrarErrorDireccion) {          
+              return;
+            }
           const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];

@@ -8,19 +8,22 @@
     
         <v-text-field
             :error-messages="nombre.errorMessage.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             label="Nombre"
-
+            clearable
+            @input="bloquearCaracteresEspeciales"
             v-model="nombre.value.value"
           
         ></v-text-field>
             
         <v-text-field
-            :counter="20"
+           :counter="100"
+            maxlength="100"
             :error-messages="detalle.errorMessage.value"
             label="Detalle"
             v-model="detalle.value.value"
-   
+            clearable 
         ></v-text-field>
 
         <v-text-field
@@ -65,6 +68,9 @@
     irAHome() {
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-servicios-admin'});
+    },
+    bloquearCaracteresEspeciales() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z0-9\s]/g, '');
     },
     async obtenerYAsignar() {
       const servicioId = this.$route.params.id;

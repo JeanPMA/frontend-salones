@@ -6,26 +6,29 @@
         <form @submit.prevent="submit">
         <v-text-field
             v-model="nombre.value.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
+            clearable
             :error-messages="nombre.errorMessage.value"
             label="Nombre"
+            @input="bloquearCaracteresEspeciales"
         ></v-text-field>
 
         <v-text-field
             v-model="direccion.value.value"
-            :counter="10"
+            :counter="100"
+            maxlength="100"
+            clearable
             :error-messages="direccion.errorMessage.value"
             label="Direccion"
         ></v-text-field>
 
         <v-select
           v-model="usuarioSeleccionado"
-        
           :items="usuarios"
           item-title="nombre"
           item-value="id"
           label="Selecciona el usuario"
-          multiple
           @update:modelValue="handleUsuarioChange"
         ></v-select>
         <p v-if="errorUsuario">Por favor, selecciona 1 opcion.</p>
@@ -33,27 +36,34 @@
         <v-text-field
             v-model="capacidad.value.value"
             :counter="5"
+            maxlength="5"
+            clearable
             :error-messages="capacidad.errorMessage.value"
             label="Capacidad del salon"
+            @input="limitesCapacidad"
         ></v-text-field>
     
         <v-textarea 
             v-model="descripcion.value.value"
             :error-messages="descripcion.errorMessage.value"
-            :counter="50"
+            :counter="200"
+            maxlength="200"
+            clearable
             label="Descripcion"
         ></v-textarea>
             
         <v-text-field
             v-model="tarifa.value.value"
-            :counter="8"
+            :counter="5"
+            maxlength="5"
+            clearable
             :error-messages="tarifa.errorMessage.value"
             label="Tarifa del salon"
+            @input="limitesTarifa"
         ></v-text-field>
 
         <v-select
-          v-model="serviciosSeleccionados"
-        
+          v-model="serviciosSeleccionados"    
           :items="servicios"
           item-title="nombre"
           item-value="id"
@@ -67,8 +77,9 @@
             v-model="estado.value.value"
             :error-messages="estado.errorMessage.value"
             value="1"
-            label="Habilitado?"
+            label="Marque esta casilla si desea habilitar el salón"
             type="activo"
+            @input="ajustarValorEstado"
         ></v-checkbox>
 
         <h1>Subir Imagen</h1>
@@ -121,6 +132,38 @@
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones-admin'});
     },
+    bloquearCaracteresEspeciales() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    },
+    limitesCapacidad(){
+    this.limitarLongitudCapacidad();
+    this.bloquearECapacidad();
+    },
+    limitarLongitudCapacidad() {
+        if (this.capacidad.value.value.length > 8) {
+          this.capacidad.value.value = this.capacidad.value.value.slice(0, 8);
+        }
+    },
+    bloquearECapacidad() {
+      this.capacidad.value.value = this.capacidad.value.value.replace(/\D/g, '');
+    },
+    limitesTarifa(){
+    this.limitarLongitudTarifa();
+    this.bloquearETarifa();
+    },
+    limitarLongitudTarifa() {
+        if (this.tarifa.value.value.length > 8) {
+          this.tarifa.value.value = this.tarifa.value.value.slice(0, 8);
+        }
+    },
+    bloquearETarifa() {
+      this.tarifa.value.value = this.tarifa.value.value.replace(/\D/g, '');
+    },
+    ajustarValorEstado() {
+      if (!this.estado.value.value) {
+        this.estado.value.value = 0;
+      }
+    },
     handleFileChange(event) {
       this.selectedFile = event.target.files[0];
       this.error = false;
@@ -136,11 +179,27 @@
       this.errorServicios = this.serviciosSeleccionados.length === 0 ;
       this.errorUsuario= !this.usuarioSeleccionado ;
 
+      if (!this.estado.value.value) {
+        this.estado.value.value = 0;
+      }
       
       if (this.error || this.errorServicios || this.errorUsuario) {
 
         return;
       }      
+      const errores = [
+              this.nombre,
+              this.direccion,
+              this.capacidad,
+              this.descripcion,
+              this.tarifa,
+      ];
+
+      for (const error of errores) {
+          if (error?.errorMessage?.value || !error.value.value) {
+            return;
+          }
+      }
             const formData = new FormData();
           
   
@@ -230,24 +289,27 @@
           return 'La ubicación del salón necesita más de 2 caracteres';
         },
         capacidad(value) {
-          if (value?.length > 6 && /[0-9-]+/.test(value)) return true;
+          const digitsOnly = String(value).replace(/\D/g, '');
 
-          return 'La capacidad del salón debe ser menor a 6 dígitos.';
-        },
-        descripcion(value) {
-          // Agrega la regla de validación para la descripción según tus necesidades
-          // Por ejemplo, puedes verificar la longitud o el formato.
+          if (digitsOnly === '') {
+            return 'Ingrese la capacidad del salón.';
+          }
+
           return true;
         },
-        tarifa(value) {
+        descripcion(value) {
           if (value?.length >= 2) return true;
 
-          return 'La tarifa del salón necesita más de 2 caracteres';
+          return 'La descripción del salón necesita más de 2 caracteres';
         },
-        estado(value) {
-          if (value === '1') return true;
+        tarifa(value) {
+          const digitsOnly = String(value).replace(/\D/g, '');
 
-          return 'Debe ser marcado';
+          if (digitsOnly === '') {
+            return 'Ingrese la tarifa del salón.';
+          }
+
+          return true;
         },
       },
     });
@@ -275,16 +337,7 @@
     };
   },
 };
-/*descripcion (value) {
-        if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
 
-        return 'Must be a valid e-mail.'
-      },
-      select (value) {
-        if (value) return true
-
-        return 'Select an item.' 
-      },*/
 </script>
 
 <style>

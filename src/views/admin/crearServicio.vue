@@ -9,13 +9,17 @@
         <v-text-field
             v-model="nombre.value.value"
             :error-messages="nombre.errorMessage.value"
-            :counter="10"
+            :counter="50"
+            maxlength="50"
             label="Nombre"
+            clearable
+            @input="bloquearCaracteresEspeciales"
         ></v-text-field>
             
         <v-text-field
             v-model="detalle.value.value"
-            :counter="20"
+            :counter="100"
+            maxlength="100"
             :error-messages="detalle.errorMessage.value"
             label="Detalle"
         ></v-text-field>
@@ -24,8 +28,10 @@
             v-model="estado.value.value"
             :error-messages="estado.errorMessage.value"
             value="1"
-            label="Habilitado?"
+            label="Marque esta casilla si desea habilitar el servicio"
             type="activo"
+            @input="ajustarValorEstado"
+
         ></v-checkbox>
     
         <v-btn
@@ -64,7 +70,23 @@
 
       this.$router.push({ name: 'lista-servicios-admin'});
     },
+    ajustarValorEstado() {
+      if (!this.estado.value.value) {
+        this.estado.value.value = 0;
+      }
+    },
+    bloquearCaracteresEspeciales() {
+      this.nombre.value.value = this.nombre.value.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    },
     async crearServicio() {    
+            if (!this.estado.value.value) {
+              this.estado.value.value = 0;
+            }
+            if (this.detalle?.errorMessage?.value || !this.detalle.value.value
+            || this.nombre?.errorMessage?.value || !this.nombre.value.value) {
+              return;
+            }
+
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -118,11 +140,6 @@
           return 'El detalle necesita más de 2 caracteres';
         },
 
-        estado(value) {
-          if (value === '1') return true;
-
-          return 'Debe ser marcado';
-        },
       },
     });
 

@@ -73,7 +73,7 @@ export default {
       const credentials = { username: this.username, password: this.password };
       
 
-      this.$axios.post("http://localhost:8080/login", credentials)
+      this.$axios.post("http://localhost:8080/v1/login", credentials)
       
         .then(response => {
           
@@ -118,7 +118,7 @@ export default {
             this.$router.push("/login");
             this.$notify({
                 title: 'Error',
-                text: 'Usuario o contraseña invalidas',
+                text: 'Usuario o contraseña invalidos',
                 type: 'error',
             });
           }
@@ -126,11 +126,9 @@ export default {
         })
         .catch(error => {
             if (error.response && error.response.status === 401) {
-                // Credenciales incorrectas
-                console.error("Credenciales incorrectas");
                 this.$notify({
                     title: 'Error',
-                    text: 'Credenciales incorrectas',
+                    text: 'Error, usuario deshabilitado, contactese con el administrador.',
                     type: 'error',
                 });
             } else {
