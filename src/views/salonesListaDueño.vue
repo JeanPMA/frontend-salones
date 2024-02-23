@@ -6,13 +6,11 @@
         </h1>
         <div class="search_listaSolicitud">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar...">
-                <button id="search-button">Buscar</button>
+              <input v-model="searchTerm" placeholder="Buscar..." />
              </div>
-             <div class="solicitudesDueño_filter">
-              <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                  <a href="#" id="clickeable-label">FILTRO</a>
-        </div>
+             <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
+                <FiltroServicios @filtroCambiado="filtrarSalones" />
+             </div>
         <div class="boton_crearSalonDueño">
           <RouterLink to="/crear-salon">
               <a id="crear" >CREAR SALON</a>
@@ -20,7 +18,7 @@
         </div>
         <div class="dueño_gridSalones">
           <div class="grid-containerSalonesDueño">
-            <div class="grid__itemSalon" v-for="(item, index) in salonesListaDueño" :key="index" v-show="mostrarImagen(index)" @click="irASalon(item.id)">
+            <div class="grid__itemSalon" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irASalon(item.id)">
                 <div class="text-titleSalon" style="display: flex; align-items: center; justify-content: center;">
                     <h2>{{ item.nombre }}</h2>
                     <img :src="item.banner_url" alt="">
@@ -40,14 +38,17 @@
               </div>
             </div>
           </div>
+          <div v-if="displayedItems.length == 0">
+            <h3>NO EXISTEN SALONES</h3>
+          </div> 
           <div class="gridSalones_DueñoBtn">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
             </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salonesListaDueño.length - imagesPerPage">Siguiente</button>
+            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= displayedItems.length - imagesPerPage">Siguiente</button>
           </div>
-    </div>
+        </div>
     </div> 
     </div>
 </template>
@@ -56,17 +57,23 @@
 import NavbarDueño from '@/views/navbarDueño.vue';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import FiltroServicios from '../components/filtroServicios.vue';
+
 
 export default {
 name: 'listaSalonesDueñoComponent',
 components: {
     NavbarDueño,
+    FiltroServicios,
 },
 data() { 
     return {
         salonesListaDueño: [],
+        salonesFiltrados: [],
         startIndex: 0,
         imagesPerPage: 3,
+        searchTerm: localStorage.getItem('searchTermSalonesDueño') || '',
+        tamañoAux: 0,
     };
 },
     mounted() {
@@ -88,13 +95,35 @@ data() {
     axios.get('http://localhost:8080/v1/salon/listado', config)
       .then(response => {
         this.salonesListaDueño = response.data;
+        this.salonesFiltrados = this.salonesListaDueño;
+
+        const serviciosSeleccionados = JSON.parse(localStorage.getItem('serviciosSeleccionados')) || [];
+        this.filtrarSalones(serviciosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
     },
     computed: {
-    paginas() {
-    return Array.from({ length: Math.ceil(this.salonesListaDueño.length / this.imagesPerPage) }, (_, i) => i + 1);
+      paginas() {
+      return Array.from({ length: Math.ceil(this.displayedItems.length / this.imagesPerPage) }, (_, i) => i + 1);
 
+      },
+      displayedItems() {
+      const searchTerm = this.searchTerm.toLowerCase();
+      if (searchTerm !== this.lastSearchTerm) {
+        this.irAPagina(1);
+      }
+
+      const filteredList = this.salonesFiltrados.filter(item => {
+        const estadoText = item.estado === 1 ? 'Habilitado' : 'Deshabilitado';
+        const values = Object.values(item);
+        return (
+          values.some(value => String(value).toLowerCase().includes(searchTerm)) ||
+          estadoText.toLowerCase().includes(searchTerm) 
+        );
+      });
+      this.tamañoAux = filteredList.length;
+     
+      return filteredList;
     },
     },
     methods: {
@@ -117,10 +146,26 @@ data() {
     
     },
     irASalon(id) {
-   
       this.$router.push({ name: 'salon', params: { id: id } });
     },
+    filtrarSalones(serviciosSeleccionados) {
+      if (serviciosSeleccionados.length > 0) {
+        this.salonesFiltrados = this.salonesListaDueño.filter(salon => {
+          return serviciosSeleccionados.every(servicio => {
+            return salon.servicios.some(s => s.nombre === servicio);
+          });
+        });
+        this.irAPagina(1);
+      } else {
+        this.salonesFiltrados = this.salonesListaDueño;
+      }
     },
+    },
+    watch: {
+    searchTerm(newSearchTerm) {
+      localStorage.setItem('searchTermSalonesDueño', newSearchTerm);
+    }
+  }
 }
 </script>
 
@@ -299,12 +344,7 @@ data() {
     color: rgb(255, 255, 255);
   
   }
-  .solicitudesDueño_filter{
-    cursor: pointer;
-    margin-left: 40px;
-    padding-top: 10px;
-    text-align: start;
-}
+
 .boton_crearSalonDueño{
 
 

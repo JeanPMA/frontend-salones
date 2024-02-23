@@ -6,14 +6,11 @@
           
       </div>
       <div class="search_listaAdmin">
-              <div class="search-container">
-                  <input type="text" id="search-input" placeholder="Buscar...">
-                  <button id="search-button">Buscar</button>
-              </div>
-              <div class="admin_filter">
-                <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                    <a href="#" id="clickeable-label">FILTRO</a>
-              </div>
+        <input v-model="searchTerm" placeholder="Buscar..." />
+
+      </div>
+     <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
+                <FiltroServiciosTipoSR @filtroCambiado="filtrarTipoSR" />
       </div>
       <div class="boton_crearAdmin">
         <RouterLink to="/crear-tipoSR-admin">
@@ -60,7 +57,9 @@
           </tr>
         </tbody>
       </v-table>
-
+      <div v-if="displayedItems.length == 0">
+            <h3>NO EXISTEN TIPO SR</h3>
+          </div> 
       <v-pagination
         v-model="currentPage"
         :length="totalPages"
@@ -74,19 +73,25 @@
   import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import VueNotification from '@kyvg/vue3-notification';
+import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
 
   export default {
     name: 'tipoSRListaAdminComponent',
     components: {
         NavbarAdmin,
         VueNotification,
+        FiltroServiciosTipoSR,
+
     },
 
     data() {
     return {
       tipoSRListaAdmin: [],
+      tipoSRListaAdminFiltrado: [],
       itemsPerPage: 5,
       currentPage: 1,
+      searchTerm: localStorage.getItem('searchTermTipoSRAdmin') || '',
+      tamañoAux: 0,
     };
   },
   mounted() {
@@ -108,6 +113,8 @@ import VueNotification from '@kyvg/vue3-notification';
     axios.get('http://localhost:8080/v1/tipo-sr', config)
       .then(response => {
         this.tipoSRListaAdmin = response.data;
+        const estadosSeleccionados = JSON.parse(localStorage.getItem('servicesTipoSRSeleccionados')) || [];
+        this.filtrarTipoSR(estadosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
   },
@@ -190,20 +197,54 @@ import VueNotification from '@kyvg/vue3-notification';
 
       
     },
+    
+    filtrarTipoSR(estadosSeleccionados) {
+       
+      if (estadosSeleccionados.length > 0) {
+        this.tipoSRListaAdminFiltrado = this.tipoSRListaAdmin.filter(stsr => {
+          return stsr && estadosSeleccionados.some(estado => {        
+            return stsr.estado === estado;
+          });
+        });
+        this.currentPage = 1;
+      } else {
+        this.tipoSRListaAdminFiltrado = this.tipoSRListaAdmin;
+      }
+    },
   },
   computed: {
     totalItems() {
-      return this.tipoSRListaAdmin.length;
+      return this.tamañoAux;
     },
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage);
     },
     displayedItems() {
+      const searchTerm = this.searchTerm.toLowerCase();
+      if (searchTerm !== this.lastSearchTerm) {
+        this.currentPage = 1;
+        this.lastSearchTerm = searchTerm;
+      }
+      const filteredList = this.tipoSRListaAdminFiltrado.filter(item => {
+        const estadoText = item.estado === 1 ? 'Habilitado' : 'Deshabilitado';
+        const values = Object.values(item);
+        return (
+          values.some(value => String(value).toLowerCase().includes(searchTerm)) ||
+          estadoText.toLowerCase().includes(searchTerm)
+        );
+      });
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.tipoSRListaAdmin.slice(startIndex, endIndex);
+      this.tamañoAux = filteredList.length;
+      return filteredList.slice(startIndex, endIndex);
     },
+
   },
+  watch: {
+    searchTerm(newSearchTerm) {
+      localStorage.setItem('searchTermTipoSRAdmin', newSearchTerm);
+    }
+  }
   };
   </script>
   

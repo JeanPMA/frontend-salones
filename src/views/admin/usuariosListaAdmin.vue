@@ -6,14 +6,10 @@
            
       </div>
       <div class="search_listaAdmin">
-              <div class="search-container">
-                  <input type="text" id="search-input" placeholder="Buscar...">
-                  <button id="search-button">Buscar</button>
-              </div>
-              <div class="admin_filter">
-                <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                    <a href="#" id="clickeable-label">FILTRO</a>
-              </div>
+        <input v-model="searchTerm" placeholder="Buscar..." />
+      </div>
+      <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
+                <FiltroUsuarios @filtroCambiado="filtrarUsuarios" />
       </div>
       <div class="boton_crearAdmin">
         <RouterLink to="/crear-usuario-admin">
@@ -76,7 +72,9 @@
           </tr>
         </tbody>
       </v-table>
-
+      <div v-if="displayedItems.length == 0">
+            <h3>NO EXISTEN USUARIOS</h3>
+          </div> 
       <v-pagination
         v-model="currentPage"
         :length="totalPages"
@@ -90,12 +88,14 @@
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
   import VueNotification from '@kyvg/vue3-notification';
+  import FiltroUsuarios from '@/components/filtroRolUsuario.vue';
 
   export default {
     name: 'usuariosListaAdminComponent',
     components: {
         NavbarAdmin,
         VueNotification,
+        FiltroUsuarios,
     },
     mounted() {
     
@@ -116,15 +116,19 @@
     axios.get('http://localhost:8080/v1/usuario', config)
       .then(response => {
         this.listaUsuariosAdmin = response.data;
-        console.log(this.listaUsuariosAdmin);
+        const rolesSeleccionados = JSON.parse(localStorage.getItem('rolesSeleccionados')) || [];
+        this.filtrarUsuarios(rolesSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
   },
   data() {
     return {
       listaUsuariosAdmin: [],
+      listaUsuariosAdminFiltrado: [],
       itemsPerPage: 5,
       currentPage: 1,
+      searchTerm: localStorage.getItem('searchTermUsuarioAdmin') || '',
+      tamañoAux: 0,
     };
   },
   methods: {
@@ -206,24 +210,56 @@
 
       
     },
+    filtrarUsuarios(rolesSeleccionados) {
+      if (rolesSeleccionados.length > 0) {
+        this.listaUsuariosAdminFiltrado = this.listaUsuariosAdmin.filter(usuario => {
+          return usuario.rol && rolesSeleccionados.some(estado => {        
+            return usuario.rol.nombre === estado;
+          });
+        });
+        this.currentPage = 1;
+      } else {
+        this.listaUsuariosAdminFiltrado = this.listaUsuariosAdmin;
+      }
+    },
   },
   computed: {
     totalItems() {
-      return this.listaUsuariosAdmin.length;
+      return this.tamañoAux;
     },
     totalPages() {
      
       return Math.ceil(this.totalItems / this.itemsPerPage);
     },
     displayedItems() {
+      const searchTerm = this.searchTerm.toLowerCase();
+      if (searchTerm !== this.lastSearchTerm) {
+        this.currentPage = 1;
+        this.lastSearchTerm = searchTerm;
+      }
+      const filteredList = this.listaUsuariosAdminFiltrado.filter(item => {
+        const estadoText = item.estado === 1 ? 'Habilitado' : 'Deshabilitado';
+        const rol = item.rol.nombre;
+        const values = Object.values(item);
+        return (
+          values.some(value => String(value).toLowerCase().includes(searchTerm)) ||
+          estadoText.toLowerCase().includes(searchTerm) ||
+          rol.toLowerCase().includes(searchTerm)
+
+        );
+      });
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.listaUsuariosAdmin.slice(startIndex, endIndex);
+      this.tamañoAux = filteredList.length;
+      return filteredList.slice(startIndex, endIndex);
       
     },
-    
-    
   },
+  watch: {
+    searchTerm(newSearchTerm) {
+      localStorage.setItem('searchTermUsuarioAdmin', newSearchTerm);
+    }
+  }
   };
   </script>
   
@@ -246,12 +282,7 @@
     margin: 0px 100px 0px 100px;
     margin-top: 20px;
 }
-.admin_filter{
-    cursor: pointer;
-    margin-left: 40px;
-    padding-top: 10px;
-    text-align: start;
-}
+
 /* botones estilos*/
 .botones_Admin{
 

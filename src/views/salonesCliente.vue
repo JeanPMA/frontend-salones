@@ -7,16 +7,13 @@
         <div class="salones_title">
           SALONES
         </div>
-        <div class="salones_filter">
-          <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                   
-            <a href="#" id="clickeable-label">FILTRO</a>
-        </div>
-          
-        
-    
+        <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
+
+        <FiltroServicios @filtroCambiado="filtrarSalones" />
+
         <div class="salones_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in salones" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
+            <div class="grid__item" v-for="(item, index) in salonesFiltrados" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
               <img :src="item.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.nombre }}</h2>
@@ -24,16 +21,19 @@
               </div>
             </div>
           </div>
+          <div v-if="salonesFiltrados.length == 0">
+            <h3>NO EXISTEN SALONES</h3>
+          </div> 
           <div class="salones_botones">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
             </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salones.length - imagesPerPage">Siguiente</button>
+            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salonesFiltrados.length - imagesPerPage">Siguiente</button>
           </div>
         </div>
       
-        
+        </div>
       </div>
 
 </template>
@@ -43,12 +43,15 @@
   import { useRouter } from 'vue-router';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
+  import FiltroServicios from '../components/filtroServicios.vue';
+
 
   const router = useRouter();
   export default {
     name: 'salonesClienteComponent',
     components: {
       NavbarCliente,
+      FiltroServicios,
   },
     methods: {
     ejecutar() {
@@ -59,6 +62,7 @@
     data() { 
     return {
       salones: [],
+      salonesFiltrados: [],
       startIndex: 0,
       imagesPerPage: 9,
     };
@@ -78,13 +82,16 @@
     axios.get('http://localhost:8080/v1/salon/auth/all', config)
       .then(response => {
         this.salones = response.data;
-        
+        this.salonesFiltrados = this.salones;
+
+        const serviciosSeleccionados = JSON.parse(localStorage.getItem('serviciosSeleccionados')) || [];
+        this.filtrarSalones(serviciosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
   },
   computed: {
     paginas() {
-      return Array.from({ length: Math.ceil(this.salones.length / this.imagesPerPage) }, (_, i) => i + 1);
+      return Array.from({ length: Math.ceil(this.salonesFiltrados.length / this.imagesPerPage) }, (_, i) => i + 1);
     
     },
   },
@@ -110,6 +117,18 @@
     irADetalleSalon(id) {
     // Redirige a la página de detalle del salón
       this.$router.push({ name: 'detalle-salon', params: { id: id } });
+    },
+    filtrarSalones(serviciosSeleccionados) {
+      if (serviciosSeleccionados.length > 0) {
+        this.salonesFiltrados = this.salones.filter(salon => {
+          return serviciosSeleccionados.every(servicio => {
+            return salon.servicios.some(s => s.nombre === servicio);
+          });
+        });
+        this.irAPagina(1);
+      } else {
+        this.salonesFiltrados = this.salones;
+      }
     },
   },
     }
@@ -273,16 +292,12 @@
     color: rgb(0, 0, 0);
   
   }
-  
-.salones_filter{
-    cursor: pointer;
-    margin-left: 100px;
-    text-align: start;
+
+.filtro-container {
+  transition: margin-left 0.5s; 
 }
 
-#clickeable-label{
-    text-decoration: none;
-    color: #000000;
-    padding-left: 5px;
+.filtro-abierto {
+  margin-left: 200px; 
 }
 </style>

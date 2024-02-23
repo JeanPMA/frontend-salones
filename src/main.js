@@ -207,7 +207,9 @@ app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(VueScrollTo, {
     duration: 0,
 });
-
+window.addEventListener('beforeunload', () => {
+    store.dispatch('refreshFilterServicios');
+  });
 
 app.config.globalProperties.$axios = axios
 app.use(router)

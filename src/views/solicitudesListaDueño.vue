@@ -6,19 +6,18 @@
         </h1>
     <div class="search_listaSolicitud">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar...">
-                <button id="search-button">Buscar</button>
+              <input v-model="searchTerm" placeholder="Buscar..." />
              </div>
-             <div class="solicitudesDueño_filter">
-              <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                  <a href="#" id="clickeable-label">FILTRO</a>
-            </div>
+              <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltroSR }">
+                <FiltroEstadoSR @filtroCambiado="filtrarSR" />
+              </div>
     </div> 
     <div class="dueño_gridSolicitudes">
           <div class="grid-containerDueño">
-            <div class="grid__itemSolicitud" v-for="(item, index) in listaSolicitudes" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
+            <div class="grid__itemSolicitud" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
                 <div class="text-title" style="display: flex; align-items: center; justify-content: center;">
                     <h2>{{ item.salon.nombre }}</h2>
+                    
                     <img :src="item.salon.banner_url" alt="">
                    
                 </div>
@@ -26,16 +25,20 @@
               <div class="text-detailSolicitudes">
         
                 <p>{{ item.detalle }}</p>
+                <p>{{ item.tipoSR.nombre }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
           </div>
+          <div v-if="displayedItems.length == 0">
+            <h3>NO EXISTEN SOLICITUDES</h3>
+          </div> 
           <div class="gridSolicitudes_DueñoBtn">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
             </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= listaSolicitudes.length - imagesPerPage">Siguiente</button>
+            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= displayedItems.length - imagesPerPage">Siguiente</button>
           </div>
     </div>
     </div>
@@ -46,18 +49,24 @@
 <script>
 import NavbarDueño from '@/views/navbarDueño.vue';
 import axios from 'axios';
-  import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
+import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
+
 
 export default {
 name: 'listaSolicitudesDueñoComponent',
 components: {
     NavbarDueño,
+    FiltroEstadoSR,
 },
     data() { 
     return {
         listaSolicitudes: [],
+        listaSolicitudesFiltrado: [],
         startIndex: 0,
         imagesPerPage: 10,
+        searchTerm: localStorage.getItem('searchTermSolicitudDueño') || '',
+        tamañoAux: 0,
     };
     },
     mounted() {
@@ -79,13 +88,36 @@ components: {
     axios.get('http://localhost:8080/v1/solicitud-reserva/salon/solicitudes', config)
       .then(response => {
         this.listaSolicitudes = response.data;
+        const estadosSeleccionados = JSON.parse(localStorage.getItem('SREstadoSeleccionado')) || [];
+        this.filtrarSR(estadosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
   },
     computed: {
     paginas() {
-    return Array.from({ length: Math.ceil(this.listaSolicitudes.length / this.imagesPerPage) }, (_, i) => i + 1);
+    return Array.from({ length: Math.ceil(this.displayedItems.length / this.imagesPerPage) }, (_, i) => i + 1);
 
+    },
+    displayedItems() {
+      const searchTerm = this.searchTerm.toLowerCase();
+      if (searchTerm !== this.lastSearchTerm) {
+        this.irAPagina(1);
+      }
+
+      const filteredList = this.listaSolicitudesFiltrado.filter(item => {
+        const estado = item.tipoSR.nombre;
+        const salon = item.salon.nombre;
+        const values = Object.values(item);
+        return (
+          values.some(value => String(value).toLowerCase().includes(searchTerm)) ||
+          estado.toLowerCase().includes(searchTerm) ||
+          salon.toLowerCase().includes(searchTerm)
+
+        );
+      });
+      this.tamañoAux = filteredList.length;
+     
+      return filteredList;
     },
     },
     methods: {
@@ -111,7 +143,26 @@ components: {
     // Redirige a la página de calificacion
       this.$router.push({ name: 'solicitud-reserva', params: { id: id }});
     },
+    filtrarSR(estadosSeleccionados) {
+      const estadosFiltrar = estadosSeleccionados.includes("ACEPTADO") || estadosSeleccionados.includes("CANCELADO")
+        ? estadosSeleccionados.filter(estado => estado !== "ACEPTADO" && estado !== "CANCELADO")
+        : estadosSeleccionados;
+
+      if (estadosFiltrar.length > 0) {
+        this.listaSolicitudesFiltrado = this.listaSolicitudes.filter(sr => {
+          return sr.tipoSR && estadosFiltrar.includes(sr.tipoSR.nombre);
+        });
+        this.irAPagina(1);
+      } else {
+        this.listaSolicitudesFiltrado = this.listaSolicitudes;
+      }
     },
+    },
+    watch: {
+    searchTerm(newSearchTerm) {
+      localStorage.setItem('searchTermSolicitudDueño', newSearchTerm);
+    }
+  }
 }
 </script>
 
@@ -290,11 +341,6 @@ components: {
     color: rgb(255, 255, 255);
   
   }
-  .solicitudesDueño_filter{
-    cursor: pointer;
-    margin-left: 40px;
-    padding-top: 10px;
-    text-align: start;
-}
+
 
 </style>

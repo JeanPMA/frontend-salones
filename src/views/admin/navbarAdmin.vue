@@ -18,10 +18,10 @@
         <v-divider></v-divider>
         <v-list color="">
           <v-list-item prepend-icon="mdi-home" title="Salones" value="myfiles" @click="irAListaSalon"></v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="Usuarios" value="starred" @click="irAListaUsuario"></v-list-item>
-            <v-list-item prepend-icon="mdi-share-variant" title="Servicios" value="starred" @click="irAListaServicio"></v-list-item>
-            <v-list-item prepend-icon="mdi-pencil" title="Tipos SR" value="starred" @click="irAListaTipoSR"></v-list-item>
-            <v-list-item prepend-icon="mdi-account" title="Salir" value="starred" @click="logout"></v-list-item>
+          <v-list-item prepend-icon="mdi-account" title="Usuarios" value="users" @click="irAListaUsuario"></v-list-item>
+            <v-list-item prepend-icon="mdi-share-variant" title="Servicios" value="services" @click="irAListaServicio"></v-list-item>
+            <v-list-item prepend-icon="mdi-pencil" title="Tipos SR" value="listSR" @click="irAListaTipoSR"></v-list-item>
+            <v-list-item prepend-icon="mdi-account" title="Salir" value="logout" @click="logout"></v-list-item>
 
         </v-list>
 

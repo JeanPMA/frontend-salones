@@ -12,16 +12,52 @@ const store = createStore({
     clearToken(state) {
       state.token = null;
     },
-    // Otras mutaciones que puedas necesitar
+    clearFilter(state) {
+      localStorage.removeItem('serviciosSeleccionados');
+      localStorage.removeItem('mostrarFiltro');
+      localStorage.removeItem('SREstadoSeleccionado');
+      localStorage.removeItem('mostrarFiltroSR');
+      localStorage.removeItem('rolesSeleccionados');
+      localStorage.removeItem('mostrarFiltroRol');
+      localStorage.removeItem('servicesTipoSRSeleccionados');
+      localStorage.removeItem('mostrarFiltroServiceTipoSR');
+      localStorage.removeItem('searchTermReservaDueño');
+      localStorage.removeItem('searchTermBuzon');
+      localStorage.removeItem('searchTermTipoSRAdmin');
+      localStorage.removeItem('searchTermUsuarioAdmin');
+      localStorage.removeItem('searchTermServicioAdmin');
+      localStorage.removeItem('searchTermSalonesAdmin');
+      localStorage.removeItem('searchTermSalonesDueño');
+      localStorage.removeItem('searchTermSolicitudDueño');
+    },
   },
   actions: {
     logout({ commit }, router) {
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('userRoles');
+      localStorage.removeItem('serviciosSeleccionados');
+      localStorage.removeItem('mostrarFiltro');
+      localStorage.removeItem('SREstadoSeleccionado');
+      localStorage.removeItem('mostrarFiltroSR');
+      localStorage.removeItem('rolesSeleccionados');
+      localStorage.removeItem('mostrarFiltroRol');
+      localStorage.removeItem('servicesTipoSRSeleccionados');
+      localStorage.removeItem('mostrarFiltroServiceTipoSR');
+      localStorage.removeItem('searchTermReservaDueño');
+      localStorage.removeItem('searchTermBuzon');
+      localStorage.removeItem('searchTermTipoSRAdmin');
+      localStorage.removeItem('searchTermUsuarioAdmin');
+      localStorage.removeItem('searchTermServicioAdmin');
+      localStorage.removeItem('searchTermSalonesAdmin');
+      localStorage.removeItem('searchTermSalonesDueño');
+      localStorage.removeItem('searchTermSolicitudDueño');
       commit('clearToken');
       router.push('/');
     },
-    // Otras acciones que puedas necesitar
+
+    refreshFilterServicios({ commit }) {
+      commit('clearFilter');
+    },
   },
 });
 

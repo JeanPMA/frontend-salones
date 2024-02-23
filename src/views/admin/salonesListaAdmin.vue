@@ -6,14 +6,11 @@
           
       </div>
       <div class="search_listaAdmin">
-              <div class="search-container">
-                  <input type="text" id="search-input" placeholder="Buscar...">
-                  <button id="search-button">Buscar</button>
-              </div>
-              <div class="admin_filter">
-                <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                    <a href="#" id="clickeable-label">FILTRO</a>
-              </div>
+        <input v-model="searchTerm" placeholder="Buscar..." />
+            
+      </div>
+      <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
+                <FiltroServicios @filtroCambiado="filtrarSalones" />
       </div>
       <div class="boton_crearAdmin">
         <RouterLink to="/crear-salon-admin">
@@ -62,9 +59,13 @@
               </div> 
             </td>
           </tr>
+          
         </tbody>
+        
       </v-table>
-
+        <div v-if="displayedItems.length == 0">
+            <h3>NO EXISTEN SALONES</h3>
+          </div> 
       <v-pagination
         v-model="currentPage"
         :length="totalPages"
@@ -78,12 +79,14 @@
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
   import VueNotification from '@kyvg/vue3-notification';
+  import FiltroServicios from '@/components/filtroServicios.vue';
 
   export default {
     name: 'salonesListaAdminComponent',
     components: {
         NavbarAdmin,
         VueNotification,
+        FiltroServicios,
     },
     mounted() {
     
@@ -104,28 +107,52 @@
     axios.get('http://localhost:8080/v1/salon', config)
       .then(response => {
         this.listaSalonesAdministrador = response.data;
-        console.log(this.listaSalonesAdministrador);
+        
+        const serviciosSeleccionados = JSON.parse(localStorage.getItem('serviciosSeleccionados')) || [];
+        this.filtrarSalones(serviciosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
     },
     data() {
       return {
         listaSalonesAdministrador: [],
+        listaSalonesAdminFiltrado: [],
         itemsPerPage: 5,
         currentPage: 1,
+        searchTerm: localStorage.getItem('searchTermSalonesAdmin') || '',
+        tamañoAux: 0,
       };
     },
   computed: {
     totalItems() {
-      return this.listaSalonesAdministrador.length;
+      return this.tamañoAux;
     },
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage);
     },
     displayedItems() {
+      const searchTerm = this.searchTerm.toLowerCase();
+      if (searchTerm !== this.lastSearchTerm) {
+        this.currentPage = 1;
+        this.lastSearchTerm = searchTerm;
+      }
+
+      const filteredList = this.listaSalonesAdminFiltrado.filter(item => {
+        const estadoText = item.estado === 1 ? 'Habilitado' : 'Deshabilitado';
+        const propietario = item.usuario.nombre;
+        const values = Object.values(item);
+        return (
+          values.some(value => String(value).toLowerCase().includes(searchTerm)) ||
+          estadoText.toLowerCase().includes(searchTerm) ||
+          propietario.toLowerCase().includes(searchTerm)
+        );
+      });
+     
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.listaSalonesAdministrador.slice(startIndex, endIndex);
+      this.tamañoAux = filteredList.length;
+     
+      return filteredList.slice(startIndex, endIndex);
     },
   },
   methods:{
@@ -206,6 +233,23 @@
 
       
     },
+    filtrarSalones(serviciosSeleccionados) {
+      if (serviciosSeleccionados.length > 0) {
+        this.listaSalonesAdminFiltrado = this.listaSalonesAdministrador.filter(salon => {
+          return serviciosSeleccionados.every(servicio => {
+            return salon.servicios.some(s => s.nombre === servicio);
+          });
+        });
+        this.currentPage = 1;
+      } else {
+        this.listaSalonesAdminFiltrado = this.listaSalonesAdministrador;
+      }
+    },
+  },
+  watch: {
+    searchTerm(newSearchTerm) {
+      localStorage.setItem('searchTermSalonesAdmin', newSearchTerm);
+    }
   }
   };
   </script>
@@ -229,12 +273,7 @@
     margin: 0px 100px 0px 100px;
     margin-top: 20px;
 }
-.admin_filter{
-    cursor: pointer;
-    margin-left: 40px;
-    padding-top: 10px;
-    text-align: start;
-}
+
 /* botones estilos*/
 .botones_Admin{
 

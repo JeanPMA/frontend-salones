@@ -10,19 +10,17 @@
 
           <div class="search_buzon">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Buscar...">
-                <button id="search-button">Buscar</button>
+              <input v-model="searchTerm" placeholder="Buscar..." />
              </div>
-            <div class="buzon_filter">
-              <span class="icon"><font-awesome-icon :icon="['fas', 'filter']" /></span>                    
-                  <a href="#" id="clickeable-label">FILTRO</a>
-            </div>
+             <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltroSR }">
+                <FiltroEstadoSR @filtroCambiado="filtrarSR" />
+              </div>
           </div>
           
     </div>
     <div class="buzon_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in buzon" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
+            <div class="grid__item" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
               <img :src="item.salon.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.salon.nombre }}</h2>
@@ -33,12 +31,15 @@
               </div>
             </div>
           </div>
+          <div v-if="displayedItems.length == 0">
+            <h3>NO EXISTEN SOLICITUDES</h3>
+          </div> 
           <div class="buzon_botones">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
               <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
             </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= buzon.length - imagesPerPage">Siguiente</button>
+            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= displayedItems.length - imagesPerPage">Siguiente</button>
           </div>
     </div>
     </div>
@@ -50,18 +51,23 @@
 import NavbarCliente from '@/views/navbarCliente.vue'
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
 
     export default {
     name: 'buzonComponent',
     components: {
-    NavbarCliente,
+      NavbarCliente,
+      FiltroEstadoSR,
     },
     
     data() { 
     return {
         buzon: [],
+        buzonFiltrado: [],
         startIndex: 0,
         imagesPerPage: 10,
+        searchTerm: localStorage.getItem('searchTermBuzon') || '',
+        tamañoAux: 0,
     };
     },
     mounted() {
@@ -83,13 +89,36 @@ import jwt_decode from 'jwt-decode';
     axios.get('http://localhost:8080/v1/solicitud-reserva/buzon', config)
       .then(response => {
         this.buzon = response.data;
+        const estadosSeleccionados = JSON.parse(localStorage.getItem('SREstadoSeleccionado')) || [];
+        this.filtrarSR(estadosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
   },
     computed: {
     paginas() {
-    return Array.from({ length: Math.ceil(this.buzon.length / this.imagesPerPage) }, (_, i) => i + 1);
+    return Array.from({ length: Math.ceil(this.displayedItems.length / this.imagesPerPage) }, (_, i) => i + 1);
 
+    },
+    displayedItems() {
+      const searchTerm = this.searchTerm.toLowerCase();
+      if (searchTerm !== this.lastSearchTerm) {
+        this.irAPagina(1);
+      }
+
+      const filteredList = this.buzonFiltrado.filter(item => {
+        const estado = item.tipoSR.nombre;
+        const salon = item.salon.nombre;
+        const values = Object.values(item);
+        return (
+          values.some(value => String(value).toLowerCase().includes(searchTerm)) ||
+          estado.toLowerCase().includes(searchTerm) ||
+          salon.toLowerCase().includes(searchTerm)
+
+        );
+      });
+      this.tamañoAux = filteredList.length;
+     
+      return filteredList;
     },
     },
     methods: {
@@ -115,7 +144,24 @@ import jwt_decode from 'jwt-decode';
     // Redirige a la página de calificacion
       this.$router.push({ name: 'detalle-buzon', params: { id: id } });
     },
+    filtrarSR(estadosSeleccionados) {
+      if (estadosSeleccionados.length > 0) {
+        this.buzonFiltrado = this.buzon.filter(sr => {
+          return sr.tipoSR && estadosSeleccionados.some(estado => {        
+            return sr.tipoSR.nombre === estado;
+          });
+        });
+        this.irAPagina(1);
+      } else {
+        this.buzonFiltrado = this.buzon;
+      }
     },
+    },
+    watch: {
+    searchTerm(newSearchTerm) {
+      localStorage.setItem('searchTermBuzon', newSearchTerm);
+    }
+  }
     }
 
 </script>
@@ -132,7 +178,7 @@ import jwt_decode from 'jwt-decode';
 
 .search_buzon{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     margin: 0px 100px 0px 100px;
     margin-top: 20px;
@@ -337,11 +383,6 @@ import jwt_decode from 'jwt-decode';
   
   }
   
-.buzon_filter{
-    cursor: pointer;
-    margin-left: 10px;
-    padding-top: 10px;
-}
 
 
 
