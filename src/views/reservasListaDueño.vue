@@ -4,7 +4,7 @@
         <h1>
         LISTA DE RESERVAS
         </h1>
-    <div class="search_listaReserva">
+    <div class="search_listaSolicitud">
              <div class="search-container">
               <input v-model="searchTerm" placeholder="Buscar..." />
              </div>
@@ -12,19 +12,24 @@
                 <FiltroEstadoSR @filtroCambiado="filtrarSR" />
              </div>
     </div> 
-    <div class="dueño_gridSalones">
+    <div class="dueño_gridReservas">
           <div class="grid-containerReservas">
             <div class="grid__itemSolicitud" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
-                <div class="text-titleReserva" style="display: flex; align-items: center; justify-content: center;">
+                <div class="text-titleReserva">
                     <h2>{{ item.salon.nombre }}</h2>
                     <img :src="item.salon.banner_url" alt="">
                    
                 </div>
               
               <div class="text-detailReservas">
-        
+                <h4>Detalle:</h4>
                 <p>{{ item.detalle }}</p>
+                <h4>Estado:</h4>
                 <p>{{ item.tipoSR.nombre }}</p>
+                <h4>Fecha Reserva:</h4>
+                <p>{{ item.fecha_reserva }}</p>
+                <h4>Motivo:</h4>
+                <p>{{ item.motivo }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
@@ -63,7 +68,7 @@ data() {
         listaReservas: [],
         listaReservasFiltrado: [],
         startIndex: 0,
-        imagesPerPage: 8,
+        imagesPerPage: 10,
         searchTerm: localStorage.getItem('searchTermReservaDueño') || '',
         tamañoAux: 0,
     };
@@ -91,6 +96,8 @@ data() {
         this.filtrarSR(estadosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
     },
     computed: {
     paginas() {
@@ -156,6 +163,18 @@ data() {
         this.listaReservasFiltrado = this.listaReservas;
       }
     },
+    handleResize() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1100) {
+        this.imagesPerPage = 10;
+      } else if (windowWidth >= 860) {
+        this.imagesPerPage = 8;
+      } else if (windowWidth >= 600) {
+        this.imagesPerPage = 4;
+      } else {
+        this.imagesPerPage = 3;
+      }
+    },
     },
     watch: {
     searchTerm(newSearchTerm) {
@@ -167,10 +186,11 @@ data() {
 <style>
 
 .content_reservasDueño{
-    background-color: #b4b2b2;
+  background-color: #646464;
 }
 .content_reservasDueño h1{
     padding-top: 30px;
+    color: white;
 }
 .search_listaReserva{
     display: flex;
@@ -180,113 +200,128 @@ data() {
     margin-top: 20px;
 }
 /*ESTILOS GRID SOLICITUDES */
-.dueño_gridSalones{
+.dueño_gridReservas{
     padding: 20px 50px 50px 50px;
     margin: 0px 20px 0px 20px;
-  
   }
   
-  .dueño_gridSalones .grid-containerReservas {
+  .dueño_gridReservas .grid-containerReservas {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(5, 2fr); 
     gap: 20px;
     background-color: transparent;
-    
+  
     justify-content: center;
     align-items: center;
- 
   }
   
-  .dueño_gridSalones .grid__itemSolicitud{
+  .dueño_gridReservas .grid__itemSolicitud{
     
-    
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     height: auto;
     cursor: pointer;
     border-radius: 10px;
-    
+    width: 16vw; 
+    height: 50vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
   }
   
-  .dueño_gridSalones .grid__itemSolicitud h2{
+  .dueño_gridReservas .grid__itemSolicitud h2{
     color: rgb(255, 255, 255); 
     display: flex;
     position: absolute;
- 
     font-size: 1.3vw;
+    z-index: 2;
   }
   
   
-  .dueño_gridSalones .grid__itemSolicitud p{
-   
+  .dueño_gridReservas .grid__itemSolicitud p{
+    overflow: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    -webkit-line-clamp: 4;
     padding:  0px;
-    margin-top: 10px;
     font-size: 1vw;
-    text-align: center;
+    text-align: justify;
     margin-bottom: 10px;
   }
+  .dueño_gridReservas .grid__itemSolicitud h4{
+   text-align: justify;
 
-  .dueño_gridSalones .grid__itemSolicitud .text-titleReserva{
-    width: 100%;
-    height: 100px;
+ }
 
+  .dueño_gridReservas .grid__itemSolicitud .text-titleReserva{
+    flex: 0.5;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
     
   }
-  .dueño_gridSalones .grid-containerReservas .text-titleReserva img{
+
+  .dueño_gridReservas .grid__itemSolicitud .text-titleReserva::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1; 
+  }
+
+  .dueño_gridReservas .grid-containerReservas .text-titleReserva img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    position: relative;
+    filter: blur(2px) brightness(0.5); 
     
   }
   
-  .dueño_gridSalones .grid__itemSolicitud a{
+  .dueño_gridReservas .grid__itemSolicitud a{
     text-decoration: none;
     color: #000000;
     font-style: italic;
     font-size: 1vw;
+    text-align: end;
     transition: 0.3s ease;
+    margin-top: auto;
  }
 
- .dueño_gridSalones .grid__itemSolicitud a:hover{
-    
+ .dueño_gridReservas .grid__itemSolicitud a:hover{   
     color: #686868;
-   
  }
-
   
- .dueño_gridSalones .text-detailReservas {
-   
-    
+ .dueño_gridReservas .text-detailReservas {  
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     top: 0;
     left: 0;
-    width: 100%;
-   
-    
-    background: rgb(222, 222, 222); /* Fondo semitransparente para mayor legibilidad */
+    width: 100%;     
+    background: rgb(222, 222, 222); 
     color: #000000;
     text-align: end;
     padding: 10px;
-  
+
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
-    max-width: 100%;
   }
-  
-  
-  
-  
- 
+
   .gridReserva_DueñoBtn{
     display: flex;
     flex-direction: row;
     margin-top: 20px;
-    justify-content: end; /* Distribuye los elementos al principio y al final del contenedor */
+    justify-content: end;
    
     
   }
   
   .gridReserva_DueñoBtn #numeros-pagina{
-   
-    
     padding-left: 5px;
     padding-right: 5px;
     color: white;
@@ -296,7 +331,7 @@ data() {
   
   .gridReserva_DueñoBtn #anterior {
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
@@ -304,7 +339,7 @@ data() {
   
   .gridReserva_DueñoBtn #siguiente {
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
@@ -314,7 +349,7 @@ data() {
     margin-right: 5px; 
     
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
@@ -333,11 +368,86 @@ data() {
   }
   
   .gridReserva_DueñoBtn .numero-pagina:hover {
-  
-    
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
   
   }
+  @media  screen and (max-width: 1100px) {
+    .dueño_gridReservas .grid-containerReservas{
+      grid-template-columns: repeat(4, 2fr); 
+    }
+    .dueño_gridReservas .grid__itemSolicitud{
+      width: 20vw; 
+      height: 44vh;
+    }
+    .dueño_gridReservas .grid__itemSolicitud h4{
+      font-size: 1.5vw;
+    }
+    .dueño_gridReservas .grid__itemSolicitud p{
+      font-size: 1.2vw;
+    }
+    .dueño_gridReservas .grid__itemSolicitud a{
+      font-size: 15px;
+    }
+  }
+  @media  screen and (max-width: 860px) {
+    .dueño_gridReservas{
+      padding: 20px 50px 50px 70px;
+    }
+    .dueño_gridReservas .grid-containerReservas{
+      grid-template-columns: repeat(2, 2fr); 
+    }
+    .dueño_gridReservas .grid__itemSolicitud{
+      width: 35vw; 
+      height: 44vh;
+    }
+    .dueño_gridReservas .grid__itemSolicitud h4{
+      font-size: 2vw;
+    }
+    .dueño_gridReservas .grid__itemSolicitud p{
+      font-size: 1.5vw;
+    }
+    .dueño_gridReservas .grid__itemSolicitud h2{
+      font-size: 2.5vw;
+    }
+  }
 
+  @media  screen and (max-width: 700px) {
+    .content_reservasDueño  h1{
+      font-size: 30px;
+      margin-left: 55px;
+    }
+  }
+
+  @media  screen and (max-width: 600px) {
+
+    .dueño_gridReservas .grid-containerReservas{
+      grid-template-columns: repeat(1, 2fr); 
+    }
+    .dueño_gridReservas .grid__itemSolicitud{
+      width: 70vw; 
+      height: 44vh;
+    }
+    .dueño_gridReservas .grid__itemSolicitud h4{
+      font-size: 3vw;
+    }
+    .dueño_gridReservas .grid__itemSolicitud p{
+      font-size: 2.5vw;
+    }
+    .dueño_gridReservas .grid__itemSolicitud h2{
+      font-size: 4vw;
+    }
+  }
+
+  @media  screen and (max-width: 400px) {
+  .dueño_gridReservas .grid__itemSolicitud h4{
+    font-size: 4vw;
+  }
+  .dueño_gridReservas .grid__itemSolicitud p{
+    font-size: 3.5vw;
+  }
+  .dueño_gridReservas .grid__itemSolicitud h2{
+    font-size: 5vw;
+  }
+}
 </style>

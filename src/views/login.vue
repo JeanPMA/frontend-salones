@@ -16,10 +16,7 @@
                     <input type="password" v-model="password" required>
                     <label for="password">Contraseña</label>
                 </div>
-                <div class="remember-forgot">
-                    <label> <input type="checkbox">Recuerdame</label>
-                    <a href="#">Olvidaste tu contraseña?</a>
-                </div>
+
                 
                     <button type="submit" class="btn">
                         Login
@@ -253,28 +250,7 @@ body{
     line-height: 57px;
 }
 
-.remember-forgot{
-    font-size: .9em;
-    color: #162938;
-    font-weight: 500;
-    margin: -15px 0 15px;
-    display: flex;
-    justify-content: space-between;
-}
 
-.remember-forgot label input{
-    accent-color: #162938;
-    margin-right: 3px;
-}
-
-.remember-forgot a{
-    color: #162938;
-    text-decoration: none;
-}
-
-.remember-forgot a:hover{
-    text-decoration: underline;
-}
 
 .content_login .btn{
     width: 100%;
@@ -306,5 +282,13 @@ body{
 .login-register p a:hover{
     text-decoration: underline;
 }
-
+@media  screen and (max-width: 600px) {
+    .login_icon{
+        display: none;
+    }
+    .wrapper {
+        border-bottom-right-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+}
 </style>

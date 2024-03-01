@@ -57,7 +57,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start; 
-  
+  padding-left: 20px;
 }
 .filtro_btn{
     display: flex;
@@ -65,20 +65,22 @@
 }
 .filtro_servicios span {
     margin-left: 20px;
+    color: rgb(255, 255, 255);
+
 }
 .filtro_servicios a {
   cursor: pointer;
   margin-right: 10px; 
   padding-left: 10px;
   text-decoration: none;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 .filtro_lista {
   display: flex;
   flex-direction: row;
   background-color: transparent;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   padding: 10px;
   top: 50px;
   right: 0;

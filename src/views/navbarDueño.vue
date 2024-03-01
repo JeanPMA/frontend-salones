@@ -10,9 +10,8 @@
       >
         <v-list>
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-            title="Jean Pool Mauricio Alcon"
-            subtitle="jeanpoolmauricioalcon@gmailcom"
+
+            :title="usuario"
           ></v-list-item>
         </v-list>
         <v-divider></v-divider>
@@ -36,28 +35,35 @@
 </template>
 
 <script>
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 export default {
     name: 'navbarDueñoComponent',
+    data() { 
+    return {
+          usuario: '',
+      }
+    },
+    mounted() {   
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+      this.usuario = decodedToken.sub;
+    },
     methods: {
     
     irAListaSolicitud() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-solicitudes'});
     },
     irAListaSalon() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones'});
     },
     irAListaReserva() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-reservas'});
     },
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'home'});
     },
     logout() {
-    // Llamar a la acción de logout del store
       this.$store.dispatch('logout', this.$router);
     },
   },
@@ -68,5 +74,9 @@ export default {
 
 .text-transparent{
     color: white;
+}
+
+.v-navigation-drawer__content{
+  z-index: 5;
 }
 </style>

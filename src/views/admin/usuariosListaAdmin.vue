@@ -16,7 +16,7 @@
             <a id="crear" >CREAR</a>
         </RouterLink>
       </div>
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 10px;">
       <v-table
         fixed-header
         height="65vh"
@@ -266,6 +266,7 @@
 <style>
 .content_usuariosListaAdmin{
   background-color: white;
+  height: 100vh;
 }
   .listaUsuariosAdmin_title{
     padding-top: 50px;
@@ -284,11 +285,6 @@
 }
 
 /* botones estilos*/
-.botones_Admin{
-
-   width: 100px;
-   
-}
 
 .botones_Admin a{
     margin-left: 5px;
@@ -363,6 +359,19 @@ display: flex;
 .boton_crearAdmin #crear:hover {
     background-color: transparent;
     color: #00aa39;
+}
+
+@media  screen and (max-width: 1000px) {
+  .boton_crearAdmin a{
+    margin-left: auto;
+    align-items: end;
+  }
+}
+
+@media  screen and (max-width: 440px) {
+  .search_listaAdmin{
+    margin: 10px 5px 0px 10px;
+  }
 }
 </style>
   

@@ -11,6 +11,7 @@
              <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
                 <FiltroServicios @filtroCambiado="filtrarSalones" />
              </div>
+        </div> 
         <div class="boton_crearSalonDueño">
           <RouterLink to="/crear-salon">
               <a id="crear" >CREAR SALON</a>
@@ -19,7 +20,7 @@
         <div class="dueño_gridSalones">
           <div class="grid-containerSalonesDueño">
             <div class="grid__itemSalon" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irASalon(item.id)">
-                <div class="text-titleSalon" style="display: flex; align-items: center; justify-content: center;">
+                <div class="text-titleSalon" >
                     <h2>{{ item.nombre }}</h2>
                     <img :src="item.banner_url" alt="">
                    
@@ -30,10 +31,15 @@
                 <p>{{ item.descripcion }}</p>
                 <h4>Estado:</h4>
                 <p>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</p>
-                <h4>Fecha de creacion:</h4>
-                <p>{{ item.created_at }}</p>
+                <h4>Tarifa:</h4>
+                <p>{{ item.tarifa }}</p>
                 <h4>Ubicacion:</h4>
                 <p>{{ item.direccion }}</p>
+                <h4>Servicios:</h4>
+                <p v-if="item.servicios.length > 0">
+                  {{ item.servicios.map(servicio => servicio.nombre).join(', ') }}
+                </p>
+                <p v-if="item.servicios.length == 0"> NO EXISTEN SERVICIOS</p> 
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
@@ -49,7 +55,7 @@
             <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= displayedItems.length - imagesPerPage">Siguiente</button>
           </div>
         </div>
-    </div> 
+   
     </div>
 </template>
 
@@ -74,10 +80,11 @@ data() {
         imagesPerPage: 3,
         searchTerm: localStorage.getItem('searchTermSalonesDueño') || '',
         tamañoAux: 0,
+
     };
 },
     mounted() {
-    
+
     const token = localStorage.getItem('jwtToken');
     const decodedToken = jwt_decode(token);
 
@@ -101,6 +108,9 @@ data() {
         this.filtrarSalones(serviciosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
+
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
     },
     computed: {
       paginas() {
@@ -160,6 +170,16 @@ data() {
         this.salonesFiltrados = this.salonesListaDueño;
       }
     },
+    handleResize() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 900) {
+        this.imagesPerPage = 3;
+      } else if (windowWidth >= 500) {
+        this.imagesPerPage = 2;
+      } else {
+        this.imagesPerPage = 1;
+      }
+    },
     },
     watch: {
     searchTerm(newSearchTerm) {
@@ -171,15 +191,21 @@ data() {
 
 <style>
 .content_salonesDueño{
-    background-color: #b4b2b2;
+  background-color: #646464;
+  height: 100%;
 }
 .content_salonesDueño h1{
     padding-top: 30px;
+    color: white;
+}
+.content_salonesDueño h3{
+    padding-top: 30px;
+    color: white;
 }
 
 /*ESTILOS GRID SALONES */
 .dueño_gridSalones{
-    padding: 20px 10px 40px 10px;
+    padding: 20px 30px 40px 80px;
     margin: 0px 20px 0px 20px;
   
   }
@@ -188,7 +214,7 @@ data() {
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     gap: 20px;
-    background-color: transparent;
+ 
     place-items: center;
     justify-content: center;
     align-items: center;
@@ -196,62 +222,79 @@ data() {
   }
   
   .dueño_gridSalones .grid__itemSalon{
-   
+   display: flex;
+   flex-direction: column;
     
     overflow: hidden;
-    height: auto;
     cursor: pointer;
     border-radius: 10px;
-    
+    width: 30vw; 
+    height: 80vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
   }
   
   .dueño_gridSalones .grid__itemSalon h2{
     color: rgb(255, 255, 255); 
-    display: flex;
+
     position: absolute;
- 
-    font-size: 1.3vw;
+
+    font-size: 2.5vw;
   }
 
-  .dueño_gridSalones .grid__itemSalon h4{
-
-    
+  .dueño_gridSalones .grid__itemSalon h4{    
     font-size: 1vw;
     text-align: start;
     
   }
   
   .dueño_gridSalones .grid__itemSalon p{
-   
-  
-
+    overflow: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    -webkit-line-clamp: 4;
     font-size: 1vw;
     text-align: justify;
     margin-bottom: 10px;
   }
 
   .dueño_gridSalones .grid__itemSalon .text-titleSalon{
-    width: 100%;
-    height: 150px;
-
-    
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
   }
-  .dueño_gridSalones .grid-containerSalonesDueño .text-titleSalon img{
+  .dueño_gridSalones .grid__itemSalon .text-titleSalon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    
+    z-index: 1; 
+}
+  .dueño_gridSalones .grid__itemSalon .text-titleSalon img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    position: relative;
+    filter: blur(2px) brightness(0.5); 
   }
-  
-  .dueño_gridSalones .grid__itemSalon a{
+  .dueño_gridSalones .grid__itemSalon .text-titleSalon h2{
+    z-index: 2;
+  }
+  .dueño_gridSalones .text-detailSalones a{
     text-decoration: none;
     color: #000000;
     font-style: italic;
-    font-size: 1vw;
+    font-size: 15px;
     transition: 0.3s ease;
+    margin-top: auto;
  }
 
- .dueño_gridSalones .grid__itemSalon a:hover{
+ .dueño_gridSalones .text-detailSalones a:hover{
     
     color: #686868;
    
@@ -260,20 +303,20 @@ data() {
   
  .dueño_gridSalones .text-detailSalones {
    
-    
+    display: flex;
+    flex-direction: column;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 40vh;
-    
-    background: rgb(222, 222, 222); /* Fondo semitransparente para mayor legibilidad */
+    flex: 1;
+    overflow: hidden;
+    background: rgb(222, 222, 222); 
     color: #000000;
     text-align: end;
     padding: 20px;
   
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
-    max-width: 100%;
+
   }
   
   
@@ -284,7 +327,7 @@ data() {
     display: flex;
     flex-direction: row;
     margin-top: 20px;
-    justify-content: end; /* Distribuye los elementos al principio y al final del contenedor */
+    justify-content: end; 
    
     
   }
@@ -301,7 +344,7 @@ data() {
   
   .gridSalones_DueñoBtn #anterior {
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
@@ -309,7 +352,7 @@ data() {
   
   .gridSalones_DueñoBtn #siguiente {
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
@@ -319,7 +362,7 @@ data() {
     margin-right: 5px; 
     
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: white;
     padding: 5px;
     border: 2px solid #000000;
     transition: 0.3s ease;
@@ -346,12 +389,9 @@ data() {
   }
 
 .boton_crearSalonDueño{
-
-
-margin-top: 20px;
-display: flex;
-
-
+  margin-top: 20px;
+  margin-left: 60px;
+  display: flex;
 }
 
 .boton_crearSalonDueño a{
@@ -367,7 +407,7 @@ display: flex;
 }
 .boton_crearSalonDueño #crear{
   background-color: transparent;
-    color: #000000;
+    color: white;
    
     border: 2px solid #000000;
     
@@ -379,4 +419,88 @@ display: flex;
   background-color: #000000;
   color: #ffffff;
 }
+.search_listaSolicitud{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0px 100px 0px 100px;
+    margin-top: 20px;
+}
+.search_listaSolicitud .search-container input{
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+@media  screen and (max-width: 1200px) {
+    .dueño_gridSalones .grid__itemSalon p{
+      font-size: 1.5vw;
+    }
+    .dueño_gridSalones .grid__itemSalon h4{
+      font-size: 1.5vw;
+    }
+    .dueño_gridSalones .grid__itemSalon h2{
+      font-size: 3vw;
+    }
+  }
+
+@media  screen and (max-width: 900px) {
+    .dueño_gridSalones .grid-containerSalonesDueño {
+      grid-template-columns: repeat(2, 1fr); 
+    }
+    .dueño_gridSalones .grid__itemSalon{
+      width: 40vw; 
+
+    }
+    .dueño_gridSalones .grid__itemSalon p{
+      font-size: 2vw;
+    }
+    .dueño_gridSalones .grid__itemSalon h4{
+      font-size: 2vw;
+    }
+}
+
+@media  screen and (max-width: 700px) {
+    .search_listaSolicitud{
+      justify-content: center;
+      margin: 0px 10px 0px 60px;
+      margin-top: 20px;
+    }
+    .dueño_gridSalones .grid__itemSalon p{
+      font-size: 2.5vw;
+    }
+    .dueño_gridSalones .grid__itemSalon h4{
+      font-size: 2.5vw;
+    }
+}
+
+@media  screen and (max-width: 500px) {
+    .dueño_gridSalones .grid-containerSalonesDueño {
+      grid-template-columns: repeat(1, 1fr); 
+    }
+    .content_salonesDueño h1{
+      font-size: 30px;
+      margin-left: 55px;
+    }
+    .dueño_gridSalones .grid__itemSalon{
+      width: 80vw; 
+
+    }
+    .dueño_gridSalones .grid__itemSalon h2{
+      font-size: 5vw;
+    }
+    .dueño_gridSalones .grid__itemSalon p{
+      font-size: 4vw;
+    }
+    .dueño_gridSalones .grid__itemSalon h4{
+      font-size: 4vw;
+    }
+}
+@media  screen and (max-width: 400px) {
+  .dueño_gridSalones .grid__itemSalon{
+    height: 70vh;
+  }
+}
+
 </style>

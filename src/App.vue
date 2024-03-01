@@ -14,7 +14,8 @@ import { Notifications } from '@kyvg/vue3-notification';
 
 export default {
     name: 'App',
-    components: { Notifications }
+    components: { Notifications },
+ 
 }
 </script>
 
@@ -24,8 +25,14 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: rgba(179, 178, 178, 0.856);
- 
+  background-color: #646464;
+
+}
+html, body {
+    height: 100%;
+    margin: 0; 
+    background-color: #646464;
+
 }
 
 </style>

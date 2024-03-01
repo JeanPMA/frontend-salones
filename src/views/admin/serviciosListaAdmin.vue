@@ -16,7 +16,7 @@
             <a id="crear" >CREAR</a>
         </RouterLink>
       </div>
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 10px;">
       <v-table
         fixed-header
         height="65vh"
@@ -253,6 +253,7 @@
 <style>
 .content_serviciosListaAdmin{
   background-color: white;
+  height: 100vh;
 }
   .listaServiciosAdmin_title{
     padding-top: 50px;

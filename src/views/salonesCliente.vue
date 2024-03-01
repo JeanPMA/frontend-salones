@@ -17,7 +17,9 @@
               <img :src="item.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.nombre }}</h2>
-                <p>{{ item.descripcion }}</p>
+                <p><h4>DIRECCION: </h4>{{ item.direccion }}</p>
+                <p><h4>CAPACIDAD: </h4>{{ item.capacidad }}</p>
+                <p><h4>DESCRIPCION: </h4>{{ item.descripcion }}</p>
               </div>
             </div>
           </div>
@@ -27,7 +29,7 @@
           <div class="salones_botones">
             <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
             <div id="numeros-pagina">
-              <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
+              <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" :class="{ 'numero-pagina': !isNaN(pagina), 'no-clickeable': isNaN(pagina) }">{{ isNaN(pagina) ? '...' : pagina }}</span>
             </div>
             <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salonesFiltrados.length - imagesPerPage">Siguiente</button>
           </div>
@@ -88,11 +90,37 @@
         this.filtrarSalones(serviciosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
+
+      window.addEventListener('resize', this.handleResize);
+    
+       this.handleResize();
   },
   computed: {
+    totalPaginas() {
+      return Math.ceil(this.salonesFiltrados.length / this.imagesPerPage);
+    },
     paginas() {
-      return Array.from({ length: Math.ceil(this.salonesFiltrados.length / this.imagesPerPage) }, (_, i) => i + 1);
-    
+      const paginaActual = Math.ceil((this.startIndex + 1) / this.imagesPerPage);
+      const paginas = [];
+
+      if (paginaActual > 3) {
+        paginas.push('...');
+      }
+
+      let inicio = Math.max(1, paginaActual - 1);
+      let fin = Math.min(inicio + 2, this.totalPaginas);
+
+      while (inicio <= fin) {
+        paginas.push(inicio);
+        inicio++;
+      }
+
+      if (fin < this.totalPaginas - 1) {
+        paginas.push('...');
+        paginas.push(this.totalPaginas);
+      }
+
+      return paginas;
     },
   },
   methods: {
@@ -103,19 +131,22 @@
       this.startIndex = (pagina - 1) * this.imagesPerPage;
     },
     paginaAnterior() {
-      this.startIndex -= this.imagesPerPage;
-      
+      if (this.startIndex > 0) {
+        this.startIndex -= this.imagesPerPage;
+      }
     },
     paginaSiguiente() {
-      this.startIndex += this.imagesPerPage;
-     
+      if (this.startIndex + this.imagesPerPage < this.salonesFiltrados.length) {
+        this.startIndex += this.imagesPerPage;
+      }
     },
     irAPagina(pagina) {
-      this.actualizarNumerosPagina(pagina);
+      if (!isNaN(pagina)) {
+        this.startIndex = (pagina - 1) * this.imagesPerPage;
+      }
       
     },
     irADetalleSalon(id) {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'detalle-salon', params: { id: id } });
     },
     filtrarSalones(serviciosSeleccionados) {
@@ -128,6 +159,16 @@
         this.irAPagina(1);
       } else {
         this.salonesFiltrados = this.salones;
+      }
+    },
+    handleResize() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1000) {
+        this.imagesPerPage = 9;
+      } else if (windowWidth >= 700) {
+        this.imagesPerPage = 8; // o el valor que desees para esta condición
+      } else {
+        this.imagesPerPage = 6;
       }
     },
   },
@@ -146,10 +187,12 @@
     background-color: #646464;
     width: 100%;
     margin-top: 80px;
+    height: 100%;
+    padding-bottom: 40px;
   }
   
   .salones_grid{
-    padding: 20px 50px 50px 50px;
+
     margin: 0px 20px 0px 20px;
   }
   
@@ -161,18 +204,18 @@
     place-items: center;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
   }
   
-  .grid__item{
-    
+  .grid__item{  
     position: relative;
-  
     display: inline-block;
     overflow: hidden;
     height: auto;
     cursor: pointer;
     border-radius: 10px;
-  
+    width: 30vw; 
+    height: 20vw;
   }
   
   .grid__item h2{
@@ -190,14 +233,20 @@
     margin-top: 10px;
     font-size: 1vw;
     text-align: justify;
+    overflow: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    -webkit-line-clamp: 3;
   }
   .salones_grid .grid-container img{
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
   
   
-  .text-overlay {
+  .salones_grid .text-overlay {
    
     position: absolute;
     top: 0;
@@ -225,7 +274,7 @@
     display: flex;
     padding-top: 50px;
     justify-content: center;
-   font-size: 2vw;
+    font-size: 2vw;
   }
   
   .salones_botones{
@@ -299,5 +348,56 @@
 
 .filtro-abierto {
   margin-left: 200px; 
+}
+
+@media  screen and (max-width: 1000px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); 
+
+  }
+  
+  .grid__item{
+    width: 45vw; 
+    height: 18vw;
+  }
+  .salones_grid .text-overlay{
+    padding: 10px 20px 20px 20px;
+  }
+  .salones_title{
+    font-size: 20px;
+  }
+  .grid__item h2{
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+@media  screen and (max-width: 700px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr); 
+
+  }
+  .grid__item{
+    width: 80vw; 
+    height: 30vw;
+  }
+  .salones_list{
+    margin-top: 70px;
+  }
+  .grid__item h2{
+    font-size: 3vw;
+    padding-top: 5px;
+  }
+  .grid__item p{
+    font-size: 2vw;
+  }
+}
+@media  screen and (max-width: 640px) {
+  .grid__item h2{
+    font-size: 3vw;
+  }
+  .grid__item p{
+    font-size: 1.5vw;
+    margin-top: 5px;
+  }
 }
 </style>

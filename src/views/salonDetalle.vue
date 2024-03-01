@@ -3,7 +3,7 @@
     <div class="content_detalleSalon" v-if="detalleSalon">
         <div class="detalleSalon_title">
             <h2>{{ detalleSalon.nombre }}</h2>
-            <img src="../img/1.png" alt="">
+            <img :src="detalleSalon.banner_url" alt="">
         </div>
         
         <div class="detalleSalon_text">
@@ -39,7 +39,13 @@
           
            
         </div>
-    
+        <div class="imagenes_salon">
+          <v-carousel v-if="imagenesSalon.length > 0">
+              <v-carousel-item v-for="(imagen, index) in imagenesSalon" :key="index" :src="imagen.imagen_url" cover>
+              </v-carousel-item>
+              
+            </v-carousel>
+        </div>
         <div class="button_reservar">
             <a href="#" class="button_reservar button-2" @click="volverAtras">CANCELAR</a>
             <a href="#" class="button_reservar button-1" @click="irASolicitud">RESERVAR</a>
@@ -57,6 +63,7 @@ name: 'salonDetalleComponent',
   data() {
     return {
       detalleSalon: null, 
+      imagenesSalon: [],
     };
   },
   components: {
@@ -66,6 +73,8 @@ name: 'salonDetalleComponent',
       const salonId = this.$route.params.id;
 
       this.obtenerDetallesSalon(salonId);
+      this.obtenerImagenesSalon(salonId);
+
   },
   methods: {
       volverAtras (){
@@ -86,10 +95,29 @@ name: 'salonDetalleComponent',
       axios.get(`http://localhost:8080/v1/salon/${id}`, config)
         .then(response => {
           this.detalleSalon = response.data;
-          //console.log('Detalles del salón:', response.data);
         })
         .catch(error => console.error('Error al obtener detalles del salón:', error));
       },
+      async obtenerImagenesSalon(id) {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+
+      const userRole = decodedToken.roles[0];
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-User-Role': userRole
+        }
+      };
+
+      const response = await axios.get(`http://localhost:8080/v1/imagen-salon/${id}/imagenes`, config);  
+      this.imagenesSalon = response.data;
+      console.log(this.imagenesSalon);
+      } catch (error) {
+        console.error('Error al imagenes:', error);
+      }
+    },
       irASolicitud(arg) {
       
         const nombreSalonSeleccionado = this.detalleSalon.nombre;
@@ -108,10 +136,12 @@ name: 'salonDetalleComponent',
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+
 }
 .detalleSalon_title{
     text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .detalleSalon_title img{
@@ -134,6 +164,15 @@ name: 'salonDetalleComponent',
   align-items: flex-start;
 }
 
+.content_detalleSalon .item p {
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+
+   
+}
+
 .item label {
   font-weight: bold;
   text-align: left;
@@ -154,10 +193,11 @@ name: 'salonDetalleComponent',
 }
 
 .content_detalleSalon .button_reservar{
-    margin-right: 10px;
+    margin: 20px 5px 10px 5px;
     color: rgb(33, 117, 155);
     justify-items: end;
     text-decoration: none;
+    padding-bottom: 20px;
   }
 .content_detalleSalon .button-1{
     color: rgb(0, 0, 0);
@@ -201,4 +241,45 @@ name: 'salonDetalleComponent',
    background-color: rgb(255, 255, 255);
    text-decoration: none;
  }
+ .imagenes_salon{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40vw;
+ }  
+ @media  screen and (max-width: 1200px) {
+  .imagenes_salon{
+    width: 60vw;
+ }  
+ }
+
+ @media  screen and (max-width: 620px) {
+  .detalleSalon_title h2{
+    padding-top: 20px;
+  }
+  .content_detalleSalon{
+    display: grid;
+  }
+  .content_detalleSalon .item {
+   display: grid;
+  }
+  .item label{
+    margin-right: 0px;
+    margin-left: 10px;
+  }
+  .content_detalleSalon p{
+    margin-top: 10px;
+  }
+  .detalleSalon_title img{
+    width: 80vw;
+    height: 25vh;
+  }
+  .detalleSalon_title{
+    margin-bottom: 0px;
+    }
+  .imagenes_salon{
+    width: 80vw;
+  }  
+ }
+
 </style>

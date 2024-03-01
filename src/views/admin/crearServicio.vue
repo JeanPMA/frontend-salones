@@ -42,9 +42,7 @@
             Crear
         </v-btn>
     
-        <v-btn @click="handleReset"  class="me-4">
-            Limpiar
-        </v-btn>
+
 
         <v-btn @click="irAHome" >
             Volver
@@ -175,12 +173,56 @@
 <style>
 .content_crearServicio{
     padding: 40px 100px 40px 100px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+.content_crearServicio form{
+    padding: 1px 50px 50px 50px; 
+    background-color: rgb(255, 255, 255);
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+
+}
+.content_crearServicio h2{
+    padding: 50px; 
+    background-color: rgb(255, 255, 255);
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
 .v-messages__message {
     text-align: start;
  
 }
 .v-input--horizontal {
     margin-top: 20px;
+}
+
+@media  screen and (max-width: 700px) {
+  .content_crearServicio{
+    padding: 20px 10px 50px 10px;
+  }
+}
+
+@media  screen and (max-width: 460px) {
+  .content_crearServicio{
+    width: 100%;
+  }
+}
+
+@media  screen and (max-width: 300px) {
+  .content_crearServicio{
+    padding: 20px 5px 50px 5px;
+  }
+  .content_crearServicio form{
+    padding: 1px 10px 50px 10px;
+  }
+  .content_crearServicio h2 {
+    padding: 50px 10px 50px 10px;
+
+  }
 }
 </style>

@@ -42,9 +42,6 @@
             Guardar
         </v-btn>
     
-        <v-btn @click="handleReset"  class="me-4">
-            Limpiar
-        </v-btn>
 
         <v-btn @click="irAHome" >
             Volver

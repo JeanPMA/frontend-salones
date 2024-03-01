@@ -18,7 +18,9 @@
               <img :src="item.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.nombre }}</h2>
-                <p>{{ item.descripcion }}</p>
+                <p><h4>DIRECCION: </h4>{{ item.direccion }}</p>
+                <p><h4>CAPACIDAD: </h4>{{ item.capacidad }}</p>
+                <p><h4>DESCRIPCION: </h4>{{ item.descripcion }}</p>
               </div>
             </div>
           </div>
@@ -86,6 +88,9 @@ import FiltroServicios from '../components/filtroServicios.vue';
         this.filtrarSalones(serviciosSeleccionados);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
+      window.addEventListener('resize', this.handleResize);
+    
+       this.handleResize();
   },
     computed: {
     paginas() {
@@ -128,6 +133,16 @@ import FiltroServicios from '../components/filtroServicios.vue';
         this.salonesFiltrados = this.salonesRecomendados;
       }
     },
+    handleResize() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1000) {
+        this.imagesPerPage = 9;
+      } else if (windowWidth >= 700) {
+        this.imagesPerPage = 8; // o el valor que desees para esta condición
+      } else {
+        this.imagesPerPage = 6;
+      }
+    },
     },
     }
 
@@ -143,10 +158,11 @@ import FiltroServicios from '../components/filtroServicios.vue';
     background-color: #646464;
     width: 100%;
     margin-top: 80px;
+    height: 100%;
+    padding-bottom: 40px;
   }
   
   .salonesRecomendados_grid{
-    padding: 20px 50px 50px 50px;
     margin: 0px 20px 0px 20px;
   }
   
@@ -164,22 +180,29 @@ import FiltroServicios from '../components/filtroServicios.vue';
     display: flex;
     padding-top: 50px;
     justify-content: center;
-   font-size: 2vw;
+    font-size: 2vw;
   }
-  
-  
-  
-  
-  
-  
-  
- 
-  
-.salonesRecomendados_filter{
-    text-align: start;
-    cursor: pointer;
-    margin-left: 100px;
-}
 
+  
+  .salonesRecomendados_filter{
+      text-align: start;
+      cursor: pointer;
+      margin-left: 100px;
+  }
+  @media  screen and (max-width: 1000px) {
+    .salonesRecomendados_title{
+      font-size: 20px;
+    }
+  }
+  @media  screen and (max-width: 900px) {
+    .text-overlay{
+      padding: 10px 20px 20px 20px;
+    }
+  }
+  @media  screen and (max-width: 700px) {
 
+    .salonesRecomendados_list{
+      margin-top: 70px;
+     }
+  }
 </style>

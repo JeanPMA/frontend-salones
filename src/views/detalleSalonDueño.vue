@@ -7,21 +7,24 @@
             <div class="salonDueño_column">
               <div class="salonDueño_title">
                   <h2>{{detalleSalonDueño.nombre}}</h2>
-                  <img src="../img/1.png" alt="">
               </div>
               
               <div class="salonDueño_detalle">
-                  <div class="itemSalonDueño">
+                  <div class="itemSalonDueño" id="input_form">
                       <label>Nombre:</label>
                       <input type="text" pattern="[a-zA-Z0-9\s]+" maxlength="50" :counter="50" v-model="detalleSalonDueño.nombre" @input="manejarInputNombre" required>
                   </div>
                   <span v-if="mostrarErrorNombre" class="error-message">El nombre no puede estar vacío</span>
 
-                  <label>Nueva Imagen:</label>
-                  <input type="file" @change="handleFileChange" />
+                  <div class="itemSalonDueño" id="input_form">
+                      <label>Nueva Imagen: <h4>(Ingresar imagen solo en caso de modificación)</h4></label>
+                      <input  type="file" @change="handleFileChange"/>
+                  </div>
 
-                  <!-- Mostrar la imagen actual -->
-                  <img :src="detalleSalonDueño.banner_url" alt="Imagen actual" v-if="detalleSalonDueño.banner_url" />
+                  <div class="itemSalonDueño">
+                      <label>Imagen Actual:</label>
+                      <img :src="detalleSalonDueño.banner_url" alt="Imagen actual" v-if="detalleSalonDueño.banner_url" />
+                  </div>
 
                   <div class="itemSalonDueño">
                       <label>Descripcion:</label>
@@ -29,6 +32,7 @@
                   </div>
                   <span v-if="mostarErrorDescripcion" class="error-message">El detalle no puede estar vacío</span>
 
+                  <div class="itemSalonDueño" id="select_form">
                   <v-select
                     v-model="serviciosSeleccionados"
                     ref="miVSelect"
@@ -39,30 +43,31 @@
                     multiple
                     @update:modelValue="handleServiciosChange"
                   ></v-select>
+                   </div>
                   <p v-if="errorServicios">Por favor, selecciona al menos 1 opcion.</p>
 
                 
-                  <div class="itemSalonDueño">
+                  <div class="itemSalonDueño" id="input_form">
                       <label >Capacidad:</label>
-                      <input v-model="detalleSalonDueño.capacidad"  maxlength="5" @input="manejarInputCapacidad" required>
+                      <input  v-model="detalleSalonDueño.capacidad"  maxlength="5" @input="manejarInputCapacidad" required>
                   </div>
                   <span v-if="mostrarErrorCapacidad" class="error-message">La capacidad no puede estar vacía</span>
 
-                  <div class="itemSalonDueño">
+                  <div class="itemSalonDueño" id="input_form">
                       <label >Dirección:</label>
-                      <input type="text" v-model="detalleSalonDueño.direccion" maxlength="100" @input="limpiarErrorDireccion" required>
+                      <input  type="text" v-model="detalleSalonDueño.direccion" maxlength="100" @input="limpiarErrorDireccion" required>
                   </div>
                   <span v-if="mostrarErrorDireccion" class="error-message">La dirección no puede estar vacía</span>
 
-                  <div class="itemSalonDueño">
+                  <div class="itemSalonDueño" id="input_form">
                       <label >Tarifa:</label>
-                      <input v-model="detalleSalonDueño.tarifa" @input="manejarInputTarifa" required>
+                      <input  v-model="detalleSalonDueño.tarifa" @input="manejarInputTarifa" required>
                   </div>
                   <span v-if="mostrarErrorTarifa" class="error-message">La tarifa no puede estar vacía</span>
 
                   <div class="itemSalonDueño">
                           <label >Estado:</label>
-                          <p>{{detalleSalonDueño.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</p>
+                          <h3>{{detalleSalonDueño.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</h3>
                       </div>
                 
                 
@@ -70,30 +75,36 @@
           
               <div class="buttons_salonDueño">
                   <a class="buttons_salonDueño buttonDueño-2" @click="volverAtras">VOLVER</a>
-                  <a href="#" class="buttons_salonDueño buttonDueño-1" @click="actualizarSalon">GUARDAR</a>
                   <a href="#" class="buttons_salonDueño buttonDueño-3" v-if="detalleSalonDueño.estado === 1" @click="deshabilitarHabilitarSalon">DESHABILITAR</a>
                   <a href="#" class="buttons_salonDueño buttonDueño-4" v-if="detalleSalonDueño.estado === 0" @click="deshabilitarHabilitarSalon">HABILITAR</a>
               </div>
+              <div class="buttons_salonDueño">
+                  <a href="#" class="buttons_salonDueño buttonDueño-1" @click="actualizarSalon">GUARDAR SALÓN</a>
+              </div>
             </div>
           <div class="salonDueño_column">
-              <div class="buttons_salonDueño">
-                  <label>Nueva Imagen COLECCION:</label>
-                  <input type="file" @change="imagenFileChange" />
-                  <a href="#" class="buttons_salonDueño buttonDueño-1" @click="añadirImagen">AÑADIR IMAGEN</a>
-                
-              </div>
+            <label>Imagenes del Salón</label>
             <v-carousel v-if="imagenesSalon.length > 0">
               <v-carousel-item v-for="(imagen, index) in imagenesSalon" :key="index" :src="imagen.imagen_url" cover>
                 <span @click="eliminarImagen(index, imagen.id)" class="delete-button" >
-                <font-awesome-icon :icon="['fas', 'message']" />
+                  <font-awesome-icon :icon="['fas', 'trash']" />
                 </span>
               </v-carousel-item>
               
             </v-carousel>
             <div v-else>
               <p>No hay imágenes disponibles.</p>
-
             </div>
+           
+            <div class="buttons_salonDueño_lista">
+                  <label>Nueva Imagen:</label>
+                  <input type="file" @change="imagenFileChange" />
+                  <h4>(Presionar el boton en caso de agregar una imagen a la lista)</h4>
+                  <a href="#" class="buttonDueñoLista-1" @click="añadirImagen">AÑADIR IMAGEN</a>
+                
+            </div>
+            
+          
           </div>
         </div>
     </div>
@@ -352,7 +363,6 @@ methods: {
 
       const response = await axios.get(`http://localhost:8080/v1/imagen-salon/${id}/imagenes`, config);  
       this.imagenesSalon = response.data;
-      console.log(this.imagenesSalon);
       } catch (error) {
         console.error('Error al imagenes:', error);
       }
@@ -479,13 +489,11 @@ methods: {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
    
 }
 .info_salon{
     background-color: rgb(255, 255, 255);
-    margin: 20px 20px 20px 20px;
     padding: 30px 180px 30px 150px;
     border-radius: 20px;
 }
@@ -495,12 +503,6 @@ methods: {
     font-size: 20px;
 }
 
-.salonDueño_title img{
-    width: 400px;
-    height: 200px;
-    border-radius: 20px;
-    margin-top: 20px;
-}
 
 .salonDueño_detalle {
   display: flex;
@@ -509,49 +511,67 @@ methods: {
 }
 
 .content_salonDueño .itemSalonDueño {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+
 }
 
 .itemSalonDueño label {
   font-weight: bold;
-  text-align: left;
+  text-align: start;
+  align-self: start;
   margin-right: 20px;
   font-size: 20px;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.content_salonDueño input{
-  
-  color: #0000006a;
- 
-  text-align: justify;
-  background-color: transparent;
-  border: 2px solid rgb(0, 0, 0);
-  padding: 15px;
-  border-radius: 5px;
-  font-size: 16px;
-  flex: 1; 
-  width: 100%;
-  margin-top: 10px;
+.itemSalonDueño img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.content_salonDueño p{
-  
+.content_salonDueño #input_form input { 
   color: #0000006a;
- 
   text-align: justify;
   background-color: transparent;
   border: 2px solid rgb(0, 0, 0);
   padding: 15px;
   border-radius: 5px;
   font-size: 16px;
-  flex: 1; 
+
   width: 100%;
-  margin-top: 10px;
+
 }
+
+.content_salonDueño #select_form input { 
+  align-items: start;
+}
+
+.content_salonDueño p{ 
+    color: red;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+    text-align: start;
+}
+
+.content_salonDueño .itemSalonDueño h4{ 
+  color: #0000006a;
+  font-size: 15px;
+}
+.content_salonDueño .itemSalonDueño h3{ 
+  color: #000000;
+  font-size: 18px;
+  text-align: start;
+}
+.content_salonDueño .itemSalonDueño label{
+  text-align: start; 
+}
+
 .content_salonDueño textarea{
   
   color: #0000006a;
@@ -562,7 +582,7 @@ methods: {
   padding: 15px;
   border-radius: 5px;
   font-size: 16px;
-  margin-top: 10px;
+
   resize: none;
   width: 100%;
 }
@@ -572,7 +592,7 @@ methods: {
     color: rgb(33, 117, 155);
     justify-items: center;
     text-decoration: none;
-    margin-top: 10px;
+    margin-top: 20px;
     border-radius: 5px;
     
   }
@@ -663,13 +683,14 @@ methods: {
  }
 /* 2DA COLUMNA */
  .salonDueño_container {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    gap: 100px; 
+    display: flex;
+    flex-direction: row;
+    gap: 50px; 
+    width: 100%;
 }
 
 .salonDueño_column {
-    width: 100%;
+    flex: 1;
 }
 .salonDueño_container > .salonDueño_column:nth-child(2) {
     display: flex;
@@ -681,6 +702,85 @@ methods: {
   top: 10px;
   right: 10px;
   z-index: 100;
-  background-color: red; /* Cambia el color de fondo para hacerlo más visible */
+  background-color: transparent; 
+  color: red;
+  padding: 5px;
+  cursor: pointer;
+}
+.salonDueño_column .buttons_salonDueño_lista{
+     display: flex;
+    flex-direction: column;
+    color: rgb(0, 0, 0);
+    justify-items: center;
+    text-decoration: none;
+    margin-top: 50px;
+}
+
+
+.salonDueño_column label{
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.content_salonDueño .buttonDueñoLista-1{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border: 2px solid rgb(0, 32, 176);
+    padding: 10px 20px 10px 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition:  0.3s ease;
+    align-items: center;
+    border-radius: 5px;
+    background-color: rgb(0, 32, 176);
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+.v-window{
+  border: 2px solid rgb(0, 0, 0);
+
+}
+
+.content_salonDueño .buttonDueñoLista-1:hover{ 
+    color: #000000; 
+    background-color: transparent;
+  }
+.content_salonDueño .buttons_salonDueño_lista h4{
+    color: #0000006a;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+
+@media  screen and (max-width: 1000px) {
+    .info_salon {
+      padding: 30px 20px 30px 20px;
+    }
+}
+
+@media  screen and (max-width: 730px) {
+    .salonDueño_container{
+      flex-direction: column;
+    }
+}
+@media  screen and (max-width: 350px) {
+    .info_salon {
+      padding: 30px 5px 30px 5px;
+    }
+    .content_salonDueño .buttonDueñoLista-1{
+      width: auto;
+    }
+    .content_salonDueño .buttons_salonDueño{
+      display: flex;
+      flex-direction: column;
+      margin-top: 5px;
+    }
+    .itemSalonDueño img{
+      width: 90vw;
+    }
 }
 </style>

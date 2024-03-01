@@ -1,19 +1,16 @@
 <template>
-<!-- containner__controla todo el navbar -->
 <div class="container__menu">
             <div class="menu">
-              <!-- clase checkbox para diseñor responsivo y click mediante un icono -->
               <input type="checkbox" id="check__menu">
               <label  for="check__menu" id="label__check">
-                <!-- clase para controlar estilos del icono -->
-                <i class="fa-solid fa-bars icon__menu"></i>
+                <i class="icon__menu"><font-awesome-icon :icon="['fas', 'bars']" /></i>
               </label>
               <nav>
                 <ul>
-                  <div class="logoBotones">
+                  <!-- <div class="logoBotones">
                     <li><a href="/" id="selected"></a></li>
                     <li><a href="#"></a></li>
-                  </div>
+                  </div>-->
                 
                   <div class="botones"> 
                     <li><a href="#" v-scroll-to="'#section1'" :class="{ 'active': activeButton === 'button1' }" @click="setActiveButton('button1')">SALONES</a> </li>                 
@@ -127,7 +124,7 @@ nav{
   margin-top: 5px;
   margin-bottom: 5px;
   width: 100%;
-  flex-direction: row;
+  
   justify-content: center; /* Centra horizontalmente */
    /* Centra verticalmente */
   height: 10vh;
@@ -227,32 +224,8 @@ nav a{
 .logoBotones{
   padding-right: 150px;
 }
-@media  screen and (max-width: 973px) {
-  .botones_2{
-
-    padding-left: 10px;
-  }
-  
-  .logoBotones{
-    padding-right: 10px;
-  }
-}
 
 
-nav > ul > li:first-child > a{
-  
-  background-size: 80px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  padding: 20px 40px;
-}
-
-nav > ul > li:first-child:hover > a{
- 
-  background-size: 80px;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
 #selected{
   background-color: white;
  height: 0px;
@@ -276,7 +249,7 @@ nav > ul > li:first-child:hover > a{
   display: none;
   align-items: center;
   padding-left: 20px;
-  
+ 
 }
 
 #label__check{
@@ -289,79 +262,102 @@ nav > ul > li:first-child:hover > a{
   display: none;
 }
 
-@media  screen and (max-width: 100px) {
+@media  screen and (max-width: 870px) {
   .container__menu{
       position: fixed;
   }
-  header{
+  .container__menu header{
       position: fixed;
       padding-bottom: 10px;
   }
 
-  nav{
+  .container__menu nav{
       height: 0%;
-      margin-top: 100px;
+      margin-top: 25px;
   }
-
-  nav > ul{
+  .container__menu nav a{
+      padding-top: 25px;
+      padding-bottom: 25px;
+  }
+  .container__menu nav > ul{
       flex-direction: column;
       background-color: rgb(255, 255, 255);
       position: fixed;
       left: 0;
-      margin-top: 30px;
       top: 70px;
       width: 100%;
       height: 0px;
-      transition: all 300ms ease;
+      transition: all 200ms ease;
       z-index: 2;
       opacity: 0;
       visibility: hidden;
   }
 
-  nav > ul > li{
+  .container__menu nav > ul > li{
       width: 100%;
   }
 
-  nav > ul > li > a:hover{
+  .container__menu nav > ul > li > a:hover{
       transform: scale(1);
       
   }
-  nav ul li ul{
-      left: 90px;
+  .container__menu nav ul li ul{
+      left: 100px;
   }
-  nav > ul > li:hover ul{
+  .container__menu nav > ul > li:hover ul{
       top: 50px;
   }
 
-  nav > ul > li:first-child a{
-      
-      background-position: 20px;
-      background-size: 30px;
-  }
 
-  #selected{
+  .container__menu #selected{
       transform: scale(1);
       background-size: 40px;
   }
 
-  #label__check{
+  .container__menu #label__check{
       display: block;
   }
 
-  .icon__menu{
+  .container__menu .icon__menu{
       display: flex;
+      justify-content: center;
+      padding-top: 25px;
+      padding-left: 60px;
   }
 
-  #check__menu:checked ~ nav > ul{
-      height: 500px;
+  .container__menu #check__menu:checked ~ nav > ul{
+      height: 250px;
       visibility: visible;
       opacity: 1;
+      flex-direction: row;
   }
-  .boton-1{
+  .container__menu .botones{
+    flex-direction: column;
+  }
+  .container__menu .boton-1{
       margin-top: 0px;
       padding: 15px;
   }
+  .container__menu .botones a::after{
+    margin-bottom: 0px;
+  }
+  .container__menu .botones_2{
+    flex-direction: column;
+    padding-left: 10px;
+  }
+  .container__menu nav > ul {
+    justify-content: space-around;
+ 
+  }
+  
 }
 
+@media  screen and (max-width: 400px) {
+  .container__menu #check__menu:checked ~ nav > ul{
+      height: 400px;
+      flex-direction: column;
+  }
+
+}
 
 </style>

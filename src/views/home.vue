@@ -32,7 +32,7 @@
       <!-- Slider tipo swiper -->
       <swiper
         :modules="modules"
-        :slides-per-view="3"
+        :slides-per-view="getSlides()"
         :space-between="50"
         :loop="true"
         parallax
@@ -76,23 +76,26 @@
   </div>
 
   <div class="content_salones" id="section1">
-    <div class="salones_title">
+    <div class="salones_titleHome">
       SALONES
     </div>
     <div class="motivation_grid">
-      <div class="grid-container">
-        <div class="grid__item" v-for="(item, index) in items" :key="index" v-show="mostrarImagen(index)">
+      <div class="grid-containerHome">
+        <div class="grid__itemHome" v-for="(item, index) in items" :key="index" v-show="mostrarImagen(index)">
           <img :src="item.banner_url" alt="">
           <div class="text-overlay">
             <h2>{{ item.nombre }}</h2>
-            <p>{{ item.descripcion }}</p>
+            <p><h4>DIRECCION: </h4>{{ item.direccion }}</p>
+            <p><h4>CAPACIDAD: </h4>{{ item.capacidad }}</p>
+            <p><h4>DESCRIPCION: </h4>{{ item.descripcion }}</p>
+           
           </div>
         </div>
       </div>
       <div class="salones_botones">
         <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
         <div id="numeros-pagina">
-          <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
+          <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" :class="{ 'numero-pagina': !isNaN(pagina), 'no-clickeable': isNaN(pagina) }">{{ isNaN(pagina) ? '...' : pagina }}</span>
         </div>
         <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= items.length - imagesPerPage">Siguiente</button>
       </div>
@@ -214,26 +217,49 @@ export default {
     };
   },
   mounted() {
-    // Llamada a la API en localhost utilizando Axios
     axios.get('http://localhost:8080/v1/salon/forUser')
       .then(response => {
-        // Actualizamos la propiedad items con los datos de la API
-        this.items = response.data;
-      
+        this.items = response.data;      
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
 
       axios.get('http://localhost:8080/v1/salon/recomendado')
       .then(response => {
-        // Actualizamos la propiedad items con los datos de la API
         this.recomendados = response.data;
+    
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
+    
+      window.addEventListener('resize', this.handleResize);
+    
+       this.handleResize();
    },
   computed: {
+    totalPaginas() {
+      return Math.ceil(this.items.length / this.imagesPerPage);
+    },
     paginas() {
-      return Array.from({ length: Math.ceil(this.items.length / this.imagesPerPage) }, (_, i) => i + 1);
-    
+      const paginaActual = Math.ceil((this.startIndex + 1) / this.imagesPerPage);
+      const paginas = [];
+
+      if (paginaActual > 3) {
+        paginas.push('...');
+      }
+
+      let inicio = Math.max(1, paginaActual - 1);
+      let fin = Math.min(inicio + 2, this.totalPaginas);
+
+      while (inicio <= fin) {
+        paginas.push(inicio);
+        inicio++;
+      }
+
+      if (fin < this.totalPaginas - 1) {
+        paginas.push('...');
+        paginas.push(this.totalPaginas);
+      }
+
+      return paginas;
     },
   },
   methods: {
@@ -243,20 +269,41 @@ export default {
     actualizarNumerosPagina(pagina) {
       this.startIndex = (pagina - 1) * this.imagesPerPage;
     },
+    irAPagina(pagina) {
+      if (!isNaN(pagina)) {
+        this.startIndex = (pagina - 1) * this.imagesPerPage;
+      }
+    },
     paginaAnterior() {
-      this.startIndex -= this.imagesPerPage;
-      
+      if (this.startIndex > 0) {
+        this.startIndex -= this.imagesPerPage;
+      }
     },
     paginaSiguiente() {
-      this.startIndex += this.imagesPerPage;
-     
+      if (this.startIndex + this.imagesPerPage < this.items.length) {
+        this.startIndex += this.imagesPerPage;
+      }
     },
-    irAPagina(pagina) {
-      this.actualizarNumerosPagina(pagina);
-      
+    handleResize() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1000) {
+        this.imagesPerPage = 9;
+      } else if (windowWidth >= 600) {
+        this.imagesPerPage = 4; // o el valor que desees para esta condición
+      } else {
+        this.imagesPerPage = 1;
+      }
     },
-   
-    
+    getSlides() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1000) {
+        return 3; 
+      } else if (windowWidth >= 600) {
+        return 2; 
+      } else {
+        return 1;
+      }
+    },
   },
   
 };
@@ -281,8 +328,7 @@ body {
   font-weight: 400;
   overflow-x: hidden;
   position: relative;
-  background-color: #030303;
-  
+  background-color: #646464;
   font-family: 'Centra', sans-serif !important;
 }
 
@@ -402,7 +448,8 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   --swiper-theme-color: #000000;
   overflow: hidden;
-  
+  margin-top: 40px;
+  padding-bottom: 20px;
 }
 .swiper img{
   height: 200px;
@@ -458,14 +505,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 
-@media (min-width: 1024px){
-  .content_recomend img{
-      height: 300px;
-      width: 100%;
-      object-fit: contain;
-  }
-  
-}
+
 
 .swiper-pagination{
   --swiper-pagination-color: white;
@@ -489,7 +529,7 @@ h1, h2, h3, h4, h5, h6 {
 .content_recomend .content .content_title{
   text-align: center;
   color: white;
-  margin-top: 40px;
+  padding-top: 40px;
 }
 
 /*GRID DE SALONES*/
@@ -504,7 +544,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0px 20px 0px 20px;
 }
 
-.grid-container {
+.grid-containerHome {
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
   gap: 10px;
@@ -514,7 +554,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
 }
 
-.grid__item{
+.grid__itemHome{
   
   position: relative;
 
@@ -522,28 +562,35 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   height: auto;
   cursor: pointer;
-
+  width: 30vw; 
+  height: 20vw;
 }
 
-.grid__item h2{
+.grid__itemHome h2{
   color: rgb(255, 255, 255); 
-  padding-top: 40px;
+  padding-top: 5px;
   padding-bottom: 10px;
   text-align: center;
   font-size: 2vw;
 }
 
 
-.grid__item p{
+.grid__itemHome p{
  
   padding:  0px;
   margin-top: 10px;
   font-size: 1vw;
   text-align: justify;
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: 2;
 }
-.motivation_grid .grid-container img{
+.motivation_grid .grid-containerHome img{
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 
@@ -554,7 +601,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mayor legibilidad */
+  background: rgba(0, 0, 0, 0.8);
   color: #fff;
   text-align: center;
   padding: 20px;
@@ -565,11 +612,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-.grid__item:hover .text-overlay {
+.grid__itemHome:hover .text-overlay {
   opacity: 1;
 }
 
-.salones_title{
+.salones_titleHome{
   color: white;
   display: flex;
   padding-top: 50px;
@@ -581,7 +628,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: row;
   margin-top: 20px;
-  justify-content: end; /* Distribuye los elementos al principio y al final del contenedor */
+  justify-content: end; 
  
   
 }
@@ -615,6 +662,15 @@ h1, h2, h3, h4, h5, h6 {
 .numero-pagina {
   margin-right: 5px; 
   
+  background-color: transparent;
+  color: white;
+  padding: 5px;
+  border: 2px solid #000000;
+  transition: 0.3s ease;
+}
+.no-clickeable {
+  margin-right: 5px; 
+  pointer-events: none;
   background-color: transparent;
   color: white;
   padding: 5px;
@@ -762,7 +818,7 @@ h1, h2, h3, h4, h5, h6 {
 .text_items h3{
   color: white;
   font-size: 2.5vw;
-  margin-left: 40px;
+ 
 }
 
 /*FOOTER*/
@@ -818,4 +874,126 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
   margin-right: 10px;
 }
+
+@media (min-width: 1024px){
+  .content_recomend img{
+      height: 300px;
+      width: 100%;
+      object-fit: contain;
+  }
+ 
+}
+
+@media  screen and (max-width: 1000px) {
+  .content{
+    padding: 0px 50px 0px 50px;
+  }
+  .swiper{
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+  .content_home{
+    flex-direction: column;
+    padding-top: 20px;
+  }
+  .logo_home img{
+    width: auto;
+  }
+  .text_home h2 {
+    padding-bottom: 10px;
+    margin-top: 50px;
+   
+  }
+  .text_home p {
+    margin-bottom: 50px;
+  }
+  .grid-containerHome {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .logo_item{
+    display: none;
+  }
+  .text_logo{
+    padding: 50px 0px 50px 0px;
+  }
+  .form_item_one {
+    max-width: 100%;
+    width: auto;
+  }
+  .form_one{
+    width: auto;
+  }
+  .grid__itemHome{
+    width: 40vw; 
+    height: 25vw;
+  }
+  .logo_home img:hover {
+    transform: scale(0.9); 
+    cursor: pointer; 
+  }
+  .grid__itemHome p{
+    font-size: 1.5vw;
+  }
+  .grid__itemHome h2{
+    padding-bottom: 0px;
+    font-size: 2.5vw;
+  }
+}
+
+@media  screen and (max-width: 870px) {
+  .content_home{
+    margin-top: 70px;
+  }
+}
+@media  screen and (max-width: 600px) {
+
+  .grid-containerHome {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .text_items{
+    width: 100%;
+  }
+  .form_one{
+    flex-direction: column;
+  }
+  .text_items h3{
+    font-size: 20px;
+  }
+  #numeros-pagina{
+    font-size: 15px;
+  }
+  #siguiente{
+    font-size: 15px;
+  }
+  #anterior{
+    font-size: 15px;
+  }
+  .grid__itemHome{
+    width: 50vw; 
+    height: 50vw;
+  }
+  .motivation_grid{
+    padding: 20px;
+  }
+  .grid__itemHome p{
+    font-size: 2vw;
+  }
+  .grid__itemHome h2{
+    padding-bottom: 20px;
+    font-size: 3vw;
+  }
+}
+  @media  screen and (max-width: 460px) {
+
+    #numeros-pagina{
+      font-size: 10px;
+    }
+    #siguiente{
+      font-size: 10px;
+    }
+    #anterior{
+      font-size: 10px;
+    }
+  }
+
 </style>

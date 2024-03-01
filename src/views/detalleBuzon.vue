@@ -216,6 +216,7 @@ export default {
 </script>
 
 <style>
+
 .body_detalle{
     display: flex;
     flex-direction: column;
@@ -260,6 +261,14 @@ export default {
     margin-top: 15px;
     background-color: #d4cfeb;
     border-radius: 5px;
+}
+.info_detalle .detalle_item p {
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+
+   
 }
 .body_detalle .detalle_item .svg-inline--fa {
    height: 22px;
@@ -338,4 +347,21 @@ export default {
     color: #ffffff;
    
   }
+  @media  screen and (max-width: 750px) {
+    .content_detalleBuzon{
+      margin: 10px 10px 10px 10px;
+      padding: 10px 0px 10px 0px;
+    }
+  }
+
+  @media  screen and (max-width: 460px) {
+    .botones_detalle {
+      flex-direction: column;
+      gap: 5px;
+    }
+    .info_detalle h3{
+      margin-left: 5px;
+    }
+  }
+ 
 </style>

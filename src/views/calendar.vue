@@ -76,9 +76,20 @@ data() {
 
 <style>
 .calendar{
-    height: 100vh;
-    padding-top: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
+
+.calendar h2{
+  color: white;
+}
+
+.calendar a{
+  color: white;
+}
+
 .body_calendar{
   
   display: flex;
@@ -102,5 +113,11 @@ data() {
 
 .blocked-date {
   background-color: red; /* Color de fondo rojo para fechas no clickeables */
+}
+
+@media  screen and (max-width: 400px) {
+  .calendar{
+    font-size: 4vw;
+  }
 }
 </style>

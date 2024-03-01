@@ -55,8 +55,8 @@ import Notifications from '@kyvg/vue3-notification'
 
 
 //iconos
-import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus)
+import { faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus, faBars, faTrash } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faLock, faEnvelope, faFilter, faArrowRight, faRankingStar, faCircleInfo, faCalendarDays, faBellConcierge, faInfo, faCalendar, faDiagramProject, faCircleQuestion, faMessage, faSquarePlus, faBars, faTrash)
 
 //config axios
 axios.defaults.withCredentials = true;

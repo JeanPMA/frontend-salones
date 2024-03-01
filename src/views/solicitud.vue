@@ -37,7 +37,7 @@
                     :items="listaServicios"
                     label="Selecciona servicios"
                     item-title="nombre"
-                    item-value="id"
+                    item-value="nombre"
                     multiple
                     variant="outlined"
                     hide-details
@@ -233,12 +233,13 @@ export default {
 </script>
 
 <style>
+
 .solicitud_content{
     background-color: #5f76f7;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
    
 }
 
@@ -355,9 +356,23 @@ export default {
     color: #fff;
   }
   .error-message {
-    color: red;
+    color: rgb(176, 0, 32); 
     font-size: 14px;
-    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 20px;
     display: block;
+    text-align: start;
+  }
+  @media  screen and (max-width: 700px) {
+    .solicitud_content{
+      width: 100%;
+    }
+    .form_btn{
+      flex-direction: column;
+      gap: 10px;
+    }
+    .solicitud_form{
+      width: 90vw;
+    }
   }
 </style>

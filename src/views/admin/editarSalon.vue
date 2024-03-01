@@ -74,10 +74,15 @@
         ></v-select>
         <p v-if="errorServicios">Por favor, selecciona al menos 1 opcion.</p>
 
-        <label>Nueva Imagen:</label>
-        <input type="file" @change="handleFileChange" />
-        <img :src="salon.banner_url" alt="Imagen actual" v-if="salon.banner_url" />
-
+        <div class="imagen_editar">
+          <label>Nueva Imagen:</label>
+          <input type="file" @change="handleFileChange" />
+          <h4>(Ingresar imagen solo en caso de modificación)</h4>
+        </div>
+        <div class="imagen_actual">
+          <label>Imagen Actual:</label>
+          <img :src="salon.banner_url" alt="Imagen actual" v-if="salon.banner_url" />
+        </div>
        <v-text-field
             label="estado"
             :value="salon.estado === 1 ? 'HABILITADO' : 'DESHABILITADO'"
@@ -93,9 +98,7 @@
             Guardar
         </v-btn>
     
-        <v-btn @click="handleReset"  class="me-4">
-            Limpiar
-        </v-btn>
+
 
         <v-btn @click="irAHome" >
             Volver
@@ -477,5 +480,59 @@
 </script>
 
 <style>
+.content_crearSalon .imagen_actual{
+    display: flex;
+    flex-direction: column;
+}
 
+.content_crearSalon .imagen_editar{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+ 
+}
+
+.content_crearSalon .imagen_actual label{
+  text-align: start;
+  margin-top: 10px;
+  font-size: 20px;
+  color: rgb(118, 118, 118);
+}
+
+
+.content_crearSalon .imagen_actual img{
+    width: 400px;
+    height: 400px;
+    object-fit: cover; 
+    margin-left: auto;
+    margin-right: auto;
+}
+.content_crearSalon .imagen_editar label{
+  text-align: start;
+  font-size: 20px;
+  color: rgb(118, 118, 118);
+}
+
+.content_crearSalon .imagen_editar h4{
+  color: #0000006a;
+  margin-bottom: 10px;
+}
+.content_crearSalon .imagen_editar input{
+  width: 100%;
+  color: rgb(118, 118, 118);
+  margin-top: 10px;
+}
+@media  screen and (max-width: 520px) {
+  .content_crearSalon .imagen_actual img{
+    width: 100%;
+    height: 250px;
+}
+}
+
+@media  screen and (max-width: 300px) {
+  .content_crearSalon .imagen_actual img{
+    width: 100%;
+
+}
+}
 </style>

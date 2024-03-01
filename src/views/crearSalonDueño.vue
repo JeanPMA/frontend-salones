@@ -75,10 +75,12 @@
             @input="ajustarValorEstado"
 
         ></v-checkbox>
-
-        <h1>Subir Imagen</h1>
-        <input type="file" @change="handleFileChange" accept="image/*">
-        <p v-if="error">Por favor, selecciona una imagen.</p>
+        <div class="crear_salon_imagen"> 
+          <h1>Imagen Salón</h1>
+          <input type="file" @change="handleFileChange" accept="image/*">
+          <p v-if="error">Por favor, selecciona una imagen.</p>
+        </div>
+     
 
         <v-btn
             class="me-4"
@@ -334,12 +336,17 @@
 .content_crearSalonDueño{
     margin-left: auto;
     margin-right: auto;
-    width: 70vw;
-    /*background-color: rgba(179, 178, 178, 0.856);*/
+    width: 80vw;
+    height: auto;
     padding: 20px 100px 50px 100px;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border-radius: 50px;
 }
+
+.content_crearSalonDueño svg{
+  color: white;
+}
+
 .content_crearSalonDueño form{
     padding: 1px 50px 50px 50px; 
     background-color: rgb(255, 255, 255);
@@ -352,11 +359,65 @@
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
 }
+.content_crearSalonDueño p{
+    color: rgb(176, 0, 32); 
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    display: block;
+    text-align: start;
+}
+
+.content_crearSalonDueño .crear_salon_imagen{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    margin-bottom: 20px;
+}
+
+.content_crearSalonDueño .crear_salon_imagen p{
+    margin-top: 5px;
+}
+
+.content_crearSalonDueño .crear_salon_imagen input{
+    margin-top: 10px;
+    color: rgb(118, 118, 118);
+}
+
+.content_crearSalonDueño h1{
+  font-size: 20px;
+  color: rgb(118, 118, 118);
+}
 .v-messages__message {
     text-align: start;
  
 }
 .v-input--horizontal {
     margin-top: 20px;
+}
+
+@media  screen and (max-width: 700px) {
+  .content_crearSalonDueño{
+    padding: 20px 10px 50px 10px;
+  }
+}
+
+@media  screen and (max-width: 460px) {
+  .content_crearSalonDueño{
+    width: 100%;
+  }
+}
+
+@media  screen and (max-width: 300px) {
+  .content_crearSalonDueño{
+    padding: 20px 5px 50px 5px;
+  }
+  .content_crearSalonDueño form{
+    padding: 1px 10px 50px 10px;
+  }
+  .content_crearSalonDueño h2 {
+    padding: 50px 10px 50px 10px;
+
+  }
 }
 </style>

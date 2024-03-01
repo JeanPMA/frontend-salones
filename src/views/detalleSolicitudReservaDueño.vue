@@ -309,8 +309,9 @@ export default {
 <style>
 .body_detalleSR{
     display: flex;
+    justify-content: center;
+    height: 100vh;
     flex-direction: column;
-    height: 100%;
     background-color: #535353;
     color: rgb(255, 255, 255);
 }
@@ -351,6 +352,11 @@ export default {
     border-radius: 5px;
     flex: 1; 
     background-color: #ffffff;
+    overflow: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    -webkit-line-clamp: 4;
 }
 .info_detalleSR .detalle_itemSR{
     
@@ -449,5 +455,31 @@ export default {
 .botones_SolicitudReserva #eliminar:hover {
     background-color: #2a005ea3;
     color: #ffffff;
+}
+
+@media  screen and (max-width: 800px) {
+    .content_detalleSR {
+      margin: 10px 20px 10px 20px;
+    }
+  }
+@media  screen and (max-width: 700px) {
+    .info_detalleSR .detalle_itemSR{
+      flex-direction: column;
+    }
+    .body_detalleSR {
+      height: auto;
+    }
+}
+@media  screen and (max-width: 400px) {
+  .content_detalleSR .info_detalleSR{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+@media  screen and (max-width: 250px) {
+  .botones_SolicitudReserva a{
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 }
 </style>

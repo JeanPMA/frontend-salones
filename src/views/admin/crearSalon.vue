@@ -82,9 +82,11 @@
             @input="ajustarValorEstado"
         ></v-checkbox>
 
-        <h1>Subir Imagen</h1>
-        <input type="file" @change="handleFileChange" accept="image/*">
-        <p v-if="error">Por favor, selecciona una imagen.</p>
+        <div class="imagen_salonAdmin"> 
+          <h1>Subir Imagen</h1>
+          <input type="file" @change="handleFileChange" accept="image/*">
+          <p v-if="error">Por favor, selecciona una imagen.</p>
+        </div>
 
         <v-btn
             class="me-4"
@@ -94,9 +96,6 @@
             Crear
         </v-btn>
     
-        <v-btn @click="handleReset"  class="me-4">
-            Limpiar
-        </v-btn>
 
         <v-btn @click="irAHome" >
             Volver
@@ -343,12 +342,83 @@
 <style>
 .content_crearSalon{
     padding: 40px 100px 40px 100px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 100%;
 }
+
+.content_crearSalon form{
+    padding: 1px 50px 50px 50px; 
+    background-color: rgb(255, 255, 255);
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+.content_crearSalon h2{
+    padding: 50px; 
+    background-color: rgb(255, 255, 255);
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.content_crearSalon p{
+    color: rgb(176, 0, 32); 
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    display: block;
+    text-align: start;
+}
+
+.content_crearSalon .imagen_salonAdmin{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    margin-bottom: 20px;
+}
+
+.content_crearSalon .imagen_salonAdmin p{
+    margin-top: 5px;
+}
+
+.content_crearSalon .imagen_salonAdmin input{
+    margin-top: 10px;
+    color: rgb(118, 118, 118);
+}
+
+.content_crearSalon h1{
+  font-size: 20px;
+  color: rgb(118, 118, 118);
+}
+
 .v-messages__message {
     text-align: start;
  
 }
 .v-input--horizontal {
     margin-top: 20px;
+}
+
+@media  screen and (max-width: 700px) {
+  .content_crearSalon{
+    padding: 20px 10px 50px 10px;
+  }
+}
+
+@media  screen and (max-width: 460px) {
+  .content_crearSalon{
+    width: 100%;
+  }
+}
+
+@media  screen and (max-width: 300px) {
+  .content_crearSalon{
+    padding: 20px 5px 50px 5px;
+  }
+  .content_crearSalon form{
+    padding: 1px 10px 50px 10px;
+  }
+  .content_crearSalon h2 {
+    padding: 50px 10px 50px 10px;
+
+  }
 }
 </style>

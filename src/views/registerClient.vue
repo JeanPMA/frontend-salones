@@ -278,4 +278,13 @@ export default {
     border-bottom: 2px solid #162938;
     margin: 20px 0;
 }
+@media  screen and (max-width: 840px) {
+    .register_icon{
+        display: none;
+    }
+    .wrapper_register{
+        border-bottom-left-radius: 20px;
+        border-top-left-radius: 20px;
+    }
+}
 </style>

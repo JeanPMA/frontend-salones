@@ -52,7 +52,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start; 
-  
+  padding-left: 20px;
+
 }
 .filtro_btnServiceTipoSR{
     display: flex;

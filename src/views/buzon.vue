@@ -24,9 +24,10 @@
               <img :src="item.salon.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.salon.nombre }}</h2>
-                <p>{{ item.detalle }}</p>
-                <p>{{ item.fecha_reserva }}</p>
-                <p>{{ item.tipoSR.nombre }}</p>
+                <p><h4>RESERVA: </h4>{{ item.fecha_reserva }}</p>
+                <p><h4>servicios: </h4>{{ item.servicio }}</p>
+                <p><h4>ESTADO: </h4>{{ item.tipoSR.nombre }}</p>
+                <p><h4>DETALLE: </h4>{{ item.detalle }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
               </div>
             </div>
@@ -91,8 +92,12 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
         this.buzon = response.data;
         const estadosSeleccionados = JSON.parse(localStorage.getItem('SREstadoSeleccionado')) || [];
         this.filtrarSR(estadosSeleccionados);
+        console.log(this.buzon);
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
+      window.addEventListener('resize', this.handleResize);
+    
+       this.handleResize();
   },
     computed: {
     paginas() {
@@ -156,6 +161,20 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
         this.buzonFiltrado = this.buzon;
       }
     },
+    handleResize() {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1040) {
+        this.imagesPerPage = 10;
+      } else if (windowWidth >= 700) {
+        this.imagesPerPage = 9;
+      } else if (windowWidth >= 580) {
+        this.imagesPerPage = 6;
+      } else if (windowWidth >= 430) {
+        this.imagesPerPage = 4;
+      } else {
+        this.imagesPerPage = 6;
+      }
+    },
     },
     watch: {
     searchTerm(newSearchTerm) {
@@ -183,35 +202,21 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     margin: 0px 100px 0px 100px;
     margin-top: 20px;
 }
-
+.search_buzon .search-container input{
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+}
 .search-container {
     display: flex;
     
 }
-
-#search-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #000000;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-    width: 60vw;
+.filtro-container{
+  margin-top: 10px;
 }
 
-#search-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    background-color: #5e5e5e;
-    color: #fff;
-    outline: none;
-}
 
-#search-button:hover {
-    background-color: #000000;
-}
 
 
 /*GRID DE BUZON*/
@@ -220,11 +225,12 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     background-color: white;
     width: 100%;
     margin-top: 80px;
-    padding-top: 20px;
+    padding-bottom: 40px;
+    height: 100%;
+
   }
 
   .buzon_grid{
-    padding: 20px 50px 50px 50px;
     margin: 0px 20px 0px 20px;
     
   }
@@ -237,19 +243,18 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     place-items: center;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
   }
   
-  .buzon_grid .grid__item{
-    
-    position: relative;
-  
+  .buzon_grid .grid__item{ 
+    position: relative; 
     display: inline-block;
     overflow: hidden;
     height: auto;
     cursor: pointer;
     border-radius: 10px;
-    height: 260px;
-  
+    width: 18vw; 
+    height: 25vw;
   }
   
   .buzon_grid .grid__item h2{
@@ -268,10 +273,17 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     font-size: 1vw;
     text-align: justify;
     margin-bottom: 10px;
+    overflow: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    -webkit-line-clamp: 3;
   }
   .buzon_grid .grid-container img{
     width: 100%;
     height: 100%;
+    object-fit: cover;
+
   }
   
   .buzon_grid .grid__item a{
@@ -297,7 +309,7 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     width: 100%;
     height: 100%;
     
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mayor legibilidad */
+    background: rgba(0, 0, 0, 0.7); /* Fondo semitransparente para mayor legibilidad */
     color: #fff;
     text-align: end;
     padding: 20px;
@@ -310,12 +322,12 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
   
   
   
-  .buzon_grid .buzon_title{
+  .buzon_title{
     color: rgb(0, 0, 0);
     display: flex;
     padding-top: 50px;
     justify-content: center;
-   font-size: 2vw;
+    font-size: 2vw;
   }
   
   .buzon_botones{
@@ -383,9 +395,94 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
   
   }
   
+  @media  screen and (max-width: 1040px) {
+    .buzon_list{
+    margin-top: 70px;
+    }
+  .buzon_grid .grid-container {
+    grid-template-columns: repeat(3, 1fr); 
 
+  }
+  .buzon_grid .grid__item{
+    width: 30vw; 
+    height: 25vw;
+  }
+  .buzon_title{
+    font-size: 20px;
+  }
+  .buzon_grid .grid__item h2{
+    font-size: 2vw;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .buzon_grid .grid__item p{
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+  @media  screen and (max-width: 700px) {
+  .buzon_grid .grid-container {
+      grid-template-columns: repeat(2, 1fr); 
 
+    }
+  .buzon_grid .grid__item{
+      width: 45vw; 
+      height: 30vw;
+    }
+    .search_buzon{
+      justify-content: center;
+      margin: 0px 10px 0px 10px;
+      margin-top: 20px;
+    }
+    .buzon_grid .grid__item h2{
+      font-size: 2.3vw;
+    }
+    .buzon_grid .grid__item p{
+      font-size: 1.3vw;
+    }
+    .buzon_grid .text-overlay{
+      padding: 10px 20px 20px 20px;
+    }
+    .buzon_grid .grid__item a{
+      font-size: 1.3vw;
 
+    }
+  }
+  @media  screen and (max-width: 580px) {
+  .buzon_grid .grid-container {
+      grid-template-columns: repeat(1, 1fr); 
+
+    }
+  .buzon_grid .grid__item{
+      width: 80vw; 
+      height: 30vw;
+    }
+    .buzon_grid .grid__item h2{
+      font-size: 2.8vw;
+    }
+    .buzon_grid .grid__item p{
+      font-size: 1.3vw;
+    }
+    .buzon_grid .grid__item a{
+      font-size: 1.3vw;
+
+    }
+    .buzon_grid .grid__item p{
+    -webkit-line-clamp: 2;
+    }
+    .buzon_grid .grid__item p{
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+    .buzon_grid .text-overlay{
+      padding: 10px 20px 10px 20px;
+    }
+  }
+  @media  screen and (max-width: 340px) {
+    .buzon_grid .grid__item{
+      height: 40vw;
+    }
+  }
 
 </style>
   

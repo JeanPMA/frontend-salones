@@ -71,7 +71,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start; 
-  
+  padding-left: 20px;
+  color: white;
 }
 .filtro_btnSR{
     display: flex;
@@ -85,7 +86,7 @@
   margin-right: 10px; 
   padding-left: 10px;
   text-decoration: none;
-  color: rgb(0, 0, 0);
+  color: white;
 }
 
 .filtro_listaSR {
@@ -106,5 +107,22 @@
 
 .filtro_listaSR button {
   margin-top: 10px;
+}
+  @media  screen and (max-width: 510px) {
+  .filtro_listaSR{
+    flex-direction: column;
+    font-size: 15px;
+
+  }
+  .filtro_listaSR label {
+    padding-left: 0px;
+  }
+  .filtro_listaSR label, input {
+    margin-bottom: 10px;
+  }
+  .filtro_estadoSR {
+    align-items: center; 
+    text-align: justify;
+  }
 }
 </style>

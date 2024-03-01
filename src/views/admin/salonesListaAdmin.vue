@@ -17,7 +17,7 @@
             <a id="crear" >CREAR</a>
         </RouterLink>
       </div>
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 10px;">
       <v-table
         fixed-header
         height="65vh"
@@ -257,6 +257,7 @@
 <style>
 .content_salonesListaAdmin{
   background-color: white;
+  height: 100vh;
 }
   .listaSalonesAdmin_title{
     padding-top: 50px;
@@ -266,18 +267,12 @@
   font-weight: bold;
   color: rgb(0, 153, 255);
 }
-.search_listaAdmin{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0px 100px 0px 100px;
-    margin-top: 20px;
-}
+
 
 /* botones estilos*/
 .botones_Admin{
 
-   width: 100px;
+   width: auto;
    
 }
 
@@ -316,5 +311,22 @@ display: flex;
  text-decoration: none;
 }
 
+.content_salonesListaAdmin .filtro-container .filtro_servicios a{
+  color: black;
+}
+
+.content_salonesListaAdmin .filtro-container .filtro_servicios span{
+  color: black;
+}
+.content_salonesListaAdmin .filtro-container .filtro_servicios label{
+  color: black;
+}
+.search_listaAdmin input{
+    width: 100%;
+    padding: 10px;
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+}
 </style>
   

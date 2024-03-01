@@ -17,7 +17,7 @@
             <a id="crear" >CREAR</a>
         </RouterLink>
       </div>
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 10px;">
       <v-table
         fixed-header
         height="65vh"
