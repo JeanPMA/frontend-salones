@@ -259,7 +259,9 @@
     padding-top: 50px;
   }
  
-
+.content_serviciosListaAdmin .v-pagination{
+    margin-top: 0px;
+}
 
 </style>
   

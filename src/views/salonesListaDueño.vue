@@ -47,15 +47,12 @@
           <div v-if="displayedItems.length == 0">
             <h3>NO EXISTEN SALONES</h3>
           </div> 
-          <div class="gridSalones_DueñoBtn">
-            <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
-            <div id="numeros-pagina">
-              <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
-            </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= displayedItems.length - imagesPerPage">Siguiente</button>
-          </div>
+
         </div>
-   
+        <v-pagination
+            v-model="currentPage"
+            :length="totalPages"
+         ></v-pagination>
     </div>
 </template>
 
@@ -77,10 +74,12 @@ data() {
         salonesListaDueño: [],
         salonesFiltrados: [],
         startIndex: 0,
-        imagesPerPage: 3,
+        itemsPerPage: 3,
         searchTerm: localStorage.getItem('searchTermSalonesDueño') || '',
         tamañoAux: 0,
 
+        currentPage: 1,
+        tamañoAux: 0,
     };
 },
     mounted() {
@@ -112,15 +111,22 @@ data() {
       window.addEventListener('resize', this.handleResize);
       this.handleResize();
     },
+    beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+    },
     computed: {
-      paginas() {
-      return Array.from({ length: Math.ceil(this.displayedItems.length / this.imagesPerPage) }, (_, i) => i + 1);
-
+      totalItems() {
+      return this.tamañoAux;
+      },
+      totalPages() {
+        return Math.ceil(this.totalItems / this.itemsPerPage);
       },
       displayedItems() {
       const searchTerm = this.searchTerm.toLowerCase();
       if (searchTerm !== this.lastSearchTerm) {
-        this.irAPagina(1);
+        this.currentPage = 1;
+        this.lastSearchTerm = searchTerm;
+
       }
 
       const filteredList = this.salonesFiltrados.filter(item => {
@@ -132,28 +138,15 @@ data() {
         );
       });
       this.tamañoAux = filteredList.length;
-     
-      return filteredList;
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      
+      return filteredList.slice(startIndex, endIndex);
     },
     },
     methods: {
     mostrarImagen(index) {
-    return index >= this.startIndex && index < this.startIndex + this.imagesPerPage;
-    },
-    actualizarNumerosPagina(pagina) {
-    this.startIndex = (pagina - 1) * this.imagesPerPage;
-    },
-    paginaAnterior() {
-    this.startIndex -= this.imagesPerPage;
-    
-    },
-    paginaSiguiente() {
-    this.startIndex += this.imagesPerPage;
-    
-    },
-    irAPagina(pagina) {
-    this.actualizarNumerosPagina(pagina);
-    
+    return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
     irASalon(id) {
       this.$router.push({ name: 'salon', params: { id: id } });
@@ -165,7 +158,7 @@ data() {
             return salon.servicios.some(s => s.nombre === servicio);
           });
         });
-        this.irAPagina(1);
+        this.currentPage = 1;
       } else {
         this.salonesFiltrados = this.salonesListaDueño;
       }
@@ -173,12 +166,13 @@ data() {
     handleResize() {
       const windowWidth = window.innerWidth;
       if (windowWidth >= 900) {
-        this.imagesPerPage = 3;
+        this.itemsPerPage = 3;
       } else if (windowWidth >= 500) {
-        this.imagesPerPage = 2;
+        this.itemsPerPage = 2;
       } else {
-        this.imagesPerPage = 1;
+        this.itemsPerPage = 1;
       }
+      this.currentPage = 1;
     },
     },
     watch: {
@@ -433,6 +427,12 @@ data() {
     border: 1px solid white;
     border-radius: 10px;
 }
+
+.content_salonesDueño .v-pagination{
+    color: white;
+    margin-bottom: 10px;
+}
+
 @media  screen and (max-width: 1200px) {
     .dueño_gridSalones .grid__itemSalon p{
       font-size: 1.5vw;
@@ -459,6 +459,12 @@ data() {
     .dueño_gridSalones .grid__itemSalon h4{
       font-size: 2vw;
     }
+}
+
+@media  screen and (max-width: 770px) {
+  .content_salonesDueño .v-pagination{
+    margin-left: 60px;
+  }
 }
 
 @media  screen and (max-width: 700px) {

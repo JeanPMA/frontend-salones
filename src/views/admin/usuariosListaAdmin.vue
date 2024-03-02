@@ -361,6 +361,10 @@ display: flex;
     color: #00aa39;
 }
 
+.content_usuariosListaAdmin .v-pagination{
+    margin-top: 0px;
+}
+
 @media  screen and (max-width: 1000px) {
   .boton_crearAdmin a{
     margin-left: auto;

@@ -13,7 +13,7 @@
 
         <div class="salones_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in salonesFiltrados" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
+            <div class="grid__item" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
               <img :src="item.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.nombre }}</h2>
@@ -23,19 +23,17 @@
               </div>
             </div>
           </div>
-          <div v-if="salonesFiltrados.length == 0">
+          <div v-if="displayedItems.length == 0">
             <h3>NO EXISTEN SALONES</h3>
           </div> 
-          <div class="salones_botones">
-            <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
-            <div id="numeros-pagina">
-              <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" :class="{ 'numero-pagina': !isNaN(pagina), 'no-clickeable': isNaN(pagina) }">{{ isNaN(pagina) ? '...' : pagina }}</span>
-            </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salonesFiltrados.length - imagesPerPage">Siguiente</button>
-          </div>
+ 
         </div>
-      
+          <v-pagination
+              v-model="currentPage"
+              :length="totalPages"
+          ></v-pagination>
         </div>
+       
       </div>
 
 </template>
@@ -66,7 +64,10 @@
       salones: [],
       salonesFiltrados: [],
       startIndex: 0,
-      imagesPerPage: 9,
+      itemsPerPage: 9,
+
+      currentPage: 1,
+      tamañoAux: 0,
     };
     },
   mounted() {
@@ -95,57 +96,32 @@
     
        this.handleResize();
   },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   computed: {
-    totalPaginas() {
-      return Math.ceil(this.salonesFiltrados.length / this.imagesPerPage);
+    totalItems() {
+      return this.tamañoAux;
     },
-    paginas() {
-      const paginaActual = Math.ceil((this.startIndex + 1) / this.imagesPerPage);
-      const paginas = [];
+    totalPages() {
+      return Math.ceil(this.totalItems / this.itemsPerPage);
+    },
+    displayedItems() {
 
-      if (paginaActual > 3) {
-        paginas.push('...');
-      }
 
-      let inicio = Math.max(1, paginaActual - 1);
-      let fin = Math.min(inicio + 2, this.totalPaginas);
-
-      while (inicio <= fin) {
-        paginas.push(inicio);
-        inicio++;
-      }
-
-      if (fin < this.totalPaginas - 1) {
-        paginas.push('...');
-        paginas.push(this.totalPaginas);
-      }
-
-      return paginas;
+      const filteredList = this.salonesFiltrados;
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      this.tamañoAux = filteredList.length;
+     
+      return filteredList.slice(startIndex, endIndex);
     },
   },
   methods: {
     mostrarImagen(index) {
-      return index >= this.startIndex && index < this.startIndex + this.imagesPerPage;
+      return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
-    actualizarNumerosPagina(pagina) {
-      this.startIndex = (pagina - 1) * this.imagesPerPage;
-    },
-    paginaAnterior() {
-      if (this.startIndex > 0) {
-        this.startIndex -= this.imagesPerPage;
-      }
-    },
-    paginaSiguiente() {
-      if (this.startIndex + this.imagesPerPage < this.salonesFiltrados.length) {
-        this.startIndex += this.imagesPerPage;
-      }
-    },
-    irAPagina(pagina) {
-      if (!isNaN(pagina)) {
-        this.startIndex = (pagina - 1) * this.imagesPerPage;
-      }
-      
-    },
+
     irADetalleSalon(id) {
       this.$router.push({ name: 'detalle-salon', params: { id: id } });
     },
@@ -156,20 +132,22 @@
             return salon.servicios.some(s => s.nombre === servicio);
           });
         });
-        this.irAPagina(1);
+        this.currentPage = 1;
       } else {
         this.salonesFiltrados = this.salones;
       }
     },
     handleResize() {
       const windowWidth = window.innerWidth;
+      this.currentPage = 1;
       if (windowWidth >= 1000) {
-        this.imagesPerPage = 9;
+        this.itemsPerPage = 9;
       } else if (windowWidth >= 700) {
-        this.imagesPerPage = 8; // o el valor que desees para esta condición
+        this.itemsPerPage = 8; 
       } else {
-        this.imagesPerPage = 6;
+        this.itemsPerPage = 6;
       }
+      this.currentPage = 1;
     },
   },
     }
@@ -348,6 +326,10 @@
 
 .filtro-abierto {
   margin-left: 200px; 
+}
+
+.salones_list .v-pagination{
+    color: white;
 }
 
 @media  screen and (max-width: 1000px) {

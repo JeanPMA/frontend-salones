@@ -75,13 +75,14 @@
 
   </div>
 
+
   <div class="content_salones" id="section1">
     <div class="salones_titleHome">
       SALONES
     </div>
     <div class="motivation_grid">
       <div class="grid-containerHome">
-        <div class="grid__itemHome" v-for="(item, index) in items" :key="index" v-show="mostrarImagen(index)">
+        <div class="grid__itemHome" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)">
           <img :src="item.banner_url" alt="">
           <div class="text-overlay">
             <h2>{{ item.nombre }}</h2>
@@ -92,14 +93,11 @@
           </div>
         </div>
       </div>
-      <div class="salones_botones">
-        <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
-        <div id="numeros-pagina">
-          <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" :class="{ 'numero-pagina': !isNaN(pagina), 'no-clickeable': isNaN(pagina) }">{{ isNaN(pagina) ? '...' : pagina }}</span>
-        </div>
-        <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= items.length - imagesPerPage">Siguiente</button>
-      </div>
     </div>
+    <v-pagination
+              v-model="currentPage"
+              :length="totalPages"
+    ></v-pagination>
   </div>
 
   <div class="form_contact" id="section3">
@@ -109,7 +107,7 @@
               CONTACTANOS
           </h3>
           <div class="form_item_one"> 
-            <form action="#" method="post">
+            <form action="https://formsubmit.co/f947f4e5022eea087d62619222ed38e7" method="POST">
               
               <div class="form_one">
                 <input type="text" id="nombre" name="nombre" placeholder="Nombre:" required>
@@ -211,9 +209,11 @@ export default {
     return {
       items: [],
       startIndex: 0,
-      imagesPerPage: 9,
+      itemsPerPage: 9,
       
       recomendados: [],
+      currentPage: 1,
+      tamañoAux: 0,
     };
   },
   mounted() {
@@ -234,65 +234,41 @@ export default {
     
        this.handleResize();
    },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   computed: {
-    totalPaginas() {
-      return Math.ceil(this.items.length / this.imagesPerPage);
+    totalItems() {
+      return this.tamañoAux;
     },
-    paginas() {
-      const paginaActual = Math.ceil((this.startIndex + 1) / this.imagesPerPage);
-      const paginas = [];
+    totalPages() {
+      return Math.ceil(this.totalItems / this.itemsPerPage);
+    },
+    displayedItems() {
 
-      if (paginaActual > 3) {
-        paginas.push('...');
-      }
 
-      let inicio = Math.max(1, paginaActual - 1);
-      let fin = Math.min(inicio + 2, this.totalPaginas);
-
-      while (inicio <= fin) {
-        paginas.push(inicio);
-        inicio++;
-      }
-
-      if (fin < this.totalPaginas - 1) {
-        paginas.push('...');
-        paginas.push(this.totalPaginas);
-      }
-
-      return paginas;
+      const filteredList = this.items;
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      this.tamañoAux = filteredList.length;
+     
+      return filteredList.slice(startIndex, endIndex);
     },
   },
   methods: {
     mostrarImagen(index) {
-      return index >= this.startIndex && index < this.startIndex + this.imagesPerPage;
-    },
-    actualizarNumerosPagina(pagina) {
-      this.startIndex = (pagina - 1) * this.imagesPerPage;
-    },
-    irAPagina(pagina) {
-      if (!isNaN(pagina)) {
-        this.startIndex = (pagina - 1) * this.imagesPerPage;
-      }
-    },
-    paginaAnterior() {
-      if (this.startIndex > 0) {
-        this.startIndex -= this.imagesPerPage;
-      }
-    },
-    paginaSiguiente() {
-      if (this.startIndex + this.imagesPerPage < this.items.length) {
-        this.startIndex += this.imagesPerPage;
-      }
+      return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
     handleResize() {
       const windowWidth = window.innerWidth;
       if (windowWidth >= 1000) {
-        this.imagesPerPage = 9;
+        this.itemsPerPage = 9;
       } else if (windowWidth >= 600) {
-        this.imagesPerPage = 4; // o el valor que desees para esta condición
+        this.itemsPerPage = 4; // o el valor que desees para esta condición
       } else {
-        this.imagesPerPage = 1;
+        this.itemsPerPage = 1;
       }
+      this.currentPage = 1;
     },
     getSlides() {
       const windowWidth = window.innerWidth;
@@ -540,7 +516,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .motivation_grid{
-  padding: 50px;
+  padding: 50px 50px 10px 50px;
   margin: 0px 20px 0px 20px;
 }
 
@@ -633,72 +609,13 @@ h1, h2, h3, h4, h5, h6 {
   
 }
 
-.salones_botones #numeros-pagina{
- 
-  
-  padding-left: 5px;
-  padding-right: 5px;
-  color: white;
-  cursor: pointer;
-  margin-top: 6px;
+
+
+
+.content_salones .v-pagination{
+    color: white;
+    padding-bottom: 10px;
 }
-
-#anterior {
-  background-color: transparent;
-  color: white;
-  padding: 5px;
-  border: 2px solid #000000;
-  transition: 0.3s ease;
-}
-
-#siguiente {
-  background-color: transparent;
-  color: white;
-  padding: 5px;
-  border: 2px solid #000000;
-  transition: 0.3s ease;
-}
-
-.numero-pagina {
-  margin-right: 5px; 
-  
-  background-color: transparent;
-  color: white;
-  padding: 5px;
-  border: 2px solid #000000;
-  transition: 0.3s ease;
-}
-.no-clickeable {
-  margin-right: 5px; 
-  pointer-events: none;
-  background-color: transparent;
-  color: white;
-  padding: 5px;
-  border: 2px solid #000000;
-  transition: 0.3s ease;
-}
-
-
-#anterior:hover {
-  background-color: white;
-  color: rgb(0, 0, 0);
-  
-}
-
-#siguiente:hover {
-  background-color: white;
-  color: rgb(0, 0, 0);
-}
-
-.numero-pagina:hover {
-
-  
-  background-color: white;
-  color: rgb(0, 0, 0);
-
-}
-
-
 
 
 
@@ -973,7 +890,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 50vw;
   }
   .motivation_grid{
-    padding: 20px;
+    padding: 20px 20px 10px 20px;
   }
   .grid__itemHome p{
     font-size: 2vw;

@@ -321,6 +321,9 @@ display: flex;
 .content_salonesListaAdmin .filtro-container .filtro_servicios label{
   color: black;
 }
+.content_salonesListaAdmin .v-pagination{
+    margin-top: 0px;
+}
 .search_listaAdmin input{
     width: 100%;
     padding: 10px;

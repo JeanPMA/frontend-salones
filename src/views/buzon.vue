@@ -18,6 +18,7 @@
           </div>
           
     </div>
+
     <div class="buzon_grid">
           <div class="grid-container">
             <div class="grid__item" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irACalificación(item.id)">
@@ -35,14 +36,13 @@
           <div v-if="displayedItems.length == 0">
             <h3>NO EXISTEN SOLICITUDES</h3>
           </div> 
-          <div class="buzon_botones">
-            <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
-            <div id="numeros-pagina">
-              <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
-            </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= displayedItems.length - imagesPerPage">Siguiente</button>
-          </div>
+         
     </div>
+
+    <v-pagination
+            v-model="currentPage"
+            :length="totalPages"
+    ></v-pagination>
     </div>
     
 </template>
@@ -66,8 +66,11 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
         buzon: [],
         buzonFiltrado: [],
         startIndex: 0,
-        imagesPerPage: 10,
+        itemsPerPage: 10,
         searchTerm: localStorage.getItem('searchTermBuzon') || '',
+        tamañoAux: 0,
+
+        currentPage: 1,
         tamañoAux: 0,
     };
     },
@@ -99,15 +102,21 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     
        this.handleResize();
   },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  },
     computed: {
-    paginas() {
-    return Array.from({ length: Math.ceil(this.displayedItems.length / this.imagesPerPage) }, (_, i) => i + 1);
-
+    totalItems() {
+      return this.tamañoAux;
+    },
+    totalPages() {
+      return Math.ceil(this.totalItems / this.itemsPerPage);
     },
     displayedItems() {
       const searchTerm = this.searchTerm.toLowerCase();
       if (searchTerm !== this.lastSearchTerm) {
-        this.irAPagina(1);
+        this.currentPage = 1;
+        this.lastSearchTerm = searchTerm;
       }
 
       const filteredList = this.buzonFiltrado.filter(item => {
@@ -121,32 +130,20 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
 
         );
       });
+
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
       this.tamañoAux = filteredList.length;
      
-      return filteredList;
+      return filteredList.slice(startIndex, endIndex);
     },
     },
     methods: {
     mostrarImagen(index) {
-    return index >= this.startIndex && index < this.startIndex + this.imagesPerPage;
+    return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
-    actualizarNumerosPagina(pagina) {
-    this.startIndex = (pagina - 1) * this.imagesPerPage;
-    },
-    paginaAnterior() {
-    this.startIndex -= this.imagesPerPage;
-    
-    },
-    paginaSiguiente() {
-    this.startIndex += this.imagesPerPage;
-    
-    },
-    irAPagina(pagina) {
-    this.actualizarNumerosPagina(pagina);
-    
-    },
+
     irACalificación(id) {
-    // Redirige a la página de calificacion
       this.$router.push({ name: 'detalle-buzon', params: { id: id } });
     },
     filtrarSR(estadosSeleccionados) {
@@ -156,24 +153,25 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
             return sr.tipoSR.nombre === estado;
           });
         });
-        this.irAPagina(1);
+        this.currentPage = 1;
       } else {
         this.buzonFiltrado = this.buzon;
       }
     },
     handleResize() {
-      const windowWidth = window.innerWidth;
+      const windowWidth = window.innerWidth; 
       if (windowWidth >= 1040) {
-        this.imagesPerPage = 10;
+        this.itemsPerPage = 10;
       } else if (windowWidth >= 700) {
-        this.imagesPerPage = 9;
+        this.itemsPerPage = 9;
       } else if (windowWidth >= 580) {
-        this.imagesPerPage = 6;
+        this.itemsPerPage = 6;
       } else if (windowWidth >= 430) {
-        this.imagesPerPage = 4;
+        this.itemsPerPage = 4;
       } else {
-        this.imagesPerPage = 6;
+        this.itemsPerPage = 6;
       }
+      this.currentPage = 1;
     },
     },
     watch: {
@@ -395,6 +393,10 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
   
   }
   
+  .v-pagination{
+    margin-top: 20px;
+  }
+
   @media  screen and (max-width: 1040px) {
     .buzon_list{
     margin-top: 70px;

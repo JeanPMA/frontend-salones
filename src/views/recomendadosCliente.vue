@@ -14,7 +14,7 @@
     
         <div class="salonesRecomendados_grid">
           <div class="grid-container">
-            <div class="grid__item" v-for="(item, index) in salonesFiltrados" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
+            <div class="grid__item" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
               <img :src="item.banner_url" alt="">
               <div class="text-overlay">
                 <h2>{{ item.nombre }}</h2>
@@ -24,18 +24,15 @@
               </div>
             </div>
           </div>
-          <div v-if="salonesFiltrados.length == 0">
+          <div v-if="displayedItems.length == 0">
             <h3>NO EXISTEN SALONES</h3>
           </div> 
-          <div class="salones_botones">
-            <button id="anterior" @click="paginaAnterior" :disabled="startIndex === 0">Anterior</button>
-            <div id="numeros-pagina">
-              <span v-for="pagina in paginas" :key="pagina" @click="irAPagina(pagina)" class="numero-pagina">{{ pagina }}</span>
-            </div>
-            <button id="siguiente" @click="paginaSiguiente" :disabled="startIndex >= salonesFiltrados.length - imagesPerPage">Siguiente</button>
-          </div>
+
         </div>
-      
+          <v-pagination
+              v-model="currentPage"
+              :length="totalPages"
+          ></v-pagination>
         </div>
       </div>
 </template>
@@ -64,7 +61,10 @@ import FiltroServicios from '../components/filtroServicios.vue';
           salonesRecomendados: [],
           salonesFiltrados: [],
           startIndex: 0,
-          imagesPerPage: 9,
+          itemsPerPage: 9,
+
+          currentPage: 1,
+          tamañoAux: 0,
       };
     },
     mounted() {
@@ -92,33 +92,31 @@ import FiltroServicios from '../components/filtroServicios.vue';
     
        this.handleResize();
   },
-    computed: {
-    paginas() {
-    return Array.from({ length: Math.ceil(this.salonesFiltrados.length / this.imagesPerPage) }, (_, i) => i + 1);
-
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  computed: {
+    totalItems() {
+      return this.tamañoAux;
+    },
+    totalPages() {
+      return Math.ceil(this.totalItems / this.itemsPerPage);
+    },
+    displayedItems() {
+      const filteredList = this.salonesFiltrados;
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      this.tamañoAux = filteredList.length;
+     
+      return filteredList.slice(startIndex, endIndex);
     },
     },
     methods: {
     mostrarImagen(index) {
-    return index >= this.startIndex && index < this.startIndex + this.imagesPerPage;
+      return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
-    actualizarNumerosPagina(pagina) {
-    this.startIndex = (pagina - 1) * this.imagesPerPage;
-    },
-    paginaAnterior() {
-    this.startIndex -= this.imagesPerPage;
-    
-    },
-    paginaSiguiente() {
-    this.startIndex += this.imagesPerPage;
-    
-    },
-    irAPagina(pagina) {
-    this.actualizarNumerosPagina(pagina);
-    
-    },
+   
     irADetalleSalon(id) {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'detalle-salon', params: { id: id } });
     },
     filtrarSalones(serviciosSeleccionados) {
@@ -136,12 +134,13 @@ import FiltroServicios from '../components/filtroServicios.vue';
     handleResize() {
       const windowWidth = window.innerWidth;
       if (windowWidth >= 1000) {
-        this.imagesPerPage = 9;
+        this.itemsPerPage = 9;
       } else if (windowWidth >= 700) {
-        this.imagesPerPage = 8; // o el valor que desees para esta condición
+        this.itemsPerPage = 8; 
       } else {
-        this.imagesPerPage = 6;
+        this.itemsPerPage = 6;
       }
+      this.currentPage = 1;
     },
     },
     }
@@ -189,6 +188,11 @@ import FiltroServicios from '../components/filtroServicios.vue';
       cursor: pointer;
       margin-left: 100px;
   }
+
+  .salonesRecomendados_list .v-pagination{
+    color: white;
+  }
+
   @media  screen and (max-width: 1000px) {
     .salonesRecomendados_title{
       font-size: 20px;

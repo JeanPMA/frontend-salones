@@ -84,7 +84,7 @@
   padding: 10px;
   top: 50px;
   right: 0;
-  z-index: 2; 
+  z-index: 1; 
 }
 
 .filtro_lista label {

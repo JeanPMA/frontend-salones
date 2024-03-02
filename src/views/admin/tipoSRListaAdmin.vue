@@ -279,5 +279,9 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
     color: #2cbd00;
    
   }
+
+.content_serviciosListaAdmin .v-pagination{
+    margin-top: 0px;
+}
 </style>
   
