@@ -94,8 +94,9 @@
             class="me-4"
             type="submit"
             @click="actualizarSalon"
+            :disabled="cargando"
         >
-            Guardar
+        {{ cargando ? 'Guardando...' : 'Guardar' }}
         </v-btn>
     
 
@@ -104,6 +105,8 @@
             Volver
         </v-btn>
         </form>
+      <div v-if="cargando" class="overlay"></div> 
+      <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -144,6 +147,7 @@
         mostrarErrorCapacidad: false,
         mostrarErrorDescripcion: false,
         mostrarErrorTarifa: false,
+        cargando: false,
         nombre: {
           value: {
             value: ''
@@ -355,6 +359,7 @@
           this.mostrarErrorTarifa != undefined) {            
           return;
       }
+      this.cargando = true;
             const formData = new FormData();
             formData.append('nombre', this.nombre.value.value);
             formData.append('direccion', this.direccion.value.value);
@@ -405,6 +410,7 @@
                 text: 'El salón se actualizó correctamente.',
                 type: 'success',
               });
+              this.cargando = false;
             })
             .catch(error => {
               this.$notify({
@@ -412,6 +418,7 @@
                 text: 'Error, nombre de salón modificado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+              this.cargando = false;
             });
    
   },

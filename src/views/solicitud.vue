@@ -56,12 +56,14 @@
                 <span v-if="mostrarErrorDetalle" class="error-message">El detalle no puede estar vacío</span>
 
                 <div class="form_btn">
-                  <a id="send" @click="guardarSolicitudReserva">ENVIAR</a>
+                  <a id="send" @click="guardarSolicitudReserva" :disabled="cargando">{{ cargando ? 'ENVIANDO...' : 'ENVIAR' }}</a>
                     <a  id="cancel" @click="volverAtras">CANCELAR</a>
 
                 </div>
             </form>
         </div>
+        <div v-if="cargando" class="overlay"></div>    
+        <div v-if="cargando" class="loader"></div>
     </div>
     <Toast ref="toast" @success="onSuccess" @error="onError" />
 </template>
@@ -105,6 +107,8 @@ export default {
         mostrarErrorServicios: false,
         mostrarErrorFecha: false,
         mostrarErrorDetalle: false,
+
+        cargando: false,
       }
     },
     async  mounted() {
@@ -141,6 +145,8 @@ export default {
               
               return;
             }
+
+            this.cargando = true;
             const serviciosSeleccionados = this.seleccionados.join(', ');
             this.solicitudReserva.servicio = serviciosSeleccionados;
 
@@ -166,6 +172,7 @@ export default {
                 text: 'La solicitud se guardó correctamente.',
                 type: 'success',
               });
+              this.cargando = false;
             })
             .catch(error => {
               console.error('Error al guardar la solicitud de reserva:', error);
@@ -174,6 +181,7 @@ export default {
                 text: 'Hubo un problema al guardar la solicitud.',
                 type: 'error',
               });
+              this.cargando = false;
               });
                   
       },

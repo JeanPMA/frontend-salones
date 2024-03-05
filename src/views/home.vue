@@ -8,22 +8,22 @@
         <img src="../img/celebrando-bengalas-noche.jpg" alt="">
     </div>
 
-    <div class="text_home">
+    <div class="text_home"> 
         <h2>
           BIENVENIDO
         </h2>
-        <p id="texto-tipeado">
-          Lorem Ipsum is simply dummy text of the printing and 
-          typesetting industry. Lorem Ipsum has been the industrys
-           standard dummy text ever since the 1500s, when an unknown 
-           printer took a galley of type and scrambled it to make a type 
-           specimen book
+        <p id="texto-tipeado">        
+          ¡Bienvenido a nuestra aplicación para reservas de salones de eventos! 
+          Estamos encantados de tenerte aquí para hacer que la planificación de tu evento 
+          sea una experiencia sin complicaciones. Descubre la comodidad de encontrar y 
+          reservar el lugar perfecto para tu ocasión especial. ¡Haz de cada evento un 
+          momento inolvidable con nosotros!
         </p>
     </div>
   </div>
   <div class="content_recomend" id="section2">
     
-  <div class="content " >
+  <div class="content" >
       <div class="content_title">
           <h2 >
             MAS RECOMENDADOS
@@ -76,11 +76,11 @@
   </div>
 
 
-  <div class="content_salones" id="section1">
-    <div class="salones_titleHome">
+  <div class="content_salones" id="section1" >
+    <div class="salones_titleHome" >
       SALONES
     </div>
-    <div class="motivation_grid">
+    <div class="motivation_grid" >
       <div class="grid-containerHome">
         <div class="grid__itemHome" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)">
           <img :src="item.banner_url" alt="">
@@ -107,44 +107,44 @@
               CONTACTANOS
           </h3>
           <div class="form_item_one"> 
-            <form action="https://formsubmit.co/f947f4e5022eea087d62619222ed38e7" method="POST">
+            <form @submit.prevent="enviarCorreo">
               
               <div class="form_one">
-                <input type="text" id="nombre" name="nombre" placeholder="Nombre:" required>
-              
-                
-                <input type="text" id="apellido" name="apellido" placeholder="Apellido:" required>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre:" v-model="nombre" @input="bloquearCaracteresNombre" required>
+            
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido:" v-model="apellido" @input="bloquearCaracteresApellido" required>
                 
               </div>
 
               <div class="form_one">
-                <input type="email" id="email" name="email" placeholder="Correo Electrónico:" required>
-          
-                
+                <input type="email" id="correo" name="correo" placeholder="Correo Electrónico:" v-model="correo" required>
 
-                <input type="telefono" id="telefono" name="telefono" placeholder="Telefono:" required>
+                <input type="text" id="telefono" name="telefono" placeholder="Telefono:" v-model="telefono" @input="limitesTelefono" required>
            
               </div>
 
               <div class="form_two">
-                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Mensaje:" required></textarea>
-               
+                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Mensaje:" v-model="mensaje" required></textarea>
 
-
-                <input type="submit" value="Enviar">
+                <button type="submit" :disabled="cargando" id="section4">
+                  {{ cargando ? 'Enviando...' : 'Enviar' }}
+                </button>
               </div>     
             </form>
-
+           
           </div>
             
         </div>
-        <div class="logo_item">
+        <div class="logo_item" >
           <img src="../img/5124556.jpg" alt="">
         </div>
       </div>
+        <div v-if="cargando" class="overlay"></div>
+      
+        <div v-if="cargando" class="loader"></div>
 </div>
 
-<div class="footer">
+<div class="footer" >
   <div class="footer_logo">
       <h3>
         LOGO
@@ -193,10 +193,10 @@ export default {
  
   setup() {
       const onSwiper = (swiper) => {
-        console.log(swiper);
+       
       };
       const onSlideChange = () => {
-        console.log('slide change');
+   
       };
       return {
         onSwiper,
@@ -214,6 +214,14 @@ export default {
       recomendados: [],
       currentPage: 1,
       tamañoAux: 0,
+
+      nombre: '',
+      apellido: '',
+      correo: '',
+      telefono: '',
+      mensaje: '',
+
+      cargando: false,
     };
   },
   mounted() {
@@ -232,8 +240,28 @@ export default {
     
       window.addEventListener('resize', this.handleResize);
     
-       this.handleResize();
+      this.handleResize();
+    
+     
    },
+   beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.$nextTick(() => {
+        if (to.query.scrollTo === 'section4') {
+          const section4 = document.querySelector('#section4');
+          if (section4) {
+            setTimeout(() => {
+              section4.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+            }, 100);
+            const { path, query, hash } = to;
+            const newRoute = { path, query: { ...query }, hash };
+            delete newRoute.query.scrollTo;
+            vm.$router.replace(newRoute);
+          }
+        }
+      });
+    });
+  },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
   },
@@ -259,6 +287,24 @@ export default {
     mostrarImagen(index) {
       return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
+    bloquearCaracteresNombre() {
+      this.nombre = this.nombre.replace(/[^a-zA-Z\s]/g, '');
+    },
+    bloquearCaracteresApellido() {
+      this.apellido = this.apellido.replace(/[^a-zA-Z\s]/g, '');
+    },
+    limitesTelefono(){
+      this.limitarLongitudTelefono();
+      this.bloquearETelefono();
+    },
+    limitarLongitudTelefono() {
+        if (this.telefono.length > 8) {
+          this.telefono = this.telefono.slice(0, 8);
+        }
+    },
+    bloquearETelefono() {
+      this.telefono = this.telefono.replace(/\D/g, '');
+    },
     handleResize() {
       const windowWidth = window.innerWidth;
       if (windowWidth >= 1000) {
@@ -279,6 +325,44 @@ export default {
       } else {
         return 1;
       }
+    },
+    enviarCorreo() {  
+      this.cargando = true;
+        const datosCorreo = {
+          nombre: this.nombre,
+          apellido: this.apellido,
+          correo: this.correo,
+          telefono: this.telefono,
+          mensaje: this.mensaje
+        };
+        console.log(datosCorreo);
+    axios.post('http://localhost:8080/v1/correo', datosCorreo)
+      .then(response => {
+          this.limpiarFormulario();
+                this.$notify({
+                    title: 'Éxito',
+                    text: 'Formulario enviado correctamente.',
+                    type: 'success',
+                 });
+          this.cargando = false;
+      })
+      .catch(error => {
+        console.error('Error al enviar el correo', error);
+       
+                  this.$notify({
+                    title: 'Error',
+                    text: 'Ups! hubo un problema. Intentelo de nuevo',
+                    type: 'error',
+                 });
+          this.cargando = false;
+      });
+    },
+    limpiarFormulario() {
+      this.nombre = '' ;
+      this.apellido = '' ;
+      this.correo = '' ;
+      this.telefono = '' ;
+      this.mensaje = '' ;
     },
   },
   
@@ -626,6 +710,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #490859b2;
   width: 100%;
   font-family: Arial, sans-serif;
+  position: relative; 
 }
 
 .text_logo{
@@ -674,7 +759,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0.8;
 }
 
-.form_item_one input[type="submit"] {
+.form_item_one button{
  
   background: #333;
   border: 2px solid #333;
@@ -690,7 +775,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 18px;
 }
 
-.form_item_one input[type="submit"]:hover {
+.form_item_one button:hover {
   background: transparent;
   border: 2px solid #333;
 
@@ -792,11 +877,39 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 10px;
 }
 
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%); 
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  z-index: 300;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 200; 
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @media (min-width: 1024px){
   .content_recomend img{
       height: 300px;
       width: 100%;
-      object-fit: contain;
+      object-fit: cover;
   }
  
 }

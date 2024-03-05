@@ -86,8 +86,9 @@
             class="me-4"
             type="submit"
             @click="crearSalon"
+            :disabled="cargando"
         >
-            Crear
+        {{ cargando ? 'Creando...' : 'Crear' }}
         </v-btn>
     
         <!-- <v-btn @click="handleReset"  class="me-4">
@@ -98,6 +99,8 @@
             Volver
         </v-btn>
         </form>
+    <div v-if="cargando" class="overlay"></div>    
+    <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -120,6 +123,7 @@
       serviciosSeleccionados: [],
       error: false,
       errorServicios: false,
+      cargando: false,
       estado: {
         value: { value: 0 },
         errorMessage: { value: "" },
@@ -172,6 +176,7 @@
     },
 
     async crearSalon() {
+   
       this.error = !this.selectedFile;
       this.errorServicios = this.serviciosSeleccionados.length === 0 ;
       if (!this.estado.value.value) {
@@ -193,7 +198,7 @@
             return;
           }
       }
-      
+            this.cargando = true;
             const formData = new FormData();
           
   
@@ -231,6 +236,7 @@
                 text: 'El salón se registró correctamente.',
                 type: 'success',
               });
+              this.cargando = false;
             })
             .catch(error => {
               this.$notify({
@@ -238,6 +244,7 @@
                 text: 'Error, nombre de salón ingresado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+              this.cargando = false;
             });
    
   },
@@ -262,7 +269,7 @@
                 console.error('Error al obtener servicios:', error);
               });
 
-      
+              
       
 
     const { handleSubmit } = useForm({
@@ -341,6 +348,7 @@
     padding: 20px 100px 50px 100px;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border-radius: 50px;
+    position: relative; 
 }
 
 .content_crearSalonDueño svg{
@@ -395,6 +403,8 @@
 .v-input--horizontal {
     margin-top: 20px;
 }
+
+
 
 @media  screen and (max-width: 700px) {
   .content_crearSalonDueño{

@@ -61,9 +61,9 @@
                     <div class="contact">
                                               
                         <p>¿Quieres formar parte de nuestro sistema?
-                            <RouterLink to="/lista-salones-admin">
-                            <a href="#" class="register-link">Contactanos!!!</a>
-                            </RouterLink>
+                          
+                            <a href="#" class="register-link" @click="redirectToHome">Contactanos!!!</a>
+               
                     </p>
                     </div>
                 </form>
@@ -151,6 +151,9 @@ export default {
             }
         });
 
+    },
+    redirectToHome() {
+        this.$router.push({ path: '/', query: { scrollTo: 'section4' } });
     },
   },
 }

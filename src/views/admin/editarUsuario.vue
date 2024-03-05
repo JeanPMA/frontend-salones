@@ -87,8 +87,9 @@
             class="me-4"
             type="submit"
             @click="editarUsuario"
+            :disabled="cargando"
         >
-            Guardar
+         {{ cargando ? 'Guardando...' : 'Guardar' }}
         </v-btn>
 
 
@@ -96,6 +97,8 @@
             Volver
         </v-btn>
         </form>
+    <div v-if="cargando" class="overlay"></div>    
+    <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -131,6 +134,7 @@ data() {
         mostrarErrorNombre: false,
         mostrarErrorApellido: false,
         mostrarErrorCorreo: false,
+        cargando: false,
         rolesLista: [],
         username: {
           value: {
@@ -288,6 +292,7 @@ methods: {
       if(this.mostrarErrorRol) {              
           return;
       }
+      this.cargando = true;
       const token = localStorage.getItem('jwtToken');
       const decodedToken = jwt_decode(token);
       const userRole = decodedToken.roles[0];
@@ -323,6 +328,7 @@ methods: {
                 text: 'El usuario se actualizó correctamente.',
                 type: 'success',
               });
+         this.cargando = false;
       })
       .catch(error => {
         this.$notify({
@@ -330,6 +336,7 @@ methods: {
                 text: 'Error, nombre o correo de usuario modificado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+        this.cargando = false;
       });
       },
 },

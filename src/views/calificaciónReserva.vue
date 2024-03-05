@@ -10,7 +10,7 @@
             <v-rating
                 hover
                 :length="5"
-                :size="81"
+                :size="ratingSize"
                 v-model="puntuacion" 
                 active-color="warning"
                 @input="actualizarPuntuacion"
@@ -34,17 +34,32 @@ export default {
     return {
       puntuacion: 0,
       idReserva: null,
+
+      isWindowSizeGreaterThan600: window.innerWidth >= 600,
     };
   },
   components: {
       VueNotification,
   },
+  computed: {
+    ratingSize() {
+      return this.isWindowSizeGreaterThan600 ? 81 : 50;
+    },
+  },
   mounted() {
     this.idReserva = this.$route.params.id;
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     actualizarPuntuacion() {
       
+    },
+    handleResize() {
+      this.isWindowSizeGreaterThan600 = window.innerWidth >= 600;
+      this.$forceUpdate();
     },
     enviarPuntuacion() { 
             const token = localStorage.getItem('jwtToken');
@@ -91,8 +106,12 @@ export default {
 <style>
 .body_calificación{
     background-color: #030303;
-    height: 100%;
+    height: 100vh;
     color: rgb(0, 0, 0);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .content_calificación{
     background-color: rgb(70, 21, 115);
@@ -101,7 +120,7 @@ export default {
     justify-content: center;
 
     flex-direction: column;
-    margin: 50px 200px 50px 200px;
+    margin: 0px 200px 0px 200px;
     padding: 70px;
     border-radius: 30px;
    
@@ -160,7 +179,39 @@ export default {
   }
 
 
+  @media  screen and (max-width: 600px) {
+    .content_calificación{
+      margin: 0px 10px 0px 10px;
+      padding: 50px 10px 50px 10px;
+    }
+    .button_califación a{
+      width: 200px;
+    }
+    .v-rating  {
+      font-size: 30px;
+      margin-top: 20px;
+    }
+  }
 
-
+  @media  screen and (max-width: 300px) {
+    .content_calificación h2{
+      font-size: 30px;
+    }
+    .content_calificación p{
+      font-size: 15px;
+    }
+    .button_califación a{
+      width: 100%;
+      font-size: 15px;
+      padding: 5px 20px 5px 20px;
+      height: 100%;
+    }
+    .content_calificación{
+      padding: 20px 10px 20px 10px;
+    }
+    .v-rating  {
+      font-size: 20px;
+    }
+  }
 
 </style>

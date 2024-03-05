@@ -20,7 +20,7 @@
                       </div>
                     
                       <div class="userMenu">
-                        <li><a href="#" >USUARIO</a> 
+                        <li><a href="#" >{{this.usuario}}</a> 
                           <ul>
                             <li><a href="#" @click="logout">LOG OUT</a></li>
                             <li><a href="#">CONFIGURACION</a></li>
@@ -35,8 +35,19 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode';
 export default {
     name: 'navbarCliente',
+    data() { 
+    return {
+          usuario: '',
+      }
+    },
+    mounted() {   
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+      this.usuario = decodedToken.sub;
+    },
     methods: {
       logout() {
       // Llamar a la acción de logout del store
@@ -194,7 +205,7 @@ header{
     background: rgb(255, 255, 255);
     position: absolute;
     top: 35px;
-    right: -10px;
+    right: -30px;
    
    visibility: hidden;
     z-index: 2;

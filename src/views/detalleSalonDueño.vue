@@ -79,7 +79,7 @@
                   <a href="#" class="buttons_salonDueño buttonDueño-4" v-if="detalleSalonDueño.estado === 0" @click="deshabilitarHabilitarSalon">HABILITAR</a>
               </div>
               <div class="buttons_salonDueño">
-                  <a href="#" class="buttons_salonDueño buttonDueño-1" @click="actualizarSalon">GUARDAR SALÓN</a>
+                  <a href="#" class="buttons_salonDueño buttonDueño-1" @click="actualizarSalon">{{ cargando ? 'GUARDANDO...' : 'GUARDAR SALÓN' }}</a>
               </div>
             </div>
           <div class="salonDueño_column">
@@ -100,14 +100,18 @@
                   <label>Nueva Imagen:</label>
                   <input type="file" @change="imagenFileChange" />
                   <h4>(Presionar el boton en caso de agregar una imagen a la lista)</h4>
-                  <a href="#" class="buttonDueñoLista-1" @click="añadirImagen">AÑADIR IMAGEN</a>
+                  <a href="#" class="buttonDueñoLista-1" @click="añadirImagen">{{ cargando ? 'AÑADIENDO...' : 'AÑADIR IMAGEN' }}</a>
                 
             </div>
             
           
           </div>
         </div>
+      <div v-if="cargando" class="overlay"></div>
+      
+      <div v-if="cargando" class="loader"></div>
     </div>
+   
 </div>
 </template>
 
@@ -146,6 +150,8 @@ data() {
       mostrarErrorCapacidad: false,
       mostrarErrorTarifa: false,
       mostrarErrorDireccion: false,
+
+      cargando: false,
     };
   },
   components: {
@@ -308,7 +314,7 @@ methods: {
                 username: username,
               },
             }
-
+      this.cargando = true;
       const formData = new FormData();
       formData.append("nombre", this.detalleSalonDueño.nombre);
       formData.append("direccion", this.detalleSalonDueño.direccion);
@@ -336,9 +342,13 @@ methods: {
         .then(response => {
                 this.$notify({
                   title: 'Éxito',
-                  text: 'La información del salón se actuliazó correctamente.',
+                  text: 'La información del salón se actualizó correctamente.',
                   type: 'success',
                 });
+                setTimeout(function() {
+                  window.location.reload();
+              }, 1000);
+                this.cargando = false;
         })
         .catch(error => {
           this.$notify({
@@ -346,6 +356,7 @@ methods: {
                 text: 'Error, nombre de salón modificado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+              this.cargando = false;
         });
     },
     async obtenerImagenesSalon(id) {
@@ -419,6 +430,7 @@ methods: {
                 username: username,
               },
             }
+            this.cargando = true;
             const formData = new FormData();
             formData.append('multipartFile', this.imagenSalonCollection);
             formData.append('idSalon', this.detalleSalonDueño.id);
@@ -432,6 +444,7 @@ methods: {
                 setTimeout(function() {
                     window.location.reload();
                 }, 1000);
+                this.cargando = false;
               })
               .catch(error => {
                 this.$notify({
@@ -439,10 +452,12 @@ methods: {
                   text: 'Hubo un problema al guardar la imagen. Intentalo de nuevo',
                   type: 'error',
                 });
+                this.cargando = false;
               });
            
     },
     eliminarImagen(index, imagenId) {
+            this.cargando = true;
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -467,6 +482,7 @@ methods: {
               setTimeout(function() {
                   window.location.reload();
               }, 1000);
+              this.cargando = false;
             })
             .catch(error => {
               this.$notify({
@@ -474,6 +490,7 @@ methods: {
                   text: 'Hubo un problema al eliminar la imagen. Intentalo de nuevo',
                   type: 'error',
                 });
+              this.cargando = false;
             });
 
       
@@ -489,6 +506,7 @@ methods: {
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative; 
 
    
 }
@@ -564,7 +582,7 @@ methods: {
   font-size: 15px;
 }
 .content_salonDueño .itemSalonDueño h3{ 
-  color: #000000;
+  color: #0000006a;
   font-size: 18px;
   text-align: start;
 }
@@ -681,6 +699,8 @@ methods: {
    background-color: transparent;
    text-decoration: none;
  }
+
+
 /* 2DA COLUMNA */
  .salonDueño_container {
     display: flex;

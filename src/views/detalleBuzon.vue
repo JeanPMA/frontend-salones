@@ -43,13 +43,13 @@
             </div>
             <div class="botones_detalle">
                 <a id="atras"  @click="volverAtras">ATRAS</a>
-                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' || detalleSolicitud.tipoSR.nombre === 'PENDIENTE'" id="cancelar" @click="cancelarReserva">CANCELAR RESERVA</a>               
-                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' && detalleSolicitud.puntuacion === null" id="calificar" @click="irACalificación()">CALIFICAR</a>
-
-                <a v-if="detalleSolicitud.tipoSR.nombre === 'INVISIBLE' || detalleSolicitud.tipoSR.nombre === 'RECHAZADO' ||  detalleSolicitud.tipoSR.nombre === 'CANCELADO'" id="eliminar" @click="eliminarReserva">ELIMINAR</a>
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' || detalleSolicitud.tipoSR.nombre === 'PENDIENTE'" id="cancelar" @click="cancelarReserva" :disabled="cargando">{{ cargando ? 'CANCELANDO...' : 'CANCELAR RESERVA' }}</a>               
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' && detalleSolicitud.puntuacion === null" id="calificar" @click="irACalificación()" :disabled="cargando">CALIFICAR</a>
+                <a v-if="detalleSolicitud.tipoSR.nombre === 'INVISIBLE' || detalleSolicitud.tipoSR.nombre === 'RECHAZADO' ||  detalleSolicitud.tipoSR.nombre === 'CANCELADO'" id="eliminar" @click="eliminarReserva" :disabled="cargando">{{ cargando ? 'ELIMINANDO...' : 'ELIMINAR' }}</a>
             </div>  
         </div>
-        
+      <div v-if="cargando" class="overlay"></div>    
+      <div v-if="cargando" class="loader"></div>
     </div>
 </template>
 
@@ -64,6 +64,7 @@ export default {
     return {
       detalleSolicitud: null,   
       listaTipoSR: [], 
+      cargando: false,
     };
   },
   components: {
@@ -123,7 +124,7 @@ export default {
     },
     cancelarReserva() {
         const elementoCancelar = this.listaTipoSR.find(tipo => tipo.nombre === "CANCELADO");
-        
+        this.cargando = true;
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -154,6 +155,7 @@ export default {
                 text: 'La solicitud se canceló correctamente.',
                 type: 'success',
           });
+          this.cargando = false;
         })
         .catch(error => {
           console.error('Error en la petición PUT:', error);
@@ -162,12 +164,13 @@ export default {
                 text: 'Hubo un problema al cancelar la solicitud. Intentelo de nuevo',
                 type: 'error',
           });
+          this.cargando = false;
         });
       }
     },
     eliminarReserva() {
         const elementoEliminar = this.listaTipoSR.find(tipo => tipo.nombre === "INVISIBLE");
-        
+        this.cargando = true;
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -198,6 +201,7 @@ export default {
                 text: 'La solicitud se eliminó correctamente.',
                 type: 'success',
           });
+          this.cargando = false;
         })
         .catch(error => {
           console.error('Error en la petición PUT:', error);
@@ -206,6 +210,7 @@ export default {
                 text: 'Hubo un problema al eliminar la solicitud. Intentelo de nuevo',
                 type: 'error',
           });
+          this.cargando = false;
         });
       }
     }
@@ -220,7 +225,7 @@ export default {
 .body_detalle{
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     background-color: #535353;
     color: white;
 }
@@ -347,14 +352,14 @@ export default {
     color: #ffffff;
    
   }
-  @media  screen and (max-width: 750px) {
+  @media  screen and (max-width: 920px) {
     .content_detalleBuzon{
       margin: 10px 10px 10px 10px;
       padding: 10px 0px 10px 0px;
     }
   }
 
-  @media  screen and (max-width: 460px) {
+  @media  screen and (max-width: 680px) {
     .botones_detalle {
       flex-direction: column;
       gap: 5px;

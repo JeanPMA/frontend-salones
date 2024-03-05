@@ -38,8 +38,9 @@
             class="me-4"
             type="submit"
             @click="crearServicio" 
+            :disabled="cargando"
         >
-            Crear
+          {{ cargando ? 'Creando...' : 'Crear' }}
         </v-btn>
     
 
@@ -48,6 +49,8 @@
             Volver
         </v-btn>
         </form>
+        <div v-if="cargando" class="overlay"></div>    
+        <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -63,6 +66,11 @@
   components: {
       VueNotification,
     },
+  data() {
+    return {
+      cargando: false,
+    }
+  },
   methods: {
     irAHome() {
 
@@ -84,7 +92,7 @@
             || this.nombre?.errorMessage?.value || !this.nombre.value.value) {
               return;
             }
-
+            this.cargando = true;
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -103,7 +111,7 @@
                 detalle : this.detalle.value.value,
                 estado: this.estado.value.value,
             };
-            console.log(data);
+            
           axios.post('http://localhost:8080/v1/servicio', data, config)
           .then(response => {
               this.$notify({
@@ -112,6 +120,7 @@
                 type: 'success',
               });
               this.$router.push({ name: 'lista-servicios-admin'});
+              this.cargando = false;
             })
             .catch(error => {
               this.$notify({
@@ -119,6 +128,7 @@
                 text: 'Error, nombre de servicio ingresado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+              this.cargando = false;
             });
    
   },

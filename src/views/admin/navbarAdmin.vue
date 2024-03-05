@@ -10,9 +10,7 @@
       >
         <v-list>
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-            title="ADMIN"
-            subtitle="ADMIN@gmailcom"
+            :title="usuario"
           ></v-list-item>
         </v-list>
         <v-divider></v-divider>
@@ -38,11 +36,20 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode';
 export default {
     name: 'navbarAdminComponent',
-    methods: {
-    
-    
+    data() { 
+    return {
+          usuario: '',
+      }
+    },
+    mounted() {   
+      const token = localStorage.getItem('jwtToken');
+      const decodedToken = jwt_decode(token);
+      this.usuario = decodedToken.sub;
+    },
+    methods: {    
     irAListaSalon() {
       this.$router.push({ name: 'lista-salones-admin'});
     },

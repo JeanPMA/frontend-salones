@@ -30,15 +30,17 @@
             class="me-4"
             type="submit"
             @click="crearTipoSR" 
-            
+            :disabled="cargando"
         >
-            Crear
+        {{ cargando ? 'Creando...' : 'Crear' }}
         </v-btn>
     
         <v-btn @click="irAHome" >
             Volver
         </v-btn>
         </form>
+    <div v-if="cargando" class="overlay"></div>    
+    <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -54,6 +56,7 @@
   name: 'crearServicioComponent',
   data(){
     return {
+    cargando: false,
     nombre: {
         value: { value: "" },
         errorMessage: { value: "" },
@@ -84,6 +87,7 @@
             if (this.nombre?.errorMessage?.value || !this.nombre.value.value) {
               return;
             }
+            this.cargando = true;
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -109,6 +113,7 @@
                 text: 'El tipo solicitud-reserva se guardó correctamente.',
                 type: 'success',
               });
+              this.cargando = false;
             })
             .catch(error => {
               this.$notify({
@@ -116,6 +121,7 @@
                 text: 'Error, nombre de tipo solicitud-reserva ingresado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+              this.cargando = false;
             });
    
   },

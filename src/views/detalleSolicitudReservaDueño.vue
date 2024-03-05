@@ -45,14 +45,15 @@
             </div>
             <div class="botones_SolicitudReserva">
                 <a id="atras"  @click="volverAtras">ATRAS</a>
-                <a id="rechazar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="rechazarReserva">RECHAZAR</a>   
-                <a id="cancelar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'ACEPTADO'" @click="cancelarReserva">CANCELAR</a>                
-                <a id="aceptar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="aceptarReserva">ACEPTAR</a>
-                <a id="eliminar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'RECHAZADO' || detalleSolicitudDueño.tipoSR.nombre === 'CANCELADO' || fechaReservaMenorActual"  @click="eliminarReserva">ELIMINAR</a>
+                <a id="rechazar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="rechazarReserva"  :disabled="cargando">{{ cargando ? 'RECHAZANDO...' : 'RECHAZAR' }}</a>   
+                <a id="cancelar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'ACEPTADO'" @click="cancelarReserva"  :disabled="cargando">{{ cargando ? 'CANCELANDO...' : 'CANCELAR' }}</a>                
+                <a id="aceptar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="aceptarReserva"  :disabled="cargando">{{ cargando ? 'ACEPTANDO...' : 'ACEPTAR' }}</a>
+                <a id="eliminar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'RECHAZADO' || detalleSolicitudDueño.tipoSR.nombre === 'CANCELADO' || fechaReservaMenorActual"  @click="eliminarReserva"  :disabled="cargando">{{ cargando ? 'ELIMINANDO...' : 'ELIMINAR' }}</a>
 
             </div>  
         </div>
-        
+        <div v-if="cargando" class="overlay"></div>    
+        <div v-if="cargando" class="loader"></div>
     </div>
 </template>
 
@@ -67,7 +68,7 @@ export default {
     return {
       detalleSolicitudDueño: null, 
       listaTipoSR: [], 
-
+      cargando: false,
     };
   },
   components: {
@@ -137,7 +138,8 @@ export default {
         .catch(error => console.error('Error al obtener datos de la API:', error));
     },
     rechazarReserva() {
-        const elementoRechazar = this.listaTipoSR.find(tipo => tipo.nombre === "RECHAZADO");      
+        const elementoRechazar = this.listaTipoSR.find(tipo => tipo.nombre === "RECHAZADO");    
+        this.cargando = true;  
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];     
@@ -166,6 +168,7 @@ export default {
                 text: 'La solicitud se rechazó correctamente.',
                 type: 'success',
               });
+          this.cargando = false;
         })
         .catch(error => {
           this.$notify({
@@ -173,11 +176,13 @@ export default {
                 text: 'Hubo un problema al rechazar la solicitud. Intentalo de nuevo',
                 type: 'error',
               });
+          this.cargando = false;
         });
       }
     },
     aceptarReserva() {
         const elementoAceptar = this.listaTipoSR.find(tipo => tipo.nombre === "ACEPTADO");      
+        this.cargando = true;
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];     
@@ -206,6 +211,7 @@ export default {
                 text: 'La solicitud se aceptó correctamente.',
                 type: 'success',
               });
+          this.cargando = false;
         })
         .catch(error => {
           this.$notify({
@@ -213,11 +219,13 @@ export default {
                 text: 'Hubo un problema al aceptar la solicitud. Intentalo de nuevo',
                 type: 'error',
               });
+          this.cargando = false;
         });
       }
     },
     eliminarReserva() {
-            const elementoEliminar = this.listaTipoSR.find(tipo => tipo.nombre === "INVISIBLE");    
+            const elementoEliminar = this.listaTipoSR.find(tipo => tipo.nombre === "INVISIBLE");   
+            this.cargando = true; 
             const estadoAux = this.detalleSolicitudDueño.tipoSR.nombre;  
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
@@ -247,8 +255,15 @@ export default {
                 text: 'La solicitud/reserva se eliminó correctamente.',
                 type: 'success',
               });
+            this.cargando = false;
           }else{
+            this.$notify({
+                title: 'Éxito',
+                text: 'La solicitud/reserva se eliminó correctamente.',
+                type: 'success',
+              });
             this.$router.push({ name: 'lista-reservas'});
+            this.cargando = false;
           }
          
         })
@@ -259,11 +274,13 @@ export default {
                 text: 'Hubo un problema al eliminar la solicitud. Intentalo de nuevo',
                 type: 'error',
               });
+          this.cargando = false;
         });
       }
     },
     cancelarReserva() {
-        const elementoCancelar = this.listaTipoSR.find(tipo => tipo.nombre === "CANCELADO");      
+        const elementoCancelar = this.listaTipoSR.find(tipo => tipo.nombre === "CANCELADO");   
+        this.cargando = true;   
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];     
@@ -291,13 +308,15 @@ export default {
                 text: 'La reserva se canceló correctamente.',
                 type: 'success',
               });
+          this.cargando = false;
         })
         .catch(error => {
-          cthis.$notify({
+          this.$notify({
                 title: 'Error',
                 text: 'Hubo un problema al cancelar la reserva. Intentalo de nuevo',
                 type: 'error',
               });
+          this.cargando = false;
         });
       }
     },

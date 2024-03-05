@@ -120,17 +120,17 @@ const routes = [
         path:'/calendar', component: CalendarComponent,
     },
     {
-        path:'/detalle-salon/:id', component: SalonComponent, name: 'detalle-salon',//falta parametro id
+        path:'/detalle-salon/:id', component: SalonComponent, name: 'detalle-salon',
     },
     {
         path:'/solicitud/:nombreSalon?/:fechaPorDefecto?', component: SolicitudComponent, name: 'solicitud',
         
     },
     {
-        path:'/calificar/:id', component: CalificaciónComponent, name: 'calificar',//falta
+        path:'/calificar/:id', component: CalificaciónComponent, name: 'calificar',
     },
     {
-        path:'/detalle-buzon/:id', component: DetalleBuzonComponent, name: 'detalle-buzon',//falta
+        path:'/detalle-buzon/:id', component: DetalleBuzonComponent, name: 'detalle-buzon',
     },
     {
         path:'/lista-solicitudes', component: SolicitudesListaDueñoComponent, name: 'lista-solicitudes',
@@ -145,10 +145,10 @@ const routes = [
         path:'/lista-reservas', component: ReservasListaDueñoComponent, name: 'lista-reservas',
     },
     {
-        path:'/salon/:id', component: DetalleSalonDueñoComponent, name: 'salon',//falta parametro id
+        path:'/salon/:id', component: DetalleSalonDueñoComponent, name: 'salon',
     },
     {
-        path:'/solicitud-reserva/:id', component: DetalleSolicitudReservaDueñoComponent, name: 'solicitud-reserva',//falta parametro id
+        path:'/solicitud-reserva/:id', component: DetalleSolicitudReservaDueñoComponent, name: 'solicitud-reserva',
     },
     //ADMIN
     {
@@ -191,7 +191,8 @@ const routes = [
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    
 })
 
 const app = createApp(App);

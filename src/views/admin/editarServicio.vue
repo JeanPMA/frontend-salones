@@ -38,8 +38,9 @@
             class="me-4"
             type="submit"
             @click="editarServicio"
+            :disabled="cargando"
         >
-            Guardar
+          {{ cargando ? 'Guardando...' : 'Guardar' }}
         </v-btn>
     
 
@@ -47,6 +48,8 @@
             Volver
         </v-btn>
         </form>
+    <div v-if="cargando" class="overlay"></div>    
+    <div v-if="cargando" class="loader"></div>
 </div>
   </template>
   <script>
@@ -61,6 +64,11 @@
   components: {
       VueNotification,
     },
+  data() {
+    return {
+      cargando: false,
+    }
+  },
   methods: {
     irAHome() {
     // Redirige a la página de detalle del salón
@@ -108,6 +116,7 @@
               
           return;
       }
+      this.cargando = true;
       const token = localStorage.getItem('jwtToken');
       const decodedToken = jwt_decode(token);
       const userRole = decodedToken.roles[0];
@@ -137,6 +146,7 @@
                 text: 'el servicio se actualizó correctamente.',
                 type: 'success',
         });
+        this.cargando = false;
       })
       .catch(error => {
         this.$notify({
@@ -144,6 +154,7 @@
                 text: 'Error, nombre de servicio modificado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+        this.cargando = false;
       });
 },
   },

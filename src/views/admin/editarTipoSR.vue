@@ -29,14 +29,17 @@
             class="me-4"
             type="submit"
             @click="editarTipoSR"
+            :disabled="cargando"
         >
-            Guardar
+         {{ cargando ? 'Guardando...' : 'Guardar' }}
         </v-btn>
     
         <v-btn @click="irAHome" >
             Volver
         </v-btn>
         </form>
+      <div v-if="cargando" class="overlay"></div>    
+      <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -49,6 +52,11 @@
 
   export default{
   name: 'crearServicioComponent',
+  data() {
+    return {
+      cargando: false,
+    }
+  },
   components: {
       VueNotification,
     },
@@ -98,6 +106,7 @@
       if (this.mostrarErrorNombre != undefined) {            
           return;
       }
+      this.cargando = true;
         const token = localStorage.getItem('jwtToken');
         const decodedToken = jwt_decode(token);
         const userRole = decodedToken.roles[0];
@@ -126,6 +135,7 @@
                 text: 'El tipo solicitud-reserva se actualizó correctamente.',
                 type: 'success',
               });
+          this.cargando = false;
         })
         .catch(error => {
           this.$notify({
@@ -133,6 +143,7 @@
                 text: 'Error, nombre del tipo solicitud-reserva modificado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+          this.cargando = false;
         });
 },
   },

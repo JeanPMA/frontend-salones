@@ -89,8 +89,9 @@
             class="me-4"
             type="submit"
             @click="crearUsuario"
+            :disabled="cargando"
         >
-            Crear
+          {{ cargando ? 'Creando...' : 'Crear' }}
         </v-btn>
     
 
@@ -98,6 +99,8 @@
             Volver
         </v-btn>
         </form>
+      <div v-if="cargando" class="overlay"></div> 
+      <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -117,6 +120,7 @@
             id: null,
       },
       mostrarErrorRol: false,
+      cargando: false,
     }
   },
   components: {
@@ -199,6 +203,7 @@
             if (this.mostrarErrorRol) {
               return;
             }
+            this.cargando = true;
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
@@ -232,6 +237,7 @@
                 text: 'El usuario se guardó correctamente.',
                 type: 'success',
               });
+              this.cargando = false;
             })
             .catch(error => {
               this.$notify({
@@ -239,6 +245,7 @@
                 text: 'Error, nombre o correo de usuario ingresado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+              this.cargando = false;
             });
    
   },

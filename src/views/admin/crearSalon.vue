@@ -92,8 +92,9 @@
             class="me-4"
             type="submit"
             @click="crearSalon"
+            :disabled="cargando"
         >
-            Crear
+        {{ cargando ? 'Creando...' : 'Crear' }}
         </v-btn>
     
 
@@ -101,6 +102,9 @@
             Volver
         </v-btn>
         </form>
+    <div v-if="cargando" class="overlay"></div>
+      
+    <div v-if="cargando" class="loader"></div>
 </div>
   </template>
 
@@ -121,6 +125,8 @@
       error: false,
       errorServicios: false,
       errorUsuario: false,
+
+      cargando: false,
     };
   }, 
   components: {
@@ -199,6 +205,7 @@
             return;
           }
       }
+            this.cargando = true;
             const formData = new FormData();
           
   
@@ -234,6 +241,7 @@
                 text: 'El salón se guardó correctamente.',
                 type: 'success',
               });
+              this.cargando = false;
             })
             .catch(error => {
               this.$notify({
@@ -241,6 +249,7 @@
                 text: 'Error, nombre de salón ingresado ya existente. Intentalo de nuevo',
                 type: 'error',
               });
+              this.cargando = false;
             });
    
   },
@@ -344,6 +353,7 @@
     padding: 40px 100px 40px 100px;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     height: 100%;
+    position: relative; 
 }
 
 .content_crearSalon form{

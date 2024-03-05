@@ -32,7 +32,7 @@ html, body {
     height: 100%;
     margin: 0; 
     background-color: #646464;
-
+    scroll-behavior: smooth;
 }
 
 </style>
