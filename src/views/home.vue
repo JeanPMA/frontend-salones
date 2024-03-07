@@ -224,6 +224,12 @@ export default {
       cargando: false,
     };
   },
+  watch: {
+    '$store.state.sectionToScroll': {
+      handler: 'handleScrollToSection',
+      immediate: true,
+    },
+  },
   mounted() {
     axios.get('http://localhost:8080/v1/salon/forUser')
       .then(response => {
@@ -240,8 +246,7 @@ export default {
     
       window.addEventListener('resize', this.handleResize);
     
-      this.handleResize();
-    
+      this.handleResize(); 
      
    },
    beforeRouteEnter(to, from, next) {
@@ -310,7 +315,7 @@ export default {
       if (windowWidth >= 1000) {
         this.itemsPerPage = 9;
       } else if (windowWidth >= 600) {
-        this.itemsPerPage = 4; // o el valor que desees para esta condición
+        this.itemsPerPage = 4; 
       } else {
         this.itemsPerPage = 1;
       }
@@ -326,6 +331,16 @@ export default {
         return 1;
       }
     },
+    handleScrollToSection(sectionId) {
+      if (sectionId) {
+        const targetSection = `#${sectionId}`;
+        this.$scrollTo(targetSection, {
+          offset: -100,
+          behavior: 'smooth',  
+        });
+        this.$store.commit('clearSectionToScroll');
+      }
+    },
     enviarCorreo() {  
       this.cargando = true;
         const datosCorreo = {
@@ -335,7 +350,6 @@ export default {
           telefono: this.telefono,
           mensaje: this.mensaje
         };
-        console.log(datosCorreo);
     axios.post('http://localhost:8080/v1/correo', datosCorreo)
       .then(response => {
           this.limpiarFormulario();
@@ -388,7 +402,7 @@ body {
   font-weight: 400;
   overflow-x: hidden;
   position: relative;
-  background-color: #646464;
+  background-color: white;
   font-family: 'Centra', sans-serif !important;
 }
 
@@ -435,8 +449,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .content_home{
   background-image: url('../img/5026563.jpg');
-  background-size: cover; /* Escala la imagen para cubrir todo el fondo del botón */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-size: cover; 
+  background-repeat: no-repeat; 
  
   padding: 10px 20px;
   border: none;
@@ -681,7 +695,8 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   padding-top: 50px;
   justify-content: center;
- font-size: 3vw;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .salones_botones{
@@ -974,6 +989,7 @@ h1, h2, h3, h4, h5, h6 {
   .content_home{
     margin-top: 70px;
   }
+
 }
 @media  screen and (max-width: 600px) {
 

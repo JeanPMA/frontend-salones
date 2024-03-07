@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const textoElement = document.getElementById("texto-tipeado");
     let index = 0;
     let isDeleting = false;
-    const typingSpeed = 50; // Velocidad de escritura (ajusta según tus preferencias)
-    const eraseSpeed = 25; // Velocidad de borrado (ajusta según tus preferencias)
-    const delayBeforeStart = 1000; // Retraso antes de comenzar (en milisegundos)
-    const delayBeforeErase = 1000; // Retraso antes de borrar (en milisegundos)
+    const typingSpeed = 50; 
+    const eraseSpeed = 25; 
+    const delayBeforeStart = 1000; 
+    const delayBeforeErase = 1000; 
 
     function type() {
         textoElement.innerHTML = texto.substring(0, index);
@@ -56,7 +56,7 @@ function mostrarImagenes() {
   botonAnterior.disabled = startIndex === 0;
   botonSiguiente.disabled = startIndex >= imagenes.length - imagesPerPage;
 
-  // Calcular el número de página actual
+
   const paginaActual = Math.floor(startIndex / imagesPerPage) + 1;
   const totalPaginas = Math.ceil(imagenes.length / imagesPerPage);
   actualizarNumerosPagina(paginaActual, totalPaginas);

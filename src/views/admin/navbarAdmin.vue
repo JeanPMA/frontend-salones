@@ -66,7 +66,6 @@ export default {
       this.$router.push({ name: 'home'});
     },
     logout() {
-    // Llamar a la acción de logout del store
       this.$store.dispatch('logout', this.$router);
     },
   },

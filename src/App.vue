@@ -25,13 +25,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #646464;
+  background-color: white;
 
 }
 html, body {
     height: 100%;
     margin: 0; 
-    background-color: #646464;
+    background-color: white;
     scroll-behavior: smooth;
 }
 

@@ -71,7 +71,6 @@
   },
   methods: {
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-servicios-admin'});
     },
     bloquearCaracteresEspeciales() {

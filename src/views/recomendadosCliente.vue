@@ -83,7 +83,6 @@ import FiltroServicios from '../components/filtroServicios.vue';
       .then(response => {
         this.salonesRecomendados = response.data;
         this.salonesFiltrados = this.salonesRecomendados;
-        console.log(this.salonesRecomendados);
         const serviciosSeleccionados = JSON.parse(localStorage.getItem('serviciosSeleccionados')) || [];
         this.filtrarSalones(serviciosSeleccionados);
       })
@@ -154,7 +153,7 @@ import FiltroServicios from '../components/filtroServicios.vue';
   
   /*GRID DE SALONES*/
 .salonesRecomendados_list{
-    background-color: #646464;
+    background-color: white;
     width: 100%;
     margin-top: 80px;
     height: 100%;
@@ -175,7 +174,7 @@ import FiltroServicios from '../components/filtroServicios.vue';
 
   
   .salonesRecomendados_title{
-    color: white;
+    color: rgb(0, 0, 0);
     display: flex;
     padding-top: 50px;
     justify-content: center;
@@ -190,7 +189,7 @@ import FiltroServicios from '../components/filtroServicios.vue';
   }
 
   .salonesRecomendados_list .v-pagination{
-    color: white;
+    color: rgb(0, 0, 0);
   }
 
   @media  screen and (max-width: 1000px) {

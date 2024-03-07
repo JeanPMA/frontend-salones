@@ -79,7 +79,6 @@ export default {
   methods: {
     
     irACalificación() {
-    // Redirige a la página de calificacion
       this.$router.push({ name: 'calificar'});
     },
     volverAtras (){
@@ -148,7 +147,7 @@ export default {
 
         axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
-          console.log(response.data);
+
           this.$router.push({ name: 'buzon'});
           this.$notify({
                 title: 'Éxito',
@@ -194,7 +193,7 @@ export default {
         
         axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
-          console.log(response.data);
+
           this.$router.push({ name: 'buzon' });
           this.$notify({
                 title: 'Éxito',

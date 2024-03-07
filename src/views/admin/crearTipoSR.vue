@@ -174,13 +174,16 @@
     background-color: rgb(255, 255, 255);
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
-
+    border: 2px solid #000000;
+    border-top: none;
 }
 .content_crearTipoSR h2{
     padding: 50px; 
     background-color: rgb(255, 255, 255);
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    border: 2px solid #000000;
+    border-bottom: none;
 }
 
 .v-messages__message {

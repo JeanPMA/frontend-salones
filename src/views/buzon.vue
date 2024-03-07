@@ -95,7 +95,7 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
         this.buzon = response.data;
         const estadosSeleccionados = JSON.parse(localStorage.getItem('SREstadoSeleccionado')) || [];
         this.filtrarSR(estadosSeleccionados);
-        console.log(this.buzon);
+    
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
       window.addEventListener('resize', this.handleResize);
@@ -307,7 +307,7 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     width: 100%;
     height: 100%;
     
-    background: rgba(0, 0, 0, 0.7); /* Fondo semitransparente para mayor legibilidad */
+    background: rgba(0, 0, 0, 0.7); 
     color: #fff;
     text-align: end;
     padding: 20px;
@@ -332,7 +332,7 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     display: flex;
     flex-direction: row;
     margin-top: 20px;
-    justify-content: end; /* Distribuye los elementos al principio y al final del contenedor */
+    justify-content: end; 
    
     
   }

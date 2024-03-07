@@ -46,7 +46,6 @@
     },
     },
     created() {
-    // Restaurar el estado desde el localStorage al cargar el componente
     this.mostrarFiltroRol = localStorage.getItem('mostrarFiltroRol') === 'true' || false;
     },
   };

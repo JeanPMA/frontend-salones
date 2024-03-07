@@ -323,15 +323,8 @@ methods: {
       formData.append("tarifa", this.detalleSalonDueño.tarifa);
       formData.append("estado", this.detalleSalonDueño.estado);
             
-      const vSelectComponent = this.$refs.miVSelect;
+    
 
-      if (vSelectComponent && vSelectComponent.selectedItems) {
-        this.serviciosSeleccionados = vSelectComponent.selectedItems.map(item => item.id);
-        console.log("if");
-      } else {      
-        
-      }
-      console.log(this.serviciosSeleccionados);
 
       formData.append('servicios', this.serviciosSeleccionados.join(','));     
       if (this.nuevaImagen) {
@@ -507,11 +500,12 @@ methods: {
     display: flex;
     flex-direction: column;
     position: relative; 
+  
 
    
 }
 .info_salon{
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(222, 222, 222);
     padding: 30px 180px 30px 150px;
     border-radius: 20px;
 }
@@ -707,10 +701,12 @@ methods: {
     flex-direction: row;
     gap: 50px; 
     width: 100%;
+
 }
 
 .salonDueño_column {
     flex: 1;
+    
 }
 .salonDueño_container > .salonDueño_column:nth-child(2) {
     display: flex;

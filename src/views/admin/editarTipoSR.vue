@@ -62,7 +62,6 @@
     },
   methods: {
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-tipoSR-admin'});
     },
     bloquearCaracteresEspeciales() {
@@ -94,7 +93,6 @@
 
   
       this.detalleTipoSR = response.data;
-     console.log(this.detalleTipoSR);
 
     } catch (error) {
       console.error('Error al obtener detalles de la solicitud:', error);

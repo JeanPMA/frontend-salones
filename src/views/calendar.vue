@@ -83,11 +83,11 @@ data() {
 }
 
 .calendar h2{
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .calendar a{
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .body_calendar{
@@ -112,9 +112,11 @@ data() {
 }
 
 .blocked-date {
-  background-color: red; /* Color de fondo rojo para fechas no clickeables */
+  background-color: red; 
 }
-
+.fc .fc-button .fc-icon{
+  vertical-align: bottom;
+}
 @media  screen and (max-width: 400px) {
   .calendar{
     font-size: 4vw;

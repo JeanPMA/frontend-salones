@@ -316,16 +316,7 @@
     };
   },
 };
-/*nombre (value) {
-        if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
 
-        return 'Must be a valid e-mail.'
-      },
-      select (value) {
-        if (value) return true
-
-        return 'Select an item.'
-      },*/
 </script>
 
 <style>
@@ -340,12 +331,16 @@
     background-color: rgb(255, 255, 255);
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
+    border: 2px solid #000000;
+    border-top: none;
 }
 .content_crearUsuario h2{
     padding: 50px; 
     background-color: rgb(255, 255, 255);
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    border: 2px solid #000000;
+    border-bottom: none;
 }
 
 .v-messages__message {

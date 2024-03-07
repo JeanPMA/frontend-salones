@@ -185,16 +185,16 @@ data() {
 
 <style>
 .content_salonesDueño{
-  background-color: #646464;
+  background-color: white;
   height: 100%;
 }
 .content_salonesDueño h1{
     padding-top: 30px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 .content_salonesDueño h3{
     padding-top: 30px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 /*ESTILOS GRID SALONES */
@@ -326,61 +326,7 @@ data() {
     
   }
   
-  .gridSalones_DueñoBtn #numeros-pagina{
-   
-    
-    padding-left: 5px;
-    padding-right: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 6px;
-  }
-  
-  .gridSalones_DueñoBtn #anterior {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .gridSalones_DueñoBtn #siguiente {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .gridSalones_DueñoBtn .numero-pagina {
-    margin-right: 5px; 
-    
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  
-  .gridSalones_DueñoBtn #anterior:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-    
-  }
-  
- .gridSalones_DueñoBtn #siguiente:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  }
-  
-  .gridSalones_DueñoBtn .numero-pagina:hover {
-  
-    
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  
-  }
+
 
 .boton_crearSalonDueño{
   margin-top: 20px;
@@ -401,7 +347,7 @@ data() {
 }
 .boton_crearSalonDueño #crear{
   background-color: transparent;
-    color: white;
+    color: rgb(0, 0, 0);
    
     border: 2px solid #000000;
     
@@ -423,13 +369,13 @@ data() {
 .search_listaSolicitud .search-container input{
     width: 100%;
     padding: 10px;
-    color: white;
-    border: 1px solid white;
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
 }
 
 .content_salonesDueño .v-pagination{
-    color: white;
+    color: rgb(0, 0, 0);
     margin-bottom: 10px;
 }
 
@@ -448,6 +394,9 @@ data() {
 @media  screen and (max-width: 900px) {
     .dueño_gridSalones .grid-containerSalonesDueño {
       grid-template-columns: repeat(2, 1fr); 
+    }
+    .content_salonesDueño .v-pagination{
+      margin-left: 50px;
     }
     .dueño_gridSalones .grid__itemSalon{
       width: 40vw; 

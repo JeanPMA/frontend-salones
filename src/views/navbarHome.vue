@@ -13,9 +13,9 @@
                   </div>-->
                 
                   <div class="botones"> 
-                    <li><a href="#" v-scroll-to="'#section1'" :class="{ 'active': activeButton === 'button1' }" @click="setActiveButton('button1')">SALONES</a> </li>                 
-                    <li><a href="#" v-scroll-to="'#section2'" :class="{ 'active': activeButton === 'button2' }" @click="setActiveButton('button2')">RECOMENDADOS</a></li>
-                    <li><a href="#" v-scroll-to="'#section3'" :class="{ 'active': activeButton === 'button3' }" @click="setActiveButton('button3')">CONTACTANOS</a></li>
+                    <li><a href="#" @click="scrollToSection('section1')">SALONES</a> </li>                 
+                    <li><a href="#" @click="scrollToSection('section2')">RECOMENDADOS</a></li>
+                    <li><a href="#" v-scroll-to="'#section3'" >CONTACTANOS</a></li>
                   </div>
                   <div class="botones_alter" v-if="isLoggedIn">
                     <h3>{{ username }}</h3>
@@ -55,12 +55,12 @@ export default {
     }
   },
   mounted() {
-    // Comprobar si hay un token al cargar el componente
     this.checkToken();
   },
 methods: {
-    setActiveButton(button) {
-      this.activeButton = this.activeButton === button ? null : button;
+   
+    scrollToSection(sectionId) {
+      this.$store.commit('setSectionToScroll', sectionId);
     },
     checkToken() {
       const token = localStorage.getItem('jwtToken');
@@ -125,8 +125,7 @@ nav{
   margin-bottom: 5px;
   width: 100%;
   
-  justify-content: center; /* Centra horizontalmente */
-   /* Centra verticalmente */
+  justify-content: center; 
   height: 10vh;
  
   
@@ -135,7 +134,7 @@ nav{
 
 nav  ul  li{
   display: inline;
-    margin: 0 10px; /* Espacio entre elementos de la lista */
+    margin: 0 10px; 
     position: relative;
     cursor: pointer;
   justify-content: center;
@@ -159,15 +158,15 @@ nav  ul  li{
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 0; /* Ancho inicial de 0 */
-  height: 2px; /* Grosor del borde inferior */
-  background-color: #ff1100; /* Color del borde inferior */
-  transition: width 0.3s; /* Duración de la animación */
+  width: 0; 
+  height: 2px; 
+  background-color: #ff1100;
+  transition: width 0.3s; 
   margin-bottom: -33px;
 }
 
  .botones a:hover::after {
-  width: 100%; /* Ancho completo al pasar el cursor sobre el elemento */
+  width: 100%; 
 }
 
 nav a{

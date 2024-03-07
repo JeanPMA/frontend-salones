@@ -50,7 +50,6 @@ export default {
     },
     methods: {
       logout() {
-      // Llamar a la acción de logout del store
         this.$store.dispatch('logout', this.$router);
       },
     }
@@ -114,15 +113,15 @@ header{
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 0; /* Ancho inicial de 0 */
-    height: 2px; /* Grosor del borde inferior */
-    background-color: #ff1100; /* Color del borde inferior */
-    transition: width 0.3s; /* Duración de la animación */
+    width: 0; 
+    height: 2px; 
+    background-color: #ff1100; 
+    transition: width 0.3s; 
     margin-bottom: -33px;
   }
   
   .menu_salones .botones a:hover::after {
-    width: 100%; /* Ancho completo al pasar el cursor sobre el elemento */
+    width: 100%; 
   }
   
   
@@ -159,15 +158,15 @@ header{
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 0; /* Ancho inicial de 0 */
-    height: 2px; /* Grosor del borde inferior */
-    background-color: #ff1100; /* Color del borde inferior */
-    transition: width 0.3s; /* Duración de la animación */
+    width: 0; 
+    height: 2px; 
+    background-color: #ff1100;
+    transition: width 0.3s; 
     margin-bottom: -33px;
   }
   
    .userMenu a:hover::after {
-    width: 100%; /* Ancho completo al pasar el cursor sobre el elemento */
+    width: 100%; 
     
   }
  
@@ -273,7 +272,7 @@ header{
   }
   
   .userMenu > li > ul > li > a:hover::after {
-    width: 100%; /* Ancho completo al pasar el cursor sobre el elemento */
+    width: 100%; 
   }
 
   

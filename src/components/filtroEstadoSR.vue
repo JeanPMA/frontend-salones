@@ -60,7 +60,6 @@
     },
     },
     created() {
-    // Restaurar el estado desde el localStorage al cargar el componente
     this.mostrarFiltroSR = localStorage.getItem('mostrarFiltroSR') === 'true' || false;
     },
   };

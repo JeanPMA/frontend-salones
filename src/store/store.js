@@ -3,9 +3,15 @@ import { createStore } from 'vuex';
 const store = createStore({
   state: {
     token: null,
-    // Otros estados que puedas necesitar
+    sectionToScroll: null,
   },
   mutations: {
+    setSectionToScroll(state, sectionId) {
+      state.sectionToScroll = sectionId;
+    },
+    clearSectionToScroll(state) {
+      state.sectionToScroll = null;
+    },
     setToken(state, token) {
       state.token = token;
     },

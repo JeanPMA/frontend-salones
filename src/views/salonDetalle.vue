@@ -113,7 +113,6 @@ name: 'salonDetalleComponent',
 
       const response = await axios.get(`http://localhost:8080/v1/imagen-salon/${id}/imagenes`, config);  
       this.imagenesSalon = response.data;
-      console.log(this.imagenesSalon);
       } catch (error) {
         console.error('Error al imagenes:', error);
       }

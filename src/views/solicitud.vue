@@ -165,7 +165,6 @@ export default {
             };
             axios.post('http://localhost:8080/v1/solicitud-reserva', this.solicitudReserva, config  )
             .then(response => {
-              console.log('Solicitud de reserva guardada:', response.data);
               this.$router.push({ name: 'salones'});
               this.$notify({
                 title: 'Éxito',
@@ -228,11 +227,8 @@ export default {
       this.mostrarErrorDetalle = false;
     },
     onSuccess(message) {
-    // Manejar evento de éxito
-    console.log('Éxito:', message);
   },
   onError(message) {
-    // Manejar evento de error
     console.error('Error:', message);
   },
     },

@@ -139,7 +139,6 @@ data() {
     return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
     irADetalleSR(id) {
-    // Redirige a la página de calificacion
       this.$router.push({ name: 'solicitud-reserva' ,params: { id: id }});
     },
     filtrarSR(estadosSeleccionados) {
@@ -180,11 +179,11 @@ data() {
 <style>
 
 .content_reservasDueño{
-  background-color: #646464;
+  background-color: white;
 }
 .content_reservasDueño h1{
     padding-top: 30px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 .search_listaReserva{
     display: flex;
@@ -194,16 +193,7 @@ data() {
     margin-top: 20px;
 }
 
-.content_reservasDueño .filtro-container a{
-  color: rgb(255, 255, 255);
-}
 
-.content_reservasDueño .filtro-container span{
-  color: rgb(255, 255, 255);
-}
-.content_reservasDueño .filtro-container label{
-  color: rgb(255, 255, 255);
-}
 
 /*ESTILOS GRID SOLICITUDES */
 .dueño_gridReservas{
@@ -380,7 +370,7 @@ data() {
   }
 
   .content_reservasDueño .v-pagination{
-    color: white;
+    color: rgb(0, 0, 0);
     margin-bottom: 10px;
   }
 

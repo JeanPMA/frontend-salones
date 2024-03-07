@@ -140,7 +140,6 @@ components: {
     return index >= this.startIndex && index < this.startIndex + this.itemsPerPage;
     },
     irADetalleSR(id) {
-    // Redirige a la página de calificacion
       this.$router.push({ name: 'solicitud-reserva', params: { id: id }});
     },
     filtrarSR(estadosSeleccionados) {
@@ -181,11 +180,11 @@ components: {
 
 <style>
 .content_solicitudesDueño{
-  background-color: #646464;
+  background-color: white;
 }
 .content_solicitudesDueño h1{
     padding-top: 30px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 .search_listaSolicitud{
     display: flex;
@@ -195,20 +194,11 @@ components: {
     margin-top: 20px;
 }
 
-.content_solicitudesDueño .filtro-container a{
-  color: rgb(255, 255, 255);
-}
 
-.content_solicitudesDueño .filtro-container span{
-  color: rgb(255, 255, 255);
-}
-.content_solicitudesDueño .filtro-container label{
-  color: rgb(255, 255, 255);
-}
 
 /*ESTILOS GRID SOLICITUDES */
 .dueño_gridSolicitudes{
-    padding: 20px 50px 50px 50px;
+    padding: 20px 50px 50px 80px;
     margin: 0px 20px 0px 20px;
   
   }
@@ -324,60 +314,10 @@ components: {
     justify-content: end; 
   }
   
-  .gridSolicitudes_DueñoBtn #numeros-pagina{  
-    padding-left: 5px;
-    padding-right: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 6px;
-  }
-  
-  .gridSolicitudes_DueñoBtn #anterior {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .gridSolicitudes_DueñoBtn #siguiente {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .gridSolicitudes_DueñoBtn .numero-pagina {
-    margin-right: 5px; 
-    
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  
-  .gridSolicitudes_DueñoBtn #anterior:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-    
-  }
-  
- .gridSolicitudes_DueñoBtn #siguiente:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  }
-  
-  .gridSolicitudes_DueñoBtn .numero-pagina:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  
-  }
+
 
   .content_solicitudesDueño .v-pagination{
-    color: white;
+    color: rgb(0, 0, 0);
     margin-bottom: 10px;
   }
 
@@ -429,7 +369,10 @@ components: {
   }
 
   @media  screen and (max-width: 600px) {
+    .dueño_gridSolicitudes{
+      padding: 20px 50px 50px 100px;
 
+    }
     .dueño_gridSolicitudes .grid-containerDueño {
       grid-template-columns: repeat(1, 2fr); 
     }

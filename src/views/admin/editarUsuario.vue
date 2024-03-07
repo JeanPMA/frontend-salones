@@ -192,7 +192,6 @@ components: {
     },
 methods: {
   irAHome() {
-  // Redirige a la página de detalle del salón
     this.$router.push({ name: 'lista-usuarios-admin'});
   },
   limitesTelefono(){
@@ -268,7 +267,6 @@ methods: {
 
   
       this.usuario = response.data;
-      console.log(this.usuario);
 
     } catch (error) {
       console.error('Error al obtener detalles de la solicitud:', error);

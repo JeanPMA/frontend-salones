@@ -66,7 +66,6 @@ export default {
     },
   methods: {
     login() {
-      // Realiza la solicitud de login al backend
       const credentials = { username: this.username, password: this.password };
       
 
@@ -129,7 +128,6 @@ export default {
                     type: 'error',
                 });
             } else {
-                // Otro tipo de error
                 console.error("Error durante el inicio de sesión:", error);
                 this.$notify({
                     title: 'Error',

@@ -46,7 +46,6 @@
     },
     },
     created() {
-    // Restaurar el estado desde el localStorage al cargar el componente
     this.mostrarFiltro = localStorage.getItem('mostrarFiltro') === 'true' || false;
     },
   };
@@ -65,7 +64,7 @@
 }
 .filtro_servicios span {
     margin-left: 20px;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
 
 }
 .filtro_servicios a {
@@ -73,14 +72,14 @@
   margin-right: 10px; 
   padding-left: 10px;
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
 }
 
 .filtro_lista {
   display: flex;
   flex-direction: row;
   background-color: transparent;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   padding: 10px;
   top: 50px;
   right: 0;

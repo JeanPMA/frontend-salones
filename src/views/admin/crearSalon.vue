@@ -134,7 +134,6 @@
     },
   methods: {
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones-admin'});
     },
     bloquearCaracteresEspeciales() {
@@ -354,6 +353,7 @@
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     height: 100%;
     position: relative; 
+ 
 }
 
 .content_crearSalon form{
@@ -361,12 +361,16 @@
     background-color: rgb(255, 255, 255);
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
+    border: 2px solid #000000;
+    border-top: none;
 }
 .content_crearSalon h2{
     padding: 50px; 
     background-color: rgb(255, 255, 255);
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    border: 2px solid #000000;
+    border-bottom: none;
 }
 
 .content_crearSalon p{

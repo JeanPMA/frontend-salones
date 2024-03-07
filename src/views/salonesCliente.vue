@@ -162,7 +162,7 @@
   
   /*GRID DE SALONES*/
 .salones_list{
-    background-color: #646464;
+    background-color: white;
     width: 100%;
     margin-top: 80px;
     height: 100%;
@@ -232,7 +232,7 @@
     width: 100%;
     height: 100%;
     
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mayor legibilidad */
+    background: rgba(0, 0, 0, 0.5); 
     color: #fff;
     text-align: center;
     padding: 20px;
@@ -248,7 +248,7 @@
   }
   
   .salones_title{
-    color: white;
+    color: rgb(0, 0, 0);
     display: flex;
     padding-top: 50px;
     justify-content: center;
@@ -259,7 +259,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 20px;
-    justify-content: end; /* Distribuye los elementos al principio y al final del contenedor */
+    justify-content: end; 
    
     
   }
@@ -329,7 +329,7 @@
 }
 
 .salones_list .v-pagination{
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 @media  screen and (max-width: 1000px) {

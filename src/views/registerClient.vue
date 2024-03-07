@@ -107,7 +107,6 @@ export default {
             nombre: this.nombre,
             apellido: this.apellido,
         }
-        console.log(data);
         this.$axios.post("http://localhost:8080/v1/register", data)
         .then(response => {
           
@@ -124,7 +123,6 @@ export default {
                     type: 'success',
                   });
             } else {
-                console.log("error")
                 this.$router.push("/register");             
                  this.$notify({
                     title: 'Error',

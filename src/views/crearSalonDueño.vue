@@ -132,7 +132,6 @@
   },
   methods: {
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones'});
     },
     ajustarValorEstado() {
@@ -360,12 +359,16 @@
     background-color: rgb(255, 255, 255);
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
+    border: 2px solid #000000;
+    border-top: none;
 }
 .content_crearSalonDueño h2{
     padding: 50px; 
     background-color: rgb(255, 255, 255);
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    border: 2px solid #000000;
+    border-bottom: none;
 }
 .content_crearSalonDueño p{
     color: rgb(176, 0, 32); 

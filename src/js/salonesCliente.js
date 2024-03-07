@@ -17,7 +17,7 @@ function mostrarImagenes() {
   botonAnterior.disabled = startIndex === 0;
   botonSiguiente.disabled = startIndex >= imagenes.length - imagesPerPage;
 
-  // Calcular el número de página actual
+  
   const paginaActual = Math.floor(startIndex / imagesPerPage) + 1;
   const totalPaginas = Math.ceil(imagenes.length / imagesPerPage);
   actualizarNumerosPagina(paginaActual, totalPaginas);

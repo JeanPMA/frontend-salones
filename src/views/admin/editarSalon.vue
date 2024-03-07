@@ -203,7 +203,6 @@
   },
   methods: {
     irAHome() {
-    // Redirige a la página de detalle del salón
       this.$router.push({ name: 'lista-salones-admin'});
     },
     bloquearCaracteresEspeciales() {
@@ -295,7 +294,6 @@
       };
       const response = await axios.get(`http://localhost:8080/v1/salon/${id}`, config);
       this.salon = response.data;
-      console.log(this.salon);
     } catch (error) {
       console.error('Error al obtener detalles de la solicitud:', error);
     }
@@ -368,26 +366,13 @@
             formData.append('tarifa', this.tarifa.value.value);
             formData.append('estado', this.salon.estado);
             formData.append('usuario', this.salon.usuario.id);
-            const vSelectComponent = this.$refs.miVSelect;
-
-              if (vSelectComponent && vSelectComponent.selectedItems) {
-                this.serviciosSeleccionados = vSelectComponent.selectedItems.map(item => item.id);
-                console.log("if");
-              } else {      
-                
-              }
+  
 
             formData.append('servicios', this.serviciosSeleccionados.join(','));
             if (this.nuevaImagen) {
               formData.append('multipartFile', this.nuevaImagen);
             }
-            const formDataObj = {};
-            formData.forEach((value, key) => {
-              formDataObj[key] = value;
-            });
-
-            // Imprime el objeto resultante en la consola
-            console.log(formDataObj);
+         
             const token = localStorage.getItem('jwtToken');
             const decodedToken = jwt_decode(token);
             const userRole = decodedToken.roles[0];
