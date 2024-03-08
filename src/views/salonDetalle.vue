@@ -130,8 +130,8 @@ name: 'salonDetalleComponent',
 
 <style>
 .content_detalleSalon{
-    background-color: black;
-    color: white;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -148,6 +148,7 @@ name: 'salonDetalleComponent',
     height: 200px;
     border-radius: 20px;
     margin-top: 20px;
+    border: 1px solid #000000;
 }
 
 .detalleSalon_text {
@@ -181,7 +182,7 @@ name: 'salonDetalleComponent',
 
 .content_detalleSalon p {
   
-  color: #ffffffa4;
+  color: #000000;
   margin-left: 10px; 
   text-align: justify;
   background-color: #6666668b;

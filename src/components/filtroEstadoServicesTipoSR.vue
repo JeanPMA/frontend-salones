@@ -6,13 +6,14 @@
             </span>
             <a href="#" @click="mostrarFiltroServiceTipoSR = !mostrarFiltroServiceTipoSR">FILTRO</a>
         </div>
-  
+      <transition name="filtro_lista">
         <div v-if="mostrarFiltroServiceTipoSR" class="filtro_listaServiceTipoSR">
         <label v-for="estado in estadosAdmin" :key="estado.id">
             <input type="checkbox" v-model="servicesTipoSRSeleccionados" :value="estado.valor" />
             {{ estado.nombre }}
         </label>
         </div>
+      </transition>
     </div>
   </template>
   
@@ -88,5 +89,11 @@
 
 .filtro_listaServiceTipoSR button {
   margin-top: 10px;
+}
+.filtro_lista-enter-active, .filtro_lista-leave-active {
+  transition: opacity 0.5s;
+}
+.filtro_lista-enter-from, .filtro_lista-leave-to {
+  opacity: 0;
 }
 </style>

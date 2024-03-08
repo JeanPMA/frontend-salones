@@ -6,13 +6,14 @@
             </span>
             <a href="#" @click="mostrarFiltro = !mostrarFiltro">FILTRO</a>
         </div>
-  
-      <div v-if="mostrarFiltro" class="filtro_lista">
-        <label v-for="servicio in servicios" :key="servicio.id">
-          <input type="checkbox" v-model="serviciosSeleccionados" :value="servicio.nombre" />
-          {{ servicio.nombre }}
-        </label>
-      </div>
+    <transition name="filtro_lista">
+        <div v-if="mostrarFiltro" class="filtro_lista">
+          <label v-for="servicio in servicios" :key="servicio.id">
+            <input type="checkbox" v-model="serviciosSeleccionados" :value="servicio.nombre" />
+            {{ servicio.nombre }}
+          </label>
+        </div>
+    </transition>
     </div>
   </template>
   
@@ -84,6 +85,7 @@
   top: 50px;
   right: 0;
   z-index: 1; 
+  transition: 0.2s ease;
 }
 
 .filtro_lista label {
@@ -93,5 +95,12 @@
 
 .filtro_lista button {
   margin-top: 10px;
+}
+
+.filtro_lista-enter-active, .filtro_lista-leave-active {
+  transition: opacity 0.5s;
+}
+.filtro_lista-enter-from, .filtro_lista-leave-to {
+  opacity: 0;
 }
 </style>

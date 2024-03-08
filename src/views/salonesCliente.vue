@@ -194,6 +194,7 @@
     border-radius: 10px;
     width: 30vw; 
     height: 20vw;
+    border: 1px solid #000000;
   }
   
   .grid__item h2{

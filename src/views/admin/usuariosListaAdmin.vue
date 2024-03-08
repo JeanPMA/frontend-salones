@@ -59,14 +59,16 @@
             <td>{{ item.nombre }}</td>
             <td>{{ item.apellido }}</td>
             <td>{{ item.correo }}</td>
-            <td>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+            <td :class="{ 'habilitadoAdmin': item.estado === 1, 'deshabilitadoAdmin': item.estado !== 1 }">
+              {{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}
+            </td>
             <td>{{ item.rol.nombre }}</td>
             <td>
               <div class="botones_Admin">              
-                    <a id="eliminar" @click="eliminarUsuario(item.id)">ELIMINAR</a>  
-                    <a id="editar" @click="irAUsuario(item.id)">EDITAR</a>
-                    <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarUsuario(item.id, item.estado)">HABILITAR</a> 
-                    <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarUsuario(item.id, item.estado)">DESHABILITAR</a>
+                    <a id="eliminar" @click="eliminarUsuario(item.id)"><font-awesome-icon :icon="['fas', 'trash']" /></a>  
+                    <a id="editar" @click="irAUsuario(item.id)"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></a>
+                    <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarUsuario(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye']" /></a> 
+                    <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarUsuario(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye-slash']" /></a>
               </div> 
             </td>
           </tr>
@@ -83,7 +85,7 @@
 </div>
   </template>
   
-  <script>
+<script>
   import NavbarAdmin from '@/views/admin/navbarAdmin.vue';
   import axios from 'axios';
   import jwt_decode from 'jwt-decode';
@@ -269,7 +271,7 @@
   height: 100vh;
 }
   .listaUsuariosAdmin_title{
-    padding-top: 50px;
+    padding-top: 30px;
   }
   .v-data-table__th{
   font-size: 1.2rem; 
@@ -278,20 +280,24 @@
 }
 .search_listaAdmin{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    margin: 0px 100px 0px 100px;
+    margin: 0px 80px 0px 80px;
     margin-top: 20px;
 }
 
 /* botones estilos*/
+.botones_Admin{
+  width: auto;
+  display: flex;
+  justify-content: center;
+}
 
 .botones_Admin a{
     margin-left: 5px;
     margin-right: 5px;
     padding: 8px;
-    width: 150px;
-    height: 35px;
+
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -315,60 +321,90 @@
 
  
   .botones_Admin #editar{
-    background-color: #0040ff;
+    background-color: transparent;
     border: 2px solid #0040ff;
-    color: #ffffff;
+    color: #0040ff;
    transition: 0.3s ease;   
    
   }
 
 .botones_Admin #editar:hover {
+    background-color: #d4d4d4b7;
+   
+  }
+  .botones_Admin #eliminar{
     background-color: transparent;
-    color: #0040ff;
+    color: #ff0000;
+    border: 2px solid #ff0000;
+   transition: 0.3s ease; 
+   
+  }
+
+  .botones_Admin #eliminar:hover {
+    background-color: #d4d4d4b7;
+   
+  }
+  .botones_Admin #habilitar{
+    background-color: #2cbd00;
+    color: #ffffff;
+    border: 2.5px solid #2cbd00;
+   transition: 0.3s ease; 
+   
+  }
+
+  .botones_Admin #habilitar:hover {
+    background-color: transparent;
+    color: #2cbd00;
    
   }
 
 .boton_crearAdmin{
-
-
-margin-top: 20px;
-display: flex;
-
+  margin-top: 10px;
+  display: flex;
+  margin-bottom: 20px;
 
 }
 
 .boton_crearAdmin a{
-  margin-left: 80%;
- padding: 6px;
- width: 150px;
- height: 35px;
- border: none;
- border-radius: 8px;
- cursor: pointer;
- font-size: 14px;
- text-decoration: none;
+  display: flex;
+  margin-left: 60px;
+  justify-content: center;
+  padding: 6px;
+  width: 180px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
 }
 .boton_crearAdmin #crear{
-    background-color: #00aa39;
+    background-color: transparent;
     border: 2px solid #00aa39;
-    color: #ffffff;
+    color: #00aa39;
    transition: 0.3s ease;   
    
   }
 
 .boton_crearAdmin #crear:hover {
-    background-color: transparent;
-    color: #00aa39;
+    background-color: #d4d4d4b7;
 }
 
 .content_usuariosListaAdmin .v-pagination{
     margin-top: 0px;
 }
+.habilitadoAdmin {
+  color: #00aa39; 
+}
+
+.deshabilitadoAdmin {
+  color: #ff0000;
+}
 
 @media  screen and (max-width: 1000px) {
   .boton_crearAdmin a{
     margin-left: auto;
-    align-items: end;
+    width: 150px;
   }
 }
 

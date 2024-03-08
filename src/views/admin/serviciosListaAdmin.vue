@@ -47,14 +47,16 @@
           >
             <td>{{ item.nombre }}</td>
             <td>{{ item.detalle }}</td>
-            <td>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+            <td :class="{ 'habilitadoAdmin': item.estado === 1, 'deshabilitadoAdmin': item.estado !== 1 }">
+              {{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}
+            </td>
             <td>{{ item.created_at }}</td>
             <td>
               <div class="botones_Admin">
-                  <a id="eliminar" @click="eliminarServicio(item.id)">ELIMINAR</a>        
-                    <a id="editar" @click="irAServicio(item.id)">EDITAR</a> 
-                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarServicio(item.id, item.estado)">HABILITAR</a> 
-                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarServicio(item.id, item.estado)">DESHABILITAR</a>
+                  <a id="eliminar" @click="eliminarServicio(item.id)"><font-awesome-icon :icon="['fas', 'trash']" /></a>        
+                    <a id="editar" @click="irAServicio(item.id)"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></a> 
+                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarServicio(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye']" /></a> 
+                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarServicio(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye-slash']" /></a>
                  
               </div> 
             </td>
@@ -256,7 +258,7 @@
   height: 100vh;
 }
   .listaServiciosAdmin_title{
-    padding-top: 50px;
+    padding-top: 30px;
   }
  
 .content_serviciosListaAdmin .v-pagination{

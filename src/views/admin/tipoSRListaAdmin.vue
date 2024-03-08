@@ -44,14 +44,16 @@
             :key="index"
           >
             <td>{{ item.nombre }}</td>
-            <td>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+            <td :class="{ 'habilitadoAdmin': item.estado === 1, 'deshabilitadoAdmin': item.estado !== 1 }">
+              {{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}
+            </td>
             <td>{{ item.created_at }}</td>
             <td>
               <div class="botones_Admin">
-                  <a id="eliminar" @click="eliminarTipoSR(item.id)">ELIMINAR</a>           
-                  <a id="editar" @click="irATipoSR(item.id)">EDITAR</a>
-                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarTipoSR(item.id, item.estado)">HABILITAR</a> 
-                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarTipoSR(item.id, item.estado)">DESHABILITAR</a> 
+                  <a id="eliminar" @click="eliminarTipoSR(item.id)"><font-awesome-icon :icon="['fas', 'trash']" /></a>           
+                  <a id="editar" @click="irATipoSR(item.id)"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></a>
+                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarTipoSR(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye']" /></a> 
+                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarTipoSR(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye-slash']" /></a> 
               </div> 
             </td>
           </tr>
@@ -250,35 +252,10 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
   
 <style>
   .listaSRAdmin_title{
-    padding-top: 50px;
+    padding-top: 30px;
   }
  
-  .botones_Admin #eliminar{
-    background-color: #00aeff;
-    color: #ffffff;
-    border: 2px solid #00aeff;
-   transition: 0.3s ease; 
-   
-  }
 
-  .botones_Admin #eliminar:hover {
-    background-color: transparent;
-    color: #00aeff;
-   
-  }
-  .botones_Admin #habilitar{
-    background-color: #2cbd00;
-    color: #ffffff;
-    border: 2px solid #2cbd00;
-   transition: 0.3s ease; 
-   
-  }
-
-  .botones_Admin #habilitar:hover {
-    background-color: transparent;
-    color: #2cbd00;
-   
-  }
 
 .content_serviciosListaAdmin .v-pagination{
     margin-top: 0px;

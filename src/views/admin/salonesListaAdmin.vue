@@ -7,11 +7,12 @@
       </div>
       <div class="search_listaAdmin">
         <input v-model="searchTerm" placeholder="Buscar..." />
-            
+        
       </div>
       <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
-                <FiltroServicios @filtroCambiado="filtrarSalones" />
+        <FiltroServicios @filtroCambiado="filtrarSalones" />
       </div>
+   
       <div class="boton_crearAdmin">
         <RouterLink to="/crear-salon-admin">
             <a id="crear" >CREAR</a>
@@ -49,13 +50,15 @@
             <td>{{ item.nombre }}</td>
             <td>{{ item.usuario.nombre }}</td>
             <td>{{ item.direccion }}</td>
-            <td>{{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+            <td :class="{ 'habilitadoAdmin': item.estado === 1, 'deshabilitadoAdmin': item.estado !== 1 }">
+              {{ item.estado === 1 ? 'Habilitado' : 'Deshabilitado' }}
+            </td>
             <td>
               <div class="botones_Admin">
-                  <a id="eliminar" @click="eliminarSalon(item.id)">ELIMINAR</a>  
-                  <a id="editar" @click="irASalon(item.id)">EDITAR</a>
-                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarSalon(item.id, item.estado)">HABILITAR</a> 
-                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarSalon(item.id, item.estado)">DESHABILITAR</a>
+                  <a id="eliminar" @click="eliminarSalon(item.id)"><font-awesome-icon :icon="['fas', 'trash']" /></a>  
+                  <a id="editar" @click="irASalon(item.id)"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></a>
+                  <a id="habilitar"  v-if="item.estado === 0"  @click="deshabilitarHabilitarSalon(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye']" /></a> 
+                  <a id="deshabilitar" v-if="item.estado === 1" @click="deshabilitarHabilitarSalon(item.id, item.estado)"><font-awesome-icon :icon="['fas', 'eye-slash']" /></a>
               </div> 
             </td>
           </tr>
@@ -260,7 +263,7 @@
   height: 100vh;
 }
   .listaSalonesAdmin_title{
-    padding-top: 50px;
+    padding-top: 30px;
   }
   .v-data-table__th{
   font-size: 1.2rem; 
@@ -269,34 +272,13 @@
 }
 
 
+
 /* botones estilos*/
-.botones_Admin{
-
-   width: auto;
-   
-}
-
-.botones_Admin a{
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 8px;
-    width: 150px;
-    height: 35px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    text-decoration: none;
-}
 
 
 .boton_crearSalonAdmin{
-
-
-margin-top: 20px;
-display: flex;
-
-
+  margin-top: 20px;
+  display: flex;
 }
 
 .boton_crearSalonAdmin a{
@@ -310,7 +292,9 @@ display: flex;
  font-size: 14px;
  text-decoration: none;
 }
-
+.filtro-container{
+  margin-left: 70px;
+}
 .content_salonesListaAdmin .filtro-container .filtro_servicios a{
   color: black;
 }
@@ -327,9 +311,11 @@ display: flex;
 .search_listaAdmin input{
     width: 100%;
     padding: 10px;
+   
     color: rgb(0, 0, 0);
     border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
 }
+
 </style>
   

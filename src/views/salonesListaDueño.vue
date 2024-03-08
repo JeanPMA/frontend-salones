@@ -329,7 +329,7 @@ data() {
 
 
 .boton_crearSalonDueño{
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 60px;
   display: flex;
 }
@@ -340,24 +340,22 @@ data() {
  width: 200px;
  height: 35px;
  border: none;
- border-radius: 8px;
+ border-radius: 5px;
  cursor: pointer;
  font-size: 14px;
  text-decoration: none;
 }
 .boton_crearSalonDueño #crear{
-  background-color: transparent;
-    color: rgb(0, 0, 0);
-   
-    border: 2px solid #000000;
-    
-   transition: 0.3s ease;   
+    background-color: rgb(1, 85, 180);
+    color: rgb(255, 255, 255);  
+    border: 2px solid rgb(1, 85, 180); 
+    transition: 0.3s ease;   
    
   }
 
 .boton_crearSalonDueño #crear:hover {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: transparent;
+  color: #000000;
 }
 .search_listaSolicitud{
     display: flex;

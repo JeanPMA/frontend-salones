@@ -33,20 +33,20 @@
             v-model="servicio.estado"
             disabled 
         ></v-text-field>
- 
+        <v-btn @click="irAHome" color="grey-lighten-1">
+            Volver
+        </v-btn>
+
         <v-btn
-            class="me-4"
+            class="ml-4"
             type="submit"
             @click="editarServicio"
             :disabled="cargando"
+            color="grey-darken-3"
         >
           {{ cargando ? 'Guardando...' : 'Guardar' }}
         </v-btn>
-    
 
-        <v-btn @click="irAHome" >
-            Volver
-        </v-btn>
         </form>
     <div v-if="cargando" class="overlay"></div>    
     <div v-if="cargando" class="loader"></div>

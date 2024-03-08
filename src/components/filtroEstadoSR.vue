@@ -6,13 +6,14 @@
             </span>
             <a href="#" @click="mostrarFiltroSR = !mostrarFiltroSR">FILTRO</a>
         </div>
-  
-      <div v-if="mostrarFiltroSR" class="filtro_listaSR">
-        <label v-for="estado in estados" :key="estado.id">
-          <input type="checkbox" v-model="estadosSeleccionados" :value="estado.nombre" />
-          {{ estado.nombre }}
-        </label>
-      </div>
+      <transition name="filtro_lista">
+        <div v-if="mostrarFiltroSR" class="filtro_listaSR">
+          <label v-for="estado in estados" :key="estado.id">
+            <input type="checkbox" v-model="estadosSeleccionados" :value="estado.nombre" />
+            {{ estado.nombre }}
+          </label>
+        </div>
+      </transition>
     </div>
   </template>
   
@@ -107,6 +108,13 @@
 .filtro_listaSR button {
   margin-top: 10px;
 }
+.filtro_lista-enter-active, .filtro_lista-leave-active {
+  transition: opacity 0.5s;
+}
+.filtro_lista-enter-from, .filtro_lista-leave-to {
+  opacity: 0;
+}
+
   @media  screen and (max-width: 510px) {
   .filtro_listaSR{
     flex-direction: column;

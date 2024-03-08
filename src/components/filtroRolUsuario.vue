@@ -6,13 +6,14 @@
             </span>
             <a href="#" @click="mostrarFiltroRol = !mostrarFiltroRol">FILTRO</a>
         </div>
-  
+    <transition name="filtro_lista">
       <div v-if="mostrarFiltroRol" class="filtro_listaRol">
         <label v-for="rol in roles" :key="rol.id">
           <input type="checkbox" v-model="rolesSeleccionados" :value="rol.nombre" />
           {{ rol.nombre }}
         </label>
       </div>
+    </transition>
     </div>
   </template>
   
@@ -91,5 +92,11 @@
 
 .filtro_listaRol button {
   margin-top: 10px;
+}
+.filtro_lista-enter-active, .filtro_lista-leave-active {
+  transition: opacity 0.5s;
+}
+.filtro_lista-enter-from, .filtro_lista-leave-to {
+  opacity: 0;
 }
 </style>

@@ -88,19 +88,20 @@
           <p v-if="error">Por favor, selecciona una imagen.</p>
         </div>
 
+        <v-btn @click="irAHome" color="grey-lighten-1">
+            Volver
+        </v-btn>
+       
         <v-btn
-            class="me-4"
+            class="ml-4"
             type="submit"
             @click="crearSalon"
             :disabled="cargando"
+            color="grey-darken-3"
         >
         {{ cargando ? 'Creando...' : 'Crear' }}
         </v-btn>
     
-
-        <v-btn @click="irAHome" >
-            Volver
-        </v-btn>
         </form>
     <div v-if="cargando" class="overlay"></div>
       

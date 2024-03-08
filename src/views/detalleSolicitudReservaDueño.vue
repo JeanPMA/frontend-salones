@@ -331,7 +331,7 @@ export default {
     justify-content: center;
     height: 100vh;
     flex-direction: column;
-    background-color: #535353;
+    background-color: #000000a4;
     color: rgb(255, 255, 255);
 }
 .body_detalleSR h2{
@@ -465,15 +465,15 @@ export default {
    
   }
   .botones_SolicitudReserva #eliminar{
-    background-color: #8400ff;
+    background-color: #ff0000;
     color: #ffffff;
-   transition: 0.3s ease;   
-   
+    border: 2px solid #ff0000;
+    transition: 0.3s ease;   
   }
 
 .botones_SolicitudReserva #eliminar:hover {
-    background-color: #2a005ea3;
-    color: #ffffff;
+    background-color: transparent;
+    color: #ff0000;
 }
 
 @media  screen and (max-width: 800px) {
@@ -489,6 +489,17 @@ export default {
       height: auto;
     }
 }
+
+@media  screen and (max-width: 600px) {
+    .botones_SolicitudReserva{
+      flex-direction: column;
+    }
+    .botones_SolicitudReserva a{
+      width: 80%;
+      margin-top: 10px;
+    }
+  }
+
 @media  screen and (max-width: 400px) {
   .content_detalleSR .info_detalleSR{
     margin-left: 0px;

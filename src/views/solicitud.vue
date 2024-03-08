@@ -56,8 +56,9 @@
                 <span v-if="mostrarErrorDetalle" class="error-message">El detalle no puede estar vacío</span>
 
                 <div class="form_btn">
+                  <a  id="cancel" @click="volverAtras">CANCELAR</a>
                   <a id="send" @click="guardarSolicitudReserva" :disabled="cargando">{{ cargando ? 'ENVIANDO...' : 'ENVIAR' }}</a>
-                    <a  id="cancel" @click="volverAtras">CANCELAR</a>
+                  
 
                 </div>
             </form>
@@ -239,7 +240,7 @@ export default {
 <style>
 
 .solicitud_content{
-    background-color: #5f76f7;
+    background-color: #000000a4;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -315,50 +316,64 @@ export default {
 
 
 .form_btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
+    margin: 20px 5px 10px 5px;
+   text-align: center;
+    justify-items: end;
+    text-decoration: none;
+    padding-bottom: 20px;
 }
 
 .form_btn a{
-    margin-left: 30px;
-    margin-right: 30px;
-    padding: 5px 20px 10px 20px;
-    width: 150px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 10px 20px 10px 20px;
+
+    border: 2px solid rgb(45, 45, 45);
     cursor: pointer;
-    font-size: 20px;
+
     text-align: center;
 }
 
 .form_btn #send{
-    background-color: #161616;
-    color: #fff;
-   transition: 0.3s ease; 
+      color: rgb(0, 0, 0); 
+      border: 2px solid rgb(45, 45, 45);
+      padding: 10px 20px 10px 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition:  0.3s ease;
+      align-items: center;
+      width: 100%;
+      height: 100%;  
+      background-color: rgb(255, 255, 255);
    
   }
 
 .form_btn #send:hover {
-    background-color: #7c7c7c;
-    color: #030303;
+    color: #ffffff; 
+    background-color: rgb(54, 54, 54);
    
   }
 
 .form_btn #cancel{
-    background-color: #7c7c7c;
-    color: #030303;
-    transition: 0.3s ease; 
-
-   
+    color: #ffffff; 
+    border: 2px solid rgb(45, 45, 45);
+    padding: 10px 20px 10px 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition:  0.3s ease;
+    align-items: center;
+    width: 100%;
+    height: 100%;  
+    background-color: rgb(54, 54, 54);
+    text-decoration: none;
   }
 
 .form_btn #cancel:hover {
-    background-color: #161616;
-    color: #fff;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    text-decoration: none;
   }
+
   .error-message {
     color: rgb(176, 0, 32); 
     font-size: 14px;
@@ -377,6 +392,14 @@ export default {
     }
     .solicitud_form{
       width: 90vw;
+    }
+  }
+
+  @media  screen and (max-width: 350px) {
+    .form_btn{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
   }
 </style>

@@ -611,7 +611,7 @@ methods: {
 .content_salonDueño .buttonDueño-1{
     color: rgb(255, 255, 255);
     
-    border: 2px solid rgb(0, 32, 176);
+    border: 2px solid rgb(1, 85, 180);
     padding: 10px 20px 10px 20px;
     overflow: hidden;
     cursor: pointer;
@@ -619,7 +619,7 @@ methods: {
     align-items: center;
     width: 100%;
     height: 100%;  
-    background-color: rgb(0, 32, 176);
+    background-color: rgb(1, 85, 180);
    
 }
   
@@ -744,15 +744,14 @@ methods: {
 .content_salonDueño .buttonDueñoLista-1{
     color: rgb(255, 255, 255);
     text-decoration: none;
-    border: 2px solid rgb(0, 32, 176);
+    border: 2px solid rgb(1, 85, 180);
     padding: 10px 20px 10px 20px;
     overflow: hidden;
     cursor: pointer;
     transition:  0.3s ease;
     align-items: center;
     border-radius: 5px;
-    background-color: rgb(0, 32, 176);
-    width: 300px;
+    background-color: rgb(1, 85, 180);
     margin-left: auto;
     margin-right: auto;
     margin-top: 30px;
