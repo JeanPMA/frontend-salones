@@ -313,20 +313,6 @@ data() {
 
   }
   
-  
-  
-  
- 
-  .gridSalones_DueñoBtn{
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    justify-content: end; 
-   
-    
-  }
-  
-
 
 .boton_crearSalonDueño{
   margin-top: 10px;

@@ -308,66 +308,7 @@ data() {
     transition: opacity 0.3s ease-in-out;
   }
 
-  .gridReserva_DueñoBtn{
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    justify-content: end;
-   
-    
-  }
-  
-  .gridReserva_DueñoBtn #numeros-pagina{
-    padding-left: 5px;
-    padding-right: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 6px;
-  }
-  
-  .gridReserva_DueñoBtn #anterior {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .gridReserva_DueñoBtn #siguiente {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .gridReserva_DueñoBtn .numero-pagina {
-    margin-right: 5px; 
-    
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  
-  .gridReserva_DueñoBtn #anterior:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-    
-  }
-  
- .gridReserva_DueñoBtn #siguiente:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  }
-  
-  .gridReserva_DueñoBtn .numero-pagina:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  
-  }
+
 
   .content_reservasDueño .v-pagination{
     color: rgb(0, 0, 0);

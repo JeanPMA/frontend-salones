@@ -8,13 +8,13 @@
             <form action="#" @submit.prevent="login">
                 <div class="input-box">
                     <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
-                    <input type="username" v-model="username" required>
-                    <label for="username">Usuario</label>
+                    <input type="username" v-model="username" maxlength="50" class="filled" required>
+                    <label for="username" :class="{ 'filled': username }">Usuario</label>
                 </div>
                 <div class="input-box">
                     <span class="icon"><font-awesome-icon :icon="['fas', 'lock']" /></span>
-                    <input type="password" v-model="password" required>
-                    <label for="password">Contraseña</label>
+                    <input type="password" v-model="password" maxlength="50" class="filled" required>
+                    <label for="password" :class="{ 'filled': password }">Contraseña</label>
                 </div>
 
                 
@@ -223,12 +223,15 @@ body{
     transition: 0.5s ease;
 }
 
-.input-box input:focus~label,
-.input-box input:valid~label{
+.input-box label.filled,
+.input-box input:focus + label,
+.input-box input:valid + label {
     top: -5px;
+    transform: translateY(-50%);
 }
 
 .input-box input{
+    display: block;
     width: 100%;
     height: 100%;
     background: transparent;
@@ -237,7 +240,8 @@ body{
     font-size: 1em;
     color: #162938;
     font-weight: 600;
-    margin-right: 10px;
+    padding-right: 40px;
+
 }
 
 .input-box .icon{

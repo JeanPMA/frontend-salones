@@ -8,9 +8,8 @@
           SALONES
         </div>
         <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
-
-        <FiltroServicios @filtroCambiado="filtrarSalones" />
-
+          <FiltroServicios @filtroCambiado="filtrarSalones" />
+        </div>
         <div class="salones_grid">
           <div class="grid-container">
             <div class="grid__item" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSalon(item.id)">
@@ -32,7 +31,7 @@
               v-model="currentPage"
               :length="totalPages"
           ></v-pagination>
-        </div>
+       
        
       </div>
 
@@ -256,73 +255,10 @@
     font-size: 2vw;
   }
   
-  .salones_botones{
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    justify-content: end; 
-   
-    
-  }
   
-  .salones_botones #numeros-pagina{
-   
-    
-    padding-left: 5px;
-    padding-right: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 6px;
-  }
-  
-  #anterior {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  #siguiente {
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .numero-pagina {
-    margin-right: 5px; 
-    
-    background-color: transparent;
-    color: white;
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  
-  #anterior:hover {
-    background-color: white;
-    color: rgb(0, 0, 0);
-    
-  }
-  
-  #siguiente:hover {
-    background-color: white;
-    color: rgb(0, 0, 0);
-  }
-  
-  .numero-pagina:hover {
-  
-    
-    background-color: white;
-    color: rgb(0, 0, 0);
-  
-  }
 
-.filtro-container {
-  transition: margin-left 0.5s; 
+.salones_list .filtro-container {
+  margin-left: 100px;
 }
 
 .filtro-abierto {

@@ -327,71 +327,8 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     justify-content: center;
     font-size: 2vw;
   }
+
   
-  .buzon_botones{
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    justify-content: end; 
-   
-    
-  }
-  
-  .buzon_botones #numeros-pagina{
-   
-    
-    padding-left: 5px;
-    padding-right: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 6px;
-  }
-  
-  .buzon_botones #anterior {
-    background-color: transparent;
-    color: rgb(0, 0, 0);
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .buzon_botones #siguiente {
-    background-color: transparent;
-    color: rgb(0, 0, 0);
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  .buzon_botones .numero-pagina {
-    margin-right: 5px; 
-    
-    background-color: transparent;
-    color: rgb(0, 0, 0);
-    padding: 5px;
-    border: 2px solid #000000;
-    transition: 0.3s ease;
-  }
-  
-  
-  .buzon_botones #anterior:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-    
-  }
-  
- .buzon_botones #siguiente:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  }
-  
-  .buzon_botones .numero-pagina:hover {
-  
-    
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-  
-  }
   
   .v-pagination{
     margin-top: 20px;

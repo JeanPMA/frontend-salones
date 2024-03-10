@@ -307,13 +307,6 @@ components: {
     transition: opacity 0.3s ease-in-out; 
   }
 
-  .gridSolicitudes_DueñoBtn{
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    justify-content: end; 
-  }
-  
 
 
   .content_solicitudesDueño .v-pagination{

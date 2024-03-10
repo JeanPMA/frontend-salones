@@ -292,9 +292,7 @@
  font-size: 14px;
  text-decoration: none;
 }
-.filtro-container{
-  margin-left: 70px;
-}
+
 .content_salonesListaAdmin .filtro-container .filtro_servicios a{
   color: black;
 }

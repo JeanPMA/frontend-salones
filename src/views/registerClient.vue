@@ -13,37 +13,37 @@
                 <form action="#" @submit.prevent="registerUser"> 
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
-                        <input v-model="username" type="username" required>
-                        <label for="username">Usuario</label>
+                        <input v-model="username" type="text" maxlength="50" required>
+                        <label for="username" :class="{ 'filled': username }">Usuario</label>
                     </div>
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'lock']" /></span>
-                        <input v-model="password" type="password" required>
-                        <label for="password">Contraseña</label>
+                        <input v-model="password" type="password" maxlength="50" required>
+                        <label for="password" :class="{ 'filled': password }">Contraseña</label>
                     </div>
 
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'envelope']" /></span>
-                        <input v-model="correo" type="correo" required>
-                        <label for="correo">correo</label>
+                        <input v-model="correo" type="email" maxlength="100" required>
+                        <label for="correo" :class="{ 'filled': correo }">correo</label>
                     </div>
 
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
-                        <input v-model="telefono" type="telefono" required>
-                        <label for="telefono">Telefono</label>
+                        <input v-model="telefono" type="text" @input="limitesTelefono" minlength="8" maxlength="8" required>
+                        <label for="telefono" :class="{ 'filled': telefono }">Telefono</label>
                     </div>
 
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
-                        <input v-model="nombre" type="nombre" required>
-                        <label for="nombre">Nombre</label>
+                        <input v-model="nombre" type="text" @input="bloquearCaracteresNombre" maxlength="50" required>
+                        <label for="nombre" :class="{ 'filled': nombre }">Nombre</label>
                     </div>
 
                     <div class="input-box">
                         <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
-                        <input v-model="apellido" type="apellido" required>
-                        <label for="apellido">Apellido</label>
+                        <input v-model="apellido" type="text" @input="bloquearCaracteresApellido" maxlength="50" required>
+                        <label for="apellido" :class="{ 'filled': apellido }">Apellido</label>
                     </div>
 
                         <button type="submit" class="btn">
@@ -153,6 +153,24 @@ export default {
     redirectToHome() {
         this.$router.push({ path: '/', query: { scrollTo: 'section4' } });
     },
+    bloquearCaracteresNombre() {
+      this.nombre = this.nombre.replace(/[^a-zA-Z\s]/g, '');
+    },
+    bloquearCaracteresApellido() {
+      this.apellido = this.apellido.replace(/[^a-zA-Z\s]/g, '');
+    },
+    limitesTelefono(){
+      this.limitarLongitudTelefono();
+      this.bloquearETelefono();
+    },
+    limitarLongitudTelefono() {
+        if (this.telefono.length > 8) {
+          this.telefono = this.telefono.slice(0, 8);
+        }
+    },
+    bloquearETelefono() {
+      this.telefono = this.telefono.replace(/\D/g, '');
+    },
   },
 }
 </script>
@@ -242,16 +260,6 @@ export default {
 
 .register-login p a:hover{
     text-decoration: underline;
-}
-
-.wrapper_register input[type="date"] {
-    
-    width: 97%;
-}
-
-.calendarDate{
-    margin-top: 40px;
-    
 }
 
 

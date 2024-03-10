@@ -10,7 +10,7 @@
 
           <FiltroServicios @filtroCambiado="filtrarSalones" />
           
-        
+        </div>
     
         <div class="salonesRecomendados_grid">
           <div class="grid-container">
@@ -33,7 +33,7 @@
               v-model="currentPage"
               :length="totalPages"
           ></v-pagination>
-        </div>
+        
       </div>
 </template>
 
@@ -170,9 +170,10 @@ import FiltroServicios from '../components/filtroServicios.vue';
     height: 100%;
   }
   
-  
+.salonesRecomendados_list .filtro-container {
+  margin-left: 100px;
+}
 
-  
   .salonesRecomendados_title{
     color: rgb(0, 0, 0);
     display: flex;
