@@ -1,6 +1,6 @@
 <template>
     <NavbarDueño style="z-index: 1000;"/>
-    <div class="content_reservasDueño">
+    <div class="content_SRDueño">
         <h1>
         LISTA DE RESERVAS
         </h1>
@@ -12,16 +12,16 @@
                 <FiltroEstadoSR @filtroCambiado="filtrarSR" />
              </div>
     </div> 
-    <div class="dueño_gridReservas">
-          <div class="grid-containerReservas">
-            <div class="grid__itemSolicitud" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
-                <div class="text-titleReserva">
+    <div class="dueño_gridSR">
+          <div class="grid-containerSR">
+            <div class="grid__itemSR" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
+                <div class="text-titleSR">
                     <h2>{{ item.salon.nombre }}</h2>
                     <img :src="item.salon.banner_url" alt="">
                    
                 </div>
               
-              <div class="text-detailReservas">
+              <div class="text-detailSR">
                 <h4>Detalle:</h4>
                 <p>{{ item.detalle }}</p>
                 <h4>Estado:</h4>
@@ -178,218 +178,219 @@ data() {
 </script>
 <style>
 
-.content_reservasDueño{
+.content_SRDueño{
   background-color: white;
 }
-.content_reservasDueño h1{
-    padding-top: 30px;
-    color: rgb(0, 0, 0);
-}
-.search_listaReserva{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 0px 100px 0px 100px;
-    margin-top: 20px;
+.content_SRDueño h1{
+  padding-top: 30px;
+  color: rgb(0, 0, 0);
 }
 
+/*ESTILOS GRID SOLICITUDES-RESERVAS */
+.dueño_gridSR{
+  padding: 20px 50px 50px 50px;
+  margin: 0px 20px 0px 20px;
+}
 
+.dueño_gridSR .grid-containerSR {
+  display: grid;
+  grid-template-columns: repeat(5, 2fr); 
+  gap: 20px;
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+}
 
-/*ESTILOS GRID SOLICITUDES */
-.dueño_gridReservas{
-    padding: 20px 50px 50px 50px;
-    margin: 0px 20px 0px 20px;
-  }
-  
-  .dueño_gridReservas .grid-containerReservas {
-    display: grid;
-    grid-template-columns: repeat(5, 2fr); 
-    gap: 20px;
-    background-color: transparent;
-  
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .dueño_gridReservas .grid__itemSolicitud{
-    
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: auto;
-    cursor: pointer;
-    border-radius: 10px;
-    width: 16vw; 
-    height: 50vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  }
-  
-  .dueño_gridReservas .grid__itemSolicitud h2{
-    color: rgb(255, 255, 255); 
-    display: flex;
-    position: absolute;
-    font-size: 1.3vw;
-    z-index: 2;
-  }
-  
-  
-  .dueño_gridReservas .grid__itemSolicitud p{
-    overflow: auto;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    -webkit-line-clamp: 4;
-    padding:  0px;
-    font-size: 1vw;
-    text-align: justify;
-    margin-bottom: 10px;
-  }
-  .dueño_gridReservas .grid__itemSolicitud h4{
-   text-align: justify;
+.dueño_gridSR .grid__itemSR{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 16vw; 
+  height: 50vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
 
- }
+.dueño_gridSR .grid__itemSR h2{
+  color: rgb(255, 255, 255); 
+  display: flex;
+  position: absolute;
+  font-size: 1.3vw;
+  z-index: 2;
+}
 
-  .dueño_gridReservas .grid__itemSolicitud .text-titleReserva{
-    flex: 0.5;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    
-  }
+.dueño_gridSR .grid__itemSR p{
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: 3;
+  padding:  0px;
+  font-size: 1vw;
+  text-align: justify;
+  margin-bottom: 10px;
+}
 
-  .dueño_gridReservas .grid__itemSolicitud .text-titleReserva::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; 
-  }
+.dueño_gridSR .grid__itemSR h4{
+  text-align: justify;
+}
 
-  .dueño_gridReservas .grid-containerReservas .text-titleReserva img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-    position: relative;
-    filter: blur(2px) brightness(0.5); 
-    
-  }
-  
-  .dueño_gridReservas .grid__itemSolicitud a{
-    text-decoration: none;
-    color: #000000;
-    font-style: italic;
-    font-size: 1vw;
-    text-align: end;
-    transition: 0.3s ease;
-    margin-top: auto;
- }
+.dueño_gridSR .grid__itemSR .text-titleSR{
+  flex: 0.5;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
 
- .dueño_gridReservas .grid__itemSolicitud a:hover{   
-    color: #686868;
- }
-  
- .dueño_gridReservas .text-detailReservas {  
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    top: 0;
-    left: 0;
-    width: 100%;     
-    background: rgb(222, 222, 222); 
-    color: #000000;
-    text-align: end;
-    padding: 10px;
+.dueño_gridSR .grid__itemSR .text-titleSR::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; 
+}
 
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-  }
+.dueño_gridSR .grid-containerSR .text-titleSR img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  position: relative;
+  filter: blur(2px) brightness(0.5); 
+}
 
+.dueño_gridSR .grid__itemSR a{
+  text-decoration: none;
+  color: #000000;
+  font-style: italic;
+  font-size: 1vw;
+  text-align: end;
+  transition: 0.3s ease;
+  margin-top: auto;
+}
 
+.dueño_gridSR .grid__itemSR a:hover{   
+  color: #686868;
+}
 
-  .content_reservasDueño .v-pagination{
-    color: rgb(0, 0, 0);
-    margin-bottom: 10px;
+.dueño_gridSR .text-detailSR {  
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  top: 0;
+  left: 0;
+  width: 100%;     
+  background: rgb(222, 222, 222); 
+  color: #000000;
+  text-align: end;
+  padding: 10px;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.content_SRDueño .v-pagination{
+  color: rgb(0, 0, 0);
+  margin-bottom: 10px;
+}
+
+@media  screen and (max-width: 1100px) {
+  .dueño_gridSR .grid-containerSR{
+    grid-template-columns: repeat(4, 2fr); 
   }
 
-  @media  screen and (max-width: 1100px) {
-    .dueño_gridReservas .grid-containerReservas{
-      grid-template-columns: repeat(4, 2fr); 
-    }
-    .dueño_gridReservas .grid__itemSolicitud{
-      width: 20vw; 
-      height: 44vh;
-    }
-    .dueño_gridReservas .grid__itemSolicitud h4{
-      font-size: 1.5vw;
-    }
-    .dueño_gridReservas .grid__itemSolicitud p{
-      font-size: 1.2vw;
-    }
-    .dueño_gridReservas .grid__itemSolicitud a{
-      font-size: 15px;
-    }
-  }
-  @media  screen and (max-width: 860px) {
-    .dueño_gridReservas{
-      padding: 20px 50px 50px 70px;
-    }
-    .dueño_gridReservas .grid-containerReservas{
-      grid-template-columns: repeat(2, 2fr); 
-    }
-    .dueño_gridReservas .grid__itemSolicitud{
-      width: 35vw; 
-      height: 44vh;
-    }
-    .dueño_gridReservas .grid__itemSolicitud h4{
-      font-size: 2vw;
-    }
-    .dueño_gridReservas .grid__itemSolicitud p{
-      font-size: 1.5vw;
-    }
-    .dueño_gridReservas .grid__itemSolicitud h2{
-      font-size: 2.5vw;
-    }
+  .dueño_gridSR .grid__itemSR{
+    width: 20vw; 
+    height: 44vh;
   }
 
-  @media  screen and (max-width: 700px) {
-    .content_reservasDueño  h1{
-      font-size: 30px;
-      margin-left: 55px;
-    }
+  .dueño_gridSR .grid__itemSR h4{
+    font-size: 1.5vw;
   }
 
-  @media  screen and (max-width: 600px) {
-
-    .dueño_gridReservas .grid-containerReservas{
-      grid-template-columns: repeat(1, 2fr); 
-    }
-    .dueño_gridReservas .grid__itemSolicitud{
-      width: 70vw; 
-      height: 44vh;
-    }
-    .dueño_gridReservas .grid__itemSolicitud h4{
-      font-size: 3vw;
-    }
-    .dueño_gridReservas .grid__itemSolicitud p{
-      font-size: 2.5vw;
-    }
-    .dueño_gridReservas .grid__itemSolicitud h2{
-      font-size: 4vw;
-    }
+  .dueño_gridSR .grid__itemSR p{
+    font-size: 1.2vw;
   }
 
-  @media  screen and (max-width: 400px) {
-  .dueño_gridReservas .grid__itemSolicitud h4{
+  .dueño_gridSR .grid__itemSR a{
+    font-size: 15px;
+  }
+}
+
+@media  screen and (max-width: 860px) {
+  .dueño_gridSR{
+    padding: 20px 50px 50px 70px;
+  }
+
+  .dueño_gridSR .grid-containerSR{
+    grid-template-columns: repeat(2, 2fr); 
+  }
+
+  .dueño_gridSR .grid__itemSR{
+    width: 35vw; 
+    height: 44vh;
+  }
+
+  .dueño_gridSR .grid__itemSR h4{
+    font-size: 2vw;
+  }
+
+  .dueño_gridSR .grid__itemSR p{
+    font-size: 1.5vw;
+  }
+
+  .dueño_gridSR .grid__itemSR h2{
+    font-size: 2.5vw;
+  }
+}
+
+@media  screen and (max-width: 700px) {
+  .content_SRDueño  h1{
+    font-size: 30px;
+    margin-left: 55px;
+  }
+}
+
+@media  screen and (max-width: 600px) {
+  .dueño_gridSR .grid-containerSR{
+    grid-template-columns: repeat(1, 2fr); 
+  }
+
+  .dueño_gridSR .grid__itemSR{
+    width: 70vw; 
+    height: 44vh;
+  }
+
+  .dueño_gridSR .grid__itemSR h4{
+    font-size: 3vw;
+  }
+
+  .dueño_gridSR .grid__itemSR p{
+    font-size: 2.5vw;
+  }
+
+  .dueño_gridSR .grid__itemSR h2{
     font-size: 4vw;
   }
-  .dueño_gridReservas .grid__itemSolicitud p{
+
+  .dueño_gridSR{
+    padding: 20px 50px 50px 100px;
+  }
+}
+
+@media  screen and (max-width: 400px) {
+  .dueño_gridSR .grid__itemSR h4{
+    font-size: 4vw;
+  }
+
+  .dueño_gridSR .grid__itemSR p{
     font-size: 3.5vw;
   }
-  .dueño_gridReservas .grid__itemSolicitud h2{
+  
+  .dueño_gridSR .grid__itemSR h2{
     font-size: 5vw;
   }
 }

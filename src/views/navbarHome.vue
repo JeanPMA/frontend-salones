@@ -7,10 +7,7 @@
               </label>
               <nav>
                 <ul>
-                  <!-- <div class="logoBotones">
-                    <li><a href="/" id="selected"></a></li>
-                    <li><a href="#"></a></li>
-                  </div>-->
+                 
                 
                   <div class="botones"> 
                     <li><a href="#" @click="scrollToSection('section1')">SALONES</a> </li>                 
@@ -83,22 +80,20 @@ methods: {
 </script>
 
 <style>
-/*BARRA DE NAVEGACIO NO LOGIN*/
+/*BARRA DE NAVEGACION NO LOGIN*/
 header{
   width: 100%;
   position: fixed;
-  
   top: 0;
   left: 0;
   background: rgb(180, 180, 180);
   z-index: 2;
   color: #000000;
 }
+
 .container__menu{
   width: 100%;
-
   background: rgb(255, 255, 255);
-  
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
   z-index: 3;
   position: fixed;
@@ -108,28 +103,20 @@ header{
   max-width: 100%;
   margin: auto;
   height: 100%;
-  
 }
 
 nav{
-  height: 100%;
-  
- 
+  height: 100%; 
 }
 
 .container__menu nav > ul{
   list-style: none;
-
   display: flex;
   margin-top: 5px;
   margin-bottom: 5px;
   width: 100%;
-  
   justify-content: center; 
-  height: 10vh;
- 
-  
-  
+  height: 90px; 
 }
 
 nav  ul  li{
@@ -162,10 +149,10 @@ nav  ul  li{
   height: 2px; 
   background-color: #ff1100;
   transition: width 0.3s; 
-  margin-bottom: -33px;
+  margin-bottom: -38px;
 }
 
- .botones a:hover::after {
+.botones a:hover::after {
   width: 100%; 
 }
 
@@ -176,9 +163,7 @@ nav a{
   width: 100%;
   height: 100%;
   display: flex;
-  
   text-decoration: none;
-  
   text-align: center;
   align-items: center;
 }
@@ -227,7 +212,7 @@ nav a{
 
 #selected{
   background-color: white;
- height: 0px;
+  height: 0px;
 }
 
 .botones a.active::after {
@@ -238,7 +223,6 @@ nav a{
 }
 
 /*  ELEMENTOS RESPONSIVOS */
-
 .icon__menu{
   font-size: 26px;
   color: rgb(0, 0, 0);
@@ -248,7 +232,6 @@ nav a{
   display: none;
   align-items: center;
   padding-left: 20px;
- 
 }
 
 #label__check{
@@ -346,9 +329,7 @@ nav a{
   }
   .container__menu nav > ul {
     justify-content: space-around;
- 
   }
-  
 }
 
 @media  screen and (max-width: 400px) {
@@ -356,7 +337,6 @@ nav a{
       height: 400px;
       flex-direction: column;
   }
-
 }
 
 </style>

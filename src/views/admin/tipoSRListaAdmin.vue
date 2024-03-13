@@ -251,14 +251,12 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
   </script>
   
 <style>
-  .listaSRAdmin_title{
-    padding-top: 30px;
-  }
- 
-
+.listaSRAdmin_title{
+  padding-top: 30px;
+}
 
 .content_serviciosListaAdmin .v-pagination{
-    margin-top: 0px;
+  margin-top: 0px;
 }
 </style>
   

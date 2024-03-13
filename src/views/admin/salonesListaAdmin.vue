@@ -262,20 +262,12 @@
   background-color: white;
   height: 100vh;
 }
-  .listaSalonesAdmin_title{
-    padding-top: 30px;
-  }
-  .v-data-table__th{
-  font-size: 1.2rem; 
-  font-weight: bold;
-  color: rgb(0, 153, 255);
+
+.listaSalonesAdmin_title{
+  padding-top: 30px;
 }
 
-
-
-/* botones estilos*/
-
-
+/*BOTONES*/
 .boton_crearSalonAdmin{
   margin-top: 20px;
   display: flex;
@@ -283,14 +275,14 @@
 
 .boton_crearSalonAdmin a{
   margin-left: 80%;
- padding: 6px;
- width: 150px;
- height: 35px;
- border: none;
- border-radius: 8px;
- cursor: pointer;
- font-size: 14px;
- text-decoration: none;
+  padding: 6px;
+  width: 150px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
 }
 
 .content_salonesListaAdmin .filtro-container .filtro_servicios a{
@@ -300,19 +292,22 @@
 .content_salonesListaAdmin .filtro-container .filtro_servicios span{
   color: black;
 }
+
 .content_salonesListaAdmin .filtro-container .filtro_servicios label{
   color: black;
 }
+
 .content_salonesListaAdmin .v-pagination{
-    margin-top: 0px;
+  margin-top: 0px;
 }
+
 .search_listaAdmin input{
-    width: 100%;
-    padding: 10px;
-   
-    color: rgb(0, 0, 0);
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 10px;
+  width: 100%;
+  padding: 10px;
+  
+  color: rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 10px;
 }
 
 </style>

@@ -130,32 +130,31 @@ name: 'salonDetalleComponent',
 
 <style>
 .content_detalleSalon{
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
 .detalleSalon_title{
-    text-align: center;
-    margin-bottom: 20px;
-    margin-top: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 80px;
 }
 
 .detalleSalon_title img{
-    width: 400px;
-    height: 200px;
-    border-radius: 20px;
-    margin-top: 20px;
-    border: 1px solid #000000;
+  width: 400px;
+  height: 200px;
+  border-radius: 20px;
+  margin-top: 20px;
+  border: 1px solid #000000;
 }
 
 .detalleSalon_text {
   display: flex;
   flex-direction: column;
   margin: 30px 50px 20px 50px;
-  
 }
 
 .content_detalleSalon .item {
@@ -168,9 +167,7 @@ name: 'salonDetalleComponent',
   overflow: auto;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  word-wrap: break-word;
-
-   
+  word-wrap: break-word;   
 }
 
 .item label {
@@ -181,7 +178,6 @@ name: 'salonDetalleComponent',
 }
 
 .content_detalleSalon p {
-  
   color: #000000;
   margin-left: 10px; 
   text-align: justify;
@@ -193,93 +189,98 @@ name: 'salonDetalleComponent',
 }
 
 .content_detalleSalon .button_reservar{
-    margin: 20px 5px 10px 5px;
-    color: rgb(33, 117, 155);
-    justify-items: end;
-    text-decoration: none;
-    padding-bottom: 20px;
-  }
+  margin: 20px 5px 10px 5px;
+  color: rgb(33, 117, 155);
+  justify-items: end;
+  text-decoration: none;
+  padding-bottom: 20px;
+}
+
 .content_detalleSalon .button-1{
-    color: rgb(0, 0, 0);
-    
-    border: 2px solid rgb(45, 45, 45);
-    padding: 10px 20px 10px 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition:  0.3s ease;
-    align-items: center;
-    width: 100%;
-    height: 100%;  
-    background-color: rgb(255, 255, 255);
-   
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(45, 45, 45);
+  padding: 10px 20px 10px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:  0.3s ease;
+  align-items: center;
+  width: 100%;
+  height: 100%;  
+  background-color: rgb(255, 255, 255); 
 }
   
 .content_detalleSalon .button-1:hover{
-    
-    color: #ffffff; 
-    background-color: rgb(54, 54, 54);
-  }
+  color: #ffffff; 
+  background-color: rgb(54, 54, 54);
+}
 
-  .content_detalleSalon .button-2{
-   
-   color: #ffffff; 
-   border: 2px solid rgb(45, 45, 45);
-   padding: 10px 20px 10px 20px;
-   overflow: hidden;
-   cursor: pointer;
-   transition:  0.3s ease;
-   align-items: center;
-   width: 100%;
-   height: 100%;  
+.content_detalleSalon .button-2{
+  color: #ffffff; 
+  border: 2px solid rgb(45, 45, 45);
+  padding: 10px 20px 10px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:  0.3s ease;
+  align-items: center;
+  width: 100%;
+  height: 100%;  
   background-color: rgb(54, 54, 54);
   text-decoration: none;
 }
  
 .content_detalleSalon .button-2:hover{
-   
-   color: rgb(0, 0, 0);
-   background-color: rgb(255, 255, 255);
-   text-decoration: none;
- }
- .imagenes_salon{
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40vw;
- }  
- @media  screen and (max-width: 1200px) {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.imagenes_salon{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40vw;
+}  
+
+@media  screen and (max-width: 1200px) {
   .imagenes_salon{
     width: 60vw;
- }  
- }
+  }  
+}
 
- @media  screen and (max-width: 620px) {
+@media  screen and (max-width: 620px) {
   .detalleSalon_title h2{
     padding-top: 20px;
   }
+
   .content_detalleSalon{
     display: grid;
   }
+
   .content_detalleSalon .item {
-   display: grid;
+    display: grid;
   }
+
   .item label{
     margin-right: 0px;
     margin-left: 10px;
   }
+
   .content_detalleSalon p{
     margin-top: 10px;
   }
+
   .detalleSalon_title img{
     width: 80vw;
     height: 25vh;
   }
+
   .detalleSalon_title{
     margin-bottom: 0px;
-    }
+  }
+
   .imagenes_salon{
     width: 80vw;
   }  
- }
+}
 
 </style>

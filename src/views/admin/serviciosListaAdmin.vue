@@ -257,12 +257,13 @@
   background-color: white;
   height: 100vh;
 }
-  .listaServiciosAdmin_title{
-    padding-top: 30px;
-  }
+
+.listaServiciosAdmin_title{
+  padding-top: 30px;
+}
  
 .content_serviciosListaAdmin .v-pagination{
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
 </style>

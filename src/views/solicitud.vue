@@ -130,9 +130,12 @@ export default {
       }
     },
     methods: {
-     
         volverAtras (){
-        this.$router.go(-1);
+          if (this.solicitudReserva.salon && this.solicitudReserva.salon.id) {
+            this.$router.push({ name: 'detalle-salon', params: { id: this.solicitudReserva.salon.id } });
+          } else {
+            this.$router.push({ name: 'calendar' }); 
+          }
         },
         guardarSolicitudReserva() {
             
@@ -240,166 +243,152 @@ export default {
 <style>
 
 .solicitud_content{
-    background-color: #000000a4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-   
+  background-color: #000000a4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .solicitud_form{
-    background-color: white;
-    display: flex;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    width: 60vw;
+  background-color: white;
+  display: flex;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 60vw;
 }
 
 .solicitud_form form h2{
-    text-align: center;
+  text-align: center;
 }
 
 .solicitud_form form {
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #ffffff;
-    text-align: start;
-    
-  }
-
-  .solicitud_form #labelNombre, #labelMotivo, #labelServicios, #labelFecha, #labelDetalle {
-    display: block;
-    margin-bottom: 7px;
-    margin-top: 7px;
-  }
-
-  .solicitud_form #nombre, .solicitud_form #mensaje, .solicitud_form input[type="email"], .solicitud_form textarea
-  {
-    width: 100%;
-    padding: 10px 10px 10px 10px;
-    margin-bottom: 3px;
-    border: 1px solid #8b8888e7;
-    border-radius: 5px;
-    margin-right: 10px;
-  }
-
-  .solicitud_form input[type="date"]
-  {
-   
-    padding: 10px 10px 10px 10px;
-    margin-bottom: 10px;
-    border: 1px solid #8b8888e7;
-    border-radius: 5px;
-    margin-right: 10px;
-  }
-
- 
-
-  #labelServicios{
-    margin-top: 10px;
-  }
-
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ffffff;
+  text-align: start;
   
-  
+}
 
-  form textarea{
+.solicitud_form #labelNombre, #labelMotivo, #labelServicios, #labelFecha, #labelDetalle {
+  display: block;
+  margin-bottom: 7px;
+  margin-top: 7px;
+}
+
+.solicitud_form #nombre, .solicitud_form #mensaje, .solicitud_form input[type="email"], .solicitud_form textarea{
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  margin-bottom: 3px;
+  border: 1px solid #8b8888e7;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.solicitud_form input[type="date"]{
+  padding: 10px 10px 10px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #8b8888e7;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+#labelServicios{
+  margin-top: 10px;
+}
+
+form textarea{
+  resize: none;
+}
  
-    
-    resize: none;
-  }
- 
-
-
 .form_btn{
-    margin: 20px 5px 10px 5px;
-   text-align: center;
-    justify-items: end;
-    text-decoration: none;
-    padding-bottom: 20px;
+  margin: 20px 5px 10px 5px;
+  text-align: center;
+  justify-items: end;
+  text-decoration: none;
+  padding-bottom: 20px;
 }
 
 .form_btn a{
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 10px 20px 10px 20px;
-
-    border: 2px solid rgb(45, 45, 45);
-    cursor: pointer;
-
-    text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 10px 20px 10px 20px;
+  border: 2px solid rgb(45, 45, 45);
+  cursor: pointer;
+  text-align: center;
 }
 
 .form_btn #send{
-      color: rgb(0, 0, 0); 
-      border: 2px solid rgb(45, 45, 45);
-      padding: 10px 20px 10px 20px;
-      overflow: hidden;
-      cursor: pointer;
-      transition:  0.3s ease;
-      align-items: center;
-      width: 100%;
-      height: 100%;  
-      background-color: rgb(255, 255, 255);
-   
-  }
+  color: rgb(0, 0, 0); 
+  border: 2px solid rgb(45, 45, 45);
+  padding: 10px 20px 10px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:  0.3s ease;
+  align-items: center;
+  width: 100%;
+  height: 100%;  
+  background-color: rgb(255, 255, 255);
+}
 
 .form_btn #send:hover {
-    color: #ffffff; 
-    background-color: rgb(54, 54, 54);
-   
-  }
+  color: #ffffff; 
+  background-color: rgb(54, 54, 54);
+}
 
 .form_btn #cancel{
-    color: #ffffff; 
-    border: 2px solid rgb(45, 45, 45);
-    padding: 10px 20px 10px 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition:  0.3s ease;
-    align-items: center;
-    width: 100%;
-    height: 100%;  
-    background-color: rgb(54, 54, 54);
-    text-decoration: none;
-  }
+  color: #ffffff; 
+  border: 2px solid rgb(45, 45, 45);
+  padding: 10px 20px 10px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:  0.3s ease;
+  align-items: center;
+  width: 100%;
+  height: 100%;  
+  background-color: rgb(54, 54, 54);
+  text-decoration: none;
+}
 
 .form_btn #cancel:hover {
-    color: rgb(0, 0, 0);
-    background-color: rgb(255, 255, 255);
-    text-decoration: none;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.error-message {
+  color: rgb(176, 0, 32); 
+  font-size: 14px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+  display: block;
+  text-align: start;
+}
+
+@media  screen and (max-width: 700px) {
+  .solicitud_content{
+    width: 100%;
   }
 
-  .error-message {
-    color: rgb(176, 0, 32); 
-    font-size: 14px;
-    margin-bottom: 5px;
-    margin-left: 20px;
-    display: block;
-    text-align: start;
+  .form_btn{
+    flex-direction: column;
+    gap: 10px;
   }
-  @media  screen and (max-width: 700px) {
-    .solicitud_content{
-      width: 100%;
-    }
-    .form_btn{
-      flex-direction: column;
-      gap: 10px;
-    }
-    .solicitud_form{
-      width: 90vw;
-    }
+  
+  .solicitud_form{
+    width: 90vw;
   }
+}
 
-  @media  screen and (max-width: 350px) {
-    .form_btn{
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+@media  screen and (max-width: 350px) {
+  .form_btn{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
+}
 </style>

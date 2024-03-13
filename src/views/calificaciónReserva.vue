@@ -105,113 +105,119 @@ export default {
 
 <style>
 .body_calificación{
-    background-color: #030303;
-    height: 100vh;
-    color: rgb(0, 0, 0);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: #030303;
+  height: 100vh;
+  color: rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .content_calificación{
-    background-color: rgb(70, 21, 115);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: rgb(70, 21, 115);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0px 200px 0px 200px;
+  padding: 70px;
+  border-radius: 30px;
+}
 
-    flex-direction: column;
-    margin: 0px 200px 0px 200px;
-    padding: 70px;
-    border-radius: 30px;
-   
-}
 .content_calificación h2{
-    font-weight: bold;
-    font-size: 40px;
-    margin-top: 30px;
-    color: white;
+  font-weight: bold;
+  font-size: 40px;
+  margin-top: 30px;
+  color: white;
 }
+
 .content_calificación p{
-    padding-top: 40px;
-    font-size: 20px;
-    color: white;
+  padding-top: 40px;
+  font-size: 20px;
+  color: white;
 }
+
 .content_calificación .svg-inline--fa {
-   height: 50px;
+  height: 50px;
 }
+
 .v-rating  {
   font-size: 45px;
   margin-top: 20px;
 }
-/* botones estilos*/
+
+/*BOTONES*/
 .button_califación{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 60px;
-    font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  font-weight: bold;
 }
 
 .button_califación a{
-    margin-left: 30px;
-    margin-right: 30px;
-    padding: 5px 20px 10px 20px;
-    width: 350px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 20px;
-    text-align: center;
+  margin-left: 30px;
+  margin-right: 30px;
+  padding: 5px 20px 10px 20px;
+  width: 350px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  text-align: center;
 }
 
 .button_califación #send{
-    background-color: #ffffff;
-    color: #000000;
-   transition: 0.3s ease; 
-   
-  }
+  background-color: #ffffff;
+  color: #000000;
+  transition: 0.3s ease; 
+}
 
 .button_califación #send:hover {
-    background-color: #000000;
-    color: #ffffff;
-   
+  background-color: #000000;
+  color: #ffffff;
+}
+
+@media  screen and (max-width: 600px) {
+  .content_calificación{
+    margin: 0px 10px 0px 10px;
+    padding: 50px 10px 50px 10px;
   }
 
-
-  @media  screen and (max-width: 600px) {
-    .content_calificación{
-      margin: 0px 10px 0px 10px;
-      padding: 50px 10px 50px 10px;
-    }
-    .button_califación a{
-      width: 200px;
-    }
-    .v-rating  {
-      font-size: 30px;
-      margin-top: 20px;
-    }
+  .button_califación a{
+    width: 200px;
   }
 
-  @media  screen and (max-width: 300px) {
-    .content_calificación h2{
-      font-size: 30px;
-    }
-    .content_calificación p{
-      font-size: 15px;
-    }
-    .button_califación a{
-      width: 100%;
-      font-size: 15px;
-      padding: 5px 20px 5px 20px;
-      height: 100%;
-    }
-    .content_calificación{
-      padding: 20px 10px 20px 10px;
-    }
-    .v-rating  {
-      font-size: 20px;
-    }
+  .v-rating  {
+    font-size: 30px;
+    margin-top: 20px;
   }
+}
+
+@media  screen and (max-width: 300px) {
+  .content_calificación h2{
+    font-size: 30px;
+  }
+
+  .content_calificación p{
+    font-size: 15px;
+  }
+
+  .button_califación a{
+    width: 100%;
+    font-size: 15px;
+    padding: 5px 20px 5px 20px;
+    height: 100%;
+  }
+
+  .content_calificación{
+    padding: 20px 10px 20px 10px;
+  }
+  
+  .v-rating  {
+    font-size: 20px;
+  }
+}
 
 </style>

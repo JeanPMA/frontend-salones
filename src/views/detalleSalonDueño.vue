@@ -3,7 +3,7 @@
     <div class="content_salonDueño">
         <div class="info_salon" v-if="detalleSalonDueño">
           <div class="salonDueño_container">
-            <!-- Columna Izquierda -->
+           
             <div class="salonDueño_column">
               <div class="salonDueño_title">
                   <h2>{{detalleSalonDueño.nombre}}</h2>
@@ -494,39 +494,35 @@ methods: {
 
 <style>
 .content_salonDueño{
-    background-color: rgb(196, 196, 196);
-    color: rgb(0, 0, 0);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative; 
-  
-
-   
+  background-color: rgb(196, 196, 196);
+  color: rgb(0, 0, 0);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;  
 }
+
 .info_salon{
-    background-color: rgb(222, 222, 222);
-    padding: 30px 180px 30px 150px;
-    border-radius: 20px;
-}
-.salonDueño_title{
-    text-align: center;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 20px;
+  background-color: rgb(222, 222, 222);
+  padding: 30px 180px 30px 150px;
+  border-radius: 20px;
 }
 
+.salonDueño_title{
+  text-align: center;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 20px;
+}
 
 .salonDueño_detalle {
   display: flex;
   flex-direction: column;
-
 }
 
 .content_salonDueño .itemSalonDueño {
   margin-bottom: 5px;
   display: flex;
   flex-direction: column;
-
 }
 
 .itemSalonDueño label {
@@ -539,11 +535,11 @@ methods: {
 }
 
 .itemSalonDueño img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover; 
-    margin-left: auto;
-    margin-right: auto;
+  width: 300px;
+  height: 300px;
+  object-fit: cover; 
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .content_salonDueño #input_form input { 
@@ -554,9 +550,7 @@ methods: {
   padding: 15px;
   border-radius: 5px;
   font-size: 16px;
-
   width: 100%;
-
 }
 
 .content_salonDueño #select_form input { 
@@ -564,28 +558,29 @@ methods: {
 }
 
 .content_salonDueño p{ 
-    color: red;
-    font-size: 14px;
-    margin-bottom: 5px;
-    display: block;
-    text-align: start;
+  color: red;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+  text-align: start;
 }
 
 .content_salonDueño .itemSalonDueño h4{ 
   color: #0000006a;
   font-size: 15px;
 }
+
 .content_salonDueño .itemSalonDueño h3{ 
   color: #0000006a;
   font-size: 18px;
   text-align: start;
 }
+
 .content_salonDueño .itemSalonDueño label{
   text-align: start; 
 }
 
 .content_salonDueño textarea{
-  
   color: #0000006a;
   height: 150px;
   text-align: justify;
@@ -594,74 +589,67 @@ methods: {
   padding: 15px;
   border-radius: 5px;
   font-size: 16px;
-
   resize: none;
   width: 100%;
 }
 
 .content_salonDueño .buttons_salonDueño{
-    margin-right: 10px;
-    color: rgb(33, 117, 155);
-    justify-items: center;
-    text-decoration: none;
-    margin-top: 20px;
-    border-radius: 5px;
-    
-  }
+  margin-right: 10px;
+  color: rgb(33, 117, 155);
+  justify-items: center;
+  text-decoration: none;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
 .content_salonDueño .buttonDueño-1{
-    color: rgb(255, 255, 255);
-    
-    border: 2px solid rgb(1, 85, 180);
-    padding: 10px 20px 10px 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition:  0.3s ease;
-    align-items: center;
-    width: 100%;
-    height: 100%;  
-    background-color: rgb(1, 85, 180);
-   
+  color: rgb(255, 255, 255);
+  border: 2px solid rgb(1, 85, 180);
+  padding: 10px 20px 10px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:  0.3s ease;
+  align-items: center;
+  width: 100%;
+  height: 100%;  
+  background-color: rgb(1, 85, 180);
 }
   
 .content_salonDueño .buttonDueño-1:hover{
-    
-    color: #000000; 
-    background-color: transparent;
-  }
+  color: #000000; 
+  background-color: transparent;
+}
 
-  .content_salonDueño .buttonDueño-2{
-   
-   color: #ffffff; 
-   border: 2px solid rgb(45, 45, 45);
-   padding: 10px 20px 10px 20px;
-   overflow: hidden;
-   cursor: pointer;
-   transition:  0.3s ease;
-   align-items: center;
-   width: 100%;
-   height: 100%;  
+.content_salonDueño .buttonDueño-2{
+  color: #ffffff; 
+  border: 2px solid rgb(45, 45, 45);
+  padding: 10px 20px 10px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:  0.3s ease;
+  align-items: center;
+  width: 100%;
+  height: 100%;  
   background-color: rgb(54, 54, 54);
   text-decoration: none;
 }
  
-.content_salonDueño .buttonDueño-2:hover{
-   
-   color: rgb(0, 0, 0);
-   background-color: rgb(255, 255, 255);
-   text-decoration: none;
- }
- 
-  .content_salonDueño .buttonDueño-3{
-   
-   color: #ffffff; 
-   border: 2px solid rgb(255, 0, 0);
-   padding: 10px 20px 10px 20px;
-   overflow: hidden;
-   cursor: pointer;
-   transition:  0.3s ease;
-   align-items: center;
-   width: 100%;
-   height: 100%;  
+.content_salonDueño .buttonDueño-2:hover{  
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.content_salonDueño .buttonDueño-3{
+  color: #ffffff; 
+  border: 2px solid rgb(255, 0, 0);
+  padding: 10px 20px 10px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:  0.3s ease;
+  align-items: center;
+  width: 100%;
+  height: 100%;  
   background-color: rgb(255, 0, 0);
   text-decoration: none;
 }

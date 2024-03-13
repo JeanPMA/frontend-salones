@@ -1,6 +1,6 @@
 <template>
     <NavbarDueño style="z-index: 1000;"/>
-    <div class="content_solicitudesDueño">
+    <div class="content_SRDueño">
         <h1>
         LISTA DE SOLICITUDES DE RESERVA
         </h1>
@@ -12,17 +12,17 @@
                 <FiltroEstadoSR @filtroCambiado="filtrarSR" />
               </div>
     </div> 
-    <div class="dueño_gridSolicitudes">
-          <div class="grid-containerDueño">
-            <div class="grid__itemSolicitud" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
-                <div class="text-title">
+    <div class="dueño_gridSR">
+          <div class="grid-containerSR">
+            <div class="grid__itemSR" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="irADetalleSR(item.id)">
+                <div class="text-titleSR">
                     <h2>{{ item.salon.nombre }}</h2>
                     
                     <img :src="item.salon.banner_url" alt="">
                    
                 </div>
               
-              <div class="text-detailSolicitudes">
+              <div class="text-detailSR">
                 <h4>Detalle:</h4>
                 <p>{{ item.detalle }}</p>
                 <h4>Estado:</h4>
@@ -179,220 +179,5 @@ components: {
 </script>
 
 <style>
-.content_solicitudesDueño{
-  background-color: white;
-}
-.content_solicitudesDueño h1{
-    padding-top: 30px;
-    color: rgb(0, 0, 0);
-}
-.search_listaSolicitud{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 0px 100px 0px 100px;
-    margin-top: 20px;
-}
 
-
-
-/*ESTILOS GRID SOLICITUDES */
-.dueño_gridSolicitudes{
-    padding: 20px 50px 50px 80px;
-    margin: 0px 20px 0px 20px;
-  
-  }
-  
-  .dueño_gridSolicitudes .grid-containerDueño {
-    display: grid;
-    grid-template-columns: repeat(5, 2fr); 
-    gap: 20px;
-    background-color: transparent;
-  
-    justify-content: center;
-    align-items: center;
- 
-  }
-  
-  .dueño_gridSolicitudes .grid__itemSolicitud{
-    
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    cursor: pointer;
-    border-radius: 10px;
-    width: 16vw; 
-    height: 50vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  }
-  
-  .dueño_gridSolicitudes .grid__itemSolicitud h2{
-    color: rgb(255, 255, 255); 
-    display: flex;
-    position: absolute;
-    font-size: 1.3vw;
-    z-index: 2;
-  }
-  
-  
-  .dueño_gridSolicitudes .grid__itemSolicitud p{
-    overflow: auto;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    -webkit-line-clamp: 2;
-    padding:  0px;
-    font-size: 1vw;
-    text-align: justify;
-    margin-bottom: 10px;
-  }
-  .dueño_gridSolicitudes .grid__itemSolicitud h4{
-   text-align: justify;
-
- }
- .dueño_gridSolicitudes .grid__itemSolicitud .text-title{
-    flex: 0.5;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .dueño_gridSolicitudes .grid__itemSolicitud .text-title::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; 
-}
-
-  .dueño_gridSolicitudes .grid-containerDueño .text-title img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-    position: relative;
-    filter: blur(2px) brightness(0.5); 
-    
-  }
-  
-  .dueño_gridSolicitudes .grid__itemSolicitud a{
-    text-decoration: none;
-    color: #000000;
-    font-style: italic;
-    font-size: 1vw;
-    text-align: end;
-    transition: 0.3s ease;
-    margin-top: auto;
- }
-
- .dueño_gridSolicitudes .grid__itemSolicitud a:hover{
-    color: #686868;
- }
-
-  
- .dueño_gridSolicitudes .text-detailSolicitudes {    
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    background: rgb(222, 222, 222);
-    color: #000000;
-    text-align: end;
-    padding: 10px; 
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out; 
-  }
-
-
-
-  .content_solicitudesDueño .v-pagination{
-    color: rgb(0, 0, 0);
-    margin-bottom: 10px;
-  }
-
-  @media  screen and (max-width: 1100px) {
-    .dueño_gridSolicitudes .grid-containerDueño {
-      grid-template-columns: repeat(4, 2fr); 
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud{
-      width: 20vw; 
-      height: 44vh;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud h4{
-      font-size: 1.5vw;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud p{
-      font-size: 1.2vw;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud a{
-      font-size: 15px;
-    }
-  }
-  @media  screen and (max-width: 860px) {
-    .dueño_gridSolicitudes{
-      padding: 20px 50px 50px 70px;
-    }
-    .dueño_gridSolicitudes .grid-containerDueño {
-      grid-template-columns: repeat(2, 2fr); 
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud{
-      width: 35vw; 
-      height: 44vh;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud h4{
-      font-size: 2vw;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud p{
-      font-size: 1.5vw;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud h2{
-      font-size: 2.5vw;
-    }
-  }
-
-  @media  screen and (max-width: 700px) {
-    .content_solicitudesDueño  h1{
-      font-size: 30px;
-      margin-left: 55px;
-    }
-  }
-
-  @media  screen and (max-width: 600px) {
-    .dueño_gridSolicitudes{
-      padding: 20px 50px 50px 100px;
-
-    }
-    .dueño_gridSolicitudes .grid-containerDueño {
-      grid-template-columns: repeat(1, 2fr); 
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud{
-      width: 70vw; 
-      height: 44vh;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud h4{
-      font-size: 3vw;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud p{
-      font-size: 2.5vw;
-    }
-    .dueño_gridSolicitudes .grid__itemSolicitud h2{
-      font-size: 4vw;
-    }
-  }
-
-  @media  screen and (max-width: 400px) {
-  .dueño_gridSolicitudes .grid__itemSolicitud h4{
-    font-size: 4vw;
-  }
-  .dueño_gridSolicitudes .grid__itemSolicitud p{
-    font-size: 3.5vw;
-  }
-  .dueño_gridSolicitudes .grid__itemSolicitud h2{
-    font-size: 5vw;
-  }
-}
 </style>

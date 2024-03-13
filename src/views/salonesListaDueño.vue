@@ -188,13 +188,15 @@ data() {
   background-color: white;
   height: 100%;
 }
+
 .content_salonesDueño h1{
-    padding-top: 30px;
-    color: rgb(0, 0, 0);
+  padding-top: 30px;
+  color: rgb(0, 0, 0);
 }
+
 .content_salonesDueño h3{
-    padding-top: 30px;
-    color: rgb(0, 0, 0);
+  padding-top: 30px;
+  color: rgb(0, 0, 0);
 }
 
 /*ESTILOS GRID SALONES */
@@ -204,115 +206,107 @@ data() {
   
   }
   
-  .dueño_gridSalones .grid-containerSalonesDueño {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px;
- 
-    place-items: center;
-    justify-content: center;
-    align-items: center;
- 
-  }
-  
-  .dueño_gridSalones .grid__itemSalon{
-   display: flex;
-   flex-direction: column;
-    
-    overflow: hidden;
-    cursor: pointer;
-    border-radius: 10px;
-    width: 30vw; 
-    height: 80vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  }
-  
-  .dueño_gridSalones .grid__itemSalon h2{
-    color: rgb(255, 255, 255); 
-
-    position: absolute;
-
-    font-size: 2.5vw;
-  }
-
-  .dueño_gridSalones .grid__itemSalon h4{    
-    font-size: 1vw;
-    text-align: start;
-    
-  }
-  
-  .dueño_gridSalones .grid__itemSalon p{
-    overflow: auto;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    -webkit-line-clamp: 4;
-    font-size: 1vw;
-    text-align: justify;
-    margin-bottom: 10px;
-  }
-
-  .dueño_gridSalones .grid__itemSalon .text-titleSalon{
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .dueño_gridSalones .grid__itemSalon .text-titleSalon::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; 
+.dueño_gridSalones .grid-containerSalonesDueño {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px;
+  place-items: center;
+  justify-content: center;
+  align-items: center;
 }
-  .dueño_gridSalones .grid__itemSalon .text-titleSalon img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-    position: relative;
-    filter: blur(2px) brightness(0.5); 
-  }
-  .dueño_gridSalones .grid__itemSalon .text-titleSalon h2{
-    z-index: 2;
-  }
-  .dueño_gridSalones .text-detailSalones a{
-    text-decoration: none;
-    color: #000000;
-    font-style: italic;
-    font-size: 15px;
-    transition: 0.3s ease;
-    margin-top: auto;
- }
 
- .dueño_gridSalones .text-detailSalones a:hover{
-    
-    color: #686868;
-   
- }
+.dueño_gridSalones .grid__itemSalon{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 30vw; 
+  height: 80vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
 
-  
- .dueño_gridSalones .text-detailSalones {
-   
-    display: flex;
-    flex-direction: column;
-    top: 0;
-    left: 0;
-    flex: 1;
-    overflow: hidden;
-    background: rgb(222, 222, 222); 
-    color: #000000;
-    text-align: end;
-    padding: 20px;
-  
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
+.dueño_gridSalones .grid__itemSalon h2{
+  color: rgb(255, 255, 255); 
+  position: absolute;
+  font-size: 2.5vw;
+}
 
-  }
-  
+.dueño_gridSalones .grid__itemSalon h4{    
+  font-size: 1vw;
+  text-align: start;
+}
+
+.dueño_gridSalones .grid__itemSalon p{
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: 4;
+  font-size: 1vw;
+  text-align: justify;
+  margin-bottom: 10px;
+}
+
+.dueño_gridSalones .grid__itemSalon .text-titleSalon{
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.dueño_gridSalones .grid__itemSalon .text-titleSalon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; 
+}
+
+.dueño_gridSalones .grid__itemSalon .text-titleSalon img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  position: relative;
+  filter: blur(2px) brightness(0.5); 
+}
+
+.dueño_gridSalones .grid__itemSalon .text-titleSalon h2{
+  z-index: 2;
+}
+
+.dueño_gridSalones .text-detailSalones a{
+  text-decoration: none;
+  color: #000000;
+  font-style: italic;
+  font-size: 15px;
+  transition: 0.3s ease;
+  margin-top: auto;
+}
+
+.dueño_gridSalones .text-detailSalones a:hover{
+  color: #686868;
+}
+
+
+.dueño_gridSalones .text-detailSalones {
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  flex: 1;
+  overflow: hidden;
+  background: rgb(222, 222, 222); 
+  color: #000000;
+  text-align: end;
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
 
 .boton_crearSalonDueño{
   margin-top: 10px;
@@ -321,7 +315,6 @@ data() {
 }
 
 .boton_crearSalonDueño a{
-
  padding: 10px;
  width: 200px;
  height: 35px;
@@ -331,67 +324,69 @@ data() {
  font-size: 14px;
  text-decoration: none;
 }
+
 .boton_crearSalonDueño #crear{
-    background-color: rgb(1, 85, 180);
-    color: rgb(255, 255, 255);  
-    border: 2px solid rgb(1, 85, 180); 
-    transition: 0.3s ease;   
-   
-  }
+  background-color: rgb(1, 85, 180);
+  color: rgb(255, 255, 255);  
+  border: 2px solid rgb(1, 85, 180); 
+  transition: 0.3s ease;   
+}
 
 .boton_crearSalonDueño #crear:hover {
   background-color: transparent;
   color: #000000;
 }
+
 .search_listaSolicitud{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 0px 100px 0px 100px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 100px 0px 100px;
+  margin-top: 20px;
 }
+
 .search_listaSolicitud .search-container input{
-    width: 100%;
-    padding: 10px;
-    color: rgb(0, 0, 0);
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 10px;
+  width: 100%;
+  padding: 10px;
+  color: rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 10px;
 }
 
 .content_salonesDueño .v-pagination{
-    color: rgb(0, 0, 0);
-    margin-bottom: 10px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 10px;
 }
 
 @media  screen and (max-width: 1200px) {
-    .dueño_gridSalones .grid__itemSalon p{
-      font-size: 1.5vw;
-    }
-    .dueño_gridSalones .grid__itemSalon h4{
-      font-size: 1.5vw;
-    }
-    .dueño_gridSalones .grid__itemSalon h2{
-      font-size: 3vw;
-    }
+  .dueño_gridSalones .grid__itemSalon p{
+    font-size: 1.5vw;
   }
+  .dueño_gridSalones .grid__itemSalon h4{
+    font-size: 1.5vw;
+  }
+  .dueño_gridSalones .grid__itemSalon h2{
+    font-size: 3vw;
+  }
+}
 
 @media  screen and (max-width: 900px) {
-    .dueño_gridSalones .grid-containerSalonesDueño {
-      grid-template-columns: repeat(2, 1fr); 
-    }
-    .content_salonesDueño .v-pagination{
-      margin-left: 50px;
-    }
-    .dueño_gridSalones .grid__itemSalon{
-      width: 40vw; 
+  .dueño_gridSalones .grid-containerSalonesDueño {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  .content_salonesDueño .v-pagination{
+    margin-left: 50px;
+  }
+  .dueño_gridSalones .grid__itemSalon{
+    width: 40vw; 
 
-    }
-    .dueño_gridSalones .grid__itemSalon p{
-      font-size: 2vw;
-    }
-    .dueño_gridSalones .grid__itemSalon h4{
-      font-size: 2vw;
-    }
+  }
+  .dueño_gridSalones .grid__itemSalon p{
+    font-size: 2vw;
+  }
+  .dueño_gridSalones .grid__itemSalon h4{
+    font-size: 2vw;
+  }
 }
 
 @media  screen and (max-width: 770px) {
@@ -401,40 +396,40 @@ data() {
 }
 
 @media  screen and (max-width: 700px) {
-    .search_listaSolicitud{
-      justify-content: center;
-      margin: 0px 10px 0px 60px;
-      margin-top: 20px;
-    }
-    .dueño_gridSalones .grid__itemSalon p{
-      font-size: 2.5vw;
-    }
-    .dueño_gridSalones .grid__itemSalon h4{
-      font-size: 2.5vw;
-    }
+  .search_listaSolicitud{
+    justify-content: center;
+    margin: 0px 10px 0px 60px;
+    margin-top: 20px;
+  }
+  .dueño_gridSalones .grid__itemSalon p{
+    font-size: 2.5vw;
+  }
+  .dueño_gridSalones .grid__itemSalon h4{
+    font-size: 2.5vw;
+  }
 }
 
 @media  screen and (max-width: 500px) {
-    .dueño_gridSalones .grid-containerSalonesDueño {
-      grid-template-columns: repeat(1, 1fr); 
-    }
-    .content_salonesDueño h1{
-      font-size: 30px;
-      margin-left: 55px;
-    }
-    .dueño_gridSalones .grid__itemSalon{
-      width: 80vw; 
+  .dueño_gridSalones .grid-containerSalonesDueño {
+    grid-template-columns: repeat(1, 1fr); 
+  }
+  .content_salonesDueño h1{
+    font-size: 30px;
+    margin-left: 55px;
+  }
+  .dueño_gridSalones .grid__itemSalon{
+    width: 80vw; 
 
-    }
-    .dueño_gridSalones .grid__itemSalon h2{
-      font-size: 5vw;
-    }
-    .dueño_gridSalones .grid__itemSalon p{
-      font-size: 4vw;
-    }
-    .dueño_gridSalones .grid__itemSalon h4{
-      font-size: 4vw;
-    }
+  }
+  .dueño_gridSalones .grid__itemSalon h2{
+    font-size: 5vw;
+  }
+  .dueño_gridSalones .grid__itemSalon p{
+    font-size: 4vw;
+  }
+  .dueño_gridSalones .grid__itemSalon h4{
+    font-size: 4vw;
+  }
 }
 @media  screen and (max-width: 400px) {
   .dueño_gridSalones .grid__itemSalon{

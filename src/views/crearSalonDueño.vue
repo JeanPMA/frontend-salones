@@ -340,14 +340,14 @@
 
 <style>
 .content_crearSalonDueño{
-    margin-left: auto;
-    margin-right: auto;
-    width: 80vw;
-    height: auto;
-    padding: 20px 100px 50px 100px;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    border-radius: 50px;
-    position: relative; 
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  height: auto;
+  padding: 20px 100px 50px 100px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  border-radius: 50px;
+  position: relative; 
 }
 
 .content_crearSalonDueño svg{
@@ -355,59 +355,60 @@
 }
 
 .content_crearSalonDueño form{
-    padding: 1px 50px 50px 50px; 
-    background-color: rgb(255, 255, 255);
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border: 2px solid #000000;
-    border-top: none;
+  padding: 1px 50px 50px 50px; 
+  background-color: rgb(255, 255, 255);
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border: 2px solid #000000;
+  border-top: none;
 }
+
 .content_crearSalonDueño h2{
-    padding: 50px; 
-    background-color: rgb(255, 255, 255);
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border: 2px solid #000000;
-    border-bottom: none;
+  padding: 50px; 
+  background-color: rgb(255, 255, 255);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border: 2px solid #000000;
+  border-bottom: none;
 }
+
 .content_crearSalonDueño p{
-    color: rgb(176, 0, 32); 
-    font-size: 12px;
-    margin-bottom: 5px;
-    margin-left: 20px;
-    display: block;
-    text-align: start;
+  color: rgb(176, 0, 32); 
+  font-size: 12px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+  display: block;
+  text-align: start;
 }
 
 .content_crearSalonDueño .crear_salon_imagen{
-    display: flex;
-    flex-direction: column;
-    text-align: start;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin-bottom: 20px;
 }
 
 .content_crearSalonDueño .crear_salon_imagen p{
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .content_crearSalonDueño .crear_salon_imagen input{
-    margin-top: 10px;
-    color: rgb(118, 118, 118);
+  margin-top: 10px;
+  color: rgb(118, 118, 118);
 }
 
 .content_crearSalonDueño h1{
   font-size: 20px;
   color: rgb(118, 118, 118);
 }
+
 .v-messages__message {
-    text-align: start;
- 
+  text-align: start;
 }
+
 .v-input--horizontal {
-    margin-top: 20px;
+  margin-top: 20px;
 }
-
-
 
 @media  screen and (max-width: 700px) {
   .content_crearSalonDueño{
@@ -425,9 +426,11 @@
   .content_crearSalonDueño{
     padding: 20px 5px 50px 5px;
   }
+
   .content_crearSalonDueño form{
     padding: 1px 10px 50px 10px;
   }
+  
   .content_crearSalonDueño h2 {
     padding: 50px 10px 50px 10px;
 

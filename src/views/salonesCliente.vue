@@ -168,94 +168,85 @@
     padding-bottom: 40px;
   }
   
-  .salones_grid{
+.salones_grid{
+  margin: 0px 20px 0px 20px;
+}
 
-    margin: 0px 20px 0px 20px;
-  }
-  
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 10px;
-    background-color: transparent;
-    place-items: center;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .grid__item{  
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    height: auto;
-    cursor: pointer;
-    border-radius: 10px;
-    width: 30vw; 
-    height: 20vw;
-    border: 1px solid #000000;
-  }
-  
-  .grid__item h2{
-    color: rgb(255, 255, 255); 
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    font-size: 2vw;
-  }
-  
-  
-  .grid__item p{
-   
-    padding:  0px;
-    margin-top: 10px;
-    font-size: 1vw;
-    text-align: justify;
-    overflow: auto;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    -webkit-line-clamp: 3;
-  }
-  .salones_grid .grid-container img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  
-  .salones_grid .text-overlay {
-   
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    background: rgba(0, 0, 0, 0.5); 
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-  
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    max-width: 100%;
-  }
-  
-  
-  .grid__item:hover .text-overlay {
-    opacity: 1;
-  }
-  
-  .salones_title{
-    color: rgb(0, 0, 0);
-    display: flex;
-    padding-top: 50px;
-    justify-content: center;
-    font-size: 2vw;
-  }
-  
-  
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px;
+  background-color: transparent;
+  place-items: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.grid__item{  
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: auto;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 30vw; 
+  height: 20vw;
+  border: 1px solid #000000;
+}
+
+.grid__item h2{
+  color: rgb(255, 255, 255); 
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  font-size: 2vw;
+}
+
+.grid__item p{
+  padding:  0px;
+  margin-top: 10px;
+  font-size: 1vw;
+  text-align: justify;
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: 3;
+}
+
+.salones_grid .grid-container img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.salones_grid .text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  max-width: 100%;
+}
+
+.grid__item:hover .text-overlay {
+  opacity: 1;
+}
+
+.salones_title{
+  color: rgb(0, 0, 0);
+  display: flex;
+  padding-top: 50px;
+  justify-content: center;
+  font-size: 2vw;
+}
 
 .salones_list .filtro-container {
   margin-left: 100px;
@@ -279,41 +270,57 @@
     width: 45vw; 
     height: 18vw;
   }
+
   .salones_grid .text-overlay{
     padding: 10px 20px 20px 20px;
   }
+
   .salones_title{
     font-size: 20px;
   }
+
   .grid__item h2{
     padding-top: 0px;
     padding-bottom: 0px;
   }
 }
+
+@media  screen and (max-width: 740px) {
+  .salones_list .filtro-container {
+    margin-left: 0px;
+  }
+}
+
 @media  screen and (max-width: 700px) {
   .grid-container {
     grid-template-columns: repeat(1, 1fr); 
 
   }
+
   .grid__item{
     width: 80vw; 
     height: 30vw;
   }
+
   .salones_list{
     margin-top: 70px;
   }
+  
   .grid__item h2{
     font-size: 3vw;
     padding-top: 5px;
   }
+
   .grid__item p{
     font-size: 2vw;
   }
 }
+
 @media  screen and (max-width: 640px) {
   .grid__item h2{
     font-size: 3vw;
   }
+  
   .grid__item p{
     font-size: 1.5vw;
     margin-top: 5px;

@@ -74,13 +74,16 @@
   padding-left: 20px;
   color: rgb(0, 0, 0);
 }
+
 .filtro_btnSR{
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
+
 .filtro_estadoSR span {
-    margin-left: 20px;
+  margin-left: 20px;
 }
+
 .filtro_estadoSR a {
   cursor: pointer;
   margin-right: 10px; 
@@ -108,28 +111,33 @@
 .filtro_listaSR button {
   margin-top: 10px;
 }
+
 .filtro_lista-enter-active, .filtro_lista-leave-active {
   transition: opacity 0.5s;
 }
+
 .filtro_lista-enter-from, .filtro_lista-leave-to {
   opacity: 0;
 }
 
-  @media  screen and (max-width: 510px) {
+@media  screen and (max-width: 510px) {
   .filtro_listaSR{
     flex-direction: column;
     font-size: 15px;
-
   }
+
   .filtro_listaSR label {
     padding-left: 0px;
   }
+
   .filtro_listaSR label, input {
     margin-bottom: 10px;
   }
+  
   .filtro_estadoSR {
     align-items: center; 
     text-align: justify;
+    padding-left: 0px;
   }
 }
 </style>

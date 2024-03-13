@@ -115,7 +115,7 @@ const routes = [
         meta: { requiresAuth: true, allowedRoles: ['ROLE_USER'] },
     },
     {
-        path:'/calendar', component: CalendarComponent,
+        path:'/calendar', component: CalendarComponent, name: 'calendar',
         meta: { requiresAuth: true, allowedRoles: ['ROLE_USER'] },
     },
     {

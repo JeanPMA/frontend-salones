@@ -54,15 +54,17 @@
   flex-direction: column;
   align-items: flex-start; 
   padding-left: 20px;
+}
 
-}
 .filtro_btnServiceTipoSR{
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
+
 .filtro_serviceTipoSR span {
-    margin-left: 20px;
+  margin-left: 20px;
 }
+
 .filtro_serviceTipoSR a {
   cursor: pointer;
   margin-right: 10px; 
@@ -90,10 +92,25 @@
 .filtro_listaServiceTipoSR button {
   margin-top: 10px;
 }
+
 .filtro_lista-enter-active, .filtro_lista-leave-active {
   transition: opacity 0.5s;
 }
+
 .filtro_lista-enter-from, .filtro_lista-leave-to {
   opacity: 0;
+}
+
+@media  screen and (max-width: 500px) {
+  .filtro_listaServiceTipoSR{
+    flex-direction: column;
+    font-size: 15px;
+  }
+  
+  .filtro_serviceTipoSR {
+    align-items: center; 
+    text-align: justify;
+    padding-left: 0px;
+  }
 }
 </style>

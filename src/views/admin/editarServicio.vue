@@ -224,7 +224,7 @@ mounted(){
     };
   },
 };
-
 </script>
+
 <style>
 </style>

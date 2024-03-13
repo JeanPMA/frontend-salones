@@ -185,243 +185,243 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
   
 <style>
  
-
 .header_buzon{
-    display: flex;
-    flex-direction: column;
-   
-    
+  display: flex;
+  flex-direction: column;    
 }
 
 .search_buzon{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 0px 100px 0px 100px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 100px 0px 100px;
+  margin-top: 20px;
 }
+
 .search_buzon .search-container input{
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #000000;
-    border-radius: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #000000;
+  border-radius: 10px;
 }
+
 .search-container {
     display: flex;
-    
+
 }
+
 .filtro-container{
   margin-top: 10px;
 }
 
-
-
-
 /*GRID DE BUZON*/
 
+.buzon_list{
+  background-color: white;
+  width: 100%;
+  margin-top: 80px;
+  padding-bottom: 40px;
+  height: 100%;
+}
+
+.buzon_grid{
+  margin: 0px 20px 0px 20px;
+}
+
+.buzon_grid .grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 10px;
+  background-color: transparent;
+  place-items: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.buzon_grid .grid__item{ 
+  position: relative; 
+  display: inline-block;
+  overflow: hidden;
+  height: auto;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 18vw; 
+  height: 25vw;
+}
+
+.buzon_grid .grid__item h2{
+  color: rgb(255, 255, 255); 
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  font-size: 1vw;
+}
+
+.buzon_grid .grid__item p{
+  padding:  0px;
+  margin-top: 10px;
+  font-size: 1vw;
+  text-align: justify;
+  margin-bottom: 10px;
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: 3;
+}
+
+.buzon_grid .grid-container img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.buzon_grid .grid__item a{
+  text-decoration: none;
+  color: #ffffff;
+  font-style: italic;
+  font-size: 1vw;
+  transition: 0.3s ease;
+}
+
+.buzon_grid .grid__item a:hover{
+  color: #686868;
+}
+
+
+.buzon_grid .text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); 
+  color: #fff;
+  text-align: end;
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  max-width: 100%;
+}
+
+.buzon_title{
+  color: rgb(0, 0, 0);
+  display: flex;
+  padding-top: 50px;
+  justify-content: center;
+  font-size: 2vw;
+}
+
+.v-pagination{
+  margin-top: 20px;
+}
+
+@media  screen and (max-width: 1040px) {
   .buzon_list{
-    background-color: white;
-    width: 100%;
-    margin-top: 80px;
-    padding-bottom: 40px;
-    height: 100%;
-
-  }
-
-  .buzon_grid{
-    margin: 0px 20px 0px 20px;
-    
-  }
-  
-  .buzon_grid .grid-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); 
-    gap: 10px;
-    background-color: transparent;
-    place-items: center;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .buzon_grid .grid__item{ 
-    position: relative; 
-    display: inline-block;
-    overflow: hidden;
-    height: auto;
-    cursor: pointer;
-    border-radius: 10px;
-    width: 18vw; 
-    height: 25vw;
-  }
-  
-  .buzon_grid .grid__item h2{
-    color: rgb(255, 255, 255); 
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    font-size: 1vw;
-  }
-  
-  
-  .buzon_grid .grid__item p{
-   
-    padding:  0px;
-    margin-top: 10px;
-    font-size: 1vw;
-    text-align: justify;
-    margin-bottom: 10px;
-    overflow: auto;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    -webkit-line-clamp: 3;
-  }
-  .buzon_grid .grid-container img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-
-  }
-  
-  .buzon_grid .grid__item a{
-    text-decoration: none;
-    color: #ffffff;
-    font-style: italic;
-    font-size: 1vw;
-    transition: 0.3s ease;
- }
-
- .buzon_grid .grid__item a:hover{
-    
-    color: #686868;
-   
- }
-
-  
- .buzon_grid .text-overlay {
-   
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    background: rgba(0, 0, 0, 0.7); 
-    color: #fff;
-    text-align: end;
-    padding: 20px;
-  
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-    max-width: 100%;
-  }
-  
-  
-  
-  
-  .buzon_title{
-    color: rgb(0, 0, 0);
-    display: flex;
-    padding-top: 50px;
-    justify-content: center;
-    font-size: 2vw;
-  }
-
-  
-  
-  .v-pagination{
-    margin-top: 20px;
-  }
-
-  @media  screen and (max-width: 1040px) {
-    .buzon_list{
     margin-top: 70px;
-    }
+  }
+
   .buzon_grid .grid-container {
     grid-template-columns: repeat(3, 1fr); 
-
   }
+
   .buzon_grid .grid__item{
     width: 30vw; 
     height: 25vw;
   }
+
   .buzon_title{
     font-size: 20px;
   }
+
   .buzon_grid .grid__item h2{
     font-size: 2vw;
     padding-top: 0px;
     padding-bottom: 0px;
   }
+
   .buzon_grid .grid__item p{
     margin-top: 5px;
     margin-bottom: 5px;
   }
 }
-  @media  screen and (max-width: 700px) {
+
+@media  screen and (max-width: 700px) {
   .buzon_grid .grid-container {
-      grid-template-columns: repeat(2, 1fr); 
-
-    }
-  .buzon_grid .grid__item{
-      width: 45vw; 
-      height: 30vw;
-    }
-    .search_buzon{
-      justify-content: center;
-      margin: 0px 10px 0px 10px;
-      margin-top: 20px;
-    }
-    .buzon_grid .grid__item h2{
-      font-size: 2.3vw;
-    }
-    .buzon_grid .grid__item p{
-      font-size: 1.3vw;
-    }
-    .buzon_grid .text-overlay{
-      padding: 10px 20px 20px 20px;
-    }
-    .buzon_grid .grid__item a{
-      font-size: 1.3vw;
-
-    }
+    grid-template-columns: repeat(2, 1fr); 
   }
-  @media  screen and (max-width: 580px) {
-  .buzon_grid .grid-container {
-      grid-template-columns: repeat(1, 1fr); 
 
-    }
   .buzon_grid .grid__item{
-      width: 80vw; 
-      height: 30vw;
-    }
-    .buzon_grid .grid__item h2{
-      font-size: 2.8vw;
-    }
-    .buzon_grid .grid__item p{
-      font-size: 1.3vw;
-    }
-    .buzon_grid .grid__item a{
-      font-size: 1.3vw;
+    width: 45vw; 
+    height: 30vw;
+  }
 
-    }
-    .buzon_grid .grid__item p{
+  .search_buzon{
+    justify-content: center;
+    margin: 0px 10px 0px 10px;
+    margin-top: 20px;
+  }
+
+  .buzon_grid .grid__item h2{
+    font-size: 2.3vw;
+  }
+
+  .buzon_grid .grid__item p{
+    font-size: 1.3vw;
+  }
+
+  .buzon_grid .text-overlay{
+    padding: 10px 20px 20px 20px;
+  }
+
+  .buzon_grid .grid__item a{
+    font-size: 1.3vw;
+
+  }
+}
+
+@media  screen and (max-width: 580px) {
+  .buzon_grid .grid-container {
+    grid-template-columns: repeat(1, 1fr); 
+  }
+
+  .buzon_grid .grid__item{
+    width: 80vw; 
+    height: 30vw;
+  }
+
+  .buzon_grid .grid__item h2{
+    font-size: 2.8vw;
+  }
+
+  .buzon_grid .grid__item p{
+    font-size: 1.3vw;
+  }
+
+  .buzon_grid .grid__item a{
+    font-size: 1.3vw;
+  }
+
+  .buzon_grid .grid__item p{
     -webkit-line-clamp: 2;
-    }
-    .buzon_grid .grid__item p{
-      margin-top: 2px;
-      margin-bottom: 2px;
-    }
-    .buzon_grid .text-overlay{
-      padding: 10px 20px 10px 20px;
-    }
   }
-  @media  screen and (max-width: 340px) {
-    .buzon_grid .grid__item{
-      height: 40vw;
-    }
+
+  .buzon_grid .grid__item p{
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
+
+  .buzon_grid .text-overlay{
+    padding: 10px 20px 10px 20px;
+  }
+}
+
+@media  screen and (max-width: 340px) {
+  .buzon_grid .grid__item{
+    height: 40vw;
+  }
+}
 
 </style>
   

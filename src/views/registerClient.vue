@@ -176,8 +176,6 @@ export default {
 </script>
 
 <style>
-
-
 .content_register{
     display: flex;
     justify-content: center;
@@ -189,19 +187,16 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .wrapper_register{
     position: relative;
     width: 400px;
     height: 700px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .5);
-   
     backdrop-filter: blur(5px);
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
-
-   
-
     box-shadow: 0 0 30px rgba(0, 0, 0, .5);
     display: flex;
     justify-content: center;
@@ -216,9 +211,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    
+    overflow: hidden;  
 }
+
 .register_icon img{
     width: 400px;
     height: 700px;
@@ -228,8 +223,6 @@ export default {
     width: 100%;
     padding: 40px;
 }
-
-
 
 .content_register .btn{
     width: 100%;
@@ -249,7 +242,7 @@ export default {
     color: #162938;
     text-align: center;
     font-weight: 500;
-     padding-top: 20px;
+    padding-top: 20px;
 }
 
 .register-login p a{
@@ -261,7 +254,6 @@ export default {
 .register-login p a:hover{
     text-decoration: underline;
 }
-
 
 .contact{
     font-size: .9em;
@@ -280,6 +272,7 @@ export default {
 .contact p a:hover{
     text-decoration: underline;
 }
+
 .wrapper_register .input-box{
     position: relative;
     width: 100%;
@@ -287,6 +280,7 @@ export default {
     border-bottom: 2px solid #162938;
     margin: 20px 0;
 }
+
 @media  screen and (max-width: 840px) {
     .register_icon{
         display: none;

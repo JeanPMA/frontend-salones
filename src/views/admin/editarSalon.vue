@@ -473,8 +473,8 @@
 
 <style>
 .content_crearSalon .imagen_actual{
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .content_crearSalon .imagen_editar{
@@ -491,14 +491,14 @@
   color: rgb(118, 118, 118);
 }
 
-
 .content_crearSalon .imagen_actual img{
-    width: 400px;
-    height: 400px;
-    object-fit: cover; 
-    margin-left: auto;
-    margin-right: auto;
+  width: 400px;
+  height: 400px;
+  object-fit: cover; 
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .content_crearSalon .imagen_editar label{
   text-align: start;
   font-size: 20px;
@@ -509,22 +509,23 @@
   color: #0000006a;
   margin-bottom: 10px;
 }
+
 .content_crearSalon .imagen_editar input{
   width: 100%;
   color: rgb(118, 118, 118);
   margin-top: 10px;
 }
+
 @media  screen and (max-width: 520px) {
   .content_crearSalon .imagen_actual img{
     width: 100%;
     height: 250px;
-}
+  }
 }
 
 @media  screen and (max-width: 300px) {
   .content_crearSalon .imagen_actual img{
     width: 100%;
-
-}
+  }
 }
 </style>

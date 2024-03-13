@@ -59,15 +59,16 @@
   align-items: flex-start; 
   padding-left: 20px;
 }
+
 .filtro_btn{
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 .filtro_servicios span {
-    margin-left: 20px;
-    color: rgb(0, 0, 0);
-
+  margin-left: 20px;
+  color: rgb(0, 0, 0);
 }
+
 .filtro_servicios a {
   cursor: pointer;
   margin-right: 10px; 
@@ -100,7 +101,21 @@
 .filtro_lista-enter-active, .filtro_lista-leave-active {
   transition: opacity 0.5s;
 }
+
 .filtro_lista-enter-from, .filtro_lista-leave-to {
   opacity: 0;
+}
+
+@media  screen and (max-width: 500px) {
+  .filtro_lista{
+    flex-direction: column;
+    font-size: 15px;
+  }
+  
+  .filtro_servicios {
+    align-items: center; 
+    text-align: justify;
+    padding-left: 0px;
+  }
 }
 </style>

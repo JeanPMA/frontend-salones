@@ -73,8 +73,7 @@ export default {
 </script>
 
 <style>
-
 .text-transparent{
-    color: white;
+  color: white;
 }
 </style>

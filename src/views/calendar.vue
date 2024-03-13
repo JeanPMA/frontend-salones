@@ -91,14 +91,11 @@ data() {
 }
 
 .body_calendar{
-  
   display: flex;
-  
   justify-content: center;
   width: 500px;
   height: 500px;
   margin: 0 auto;
-
   border: 2px solid black;
   padding: 20px;
 }
@@ -114,9 +111,11 @@ data() {
 .blocked-date {
   background-color: red; 
 }
+
 .fc .fc-button .fc-icon{
   vertical-align: bottom;
 }
+
 @media  screen and (max-width: 400px) {
   .calendar{
     font-size: 4vw;

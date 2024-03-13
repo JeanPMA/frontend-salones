@@ -321,34 +321,34 @@
 
 <style>
 .content_crearUsuario{
-    padding: 40px 100px 40px 100px;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
+  padding: 40px 100px 40px 100px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .content_crearUsuario form{
-    padding: 1px 50px 50px 50px; 
-    background-color: rgb(255, 255, 255);
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border: 2px solid #000000;
-    border-top: none;
+  padding: 1px 50px 50px 50px; 
+  background-color: rgb(255, 255, 255);
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border: 2px solid #000000;
+  border-top: none;
 }
+
 .content_crearUsuario h2{
-    padding: 50px; 
-    background-color: rgb(255, 255, 255);
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border: 2px solid #000000;
-    border-bottom: none;
+  padding: 50px; 
+  background-color: rgb(255, 255, 255);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border: 2px solid #000000;
+  border-bottom: none;
 }
 
 .v-messages__message {
-    text-align: start;
- 
+  text-align: start;
 }
+
 .v-input--horizontal {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 @media  screen and (max-width: 700px) {
@@ -367,12 +367,13 @@
   .content_crearUsuario{
     padding: 20px 5px 50px 5px;
   }
+
   .content_crearUsuario form{
     padding: 1px 10px 50px 10px;
   }
+
   .content_crearUsuario h2 {
     padding: 50px 10px 50px 10px;
-
   }
 }
 </style>

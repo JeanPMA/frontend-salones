@@ -327,178 +327,180 @@ export default {
 
 <style>
 .body_detalleSR{
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    flex-direction: column;
-    background-color: #000000a4;
-    color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+  background-color: #000000a4;
+  color: rgb(255, 255, 255);
 }
+
 .body_detalleSR h2{
-    margin-top: 10px;
+  margin-top: 10px;
 }
+
 .content_detalleSR{
-    margin: 10px 100px 10px 100px;
-    padding: 30px;
-    background-color: #0E2C40;
-    border-radius: 20px;
-    
-    box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+  margin: 10px 100px 10px 100px;
+  padding: 30px;
+  background-color: #0E2C40;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .5);
 }
+
 .body_detalleSR .svg-inline--fa {
-   height: 50px;
+  height: 50px;
 }
+
 .content_detalleSR .info_detalleSR{
-    display: flex;
-    flex-direction: column;
-    text-align: justify;
-    margin-left: 50px;
-    margin-right: 50px;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  margin-left: 50px;
+  margin-right: 50px;
 }
+
 .info_detalleSR h3{
-    text-align: start;
-    display: flex;
-    align-items: center;
-    color: #ffffff;
-    font-size: 20px;
-    width: 18vw;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: start;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 20px;
+  width: 18vw;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
 .info_detalleSR p{
-    color: #1e2b2d;
-    margin-top: 5px;
-    padding: 15px;
-    border-radius: 5px;
-    flex: 1; 
-    background-color: #ffffff;
-    overflow: auto;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    -webkit-line-clamp: 4;
+  color: #1e2b2d;
+  margin-top: 5px;
+  padding: 15px;
+  border-radius: 5px;
+  flex: 1; 
+  background-color: #ffffff;
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: 4;
 }
+
 .info_detalleSR .detalle_itemSR{
-    
-    margin-top: 20px;
-    
-  
-    display: flex;
-    flex-direction: row;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
 }
+
 .body_detalleSR .detalle_itemSR .svg-inline--fa {
-   height: 22px;
-   margin-right: 10px;
+  height: 22px;
+  margin-right: 10px;
 }
-/* botones estilos*/
+
+/*BOTONES*/
 .botones_SolicitudReserva{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 25px;
-    font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+  font-weight: bold;
 }
 
 .botones_SolicitudReserva a{
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 8px;
-    width: 200px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 8px;
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
 }
 
 .botones_SolicitudReserva #rechazar{
-    background-color: #ff0000;
-    color: #ffffff;
-    border: 2px solid #ff0000;
-   transition: 0.3s ease; 
-   
-  }
+  background-color: #ff0000;
+  color: #ffffff;
+  border: 2px solid #ff0000;
+  transition: 0.3s ease; 
+}
 
 .botones_SolicitudReserva #rechazar:hover {
-    background-color: transparent;
-    color: #ff0000;
-   
-  }
-  .botones_SolicitudReserva #cancelar{
-    background-color: #ff0000;
-    color: #ffffff;
-    border: 2px solid #ff0000;
-   transition: 0.3s ease; 
-   
-  }
+  background-color: transparent;
+  color: #ff0000;
+}
+
+.botones_SolicitudReserva #cancelar{
+  background-color: #ff0000;
+  color: #ffffff;
+  border: 2px solid #ff0000;
+  transition: 0.3s ease; 
+}
 
 .botones_SolicitudReserva #cancelar:hover {
-    background-color: transparent;
-    color: #ff0000;
-   
-  }
-  .botones_SolicitudReserva #atras{
-    background-color: #ffffff;
-    color: #000000;
-    border: 2px solid #ffffff;
-   transition: 0.3s ease; 
-   
-  }
+  background-color: transparent;
+  color: #ff0000;
+}
+
+.botones_SolicitudReserva #atras{
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #ffffff;
+  transition: 0.3s ease; 
+}
 
 .botones_SolicitudReserva #atras:hover {
-    background-color: transparent;
-    color: #ffffff;
-   
-  }
+  background-color: transparent;
+  color: #ffffff;
+}
 
-  .botones_SolicitudReserva #aceptar{
-    background-color: #0d7703;
-    border: 2px solid #0d7703;
-    color: #ffffff;
-   transition: 0.3s ease;   
-   
-  }
+.botones_SolicitudReserva #aceptar{
+  background-color: #0d7703;
+  border: 2px solid #0d7703;
+  color: #ffffff;
+  transition: 0.3s ease;   
+}
 
 .botones_SolicitudReserva #aceptar:hover {
-    background-color: transparent;
-    color: #0d7703;
-   
-  }
-  .botones_SolicitudReserva #eliminar{
-    background-color: #ff0000;
-    color: #ffffff;
-    border: 2px solid #ff0000;
-    transition: 0.3s ease;   
-  }
+  background-color: transparent;
+  color: #0d7703;
+}
+
+.botones_SolicitudReserva #eliminar{
+  background-color: #ff0000;
+  color: #ffffff;
+  border: 2px solid #ff0000;
+  transition: 0.3s ease;   
+}
 
 .botones_SolicitudReserva #eliminar:hover {
-    background-color: transparent;
-    color: #ff0000;
+  background-color: transparent;
+  color: #ff0000;
 }
 
 @media  screen and (max-width: 800px) {
-    .content_detalleSR {
-      margin: 10px 20px 10px 20px;
-    }
+  .content_detalleSR {
+    margin: 10px 20px 10px 20px;
   }
+}
+
 @media  screen and (max-width: 700px) {
-    .info_detalleSR .detalle_itemSR{
-      flex-direction: column;
-    }
-    .body_detalleSR {
-      height: auto;
-    }
+  .info_detalleSR .detalle_itemSR{
+    flex-direction: column;
+  }
+
+  .body_detalleSR {
+    height: auto;
+  }
 }
 
 @media  screen and (max-width: 600px) {
-    .botones_SolicitudReserva{
-      flex-direction: column;
-    }
-    .botones_SolicitudReserva a{
-      width: 80%;
-      margin-top: 10px;
-    }
+  .botones_SolicitudReserva{
+    flex-direction: column;
   }
+
+  .botones_SolicitudReserva a{
+    width: 80%;
+    margin-top: 10px;
+  }
+}
 
 @media  screen and (max-width: 400px) {
   .content_detalleSR .info_detalleSR{
@@ -506,6 +508,7 @@ export default {
     margin-right: 0px;
   }
 }
+
 @media  screen and (max-width: 250px) {
   .botones_SolicitudReserva a{
     margin-left: 5px;

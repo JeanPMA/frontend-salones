@@ -62,7 +62,7 @@
         <!-- clase slide paginacion 
         <div class="swiper-pagination"></div>-->
       
-        <!-- botones previo y siguiente del slide -->
+     
         <swiper-button-prev class="swiper-button-prev"></swiper-button-prev>
         <swiper-button-next class="swiper-button-next"></swiper-button-next>
         
@@ -412,10 +412,6 @@ h1, h2, h3, h4, h5, h6 {
   line-height: normal;
 }
 
-
-
-
-
 /*  BOTON */
 .boton{
   margin-right: 10px;
@@ -423,7 +419,6 @@ h1, h2, h3, h4, h5, h6 {
   justify-items: end;
 }
 .boton-1{
- 
   background: linear-gradient(90deg, #ffffff 50%, #ff1900 50%);
   color: #000000; 
   border: 4px solid rgb(45, 45, 45);
@@ -440,21 +435,15 @@ h1, h2, h3, h4, h5, h6 {
 .boton-1:hover{
   background-position: -100% 0;
   color: white;
-  
 }
 
-
-
 /*BODY*/
-
 .content_home{
   background-image: url('../img/5026563.jpg');
   background-size: cover; 
   background-repeat: no-repeat; 
- 
   padding: 10px 20px;
   border: none;
- 
   color: #000;
   margin-top: 85px;
   height: 600px;
@@ -502,19 +491,17 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
-
 /* SECCION RECOMENDADOS*/
 .content_recomend{
-  
   background-color: rgb(136, 115, 115);
 }
+
 .content{
   background-color: rgb(0, 0, 0);
-
   z-index: 1;
   padding: 0px 100px 0px 100px;
-  
 }
+
 .swiper {
   width: 100%;
   position: relative;
@@ -525,19 +512,16 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 40px;
   padding-bottom: 20px;
 }
+
 .swiper img{
   height: 200px;
   width: 100%;
   object-fit: contain;
-  
 }
-
-
 
 .swiper-button-prev{  
   --swiper-navigation-size: 50px;
   color: white;
-  
   height: 80px;
   width: 40px;
   margin-top: -40px;
@@ -545,16 +529,15 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 8px;
   transition: opacity 0.3s;
 }
+
 .swiper-button-prev:hover{
   opacity: 1;
   color: rgb(0, 0, 0);
- 
-
 }  
+
 .swiper-button-next{
   --swiper-navigation-size: 50px;
   color: white;
-  
   height: 50px;
   width: 40px;
   margin-top: -30px;
@@ -562,24 +545,21 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 8px;
   transition: opacity 0.3s;
 }
+
 .swiper-button-next:hover{
   opacity: 1;
   color: rgb(0, 0, 0);
- 
 }  
 
 .swiper-pagination{
   margin-bottom: 30px;
   background: transparent;
-  
 }
 
 .swiper-scrollbar{
   margin-bottom: 20px;
   background: transparent;
 }
-
-
 
 .swiper-pagination{
   --swiper-pagination-color: white;
@@ -588,11 +568,9 @@ h1, h2, h3, h4, h5, h6 {
   --swiper-pagination-bullet-inactive-opacity: 0.22;
   --swiper-pagination-bullet-opacity: 1;
   --swiper-pagination-bullet-horizontal-gap: 2px;
- 
 }
 
 .swiper-pagination-bullet{
-  
   box-shadow: inset 0 0 0 1px #fff;
 }
 
@@ -610,7 +588,6 @@ h1, h2, h3, h4, h5, h6 {
 .content_salones{
   background-color: #363636;
   width: 100%;
-  
 }
 
 .motivation_grid{
@@ -629,9 +606,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .grid__itemHome{
-  
   position: relative;
-
   display: inline-block;
   overflow: hidden;
   height: auto;
@@ -650,7 +625,6 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .grid__itemHome p{
- 
   padding:  0px;
   margin-top: 10px;
   font-size: 1vw;
@@ -661,15 +635,14 @@ h1, h2, h3, h4, h5, h6 {
   word-wrap: break-word;
   -webkit-line-clamp: 2;
 }
+
 .motivation_grid .grid-containerHome img{
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-
 .text-overlay {
- 
   position: absolute;
   top: 0;
   left: 0;
@@ -679,7 +652,6 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff;
   text-align: center;
   padding: 20px;
-
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   max-width: 100%;
@@ -703,21 +675,13 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: row;
   margin-top: 20px;
-  justify-content: end; 
- 
-  
+  justify-content: end;   
 }
-
-
-
 
 .content_salones .v-pagination{
     color: white;
     padding-bottom: 10px;
 }
-
-
-
 
 /*FORMULARIO DE CONTACTO*/
 
@@ -740,17 +704,13 @@ h1, h2, h3, h4, h5, h6 {
 .form_item_one {
   max-width: 800px;
   margin: 20px;
-  
   background: transparent;
   border-radius: 5px;
-  
 }
 
 .form_item_one h2 {
   text-align: center;
 }
-
-
 
 .form_item_one input[type="text"],
 .form_item_one input[type="email"],
@@ -760,10 +720,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #cccccc64;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.081);
-  
 }
-
-
 
 .form_item_one input[type="text"]::placeholder ,
 .form_item_one input[type="email"]::placeholder ,
@@ -775,7 +732,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .form_item_one button{
- 
   background: #333;
   border: 2px solid #333;
   color: #fff;
@@ -793,9 +749,7 @@ h1, h2, h3, h4, h5, h6 {
 .form_item_one button:hover {
   background: transparent;
   border: 2px solid #333;
-
 }
-
 
 .form_item_one form{
   display: flex;
@@ -806,7 +760,6 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: row;
   width: 100%;
-  
 }
 
 .form_one input{
@@ -835,36 +788,30 @@ h1, h2, h3, h4, h5, h6 {
 .text_items h3{
   color: white;
   font-size: 2.5vw;
- 
 }
 
 /*FOOTER*/
-
 .footer{
   background-color: black;
-  
-  
   width: 100%;
-  
   display: flex;
   flex-direction: row;
 }
 
 
 .footer_copyright{
-  
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content:center; 
   align-items: center;
 }
+
 .footer_copyright h2{
   color: white;
   margin: 20px 0px 20px 0px;
   font-size: 20px;
 }
-
 
 .footer .footer_social .icon__menu {
   font-size: 26px;
@@ -872,8 +819,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   width:  26px;
   height: 100%;
-  padding: 0px 50px 0px 50px;
-  
+  padding: 0px 50px 0px 50px; 
   padding-left: 20px;
 }
 
@@ -905,6 +851,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: spin 1s linear infinite;
   z-index: 300;
 }
+
 .overlay {
   position: fixed;
   top: 0;
@@ -926,7 +873,6 @@ h1, h2, h3, h4, h5, h6 {
       width: 100%;
       object-fit: cover;
   }
- 
 }
 
 @media  screen and (max-width: 1000px) {
@@ -989,10 +935,9 @@ h1, h2, h3, h4, h5, h6 {
   .content_home{
     margin-top: 70px;
   }
-
 }
-@media  screen and (max-width: 600px) {
 
+@media  screen and (max-width: 600px) {
   .grid-containerHome {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -1029,8 +974,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 3vw;
   }
 }
-  @media  screen and (max-width: 460px) {
 
+@media  screen and (max-width: 460px) {
     #numeros-pagina{
       font-size: 10px;
     }
@@ -1040,6 +985,5 @@ h1, h2, h3, h4, h5, h6 {
     #anterior{
       font-size: 10px;
     }
-  }
-
+}
 </style>

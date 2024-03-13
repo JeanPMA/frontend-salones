@@ -36,10 +36,7 @@
     </div>
 
     <div class="login_icon">
-        
-    
-        <img src="../img/logo_login.jpg" alt="">
-    
+        <img src="../img/logo_login.jpg" alt=""> 
     </div>
 </div>
 </template>
@@ -143,10 +140,10 @@ export default {
 
 <style>
 
-
 body{
     margin: 0px;
 }
+
 .content_login{
     display: flex;
     justify-content: center;
@@ -158,13 +155,13 @@ body{
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .wrapper{
     position: relative;
     width: 400px;
     height: 550px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .5);
-   
     backdrop-filter: blur(5px);
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
@@ -184,6 +181,7 @@ body{
     align-items: center;
     overflow: hidden;
 }
+
 .login_icon img{
     width: 400px;
     height: 550px;
@@ -195,10 +193,7 @@ body{
     
 }
 
-
-
 .form-box h2{
-   
     color: #162938;
     text-align: center;
     margin-top: 20px;
@@ -211,6 +206,7 @@ body{
     border-bottom: 2px solid #162938;
     margin: 30px 0;
 }
+
 .input-box label{
     position: absolute;
     top: 50%;
@@ -241,7 +237,6 @@ body{
     color: #162938;
     font-weight: 600;
     padding-right: 40px;
-
 }
 
 .input-box .icon{
@@ -251,8 +246,6 @@ body{
     color: #162938;
     line-height: 57px;
 }
-
-
 
 .content_login .btn{
     width: 100%;
@@ -284,6 +277,7 @@ body{
 .login-register p a:hover{
     text-decoration: underline;
 }
+
 @media  screen and (max-width: 600px) {
     .login_icon{
         display: none;

@@ -220,152 +220,151 @@ export default {
 </script>
 
 <style>
-
 .body_detalle{
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #535353;
-    color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: white;
+  color: white;
 }
+
 .body_detalle h2{
-    margin-top: 10px;
+  margin-top: 10px;
 }
+
 .content_detalleBuzon{
-    margin: 10px 100px 10px 100px;
-    padding: 30px;
-    background-color: rgb(91, 36, 80);
-    border-radius: 20px;
-    
-    box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+  margin: 40px 100px 10px 100px;
+  padding: 30px;
+  background-color: rgb(91, 36, 80);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .5);
 }
+
 .body_detalle .svg-inline--fa {
-   height: 50px;
+  height: 50px;
 }
+
 .content_detalleBuzon .info_detalle{
-    display: flex;
-    flex-direction: column;
-    text-align: justify;
-    margin-left: 50px;
-    margin-right: 50px;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  margin-left: 50px;
+  margin-right: 50px;
 }
+
 .info_detalle h3{
-    text-align: start;
-    margin-left: 20px;
-    color: #1e2b2d;
-    font-size: 23px;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: start;
+  margin-left: 20px;
+  color: #1e2b2d;
+  font-size: 23px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
 .info_detalle p{
-    color: #1e2b2d;
-    margin-top: 10px;
+  color: #1e2b2d;
+  margin-top: 10px;
 }
+
 .info_detalle .detalle_item{
-    padding: 15px;
-    margin-top: 15px;
-    background-color: #d4cfeb;
-    border-radius: 5px;
+  padding: 15px;
+  margin-top: 15px;
+  background-color: #d4cfeb;
+  border-radius: 5px;
 }
+
 .info_detalle .detalle_item p {
   overflow: auto;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
-
-   
 }
+
 .body_detalle .detalle_item .svg-inline--fa {
    height: 22px;
    margin-right: 10px;
 }
-/* botones estilos*/
+
+/*BOTONES*/
 .botones_detalle{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-weight: bold;
 }
 
 .botones_detalle a{
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 10px 10px 10px 10px;
-    width: 200px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 10px 10px 10px 10px;
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
 }
 
 .botones_detalle #cancelar{
-    background-color: #ff0000;
-    color: #ffffff;
-   transition: 0.3s ease; 
-   
-  }
+  background-color: #ff0000;
+  color: #ffffff;
+  transition: 0.3s ease; 
+}
 
 .botones_detalle #cancelar:hover {
-    background-color: #ff000070;
-    color: #ffffff;
-   
-  }
+  background-color: #ff000070;
+  color: #ffffff;
+}
 
-  .botones_detalle #atras{
-    background-color: #ffffff;
-    color: #000000;
-   transition: 0.3s ease; 
-   
-  }
+.botones_detalle #atras{
+  background-color: #ffffff;
+  color: #000000;
+  transition: 0.3s ease; 
+}
 
 .botones_detalle #atras:hover {
-    background-color: #000000;
-    color: #ffffff;
-   
-  }
+  background-color: #000000;
+  color: #ffffff;
+}
 
-  .botones_detalle #calificar{
-    background-color: #0d7703;
-    color: #ffffff;
-   transition: 0.3s ease;   
-   
-  }
+.botones_detalle #calificar{
+  background-color: #0d7703;
+  color: #ffffff;
+  transition: 0.3s ease;   
+}
 
 .botones_detalle #calificar:hover {
-    background-color: #5eff00a3;
-    color: #ffffff;
-   
-  }
+  background-color: #5eff00a3;
+  color: #ffffff; 
+}
 
-  .botones_detalle #eliminar{
-    background-color: #8400ff;
-    color: #ffffff;
-   transition: 0.3s ease;   
-   
-  }
+.botones_detalle #eliminar{
+  background-color: #8400ff;
+  color: #ffffff;
+  transition: 0.3s ease;   
+}
 
 .botones_detalle #eliminar:hover {
-    background-color: #2a005ea3;
-    color: #ffffff;
-   
+  background-color: #2a005ea3;
+  color: #ffffff;
+}
+
+@media  screen and (max-width: 920px) {
+  .content_detalleBuzon{
+    margin: 40px 10px 10px 10px;
+    padding: 10px 0px 10px 0px;
   }
-  @media  screen and (max-width: 920px) {
-    .content_detalleBuzon{
-      margin: 10px 10px 10px 10px;
-      padding: 10px 0px 10px 0px;
-    }
+}
+
+@media  screen and (max-width: 680px) {
+  .botones_detalle {
+    flex-direction: column;
+    gap: 5px;
   }
 
-  @media  screen and (max-width: 680px) {
-    .botones_detalle {
-      flex-direction: column;
-      gap: 5px;
-    }
-    .info_detalle h3{
-      margin-left: 5px;
-    }
+  .info_detalle h3{
+    margin-left: 5px;
   }
+}
  
 </style>

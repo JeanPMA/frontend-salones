@@ -270,23 +270,26 @@
   background-color: white;
   height: 100vh;
 }
-  .listaUsuariosAdmin_title{
-    padding-top: 30px;
-  }
-  .v-data-table__th{
+
+.listaUsuariosAdmin_title{
+  padding-top: 30px;
+}
+
+.v-data-table__th{
   font-size: 1.2rem; 
   font-weight: bold;
   color: rgb(0, 153, 255);
 }
+
 .search_listaAdmin{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 0px 80px 0px 80px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 80px 0px 80px;
+  margin-top: 20px;
 }
 
-/* botones estilos*/
+/*BOTONES*/
 .botones_Admin{
   width: auto;
   display: flex;
@@ -294,75 +297,66 @@
 }
 
 .botones_Admin a{
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 8px;
-
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    text-decoration: none;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: none;
 }
 
 .botones_Admin #deshabilitar{
-    background-color: #ff0000;
-    color: #ffffff;
-    border: 2px solid #ff0000;
-   transition: 0.3s ease; 
-   
-  }
+  background-color: #ff0000;
+  color: #ffffff;
+  border: 2px solid #ff0000;
+  transition: 0.3s ease; 
+}
 
 .botones_Admin #deshabilitar:hover {
-    background-color: transparent;
-    color: #ff0000;
-   
-  }
+  background-color: transparent;
+  color: #ff0000;
+}
 
- 
-  .botones_Admin #editar{
-    background-color: transparent;
-    border: 2px solid #0040ff;
-    color: #0040ff;
-   transition: 0.3s ease;   
-   
-  }
+.botones_Admin #editar{
+  background-color: transparent;
+  border: 2px solid #0040ff;
+  color: #0040ff;
+  transition: 0.3s ease;   
+}
 
 .botones_Admin #editar:hover {
-    background-color: #d4d4d4b7;
-   
-  }
-  .botones_Admin #eliminar{
-    background-color: transparent;
-    color: #ff0000;
-    border: 2px solid #ff0000;
-   transition: 0.3s ease; 
-   
-  }
+  background-color: #d4d4d4b7;
+}
 
-  .botones_Admin #eliminar:hover {
-    background-color: #d4d4d4b7;
-   
-  }
-  .botones_Admin #habilitar{
-    background-color: #2cbd00;
-    color: #ffffff;
-    border: 2.5px solid #2cbd00;
-   transition: 0.3s ease; 
-   
-  }
+.botones_Admin #eliminar{
+  background-color: transparent;
+  color: #ff0000;
+  border: 2px solid #ff0000;
+  transition: 0.3s ease;   
+}
 
-  .botones_Admin #habilitar:hover {
-    background-color: transparent;
-    color: #2cbd00;
-   
-  }
+.botones_Admin #eliminar:hover {
+  background-color: #d4d4d4b7;
+}
+
+.botones_Admin #habilitar{
+  background-color: #2cbd00;
+  color: #ffffff;
+  border: 2.5px solid #2cbd00;
+  transition: 0.3s ease; 
+}
+
+.botones_Admin #habilitar:hover {
+  background-color: transparent;
+  color: #2cbd00;
+}
 
 .boton_crearAdmin{
   margin-top: 10px;
   display: flex;
   margin-bottom: 20px;
-
 }
 
 .boton_crearAdmin a{
@@ -378,21 +372,22 @@
   font-size: 14px;
   text-decoration: none;
 }
+
 .boton_crearAdmin #crear{
-    background-color: transparent;
-    border: 2px solid #00aa39;
-    color: #00aa39;
-   transition: 0.3s ease;   
-   
-  }
+  background-color: transparent;
+  border: 2px solid #00aa39;
+  color: #00aa39;
+  transition: 0.3s ease;   
+}
 
 .boton_crearAdmin #crear:hover {
-    background-color: #d4d4d4b7;
+  background-color: #d4d4d4b7;
 }
 
 .content_usuariosListaAdmin .v-pagination{
-    margin-top: 0px;
+  margin-top: 0px;
 }
+
 .habilitadoAdmin {
   color: #00aa39; 
 }

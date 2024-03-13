@@ -59,13 +59,16 @@
   align-items: flex-start; 
   padding-left: 20px;
 }
+
 .filtro_btnRol{
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
+
 .filtro_roles span {
-    margin-left: 20px;
+  margin-left: 20px;
 }
+
 .filtro_roles a {
   cursor: pointer;
   margin-right: 10px; 
@@ -96,7 +99,21 @@
 .filtro_lista-enter-active, .filtro_lista-leave-active {
   transition: opacity 0.5s;
 }
+
 .filtro_lista-enter-from, .filtro_lista-leave-to {
   opacity: 0;
+}
+
+@media  screen and (max-width: 500px) {
+  .filtro_listaRol{
+    flex-direction: column;
+    font-size: 15px;
+  }
+  
+  .filtro_roles {
+    align-items: center; 
+    text-align: justify;
+    padding-left: 0px;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="content_crearServicio">    
+    <div class="content_crearServicioTipoSR">    
         <h2>
             FORMULARIO PARA LA CREACION DE SERVICIO
         </h2>
@@ -174,62 +174,56 @@
 </script>
 
 <style>
-.content_crearServicio{
-    padding: 40px 100px 40px 100px;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.content_crearServicio form{
-    padding: 1px 50px 50px 50px; 
-    background-color: rgb(255, 255, 255);
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border: 2px solid #000000;
-    border-top: none;
-
-}
-.content_crearServicio h2{
-    padding: 50px; 
-    background-color: rgb(255, 255, 255);
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border: 2px solid #000000;
-    border-bottom: none;
+.content_crearServicioTipoSR{
+  padding: 40px 100px 40px 100px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.v-messages__message {
-    text-align: start;
- 
+.content_crearServicioTipoSR form{
+  padding: 1px 50px 50px 50px; 
+  background-color: rgb(255, 255, 255);
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border: 2px solid #000000;
+  border-top: none;
 }
-.v-input--horizontal {
-    margin-top: 20px;
+
+.content_crearServicioTipoSR h2{
+  padding: 50px; 
+  background-color: rgb(255, 255, 255);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border: 2px solid #000000;
+  border-bottom: none;
 }
 
 @media  screen and (max-width: 700px) {
-  .content_crearServicio{
+  .content_crearServicioTipoSR{
     padding: 20px 10px 50px 10px;
   }
 }
 
 @media  screen and (max-width: 460px) {
-  .content_crearServicio{
+  .content_crearServicioTipoSR{
     width: 100%;
   }
 }
 
 @media  screen and (max-width: 300px) {
-  .content_crearServicio{
+  .content_crearServicioTipoSR{
     padding: 20px 5px 50px 5px;
   }
-  .content_crearServicio form{
+
+  .content_crearServicioTipoSR form{
     padding: 1px 10px 50px 10px;
   }
-  .content_crearServicio h2 {
-    padding: 50px 10px 50px 10px;
 
+  .content_crearServicioTipoSR h2 {
+    padding: 50px 10px 50px 10px;
   }
 }
 </style>

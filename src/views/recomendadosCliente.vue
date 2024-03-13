@@ -4,7 +4,7 @@
     </header>
     <div class="salonesRecomendados_list">
         <div class="salonesRecomendados_title">
-            SALONES MAS RECOMENDADOS
+            SALONES RECOMENDADOS
         </div>
         <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
 
@@ -153,60 +153,65 @@ import FiltroServicios from '../components/filtroServicios.vue';
   
   /*GRID DE SALONES*/
 .salonesRecomendados_list{
-    background-color: white;
-    width: 100%;
-    margin-top: 80px;
-    height: 100%;
-    padding-bottom: 40px;
-  }
-  
-  .salonesRecomendados_grid{
-    margin: 0px 20px 0px 20px;
-  }
-  
-  
-  .salonesRecomendados_grid .grid-container img{
-    width: 100%;
-    height: 100%;
-  }
+  background-color: white;
+  width: 100%;
+  margin-top: 80px;
+  height: 100%;
+  padding-bottom: 40px;
+}
+
+.salonesRecomendados_grid{
+  margin: 0px 20px 0px 20px;
+}
+
+.salonesRecomendados_grid .grid-container img{
+  width: 100%;
+  height: 100%;
+}
   
 .salonesRecomendados_list .filtro-container {
   margin-left: 100px;
 }
 
+.salonesRecomendados_title{
+  color: rgb(0, 0, 0);
+  display: flex;
+  padding-top: 50px;
+  justify-content: center;
+  font-size: 2vw;
+}
+
+.salonesRecomendados_filter{
+    text-align: start;
+    cursor: pointer;
+    margin-left: 100px;
+}
+
+.salonesRecomendados_list .v-pagination{
+  color: rgb(0, 0, 0);
+}
+
+@media  screen and (max-width: 1000px) {
   .salonesRecomendados_title{
-    color: rgb(0, 0, 0);
-    display: flex;
-    padding-top: 50px;
-    justify-content: center;
-    font-size: 2vw;
+    font-size: 20px;
   }
+}
 
-  
-  .salonesRecomendados_filter{
-      text-align: start;
-      cursor: pointer;
-      margin-left: 100px;
+@media  screen and (max-width: 900px) {
+  .text-overlay{
+    padding: 10px 20px 20px 20px;
   }
+}
 
-  .salonesRecomendados_list .v-pagination{
-    color: rgb(0, 0, 0);
+@media  screen and (max-width: 740px) {
+  .salonesRecomendados_list .filtro-container {
+    margin-left: 0px;
   }
+}
 
-  @media  screen and (max-width: 1000px) {
-    .salonesRecomendados_title{
-      font-size: 20px;
+@media  screen and (max-width: 700px) {
+  .salonesRecomendados_list{
+    margin-top: 70px;
     }
-  }
-  @media  screen and (max-width: 900px) {
-    .text-overlay{
-      padding: 10px 20px 20px 20px;
-    }
-  }
-  @media  screen and (max-width: 700px) {
-
-    .salonesRecomendados_list{
-      margin-top: 70px;
-     }
-  }
+}
 </style>
