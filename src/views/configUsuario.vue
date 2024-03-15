@@ -11,6 +11,7 @@
             label="Usuario"
             v-model="username.value.value"
             clearable
+            disabled
         ></v-text-field>
 
         <v-text-field
@@ -20,20 +21,10 @@
             label="Solo ingresar contraseña en caso de cambio"
             v-model="password.value.value"
             clearable
+            :type="showPassword ? 'text' : 'password'"
+            append-icon="mdi-eye"
+            @click:append="showPassword = !showPassword"
         ></v-text-field>
-
-        <v-select
-
-                  v-model="usuario.rol.id"
-                  label="Selecciona un rol"
-                  :items="rolesLista"
-                  variant="outlined"
-                  item-title="nombre"
-                  item-value="id"
-                  hide-details
-                  @update:modelValue="limpiarErrorRol"
-          ></v-select>
-          <span v-if="mostrarErrorRol" class="error-message">Tienes que seleccionar una opción</span>
 
         <v-text-field
             :counter="8"
@@ -130,13 +121,13 @@ data() {
             nombre:'',
           }
         },
-        mostrarErrorRol: false,
         mostrarErrorUsername: false,
         mostrarErrorTelefono: false,
         mostrarErrorNombre: false,
         mostrarErrorApellido: false,
         mostrarErrorCorreo: false,
         cargando: false,
+        showPassword: false,
         rolesLista: [],
         username: {
           value: {
@@ -194,7 +185,22 @@ components: {
     },
 methods: {
   irAHome() {
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+    const userRoles = decodedToken.roles;
+
+    if (userRoles.includes('ROLE_USER')) {
+      this.$router.push({ name: 'salones' });
+
+    } else if (userRoles.includes('ROLE_OWNER')) {
+      this.$router.push({ name: 'lista-salones' });
+
+    } else if (userRoles.includes('ROLE_ADMIN')) {
       this.$router.push({ name: 'lista-usuarios-admin' });
+
+    } else {
+      console.error('Error roles invalidos.');
+    }
   },
   limitesTelefono(){
     this.limitarLongitudTelefono();
@@ -214,9 +220,7 @@ methods: {
   bloquearCaracteresEspecialesApellido() {
       this.apellido.value.value = this.apellido.value.value.replace(/[^a-zA-Z\s]/g, '');
   },
-  limpiarErrorRol() {
-      this.mostrarErrorRol = false;
-    },
+
   async obtenerYAsignar() {
     try {
       const usuarioId = this.$route.params.id;
@@ -232,25 +236,6 @@ methods: {
     }catch (error) {
     console.error('Error al obtener y asignar:', error);
     }
-    },
-    async obtenerRoles() {
-      try {
-        const token = localStorage.getItem('jwtToken');
-        const decodedToken = jwt_decode(token);
-        const userRole = decodedToken.roles[0];
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-User-Role': userRole,
-          },
-        };
-
-        const response = await axios.get('http://localhost:8080/v1/rol', config);
-
-        this.rolesLista = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
-      } catch (error) {
-        console.error('Error al obtener roles:', error);
-      }
     },
     async obtenerDetallesUsuario(id) {
     try {
@@ -269,13 +254,11 @@ methods: {
 
   
       this.usuario = response.data;
-
     } catch (error) {
       console.error('Error al obtener detalles de la solicitud:', error);
     }
     },
     editarUsuario() {
-      this.mostrarErrorRol = !this.usuario.rol.id;
 
       this.mostrarErrorUsername = this.username.errorMessage.value;
       this.mostrarErrorTelefono = this.telefono.errorMessage.value;
@@ -289,14 +272,13 @@ methods: {
           this.mostrarErrorCorreo != undefined) {            
           return;
       }
-      if(this.mostrarErrorRol) {              
-          return;
-      }
+
       this.cargando = true;
       const token = localStorage.getItem('jwtToken');
       const decodedToken = jwt_decode(token);
       const userRole = decodedToken.roles[0];
-      const username = decodedToken.sub;
+      let username = decodedToken.sub;
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -306,6 +288,7 @@ methods: {
           username: username,
         },
       }
+
       const data = {
               id : this.usuario.id,
               username : this.username.value.value,
@@ -319,15 +302,14 @@ methods: {
               },
               estado: this.usuario.estado,
         };
-     
-      this.$axios.put(`http://localhost:8080/v1/usuario/${this.usuario.id}`, data, config)
+      this.$axios.put(`http://localhost:8080/v1/usuario/config/${this.usuario.id}`, data, config)
       .then(response => {
-        this.$router.push({ name: 'lista-usuarios-admin'});
-          this.$notify({
-                title: 'Éxito',
-                text: 'El usuario se actualizó correctamente.',
-                type: 'success',
-              });
+      
+        this.$notify({
+            title: 'Éxito',
+            text: 'El usuario se actualizó correctamente.',
+            type: 'success',
+          });
          this.cargando = false;
       })
       .catch(error => {
@@ -338,12 +320,12 @@ methods: {
               });
         this.cargando = false;
       });
+    
       },
 },
 
 async mounted(){
   await this.obtenerYAsignar();
-  await this.obtenerRoles();
 },
 setup() {
     const { handleSubmit } = useForm({

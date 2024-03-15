@@ -56,7 +56,7 @@
       
           <!-- Slides -->
           <swiper-slide v-for="(item, index) in recomendados" :key="index" class="swiper-slide">
-            <img :src="item.banner_url" :alt="item.altText">
+            <img :src="item.banner_url" :alt="item.altText"  @click="goToApp">
           </swiper-slide>
        
         <!-- clase slide paginacion 
@@ -82,7 +82,7 @@
     </div>
     <div class="motivation_grid" >
       <div class="grid-containerHome">
-        <div class="grid__itemHome" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)">
+        <div class="grid__itemHome" v-for="(item, index) in displayedItems" :key="index" v-show="mostrarImagen(index)" @click="goToApp">
           <img :src="item.banner_url" alt="">
           <div class="text-overlay">
             <h2>{{ item.nombre }}</h2>
@@ -378,6 +378,9 @@ export default {
       this.telefono = '' ;
       this.mensaje = '' ;
     },
+    goToApp(){
+      this.$router.push({ name: 'login'});
+    },
   },
   
 };
@@ -582,6 +585,10 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   color: white;
   padding-top: 40px;
+}
+
+.content_recomend img{
+  cursor: pointer;
 }
 
 /*GRID DE SALONES*/

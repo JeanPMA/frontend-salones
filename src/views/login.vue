@@ -12,8 +12,10 @@
                     <label for="username" :class="{ 'filled': username }">Usuario</label>
                 </div>
                 <div class="input-box">
-                    <span class="icon"><font-awesome-icon :icon="['fas', 'lock']" /></span>
-                    <input type="password" v-model="password" maxlength="50" class="filled" required>
+                    <span class="icon eyePassword">
+                        <font-awesome-icon :icon="showPassword ? ['fas', 'eye-slash'] : ['fas', 'eye']" @click="togglePasswordVisibility" />
+                    </span>
+                    <input :type="showPassword ? 'text' : 'password'" v-model="password" maxlength="50" class="filled" required>
                     <label for="password" :class="{ 'filled': password }">Contraseña</label>
                 </div>
 
@@ -56,12 +58,16 @@ export default {
     return {
       username: "",
       password: "",
+      showPassword: false,
     };
   },
   components: {
       VueNotification,
     },
   methods: {
+    togglePasswordVisibility() {
+        this.showPassword = !this.showPassword;
+    },
     login() {
       const credentials = { username: this.username, password: this.password };
       
@@ -276,6 +282,10 @@ body{
 
 .login-register p a:hover{
     text-decoration: underline;
+}
+
+.eyePassword{
+    cursor: pointer;
 }
 
 @media  screen and (max-width: 600px) {

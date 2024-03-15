@@ -20,7 +20,7 @@
                         <li><a href="#" >{{this.usuario}}</a> 
                           <ul>
                             <li><a href="#" @click="logout">LOG OUT</a></li>
-                            <li><a href="#">CONFIGURACION</a></li>
+                            <li><a href="#" @click="irAConfig">CONFIGURACION</a></li>
                           </ul>
                         </li> 
                       </div>
@@ -32,12 +32,15 @@
 </template>
 
 <script>
+import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+
 export default {
     name: 'navbarCliente',
     data() { 
     return {
           usuario: '',
+          usuarioInfo: '',
       }
     },
     mounted() {   
@@ -49,6 +52,29 @@ export default {
       logout() {
         this.$store.dispatch('logout', this.$router);
       },
+      async irAConfig() {
+        try {
+          const token = localStorage.getItem('jwtToken');
+          const decodedToken = jwt_decode(token);
+
+          const userRole = decodedToken.roles[0];
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'X-User-Role': userRole
+            }
+          };
+
+          const response = await axios.get(`http://localhost:8080/v1/usuario/config/${this.usuario}`, config);
+
+      
+          this.usuarioInfo = response.data;
+          this.$router.push({ name: 'config-user', params: { id: this.usuarioInfo.id } });
+
+        } catch (error) {
+          console.error('Error al obtener detalles del usuario ', error);
+        }
+      }
     }
 }
 </script>

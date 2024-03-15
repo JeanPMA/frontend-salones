@@ -37,6 +37,8 @@ import TipoSRListaAdminComponent from "@/views/admin/tipoSRListaAdmin.vue";
 import CrearTipoSRComponent from "@/views/admin/crearTipoSR.vue";
 import EditarTipoSRComponent from "@/views/admin/editarTipoSR.vue";
 
+import ConfigUsuarioComponent from "@/views/configUsuario.vue";
+
 
 
 import 'vuetify/styles';
@@ -83,7 +85,7 @@ const routes = [
         path:'/', component: Home, name: 'home',
     },
     {
-        path:'/login', component: LoginComponent,
+        path:'/login', component: LoginComponent, name: 'login',
         beforeEnter: (to, from, next) => {
             if (isLoggedIn()) {
               next('/')
@@ -157,6 +159,11 @@ const routes = [
     {
         path:'/solicitud-reserva/:id', component: DetalleSolicitudReservaDueñoComponent, name: 'solicitud-reserva',
         meta: { requiresAuth: true, allowedRoles: ['ROLE_OWNER'] },
+    },
+    //CONFIGURACION DE USUARIOS
+    {
+        path:'/config-user/:id', component: ConfigUsuarioComponent, name: 'config-user',
+        meta: { requiresAuth: true, allowedRoles: ['ROLE_ADMIN', 'ROLE_USER', 'ROLE_OWNER'] },
     },
     //ADMIN
     {

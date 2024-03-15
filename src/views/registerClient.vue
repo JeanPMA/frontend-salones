@@ -17,8 +17,10 @@
                         <label for="username" :class="{ 'filled': username }">Usuario</label>
                     </div>
                     <div class="input-box">
-                        <span class="icon"><font-awesome-icon :icon="['fas', 'lock']" /></span>
-                        <input v-model="password" type="password" maxlength="50" required>
+                        <span class="icon eyePassword">
+                            <font-awesome-icon :icon="showPassword ? ['fas', 'eye-slash'] : ['fas', 'eye']" @click="togglePasswordVisibility" />
+                        </span>
+                        <input v-model="password" :type="showPassword ? 'text' : 'password'" maxlength="50" required>
                         <label for="password" :class="{ 'filled': password }">Contraseña</label>
                     </div>
 
@@ -29,7 +31,7 @@
                     </div>
 
                     <div class="input-box">
-                        <span class="icon"><font-awesome-icon :icon="['fas', 'user']" /></span>
+                        <span class="icon "><font-awesome-icon :icon="['fas', 'user']" /></span>
                         <input v-model="telefono" type="text" @input="limitesTelefono" minlength="8" maxlength="8" required>
                         <label for="telefono" :class="{ 'filled': telefono }">Telefono</label>
                     </div>
@@ -91,12 +93,16 @@ export default {
       telefono: "",
       nombre: "",
       apellido: "",
+      showPassword: false,
     };
   },
   components: {
       VueNotification,
     },
   methods: {
+    togglePasswordVisibility() {
+        this.showPassword = !this.showPassword;
+    },
     async registerUser() {
 
         const data = {
