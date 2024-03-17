@@ -117,7 +117,9 @@
     };
     axios.get('http://localhost:8080/v1/usuario', config)
       .then(response => {
-        this.listaUsuariosAdmin = response.data;
+        const filteredUsers = response.data.filter(user => user.username !== username);
+
+        this.listaUsuariosAdmin = filteredUsers;
         const rolesSeleccionados = JSON.parse(localStorage.getItem('rolesSeleccionados')) || [];
         this.filtrarUsuarios(rolesSeleccionados);
       })

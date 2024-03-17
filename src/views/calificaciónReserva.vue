@@ -16,7 +16,8 @@
                 @input="actualizarPuntuacion"
             />
             <div class="button_califación">
-                    <a id="send" @click="enviarPuntuacion">ENVIAR</a>
+              <a id="back" @click="volverAtras">VOLVER</a>
+              <a id="send" @click="enviarPuntuacion">ENVIAR</a>          
             </div>  
         </div>
     </div>
@@ -57,6 +58,9 @@ export default {
     actualizarPuntuacion() {
       
     },
+    volverAtras (){
+            this.$router.push({ name: 'detalle-buzon', params: { id: this.idReserva } });
+        },
     handleResize() {
       this.isWindowSizeGreaterThan600 = window.innerWidth >= 600;
       this.$forceUpdate();
@@ -105,9 +109,9 @@ export default {
 
 <style>
 .body_calificación{
-  background-color: #030303;
+  background-color: #000000a4;
   height: 100vh;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,6 +153,7 @@ export default {
 /*BOTONES*/
 .button_califación{
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-top: 60px;
@@ -156,27 +161,35 @@ export default {
 }
 
 .button_califación a{
-  margin-left: 30px;
-  margin-right: 30px;
-  padding: 5px 20px 10px 20px;
-  width: 350px;
-  height: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 10px 40px 10px 40px;
+  width: auto;
+  height: 50px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 20px;
-  text-align: center;
+  font-size: 18px;
 }
 
 .button_califación #send{
+  background-color: #0d7703;
+  color: #ffffff;
+  transition: 0.3s ease;  
+}
+
+.button_califación #send:hover {
+  background-color: #0d77038c;
+}
+
+.button_califación #back{
   background-color: #ffffff;
   color: #000000;
   transition: 0.3s ease; 
 }
 
-.button_califación #send:hover {
-  background-color: #000000;
-  color: #ffffff;
+.button_califación #back:hover {
+  background-color: rgba(255, 255, 255, 0.699);
 }
 
 @media  screen and (max-width: 600px) {
@@ -192,6 +205,16 @@ export default {
   .v-rating  {
     font-size: 30px;
     margin-top: 20px;
+  }
+}
+
+@media  screen and (max-width: 510px) {
+  .button_califación{
+    flex-direction: column;
+    margin-top: 30px;
+  }
+  .button_califación a{
+    margin-top: 10px;
   }
 }
 

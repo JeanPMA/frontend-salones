@@ -224,7 +224,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: white;
+  background-color: #000000a4;
   color: white;
 }
 
@@ -235,7 +235,7 @@ export default {
 .content_detalleBuzon{
   margin: 40px 100px 10px 100px;
   padding: 30px;
-  background-color: rgb(91, 36, 80);
+  background-color: #0E2C40;
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, .5);
 }
@@ -268,7 +268,7 @@ export default {
 .info_detalle .detalle_item{
   padding: 15px;
   margin-top: 15px;
-  background-color: #d4cfeb;
+  background-color: #ffffff;
   border-radius: 5px;
 }
 
@@ -323,8 +323,7 @@ export default {
 }
 
 .botones_detalle #atras:hover {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.699);
 }
 
 .botones_detalle #calificar{
@@ -334,8 +333,7 @@ export default {
 }
 
 .botones_detalle #calificar:hover {
-  background-color: #5eff00a3;
-  color: #ffffff; 
+  background-color: #0d77038c;
 }
 
 .botones_detalle #eliminar{

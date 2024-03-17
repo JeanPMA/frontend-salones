@@ -4,7 +4,8 @@
             EDITAR INFORMACION
         </h2>
         <form @submit.prevent="submit">
-            <v-text-field
+        <h4 class="mensaje_disable">El campo usuario no se puede editar.</h4>
+        <v-text-field
             :counter="50"
             maxlength="50"
             :error-messages="username.errorMessage.value"
@@ -391,4 +392,11 @@ setup() {
 </script>
 
 <style>
+.mensaje_disable{
+  color: #888888a1; 
+  font-style: italic;
+  text-align: start;
+  margin-left: 15px;
+  font-size: 15px;
+}
 </style>
