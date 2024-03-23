@@ -4,6 +4,15 @@
         <h1>
         LISTA DE SOLICITUDES DE RESERVA
         </h1>
+        <div class="selector_owner">
+          <div class="selector_orden" @click="toggleDropdown">
+            <div class="opciones_selector">{{ orden === 'mas' ? 'Mas antiguos' : 'Mas recientes' }}</div>
+            <div v-show="dropdownVisible" class="dropdown_selector">
+              <div class="option" @click="cambiarOrden('mas')">Mas antiguos</div>
+              <div class="option" @click="cambiarOrden('menos')">Mas recientes</div>
+            </div>
+          </div>
+        </div>
     <div class="search_listaSolicitud">
             <div class="search-container">
               <input v-model="searchTerm" placeholder="Buscar..." />
@@ -72,6 +81,10 @@ components: {
 
         currentPage: 1,
         tamañoAux: 0,
+        orden: 'mas',
+        dropdownVisible: false,
+        ordenAux: 'mas', 
+          
     };
     },
     mounted() {
@@ -142,6 +155,22 @@ components: {
     irADetalleSR(id) {
       this.$router.push({ name: 'solicitud-reserva', params: { id: id }});
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+     
+      this.listaSolicitudesFiltrado.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+        if (a.fecha_emision !== b.fecha_emision) {
+            return orderFactor * (a.fecha_emision.toLowerCase() > b.fecha_emision.toLowerCase() ? 1 : -1);
+        } else {
+            return orderFactor * (b.salon.nombre.localeCompare(a.salon.nombre));
+        }
+      });
+    },
     filtrarSR(estadosSeleccionados) {
       const estadosFiltrar = estadosSeleccionados.includes("ACEPTADO") || estadosSeleccionados.includes("CANCELADO")
         ? estadosSeleccionados.filter(estado => estado !== "ACEPTADO" && estado !== "CANCELADO")
@@ -155,6 +184,7 @@ components: {
       } else {
         this.listaSolicitudesFiltrado = this.listaSolicitudes;
       }
+      this.cambiarOrden(this.ordenAux);
     },
     handleResize() {
       const windowWidth = window.innerWidth;

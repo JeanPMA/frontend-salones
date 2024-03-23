@@ -5,6 +5,15 @@
           <h2>LISTADO DE SERVICIOS</h2>
           
       </div>
+      <div class="selector_admin">
+          <div class="selector_orden" @click="toggleDropdown">
+            <div class="opciones_selector">{{ orden === 'mas' ? 'A-Z' : 'Z-A' }}</div>
+            <div v-show="dropdownVisible" class="dropdown_selector">
+              <div class="option" @click="cambiarOrden('mas')">A-Z</div>
+              <div class="option" @click="cambiarOrden('menos')">Z-A</div>
+            </div>
+          </div>
+        </div>
       <div class="search_listaAdmin">
         <input v-model="searchTerm" placeholder="Buscar..." />
       </div>
@@ -97,6 +106,10 @@
       currentPage: 1,
       searchTerm: localStorage.getItem('searchTermServicioAdmin') || '',
       tamañoAux: 0,
+
+      orden: 'mas',
+      dropdownVisible: false,
+      ordenAux: 'mas', 
     };
     },
     
@@ -203,6 +216,19 @@
 
       
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+     
+      this.listaServiciosAdminFiltrado.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+        return orderFactor * (a.nombre.toLowerCase() > b.nombre.toLowerCase() ? 1 : -1);
+      });
+    
+    },
     filtrarServicios(estadosSeleccionados) {
       if (estadosSeleccionados.length > 0) {
         this.listaServiciosAdminFiltrado = this.listaServiciosAdmin.filter(stsr => {
@@ -210,10 +236,11 @@
             return stsr.estado === estado;
           });
         });
-        this.currentPage = 1;
+        this.currentPage = 1;   
       } else {
         this.listaServiciosAdminFiltrado = this.listaServiciosAdmin;
       }
+      this.cambiarOrden(this.ordenAux);
     },
   },
   computed: {

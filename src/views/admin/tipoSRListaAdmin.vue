@@ -5,6 +5,15 @@
           <h2>LISTADO DE TIPO DE SOLICITUD RESERVA</h2>
           
       </div>
+      <div class="selector_admin">
+          <div class="selector_orden" @click="toggleDropdown">
+            <div class="opciones_selector">{{ orden === 'mas' ? 'A-Z' : 'Z-A' }}</div>
+            <div v-show="dropdownVisible" class="dropdown_selector">
+              <div class="option" @click="cambiarOrden('mas')">A-Z</div>
+              <div class="option" @click="cambiarOrden('menos')">Z-A</div>
+            </div>
+          </div>
+        </div>
       <div class="search_listaAdmin">
         <input v-model="searchTerm" placeholder="Buscar..." />
 
@@ -94,6 +103,10 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
       currentPage: 1,
       searchTerm: localStorage.getItem('searchTermTipoSRAdmin') || '',
       tamañoAux: 0,
+
+      orden: 'mas',
+      dropdownVisible: false,
+      ordenAux: 'mas',   
     };
   },
   mounted() {
@@ -199,7 +212,19 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
 
       
     },
-    
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+ 
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+
+      this.tipoSRListaAdminFiltrado.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+        return orderFactor * (a.nombre.toLowerCase() > b.nombre.toLowerCase() ? 1 : -1);
+      });
+    },
     filtrarTipoSR(estadosSeleccionados) {
        
       if (estadosSeleccionados.length > 0) {
@@ -212,6 +237,7 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
       } else {
         this.tipoSRListaAdminFiltrado = this.tipoSRListaAdmin;
       }
+      this.cambiarOrden(this.ordenAux);
     },
   },
   computed: {

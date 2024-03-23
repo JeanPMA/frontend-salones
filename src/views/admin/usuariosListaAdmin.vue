@@ -5,6 +5,15 @@
           <h2>LISTADO DE USUARIOS</h2>
            
       </div>
+      <div class="selector_admin">
+          <div class="selector_orden" @click="toggleDropdown">
+            <div class="opciones_selector">{{ orden === 'mas' ? 'A-Z' : 'Z-A' }}</div>
+            <div v-show="dropdownVisible" class="dropdown_selector">
+              <div class="option" @click="cambiarOrden('mas')">A-Z</div>
+              <div class="option" @click="cambiarOrden('menos')">Z-A</div>
+            </div>
+          </div>
+        </div>
       <div class="search_listaAdmin">
         <input v-model="searchTerm" placeholder="Buscar..." />
       </div>
@@ -133,6 +142,10 @@
       currentPage: 1,
       searchTerm: localStorage.getItem('searchTermUsuarioAdmin') || '',
       tamañoAux: 0,
+
+      orden: 'mas',
+      dropdownVisible: false,
+      ordenAux: 'mas',         
     };
   },
   methods: {
@@ -214,6 +227,18 @@
 
       
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+     
+      this.listaUsuariosAdminFiltrado.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+        return orderFactor * (a.username.toLowerCase() > b.username.toLowerCase() ? 1 : -1);
+      });
+    },
     filtrarUsuarios(rolesSeleccionados) {
       if (rolesSeleccionados.length > 0) {
         this.listaUsuariosAdminFiltrado = this.listaUsuariosAdmin.filter(usuario => {
@@ -225,6 +250,7 @@
       } else {
         this.listaUsuariosAdminFiltrado = this.listaUsuariosAdmin;
       }
+      this.cambiarOrden(this.ordenAux);
     },
   },
   computed: {

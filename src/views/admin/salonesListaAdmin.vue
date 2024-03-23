@@ -5,6 +5,15 @@
           <h2>LISTADO DE SALONES</h2>
           
       </div>
+      <div class="selector_admin">
+          <div class="selector_orden" @click="toggleDropdown">
+            <div class="opciones_selector">{{ orden === 'mas' ? 'A-Z' : 'Z-A' }}</div>
+            <div v-show="dropdownVisible" class="dropdown_selector">
+              <div class="option" @click="cambiarOrden('mas')">A-Z</div>
+              <div class="option" @click="cambiarOrden('menos')">Z-A</div>
+            </div>
+          </div>
+        </div>
       <div class="search_listaAdmin">
         <input v-model="searchTerm" placeholder="Buscar..." />
         
@@ -124,6 +133,11 @@
         currentPage: 1,
         searchTerm: localStorage.getItem('searchTermSalonesAdmin') || '',
         tamañoAux: 0,
+
+        orden: 'mas',
+        dropdownVisible: false,
+        ordenAux: 'mas', 
+          
       };
     },
   computed: {
@@ -236,6 +250,17 @@
 
       
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+      this.listaSalonesAdminFiltrado.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+        return orderFactor * (a.nombre.toLowerCase() > b.nombre.toLowerCase() ? 1 : -1);
+      });
+    },
     filtrarSalones(serviciosSeleccionados) {
       if (serviciosSeleccionados.length > 0) {
         this.listaSalonesAdminFiltrado = this.listaSalonesAdministrador.filter(salon => {
@@ -247,6 +272,7 @@
       } else {
         this.listaSalonesAdminFiltrado = this.listaSalonesAdministrador;
       }
+      this.cambiarOrden(this.ordenAux);
     },
   },
   watch: {

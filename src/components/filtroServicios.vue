@@ -85,7 +85,7 @@
   padding: 10px;
   top: 50px;
   right: 0;
-  z-index: 1; 
+  z-index: 0; 
   transition: 0.2s ease;
 }
 

@@ -7,6 +7,13 @@
         <div class="salones_title">
           SALONES
         </div>
+        <div class="selector_orden" @click="toggleDropdown">
+          <div class="opciones_selector">{{ orden === 'mas' ? 'Mas recientes' : 'Mas antiguos' }}</div>
+          <div v-show="dropdownVisible" class="dropdown_selector">
+            <div class="option" @click="cambiarOrden('mas')">Mas recientes</div>
+            <div class="option" @click="cambiarOrden('menos')">Mas antiguos</div>
+          </div>
+        </div>
         <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
           <FiltroServicios @filtroCambiado="filtrarSalones" />
         </div>
@@ -67,6 +74,10 @@
 
       currentPage: 1,
       tamañoAux: 0,
+      orden: 'mas',
+      dropdownVisible: false,
+      ordenAux: 'mas',
+        
     };
     },
   mounted() {
@@ -124,6 +135,18 @@
     irADetalleSalon(id) {
       this.$router.push({ name: 'detalle-salon', params: { id: id } });
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+     
+      this.salonesFiltrados.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+        return orderFactor * (a.created_at.toLowerCase() < b.created_at.toLowerCase() ? 1 : -1);
+      });
+    },
     filtrarSalones(serviciosSeleccionados) {
       if (serviciosSeleccionados.length > 0) {
         this.salonesFiltrados = this.salones.filter(salon => {
@@ -135,6 +158,7 @@
       } else {
         this.salonesFiltrados = this.salones;
       }
+      this.cambiarOrden(this.ordenAux);
     },
     handleResize() {
       const windowWidth = window.innerWidth;
@@ -257,7 +281,54 @@
 }
 
 .salones_list .v-pagination{
-    color: rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+}
+
+.selector_orden {
+  position: relative;
+  width: 200px; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 100px;
+}
+
+.opciones_selector {
+  padding: 8px 12px;
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+}
+
+.dropdown_selector {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}
+.grid__item p{
+  padding:  0px;
+  margin-top: 10px;
+  font-size: 1vw;
+  text-align: justify;
+ 
 }
 
 @media  screen and (max-width: 1000px) {
@@ -324,6 +395,14 @@
   .grid__item p{
     font-size: 1.5vw;
     margin-top: 5px;
+  }
+}
+
+@media  screen and (max-width: 380px) {
+  .selector_orden {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: auto;
   }
 }
 </style>

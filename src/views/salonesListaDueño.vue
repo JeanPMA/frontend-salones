@@ -4,6 +4,16 @@
         <h1>
         LISTA DE SALONES
         </h1>
+        <div class="selector_owner">
+          <div class="selector_orden" @click="toggleDropdown">
+            <div class="opciones_selector">{{ orden === 'mas' ? 'A-Z' : 'Z-A' }}</div>
+            <div v-show="dropdownVisible" class="dropdown_selector">
+              <div class="option" @click="cambiarOrden('mas')">A-Z</div>
+              <div class="option" @click="cambiarOrden('menos')">Z-A</div>
+            </div>
+          </div>
+        </div>
+        
         <div class="search_listaSolicitud">
             <div class="search-container">
               <input v-model="searchTerm" placeholder="Buscar..." />
@@ -80,6 +90,9 @@ data() {
 
         currentPage: 1,
         tamañoAux: 0,
+        orden: 'mas',
+        dropdownVisible: false,
+        ordenAux: 'mas',           
     };
 },
     mounted() {
@@ -151,6 +164,18 @@ data() {
     irASalon(id) {
       this.$router.push({ name: 'salon', params: { id: id } });
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+     
+      this.salonesFiltrados.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+        return orderFactor * (a.nombre.toLowerCase() > b.nombre.toLowerCase() ? 1 : -1);
+      });
+    },
     filtrarSalones(serviciosSeleccionados) {
       if (serviciosSeleccionados.length > 0) {
         this.salonesFiltrados = this.salonesListaDueño.filter(salon => {
@@ -162,6 +187,7 @@ data() {
       } else {
         this.salonesFiltrados = this.salonesListaDueño;
       }
+      this.cambiarOrden(this.ordenAux);
     },
     handleResize() {
       const windowWidth = window.innerWidth;
@@ -431,9 +457,16 @@ data() {
     font-size: 4vw;
   }
 }
+
 @media  screen and (max-width: 400px) {
   .dueño_gridSalones .grid__itemSalon{
     height: 70vh;
+  }
+}
+
+@media  screen and (max-width: 400px) {
+  .selector_owner{
+    margin-left: 55px;
   }
 }
 

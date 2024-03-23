@@ -100,7 +100,7 @@
   padding: 10px;
   top: 50px;
   right: 0;
-  z-index: 1; 
+  z-index: 0; 
 }
 
 .filtro_listaSR label {

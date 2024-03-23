@@ -7,7 +7,13 @@
           <div class="buzon_title">
             BUZON DE RESPUESTAS
           </div>
-
+          <div class="selector_orden" @click="toggleDropdown">
+            <div class="opciones_selector">{{ orden === 'mas' ? 'Mas recientes' : 'Mas antiguos' }}</div>
+            <div v-show="dropdownVisible" class="dropdown_selector">
+              <div class="option" @click="cambiarOrden('mas')">Mas recientes</div>
+              <div class="option" @click="cambiarOrden('menos')">Mas antiguos</div>
+            </div>
+          </div>
           <div class="search_buzon">
             <div class="search-container">
               <input v-model="searchTerm" placeholder="Buscar..." />
@@ -72,6 +78,9 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
 
         currentPage: 1,
         tamañoAux: 0,
+        orden: 'mas',
+        dropdownVisible: false,
+        ordenAux: 'mas',          
     };
     },
     mounted() {
@@ -146,6 +155,23 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
     irACalificación(id) {
       this.$router.push({ name: 'detalle-buzon', params: { id: id } });
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+     
+      this.buzonFiltrado.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+
+        if (a.fecha_emision !== b.fecha_emision) {
+            return orderFactor * (a.fecha_emision.toLowerCase() < b.fecha_emision.toLowerCase() ? 1 : -1);
+        } else {
+            return orderFactor * (b.salon.nombre.localeCompare(a.salon.nombre));
+        }
+      });
+    },
     filtrarSR(estadosSeleccionados) {
       if (estadosSeleccionados.length > 0) {
         this.buzonFiltrado = this.buzon.filter(sr => {
@@ -157,6 +183,7 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
       } else {
         this.buzonFiltrado = this.buzon;
       }
+      this.cambiarOrden(this.ordenAux);
     },
     handleResize() {
       const windowWidth = window.innerWidth; 

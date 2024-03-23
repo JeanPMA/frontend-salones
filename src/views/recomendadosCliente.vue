@@ -6,6 +6,14 @@
         <div class="salonesRecomendados_title">
             SALONES RECOMENDADOS
         </div>
+        <div class="selector_orden" @click="toggleDropdown">
+          <div class="opciones_selector">{{ orden === 'mas' ? 'Más recomendados' : 'Menos recomendados' }}</div>
+          <div v-show="dropdownVisible" class="dropdown_selector">
+            <div class="option" @click="cambiarOrden('mas')">Más recomendados</div>
+            <div class="option" @click="cambiarOrden('menos')">Menos recomendados</div>
+          </div>
+        </div>
+
         <div class="filtro-container" :class="{ 'filtro-abierto': mostrarFiltro }">
 
           <FiltroServicios @filtroCambiado="filtrarSalones" />
@@ -65,6 +73,9 @@ import FiltroServicios from '../components/filtroServicios.vue';
 
           currentPage: 1,
           tamañoAux: 0,
+          orden: 'mas',
+          dropdownVisible: false,
+          ordenAux: 'mas',                      
       };
     },
     mounted() {
@@ -118,6 +129,23 @@ import FiltroServicios from '../components/filtroServicios.vue';
     irADetalleSalon(id) {
       this.$router.push({ name: 'detalle-salon', params: { id: id } });
     },
+    toggleDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
+    cambiarOrden(direccion) {
+      this.orden = direccion;
+     
+      this.salonesFiltrados.sort((a, b) => {
+        const orderFactor = direccion === 'mas' ? 1 : -1;
+        this.ordenAux = direccion;
+
+        if (a.avgPuntuacion !== b.avgPuntuacion) {
+            return orderFactor * (a.avgPuntuacion < b.avgPuntuacion ? 1 : -1);
+        } else {
+            return orderFactor * (b.nombre.localeCompare(a.nombre));
+        }
+      });
+    },
     filtrarSalones(serviciosSeleccionados) {
       if (serviciosSeleccionados.length > 0) {
         this.salonesFiltrados = this.salonesRecomendados.filter(salon => {
@@ -125,10 +153,11 @@ import FiltroServicios from '../components/filtroServicios.vue';
             return salon.servicios.some(s => s.nombre === servicio);
           });
         });
-        this.irAPagina(1);
+        this.currentPage = 1;
       } else {
         this.salonesFiltrados = this.salonesRecomendados;
       }
+      this.cambiarOrden(this.ordenAux);
     },
     handleResize() {
       const windowWidth = window.innerWidth;
