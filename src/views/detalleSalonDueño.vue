@@ -440,12 +440,22 @@ methods: {
                 this.cargando = false;
               })
               .catch(error => {
-                this.$notify({
-                  title: 'Error',
-                  text: 'Hubo un problema al guardar la imagen. Intentalo de nuevo',
-                  type: 'error',
-                });
-                this.cargando = false;
+                if (error.response && error.response.status === 401) {
+                    this.$notify({
+                        title: 'Error',
+                        text: 'Error, limite de imagenes por salon alcanzado.',
+                        type: 'error',
+                    });
+                    this.cargando = false;
+                } else {
+                    this.$notify({
+                        title: 'Error',
+                        text: 'Hubo un problema al guardar la imagen. Intentalo de nuevo',
+                        type: 'error',
+                    });
+                    this.cargando = false;
+                }
+              
               });
            
     },

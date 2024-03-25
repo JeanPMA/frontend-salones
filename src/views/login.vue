@@ -127,7 +127,7 @@ export default {
             if (error.response && error.response.status === 401) {
                 this.$notify({
                     title: 'Error',
-                    text: 'Error, usuario deshabilitado, contactese con el administrador.',
+                    text: 'Error, no existe el usuario o usuario deshabilitado, contactese con el administrador.',
                     type: 'error',
                 });
             } else {
