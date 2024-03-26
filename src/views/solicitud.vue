@@ -21,7 +21,10 @@
                 <v-select
                   v-model="solicitudReserva.motivo"
                   label="Selecciona motivo"
-                  :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                  :items="['Baby shower','Bautizo','Boda','Cena de empresa','Cena de gala','Celebración familiar','Concierto','Conferencia',
+                          'Concurso','Conmemoración','Cumpleaños','Evento deportivo','Exposición','Feria','Graduación','Inauguración',
+                          'Presentación de productos','Reunión corporativa','Reunión de club o asociación','Retiro espiritual',
+                          'Seminario','Taller','Otro tipo de fiesta']"
                   variant="outlined"
                   hide-details
                  
