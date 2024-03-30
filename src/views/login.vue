@@ -44,12 +44,10 @@
 </template>
 
 <script>
-import { reactive } from "vue";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import VueNotification from '@kyvg/vue3-notification';
 
-import { routerKey, useRouter } from "vue-router";
 
 
 export default {

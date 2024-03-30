@@ -17,8 +17,7 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'
 import { useRouter } from 'vue-router';
-import { format } from 'date-fns';
-import { parse } from 'date-fns';
+
 
   const router = useRouter();
   

@@ -45,13 +45,11 @@ import 'vuetify/styles';
 import { createVuetify } from 'vuetify/lib/framework.mjs';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import Vuetify from 'vuetify/lib/framework';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.min.css';
 
 import store from './store/store';
 import axios from 'axios';
-import Vuex from 'vuex';
 import jwt_decode from 'jwt-decode';
 import Notifications from '@kyvg/vue3-notification'
 
