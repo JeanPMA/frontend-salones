@@ -1,16 +1,21 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <div class="app">
+    <Notifications />
+    <router-view></router-view>
+  </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { Notifications } from '@kyvg/vue3-notification';
+
+
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    name: 'App',
+    components: { Notifications },
+ 
 }
 </script>
 
@@ -20,7 +25,14 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: white;
+
 }
+html, body {
+    height: 100%;
+    margin: 0; 
+    background-color: white;
+    scroll-behavior: smooth;
+}
+
 </style>
