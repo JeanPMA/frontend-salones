@@ -95,8 +95,8 @@
           'X-User-Role': userRole
         }
       };
-
-      const response = await axios.get(`http://localhost:8080/v1/servicio/${id}`, config);
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/servicio/${id}`, config);
 
   
       this.servicio = response.data;
@@ -135,8 +135,8 @@
               estado: this.servicio.estado,
               created_at: this.servicio.created_at,
         };
-      
-      this.$axios.put(`http://localhost:8080/v1/servicio/${this.servicio.id}`, data, config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      this.$axios.put(`${apiUrl}/v1/servicio/${this.servicio.id}`, data, config)
       .then(response => {
         this.$router.push({ name: 'lista-servicios-admin'});
         this.$notify({

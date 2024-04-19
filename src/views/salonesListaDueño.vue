@@ -111,7 +111,8 @@ data() {
         username: username,
       },
     };
-    axios.get('http://localhost:8080/v1/salon/listado', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/salon/listado`, config)
       .then(response => {
         this.salonesListaDueño = response.data;
         this.salonesFiltrados = this.salonesListaDueño;

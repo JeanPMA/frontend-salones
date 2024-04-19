@@ -231,13 +231,14 @@ export default {
     },
   },
   mounted() {
-    axios.get('http://localhost:8080/v1/salon/forUser')
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/salon/forUser`)
       .then(response => {
         this.items = response.data;      
       })
       .catch(error => console.error('Error al obtener datos de la API:', error));
 
-      axios.get('http://localhost:8080/v1/salon/recomendado')
+      axios.get(`${apiUrl}/v1/salon/recomendado`)
       .then(response => {
         this.recomendados = response.data;
     
@@ -350,7 +351,8 @@ export default {
           telefono: this.telefono,
           mensaje: this.mensaje
         };
-    axios.post('http://localhost:8080/v1/correo', datosCorreo)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.post(`${apiUrl}/v1/correo`, datosCorreo)
       .then(response => {
           this.limpiarFormulario();
                 this.$notify({

@@ -92,7 +92,8 @@
       'X-User-Role': userRole
     }
     };
-    axios.get('http://localhost:8080/v1/salon/auth/all', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/salon/auth/all`, config)
       .then(response => {
         this.salones = response.data;
         this.salonesFiltrados = this.salones;

@@ -125,7 +125,8 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
         username: username,
       },
     };
-    axios.get('http://localhost:8080/v1/tipo-sr', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/tipo-sr`, config)
       .then(response => {
         this.tipoSRListaAdmin = response.data;
         const estadosSeleccionados = JSON.parse(localStorage.getItem('servicesTipoSRSeleccionados')) || [];
@@ -148,7 +149,8 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
                 username: username,
               },
             }
-            axios.delete(`http://localhost:8080/v1/tipo-sr/${id}`, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.delete(`${apiUrl}/v1/tipo-sr/${id}`, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',
@@ -191,7 +193,8 @@ import FiltroServiciosTipoSR from '@/components/filtroEstadoServicesTipoSR.vue';
               id: id,
               estado: nuevoEstado,
             };
-            axios.patch(`http://localhost:8080/v1/tipo-sr/${id}`, data, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.patch(`${apiUrl}/v1/tipo-sr/${id}`, data, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',

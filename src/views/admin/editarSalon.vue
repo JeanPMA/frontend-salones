@@ -269,8 +269,8 @@
             'X-User-Role': userRole,
           },
         };
-
-        const response = await axios.get('http://localhost:8080/v1/usuario', config);
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        const response = await axios.get(`${apiUrl}/v1/usuario`, config);
 
         this.usuariosLista = response.data.filter(usuario => {
                   return usuario.rol && usuario.rol.nombre === 'OWNER';
@@ -291,7 +291,8 @@
           'X-User-Role': userRole
         }
       };
-      const response = await axios.get(`http://localhost:8080/v1/salon/${id}`, config);
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/salon/${id}`, config);
       this.salon = response.data;
     } catch (error) {
       console.error('Error al obtener detalles de la solicitud:', error);
@@ -311,8 +312,8 @@
           'X-User-Role': userRole,
         },
       };
-
-      const response = await axios.get('http://localhost:8080/v1/servicio/activo', config);
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/servicio/activo`, config);
       const serviciosEnBaseDeDatos = response.data;
 
       if (this.salon && this.salon.servicios) {
@@ -385,8 +386,8 @@
 
             };
 
-    
-          axios.put(`http://localhost:8080/v1/salon/admin/${this.salon.id}`, formData, config)
+          const apiUrl = process.env.VUE_APP_BASE_URL;
+          axios.put(`${apiUrl}/v1/salon/admin/${this.salon.id}`, formData, config)
           .then(response => {
               this.$router.push({ name: 'lista-salones-admin'});
               this.$notify({

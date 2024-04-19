@@ -69,8 +69,8 @@ export default {
     login() {
       const credentials = { username: this.username, password: this.password };
       
-
-      this.$axios.post("http://localhost:8080/v1/login", credentials)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      this.$axios.post(`${apiUrl}/v1/login`, credentials)
       
         .then(response => {
           

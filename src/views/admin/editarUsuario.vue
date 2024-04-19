@@ -243,8 +243,8 @@ methods: {
             'X-User-Role': userRole,
           },
         };
-
-        const response = await axios.get('http://localhost:8080/v1/rol', config);
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        const response = await axios.get(`${apiUrl}/v1/rol`, config);
 
         this.rolesLista = response.data.map(item => ({ id: item.id, nombre: item.nombre }));
       } catch (error) {
@@ -263,8 +263,8 @@ methods: {
           'X-User-Role': userRole
         }
       };
-
-      const response = await axios.get(`http://localhost:8080/v1/usuario/${id}`, config);
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/usuario/${id}`, config);
 
   
       this.usuario = response.data;
@@ -318,8 +318,8 @@ methods: {
               },
               estado: this.usuario.estado,
         };
-     
-      this.$axios.put(`http://localhost:8080/v1/usuario/${this.usuario.id}`, data, config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      this.$axios.put(`${apiUrl}/v1/usuario/${this.usuario.id}`, data, config)
       .then(response => {
         this.$router.push({ name: 'lista-usuarios-admin'});
           this.$notify({

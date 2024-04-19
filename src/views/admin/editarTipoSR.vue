@@ -88,8 +88,8 @@
           'X-User-Role': userRole
         }
       };
-
-      const response = await axios.get(`http://localhost:8080/v1/tipo-sr/${id}`, config);
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/tipo-sr/${id}`, config);
 
   
       this.detalleTipoSR = response.data;
@@ -124,8 +124,8 @@
                 estado: this.detalleTipoSR.estado,
                 created_at: this.detalleTipoSR.created_at,
           };
-
-      this.$axios.put(`http://localhost:8080/v1/tipo-sr/${this.detalleTipoSR.id}`, data, config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      this.$axios.put(`${apiUrl}/v1/tipo-sr/${this.detalleTipoSR.id}`, data, config)
         .then(response => {
           this.$router.push({ name: 'lista-tipoSR-admin'});
           this.$notify({

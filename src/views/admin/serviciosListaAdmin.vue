@@ -129,7 +129,8 @@
         username: username,
       },
     };
-    axios.get('http://localhost:8080/v1/servicio', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/servicio`, config)
       .then(response => {
         this.listaServiciosAdmin = response.data;
         const estadosSeleccionados = JSON.parse(localStorage.getItem('servicesTipoSRSeleccionados')) || [];
@@ -155,7 +156,8 @@
                 username: username,
               },
             }
-            axios.delete(`http://localhost:8080/v1/servicio/${id}`, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.delete(`${apiUrl}/v1/servicio/${id}`, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',
@@ -195,7 +197,8 @@
               id: id,
               estado: nuevoEstado,
             };
-            axios.patch(`http://localhost:8080/v1/servicio/${id}`, data, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.patch(`${apiUrl}/v1/servicio/${id}`, data, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',

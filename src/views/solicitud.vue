@@ -170,7 +170,8 @@ export default {
                 username: username,
               },
             };
-            axios.post('http://localhost:8080/v1/solicitud-reserva', this.solicitudReserva, config  )
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.post(`${apiUrl}/v1/solicitud-reserva`, this.solicitudReserva, config  )
             .then(response => {
               this.$router.push({ name: 'salones'});
               this.$notify({
@@ -202,8 +203,8 @@ export default {
             'X-User-Role': userRole,
           },
         };
-
-        const response = await axios.get('http://localhost:8080/v1/salon/auth/all', config);
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        const response = await axios.get(`${apiUrl}/v1/salon/auth/all`, config);
 
         this.listaSalones = response.data.map(item => ({ id: item.id, nombre: item.nombre, servicios: item.servicios }));
       } catch (error) {

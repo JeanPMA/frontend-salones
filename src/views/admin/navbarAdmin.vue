@@ -84,8 +84,8 @@ export default {
               'X-User-Role': userRole
             }
           };
-
-          const response = await axios.get(`http://localhost:8080/v1/usuario/config/${this.usuario}`, config);
+          const apiUrl = process.env.VUE_APP_BASE_URL;
+          const response = await axios.get(`${apiUrl}/v1/usuario/config/${this.usuario}`, config);
 
       
           this.usuarioInfo = response.data;

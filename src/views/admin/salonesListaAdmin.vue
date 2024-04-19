@@ -116,7 +116,8 @@
         username: username,
       },
     };
-    axios.get('http://localhost:8080/v1/salon', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/salon`, config)
       .then(response => {
         this.listaSalonesAdministrador = response.data;
         
@@ -192,7 +193,8 @@
               id: id,
               estado: nuevoEstado,
             };
-            axios.patch(`http://localhost:8080/v1/salon/${id}`, data, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.patch(`${apiUrl}/v1/salon/${id}`, data, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',
@@ -229,7 +231,8 @@
                 username: username,
               },
             }
-            axios.delete(`http://localhost:8080/v1/salon/${id}`, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.delete(`${apiUrl}/v1/salon/${id}`, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',

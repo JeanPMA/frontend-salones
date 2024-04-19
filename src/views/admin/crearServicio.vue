@@ -112,8 +112,8 @@
                 detalle : this.detalle.value.value,
                 estado: this.estado.value.value,
             };
-            
-          axios.post('http://localhost:8080/v1/servicio', data, config)
+          const apiUrl = process.env.VUE_APP_BASE_URL;
+          axios.post(`${apiUrl}/v1/servicio`, data, config)
           .then(response => {
               this.$notify({
                 title: 'Éxito',

@@ -30,8 +30,8 @@
     },
     mounted() {
       
-      
-      axios.get('http://localhost:8080/v1/rol')
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      axios.get(`${apiUrl}/v1/rol`)
         .then(response => {
           this.roles = response.data;
         })

@@ -102,7 +102,8 @@ data() {
           username: username,
         },
     };
-    axios.get('http://localhost:8080/v1/solicitud-reserva/salon/reservas', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/solicitud-reserva/salon/reservas`, config)
       .then(response => {
         this.listaReservas = response.data;
         const estadosSeleccionados = JSON.parse(localStorage.getItem('SREstadoSeleccionado')) || [];
