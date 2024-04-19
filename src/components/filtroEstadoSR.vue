@@ -35,7 +35,8 @@
 
     const direccionActual = window.location.pathname;
 
-    axios.get('http://localhost:8080/v1/tipo-sr')
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/tipo-sr`)
     .then(response => {
       this.estados = response.data.filter(estado => {
         if (decodedToken.roles.includes("ROLE_OWNER") && direccionActual === "/lista-reservas") {

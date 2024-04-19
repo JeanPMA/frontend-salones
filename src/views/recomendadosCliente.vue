@@ -90,7 +90,8 @@ import FiltroServicios from '../components/filtroServicios.vue';
       'X-User-Role': userRole
     }
     };
-    axios.get('http://localhost:8080/v1/salon/auth/recomendado', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/salon/auth/recomendado`, config)
       .then(response => {
         this.salonesRecomendados = response.data;
         this.salonesFiltrados = this.salonesRecomendados;

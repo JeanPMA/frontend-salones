@@ -113,7 +113,8 @@ export default {
             nombre: this.nombre,
             apellido: this.apellido,
         }
-        this.$axios.post("http://localhost:8080/v1/register", data)
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        this.$axios.post(`${apiUrl}/v1/register`, data)
         .then(response => {
           
           const token = response.data.token;

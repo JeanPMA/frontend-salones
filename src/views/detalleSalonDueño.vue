@@ -241,8 +241,8 @@ methods: {
           'X-User-Role': userRole,
         },
       };
-
-      const response = await axios.get('http://localhost:8080/v1/servicio/activo', config);
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/servicio/activo`, config);
       const serviciosEnBaseDeDatos = response.data;
 
       if (this.detalleSalonDueño && this.detalleSalonDueño.servicios) {
@@ -279,8 +279,8 @@ methods: {
           'X-User-Role': userRole
         }
       };
-
-      const response = await axios.get(`http://localhost:8080/v1/salon/${id}`, config);
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/salon/${id}`, config);
 
   
       this.detalleSalonDueño = response.data;
@@ -329,8 +329,8 @@ methods: {
       if (this.nuevaImagen) {
         formData.append('multipartFile', this.nuevaImagen);
       }
-
-      this.$axios.put(`http://localhost:8080/v1/salon/${this.detalleSalonDueño.id}`, formData, config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      this.$axios.put(`${apiUrl}/v1/salon/${this.detalleSalonDueño.id}`, formData, config)
         .then(response => {
                 this.$notify({
                   title: 'Éxito',
@@ -363,8 +363,8 @@ methods: {
           'X-User-Role': userRole
         }
       };
-
-      const response = await axios.get(`http://localhost:8080/v1/imagen-salon/${id}/imagenes`, config);  
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/imagen-salon/${id}/imagenes`, config);  
       this.imagenesSalon = response.data;
       } catch (error) {
         console.error('Error al imagenes:', error);
@@ -390,8 +390,8 @@ methods: {
               id: this.detalleSalonDueño.id, 
               estado: this.detalleSalonDueño.estado 
             }
-        
-            axios.patch(`http://localhost:8080/v1/salon/${this.detalleSalonDueño.id}`, data, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.patch(`${apiUrl}/v1/salon/${this.detalleSalonDueño.id}`, data, config)
             .then(response => {
               this.$notify({
                   title: 'Éxito',
@@ -426,7 +426,8 @@ methods: {
             const formData = new FormData();
             formData.append('multipartFile', this.imagenSalonCollection);
             formData.append('idSalon', this.detalleSalonDueño.id);
-            this.$axios.post(`http://localhost:8080/v1/imagen-salon`, formData, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            this.$axios.post(`${apiUrl}/v1/imagen-salon`, formData, config)
               .then(response => {
                 this.$notify({
                   title: 'Éxito',
@@ -473,7 +474,8 @@ methods: {
                 username: username,
               },
             }
-            axios.delete(`http://localhost:8080/v1/imagen-salon/${imagenId}`, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.delete(`${apiUrl}/v1/imagen-salon/${imagenId}`, config)
             .then(response => {
               this.imagenesSalon.splice(index, 1);
               this.$notify({

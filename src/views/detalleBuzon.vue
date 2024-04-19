@@ -95,8 +95,8 @@ export default {
           'X-User-Role': userRole
         }
       };
-
-      axios.get(`http://localhost:8080/v1/solicitud-reserva/${id}`, config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      axios.get(`${apiUrl}/v1/solicitud-reserva/${id}`, config)
         .then(response => {
           this.detalleSolicitud = response.data;
           
@@ -114,7 +114,8 @@ export default {
         'X-User-Role': userRole
       }
       };
-      axios.get('http://localhost:8080/v1/tipo-sr', config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      axios.get(`${apiUrl}/v1/tipo-sr`, config)
         .then(response => {
           this.listaTipoSR = response.data;
           
@@ -145,7 +146,8 @@ export default {
         this.detalleSolicitud.tipoSR.id= nuevoId; 
         this.detalleSolicitud.tipoSR.nombre= nuevoNombre; 
 
-        axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        axios.put(`${apiUrl}/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
 
           this.$router.push({ name: 'buzon'});
@@ -190,8 +192,8 @@ export default {
         this.detalleSolicitud.tipoSR.id= nuevoId; 
         this.detalleSolicitud.tipoSR.nombre= nuevoNombre; 
 
-        
-        axios.put(`http://localhost:8080/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        axios.put(`${apiUrl}/v1/solicitud-reserva/${this.detalleSolicitud.id}`, this.detalleSolicitud, config)
         .then(response => {
 
           this.$router.push({ name: 'buzon' });

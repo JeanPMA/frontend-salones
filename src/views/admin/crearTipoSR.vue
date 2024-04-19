@@ -106,7 +106,8 @@
                 nombre : this.nombre.value.value,
                 estado: this.estado.value.value,
             };
-          axios.post('http://localhost:8080/v1/tipo-sr', data, config)
+          const apiUrl = process.env.VUE_APP_BASE_URL;
+          axios.post(`${apiUrl}/v1/tipo-sr`, data, config)
           .then(response => {
               this.$router.push({ name: 'lista-tipoSR-admin'});
               this.$notify({

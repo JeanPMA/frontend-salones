@@ -84,8 +84,8 @@ export default {
                 id : this.idReserva,
                 puntuacion: this.puntuacion,
             };
-          
-            axios.patch(`http://localhost:8080/v1/solicitud-reserva/calificacion/${this.idReserva}`, data, config )
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.patch(`${apiUrl}/v1/solicitud-reserva/calificacion/${this.idReserva}`, data, config )
                 .then(response => {              
                 this.$router.push({ name: 'buzon'});
                 this.$notify({

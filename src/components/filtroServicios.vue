@@ -30,8 +30,8 @@
     },
     mounted() {
       
-      
-      axios.get('http://localhost:8080/v1/servicio/activo')
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      axios.get(`${apiUrl}/v1/servicio/activo`)
         .then(response => {
           this.servicios = response.data;
         })

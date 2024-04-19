@@ -226,8 +226,8 @@
               },
             };
 
-    
-          axios.post('http://localhost:8080/v1/salon', formData, config)
+          const apiUrl = process.env.VUE_APP_BASE_URL;
+          axios.post(`${apiUrl}/v1/salon`, formData, config)
           .then(response => {
               this.$router.push({ name: 'lista-salones'});
               this.$notify({
@@ -259,7 +259,8 @@
               },
             };
             const servicios = ref([]);
-            axios.get('http://localhost:8080/v1/servicio/activo', config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.get(`${apiUrl}/v1/servicio/activo`, config)
               .then(response => {
                 servicios.value = response.data;
               

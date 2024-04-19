@@ -124,7 +124,8 @@
         username: username,
       },
     };
-    axios.get('http://localhost:8080/v1/usuario', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/usuario`, config)
       .then(response => {
         const filteredUsers = response.data.filter(user => user.username !== username);
 
@@ -166,7 +167,8 @@
                 username: username,
               },
             }
-            axios.delete(`http://localhost:8080/v1/usuario/${id}`, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.delete(`${apiUrl}/v1/usuario/${id}`, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',
@@ -206,7 +208,8 @@
               id: id,
               estado: nuevoEstado,
             };
-            axios.patch(`http://localhost:8080/v1/usuario/${id}`, data, config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.patch(`${apiUrl}/v1/usuario/${id}`, data, config)
             .then(response => {
               this.$notify({
                 title: 'Éxito',

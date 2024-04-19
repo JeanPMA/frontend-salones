@@ -111,8 +111,8 @@ export default {
             'X-User-Role': userRole
           }
         };
-
-      axios.get(`http://localhost:8080/v1/solicitud-reserva/${id}`, config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      axios.get(`${apiUrl}/v1/solicitud-reserva/${id}`, config)
         .then(response => {
           this.detalleSolicitudDueño = response.data;
             
@@ -130,7 +130,8 @@ export default {
         'X-User-Role': userRole
       }
       };
-      axios.get('http://localhost:8080/v1/tipo-sr', config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      axios.get(`${apiUrl}/v1/tipo-sr`, config)
         .then(response => {
           this.listaTipoSR = response.data;
           
@@ -159,7 +160,8 @@ export default {
                     nombre: nuevoNombre
                 }
         };       
-        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        axios.patch(`${apiUrl}/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
         .then(response => {
           
           this.$router.push({ name: 'lista-solicitudes'});
@@ -202,7 +204,8 @@ export default {
                     nombre: nuevoNombre
                 }
         };       
-        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        axios.patch(`${apiUrl}/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
         .then(response => {
           
           this.$router.push({ name: 'lista-solicitudes'});
@@ -246,7 +249,8 @@ export default {
                     nombre: nuevoNombre
                 }
         };       
-        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        axios.patch(`${apiUrl}/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
         .then(response => {
           if(estadoAux === "RECHAZADO"){
             this.$router.push({ name: 'lista-solicitudes'});
@@ -300,7 +304,8 @@ export default {
                     nombre: nuevoNombre
                 }
         };       
-        axios.patch(`http://localhost:8080/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
+        const apiUrl = process.env.VUE_APP_BASE_URL;
+        axios.patch(`${apiUrl}/v1/solicitud-reserva/estado/${this.$route.params.id}`, data, config)
         .then(response => {         
           this.$router.push({ name: 'lista-reservas'});
           this.$notify({

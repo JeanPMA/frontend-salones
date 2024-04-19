@@ -232,8 +232,8 @@
               },
             };
 
-    
-          axios.post('http://localhost:8080/v1/salon/admin', formData, config)
+          const apiUrl = process.env.VUE_APP_BASE_URL;
+          axios.post(`${apiUrl}/v1/salon/admin`, formData, config)
           .then(response => {
               this.$router.push({ name: 'lista-salones-admin'});
               this.$notify({
@@ -266,7 +266,8 @@
               },
             };
             const servicios = ref([]);
-            axios.get('http://localhost:8080/v1/servicio/activo', config)
+            const apiUrl = process.env.VUE_APP_BASE_URL;
+            axios.get(`${apiUrl}/v1/servicio/activo`, config)
               .then(response => {
                 servicios.value = response.data;
               })
@@ -274,7 +275,7 @@
                 console.error('Error al obtener servicios:', error);
               });
             const usuarios = ref([]);
-            axios.get('http://localhost:8080/v1/usuario', config)
+            axios.get(`${apiUrl}/v1/usuario`, config)
               .then(response => {
                 usuarios.value = response.data.filter(usuario => {
                   return usuario.rol && usuario.rol.nombre === 'OWNER';

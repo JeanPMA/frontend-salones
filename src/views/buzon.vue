@@ -99,7 +99,8 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
         username: username,
       },
     };
-    axios.get('http://localhost:8080/v1/solicitud-reserva/buzon', config)
+    const apiUrl = process.env.VUE_APP_BASE_URL;
+    axios.get(`${apiUrl}/v1/solicitud-reserva/buzon`, config)
       .then(response => {
         this.buzon = response.data;
         const estadosSeleccionados = JSON.parse(localStorage.getItem('SREstadoSeleccionado')) || [];

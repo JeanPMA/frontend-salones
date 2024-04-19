@@ -91,8 +91,8 @@ name: 'salonDetalleComponent',
             'X-User-Role': userRole
           }
         };
-
-      axios.get(`http://localhost:8080/v1/salon/${id}`, config)
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      axios.get(`${apiUrl}/v1/salon/${id}`, config)
         .then(response => {
           this.detalleSalon = response.data;
         })
@@ -110,8 +110,8 @@ name: 'salonDetalleComponent',
           'X-User-Role': userRole
         }
       };
-
-      const response = await axios.get(`http://localhost:8080/v1/imagen-salon/${id}/imagenes`, config);  
+      const apiUrl = process.env.VUE_APP_BASE_URL;
+      const response = await axios.get(`${apiUrl}/v1/imagen-salon/${id}/imagenes`, config);  
       this.imagenesSalon = response.data;
       } catch (error) {
         console.error('Error al imagenes:', error);
