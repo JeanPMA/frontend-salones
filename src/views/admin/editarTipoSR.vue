@@ -1,5 +1,5 @@
 <template>
-    <div class="content_crearTipoSR">    
+    <div class="content_crearServicioTipoSR">    
         <h2>
             EDITAR TIPO SOLICITUD RESERVA
         </h2>

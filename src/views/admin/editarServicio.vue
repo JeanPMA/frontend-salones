@@ -1,5 +1,5 @@
 <template>
-    <div class="content_crearServicio">    
+    <div class="content_crearServicioTipoSR">    
         <h2>
             EDITAR SERVICIO
         </h2>
