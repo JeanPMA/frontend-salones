@@ -265,6 +265,7 @@ data() {
 
 .dueño_gridSR .grid__itemSR h4{
   text-align: justify;
+  color: #015cc4;
 }
 
 .dueño_gridSR .grid__itemSR .text-titleSR{
@@ -305,7 +306,7 @@ data() {
 }
 
 .dueño_gridSR .grid__itemSR a:hover{   
-  color: #686868;
+  color: #ff0000;
 }
 
 .dueño_gridSR .text-detailSR {  

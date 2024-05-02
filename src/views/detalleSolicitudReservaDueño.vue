@@ -44,7 +44,7 @@
                
             </div>
             <div class="botones_SolicitudReserva">
-                <a id="atras"  @click="volverAtras">ATRAS</a>
+                <a id="atras"  @click="volverAtras">VOLVER</a>
                 <a id="rechazar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="rechazarReserva"  :disabled="cargando">{{ cargando ? 'RECHAZANDO...' : 'RECHAZAR' }}</a>   
                 <a id="cancelar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'ACEPTADO'" @click="cancelarReserva"  :disabled="cargando">{{ cargando ? 'CANCELANDO...' : 'CANCELAR' }}</a>                
                 <a id="aceptar" v-if="detalleSolicitudDueño.tipoSR.nombre === 'PENDIENTE'" @click="aceptarReserva"  :disabled="cargando">{{ cargando ? 'ACEPTANDO...' : 'ACEPTAR' }}</a>

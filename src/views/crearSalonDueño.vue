@@ -81,9 +81,11 @@
           <p v-if="error">Por favor, selecciona una imagen.</p>
         </div>
      
-
+        <v-btn @click="irAHome"  class="me-4">
+          VOLVER
+        </v-btn>
         <v-btn
-            class="me-4"
+           
             type="submit"
             @click="crearSalon"
             :disabled="cargando"
@@ -95,9 +97,7 @@
             Limpiar
         </v-btn> -->  
 
-        <v-btn @click="irAHome" >
-            Volver
-        </v-btn>
+       
         </form>
     <div v-if="cargando" class="overlay"></div>    
     <div v-if="cargando" class="loader"></div>

@@ -77,7 +77,7 @@
 
 
         <v-btn @click="irAHome" color="grey-lighten-1">
-            Volver
+          VOLVER
         </v-btn>
     
         <v-btn

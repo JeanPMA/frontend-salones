@@ -47,7 +47,7 @@
             </v-carousel>
         </div>
         <div class="button_reservar">
-            <a href="#" class="button_reservar button-2" @click="volverAtras">CANCELAR</a>
+            <a href="#" class="button_reservar button-2" @click="volverAtras">VOLVER</a>
             <a href="#" class="button_reservar button-1" @click="irASolicitud">RESERVAR</a>
         </div>
        

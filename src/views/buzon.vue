@@ -32,7 +32,7 @@
               <div class="text-overlay">
                 <h2>{{ item.salon.nombre }}</h2>
                 <p><h4>RESERVA: </h4>{{ item.fecha_reserva }}</p>
-                <p><h4>servicios: </h4>{{ item.servicio }}</p>
+                <p><h4>SERVICIOS: </h4>{{ item.servicio }}</p>
                 <p><h4>ESTADO: </h4>{{ item.tipoSR.nombre }}</p>
                 <p><h4>DETALLE: </h4>{{ item.detalle }}</p>
                 <a href="#">Detalles <font-awesome-icon :icon="['fas', 'arrow-right']" /></a>
@@ -279,11 +279,15 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
 }
 
 .buzon_grid .grid__item h2{
-  color: rgb(255, 255, 255); 
+  color: #0f7fff;
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: center;
-  font-size: 1vw;
+  font-size: 1.3vw;
+}
+
+.buzon_grid .grid__item h4{
+  color: #0f7fff;
 }
 
 .buzon_grid .grid__item p{
@@ -311,10 +315,15 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
   font-style: italic;
   font-size: 1vw;
   transition: 0.3s ease;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .buzon_grid .grid__item a:hover{
-  color: #686868;
+  color: #f53a3a;
 }
 
 
@@ -326,7 +335,7 @@ import FiltroEstadoSR from '../components/filtroEstadoSR.vue';
   height: 100%;
   background: rgba(0, 0, 0, 0.7); 
   color: #fff;
-  text-align: end;
+
   padding: 20px;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;

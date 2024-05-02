@@ -42,7 +42,7 @@
                
             </div>
             <div class="botones_detalle">
-                <a id="atras"  @click="volverAtras">ATRAS</a>
+                <a id="atras"  @click="volverAtras">VOLVER</a>
                 <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' || detalleSolicitud.tipoSR.nombre === 'PENDIENTE'" id="cancelar" @click="cancelarReserva" :disabled="cargando">{{ cargando ? 'CANCELANDO...' : 'CANCELAR RESERVA' }}</a>               
                 <a v-if="detalleSolicitud.tipoSR.nombre === 'ACEPTADO' && detalleSolicitud.puntuacion === null" id="calificar" @click="irACalificación()" :disabled="cargando">CALIFICAR</a>
                 <a v-if="detalleSolicitud.tipoSR.nombre === 'INVISIBLE' || detalleSolicitud.tipoSR.nombre === 'RECHAZADO' ||  detalleSolicitud.tipoSR.nombre === 'CANCELADO'" id="eliminar" @click="eliminarReserva" :disabled="cargando">{{ cargando ? 'ELIMINANDO...' : 'ELIMINAR' }}</a>
