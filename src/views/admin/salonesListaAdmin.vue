@@ -51,7 +51,7 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="displayedItems.length != 0">
           <tr
             v-for="(item, index) in displayedItems"
             :key="index"
@@ -73,11 +73,15 @@
           </tr>
           
         </tbody>
-        
+        <tbody v-else>
+          <tr>
+            <td colspan="5" class="text-center">
+              <h3>NO EXISTEN SALONES</h3>
+            </td>
+          </tr>
+        </tbody>
       </v-table>
-        <div v-if="displayedItems.length == 0">
-            <h3>NO EXISTEN SALONES</h3>
-          </div> 
+        
       <v-pagination
         v-model="currentPage"
         :length="totalPages"

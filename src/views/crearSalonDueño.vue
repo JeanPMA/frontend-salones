@@ -81,7 +81,7 @@
           <p v-if="error">Por favor, selecciona una imagen.</p>
         </div>
      
-        <v-btn @click="irAHome"  class="me-4">
+        <v-btn @click="irAHome"  class="me-4" color="grey-lighten-1">
           VOLVER
         </v-btn>
         <v-btn
@@ -89,6 +89,7 @@
             type="submit"
             @click="crearSalon"
             :disabled="cargando"
+            color="grey-darken-3"
         >
         {{ cargando ? 'Creando...' : 'Crear' }}
         </v-btn>
